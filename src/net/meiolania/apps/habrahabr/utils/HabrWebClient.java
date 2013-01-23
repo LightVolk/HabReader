@@ -34,7 +34,7 @@ public class HabrWebClient extends WebViewClient {
     }
 
     public void onScaleChanged(WebView view, float oldScale, float newScale) {
-	Preferences.saveViewScale(context, newScale);
+	Preferences.getInstance(context).setViewScale(context, newScale);
     }
 
     public void onPageFinished(WebView view, String Url) {

@@ -24,33 +24,50 @@ public final class Preferences {
     // Default tab for posts
     public final static String POSTS_DEFAULT_TAB_KEY = "posts_default_tab";
     public final static String POSTS_DEFAULT_TAB_DEFAULT = "1";
+
     // Default tab for Q&A
     public final static String QA_DEFAULT_TAB_KEY = "qa_default_tab";
     public final static String QA_DEFAULT_TAB_DEFAULT = "0";
+
     // Default tab for events
     public final static String EVENTS_DEFAULT_TAB_KEY = "events_default_tab";
     public final static String EVENTS_DEFAULT_TAB_DEFAULT = "0";
+
     // Additional layout for posts
     public final static String ADDITIONAL_LAYOUT_POSTS_KEY = "posts_additional_layout";
     public final static boolean ADDITIONAL_LAYOUT_POSTS_DEFAULT = true;
+
     // Additional layout for hubs
     public final static String ADDITIONAL_LAYOUT_HUBS_KEY = "hubs_additional_layout";
     public final static boolean ADDITIONAL_LAYOUT_HUBS_DEFAULT = true;
+
     // Additional layout for Q&A
     public final static String ADDITIONAL_LAYOUT_QA_KEY = "qa_additional_layout";
     public final static boolean ADDITIONAL_LAYOUT_QA_DEFAULT = true;
+
     // Additional layout for events
     public final static String ADDITIONAL_LAYOUT_EVENTS_KEY = "events_additional_layout";
     public final static boolean ADDITIONAL_LAYOUT_EVENTS_DEFAULT = true;
+
     // Fullscreen
     public final static String FULLSCREEN_KEY = "fullscreen";
     public final static boolean FULLSCREEN_DEFAULT = false;
+
     // Keepscreen
     public final static String KEEPSCREEN_KEY = "keepscreen";
     public final static boolean KEEPSCREEN_DEFAULT = false;
+
     // Share text
     public final static String SHARE_TEXT_KEY = "share_text";
     public final static String SHARE_TEXT_DEFAULT = "$link$ - $title$ #HabReader";
+
+    // Auth
+    public final static String LOGIN_KEY = "login";
+    public final static String LOGIN_DEFAULT = null;
+    public final static String PHPSESSID_KEY = "phpsessid";
+    public final static String PHPSESSID_DEFAULT = null;
+    public final static String HSECID_KEY = "hsecid";
+    public final static String HSECID_DEFAULT = null;
 
     private static Preferences preferences = null;
     private static SharedPreferences sharedPreferences;
@@ -102,20 +119,54 @@ public final class Preferences {
     public boolean getAdditionalQa() {
 	return sharedPreferences.getBoolean(ADDITIONAL_LAYOUT_QA_KEY, ADDITIONAL_LAYOUT_QA_DEFAULT);
     }
-    
+
     public String getShareText() {
 	return sharedPreferences.getString(SHARE_TEXT_KEY, SHARE_TEXT_DEFAULT);
     }
 
-    public static void saveViewScale(Context context, float scale) {
+    public void setViewScale(Context context, float scale) {
 	SharedPreferences.Editor editor = sharedPreferences.edit();
 	editor.putFloat(context.getString(R.string.saved_user_scale), scale);
 	editor.commit();
     }
 
-    public static int getViewScale(Context context) {
+    public int getViewScale(Context context) {
 	float userScale = sharedPreferences.getFloat(context.getString(R.string.saved_user_scale), 0.0f);
 	return (int) (100 * userScale);
+    }
+
+    /*
+     * @TODO: need to think about security
+     */
+
+    public String getLogin() {
+	return sharedPreferences.getString(LOGIN_KEY, LOGIN_DEFAULT);
+    }
+
+    public void setLogin(String login) {
+	SharedPreferences.Editor editor = sharedPreferences.edit();
+	editor.putString(LOGIN_KEY, login);
+	editor.commit();
+    }
+
+    public String getPHPSessionId() {
+	return sharedPreferences.getString(PHPSESSID_KEY, PHPSESSID_DEFAULT);
+    }
+
+    public void setPHPSessionId(String id) {
+	SharedPreferences.Editor editor = sharedPreferences.edit();
+	editor.putString(PHPSESSID_KEY, id);
+	editor.commit();
+    }
+
+    public String getHSecId() {
+	return sharedPreferences.getString(HSECID_KEY, HSECID_DEFAULT);
+    }
+
+    public void setHSecId(String id) {
+	SharedPreferences.Editor editor = sharedPreferences.edit();
+	editor.putString(HSECID_KEY, id);
+	editor.commit();
     }
 
 }

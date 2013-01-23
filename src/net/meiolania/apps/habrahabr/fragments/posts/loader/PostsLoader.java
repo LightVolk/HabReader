@@ -19,6 +19,7 @@ package net.meiolania.apps.habrahabr.fragments.posts.loader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import net.meiolania.apps.habrahabr.auth.User;
 import net.meiolania.apps.habrahabr.data.PostsData;
 
 import org.jsoup.Jsoup;
@@ -53,8 +54,15 @@ public class PostsLoader extends AsyncTaskLoader<ArrayList<PostsData>> {
 	    String readyUrl = url.replace("%page%", String.valueOf(page));
 
 	    Log.i(TAG, "Loading a page: " + readyUrl);
-
-	    Document document = Jsoup.connect(readyUrl).get();
+	    
+	    Document document;
+	    if(!User.getInstance().isLogged())
+		document = Jsoup.connect(readyUrl).get();
+	    else
+		document = Jsoup.connect(readyUrl)
+				.cookie(User.PHPSESSION_ID, User.getInstance().getPhpsessid())
+				.cookie(User.HSEC_ID, User.getInstance().getHsecid())
+				.get();
 
 	    Elements posts = document.select("div.post");
 
@@ -66,7 +74,10 @@ public class PostsLoader extends AsyncTaskLoader<ArrayList<PostsData>> {
 		Element date = post.select("div.published").first();
 		Element author = post.select("div.author > a").first();
 		Element comments = post.select("div.comments > span.all").first();
-		Element score = post.select("span.score").first();
+		
+		Element score = post.select("a.score").first();
+		if(score == null)
+		    score = post.select("span.score").first();
 
 		postsData.setTitle(postTitle.text());
 		postsData.setUrl(postTitle.attr("abs:href"));

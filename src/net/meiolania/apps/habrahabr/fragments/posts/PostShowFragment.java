@@ -45,7 +45,7 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
     private String url;
     private ProgressDialog progressDialog;
     private PostsFullData data;
-    static final String Stylesheet = "<link rel=\"stylesheet\" type=\"text/css\" href=\"file:///android_asset/style.css\" />";
+    private static final String STYLESHEET = "<link rel=\"stylesheet\" type=\"text/css\" href=\"file:///android_asset/style.css\" />";
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -104,10 +104,10 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
 	    content.getSettings().setSupportZoom(true);
 	    content.getSettings().setBuiltInZoomControls(true);
 	    content.getSettings().setJavaScriptEnabled(true);
-	    content.setInitialScale(Preferences.getViewScale(getSherlockActivity()));
+	    content.setInitialScale(Preferences.getInstance(getSherlockActivity()).getViewScale(getSherlockActivity()));
 	    content.getSettings().setDefaultZoom(ZoomDensity.FAR);
 
-	    content.loadDataWithBaseURL("", Stylesheet + data.getContent(), "text/html", "UTF-8", null);
+	    content.loadDataWithBaseURL("", STYLESHEET + data.getContent(), "text/html", "UTF-8", null);
 	}
 
 	this.data = data;

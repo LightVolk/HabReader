@@ -19,6 +19,7 @@ package net.meiolania.apps.habrahabr.fragments.events.loader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import net.meiolania.apps.habrahabr.auth.User;
 import net.meiolania.apps.habrahabr.data.EventsData;
 
 import org.jsoup.Jsoup;
@@ -54,7 +55,14 @@ public class EventLoader extends AsyncTaskLoader<ArrayList<EventsData>> {
 
 	    Log.i(TAG, "Loading a page: " + readyUrl);
 
-	    Document document = Jsoup.connect(readyUrl).get();
+	    Document document;
+	    if(!User.getInstance().isLogged())
+		document = Jsoup.connect(readyUrl).get();
+	    else
+		document = Jsoup.connect(readyUrl)
+				.cookie(User.PHPSESSION_ID, User.getInstance().getPhpsessid())
+				.cookie(User.HSEC_ID, User.getInstance().getHsecid())
+				.get();
 
 	    Elements events = document.select("div.event");
 

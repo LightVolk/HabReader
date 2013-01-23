@@ -21,6 +21,14 @@
 	<string name="rating_count">Рейтинг %d</string>
 	<string name="error_404">К сожалению, такой страницы не существует. Вероятно, она была удалена автором с сервера, либо её здесь никогда не было.</string>
 	
+	<!-- Auth -->
+	<string name="auth">Авторизация</string>
+	<string name="auth_success">Авторизация выполнена</string>
+	<string name="sign_out">Выход</string>
+	
+	<!-- Feed -->
+	<string name="feed">Лента</string>
+	
 	<!-- Slide menu -->
 	<string name="posts">Посты</string>
 	<string name="qa">Q&amp;A</string>

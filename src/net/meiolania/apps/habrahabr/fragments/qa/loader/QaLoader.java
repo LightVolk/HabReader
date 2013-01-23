@@ -19,6 +19,7 @@ package net.meiolania.apps.habrahabr.fragments.qa.loader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import net.meiolania.apps.habrahabr.auth.User;
 import net.meiolania.apps.habrahabr.data.QaData;
 
 import org.jsoup.Jsoup;
@@ -53,8 +54,15 @@ public class QaLoader extends AsyncTaskLoader<ArrayList<QaData>> {
 	    String readyUrl = url.replace("%page%", String.valueOf(page));
 
 	    Log.i(TAG, "Loading a page: " + readyUrl);
-
-	    Document document = Jsoup.connect(readyUrl).get();
+	    
+	    Document document;
+	    if(!User.getInstance().isLogged())
+		document = Jsoup.connect(readyUrl).get();
+	    else
+		document = Jsoup.connect(readyUrl)
+				.cookie(User.PHPSESSION_ID, User.getInstance().getPhpsessid())
+				.cookie(User.HSEC_ID, User.getInstance().getHsecid())
+				.get();
 
 	    Elements qaList = document.select("div.post");
 
@@ -66,7 +74,10 @@ public class QaLoader extends AsyncTaskLoader<ArrayList<QaData>> {
 		Element answers = qa.select("div.informative").first();
 		Element date = qa.select("div.published").first();
 		Element author = qa.select("div.author > a").first();
-		Element score = qa.select("span.score").first();
+		
+		Element score = qa.select("a.score").first();
+		if(score == null)
+		    score = qa.select("span.score").first();
 
 		qaData.setTitle(title.text());
 		qaData.setUrl(title.attr("abs:href"));
