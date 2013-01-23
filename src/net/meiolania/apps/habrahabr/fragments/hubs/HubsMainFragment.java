@@ -53,6 +53,7 @@ public class HubsMainFragment extends SherlockListFragment implements OnNavigati
 
 	ActionBar actionBar = activity.getSupportActionBar();
 	actionBar.removeAllTabs();
+	actionBar.setTitle(R.string.hubs);
 	actionBar.setDisplayHomeAsUpEnabled(true);
 	actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 

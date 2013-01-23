@@ -19,6 +19,7 @@ package net.meiolania.apps.habrahabr;
 import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.activities.PreferencesActivity;
+import net.meiolania.apps.habrahabr.auth.User;
 import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
 import android.app.AlertDialog;
 import android.content.DialogInterface.OnClickListener;
@@ -34,6 +35,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 public abstract class AbstractionFragmentActivity extends SherlockFragmentActivity {
+    public final static String DEVELOPER_PLAY_LINK = "https://play.google.com/store/apps/developer?id=Andrey+Zaytsev";
     Preferences preferences;
 
     @Override
@@ -56,6 +58,8 @@ public abstract class AbstractionFragmentActivity extends SherlockFragmentActivi
 	    dialog.setCancelable(false);
 	    dialog.show();
 	}
+
+	User.getInstance().init(this);
 
 	getSupportActionBar().setHomeButtonEnabled(true);
 	setSupportProgressBarIndeterminateVisibility(false);
@@ -102,7 +106,7 @@ public abstract class AbstractionFragmentActivity extends SherlockFragmentActivi
 	    startActivity(new Intent(this, PreferencesActivity.class));
 	    return true;
 	case R.id.more_applications:
-	    Uri uri = Uri.parse("https://play.google.com/store/apps/developer?id=Andrey+Zaytsev");
+	    Uri uri = Uri.parse(DEVELOPER_PLAY_LINK);
 	    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 	    startActivity(intent);
 	    return true;

@@ -7,8 +7,11 @@ import com.slidingmenu.lib.SlidingMenu;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
 import net.meiolania.apps.habrahabr.R;
+import net.meiolania.apps.habrahabr.auth.User;
 import net.meiolania.apps.habrahabr.fragments.posts.PostsMainFragment;
 import net.meiolania.apps.habrahabr.slidemenu.MenuFragment;
+import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
@@ -56,6 +59,17 @@ public class MainActivity extends SlidingFragmentActivity {
 	// set the Behind View
 	setBehindContentView(R.layout.menu_frame);
 	getSupportFragmentManager().beginTransaction().replace(R.id.menu_frame, new MenuFragment()).commit();
+
+	if (!ConnectionUtils.isConnected(this)) {
+	    AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+	    dialog.setTitle(R.string.error);
+	    dialog.setMessage(getString(R.string.no_connection));
+	    dialog.setPositiveButton(R.string.close, getConnectionDialogListener());
+	    dialog.setCancelable(false);
+	    dialog.show();
+	}
+
+	User.getInstance().init(this);
     }
 
     // @Override

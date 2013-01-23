@@ -1,5 +1,6 @@
 package net.meiolania.apps.habrahabr.activities;
 
+import net.meiolania.apps.habrahabr.AbstractionFragmentActivity;
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.fragments.feed.FeedEventsFragment;
 import net.meiolania.apps.habrahabr.fragments.feed.FeedPostsFragment;
@@ -13,7 +14,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 
-public class FeedActivity extends AbstractionActivity {
+public class FeedActivity extends AbstractionFragmentActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

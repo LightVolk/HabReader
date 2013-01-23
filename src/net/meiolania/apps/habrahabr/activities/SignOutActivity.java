@@ -1,5 +1,6 @@
 package net.meiolania.apps.habrahabr.activities;
 
+import net.meiolania.apps.habrahabr.AbstractionFragmentActivity;
 import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.auth.User;
 import android.content.DialogInterface.OnClickListener;
@@ -7,7 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.webkit.CookieManager;
 
-public class SignOutActivity extends AbstractionActivity {
+public class SignOutActivity extends AbstractionFragmentActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -22,7 +23,7 @@ public class SignOutActivity extends AbstractionActivity {
 	
 	User.getInstance().init(this);
 
-	Intent intent = new Intent(this, PostsActivity.class);
+	Intent intent = new Intent(this, MainActivity.class);
 	intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 	startActivity(intent);
     }

@@ -2,6 +2,7 @@ package net.meiolania.apps.habrahabr.activities;
 
 import java.io.IOException;
 
+import net.meiolania.apps.habrahabr.AbstractionFragmentActivity;
 import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.auth.User;
@@ -22,7 +23,7 @@ import android.webkit.CookieManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-public class AuthActivity extends AbstractionActivity {
+public class AuthActivity extends AbstractionFragmentActivity {
     public static final String MAIN_URL = "http://habrahabr.ru/";
     public static final String LOGIN_URL = "http://habrahabr.ru/login/";
 
@@ -39,17 +40,15 @@ public class AuthActivity extends AbstractionActivity {
 
     private class GetUserName extends AsyncTask<Void, Void, Void> {
 	private ProgressDialog progress;
-	
+
 	@Override
 	protected Void doInBackground(Void... params) {
 	    // TODO: handle html from webview?
 	    try {
 		Preferences preferences = Preferences.getInstance(AuthActivity.this);
-		
-		Document document = Jsoup.connect(MAIN_URL)
-					 .cookie(User.PHPSESSION_ID, preferences.getPHPSessionId())
-					 .cookie(User.HSEC_ID, preferences.getHSecId())
-					 .get();
+
+		Document document = Jsoup.connect(MAIN_URL).cookie(User.PHPSESSION_ID, preferences.getPHPSessionId())
+			.cookie(User.HSEC_ID, preferences.getHSecId()).get();
 
 		Element usernameElement = document.select("a.username").first();
 		preferences.setLogin(usernameElement.text());
@@ -58,7 +57,7 @@ public class AuthActivity extends AbstractionActivity {
 	    }
 	    return null;
 	}
-	
+
 	@Override
 	protected void onPreExecute() {
 	    progress = new ProgressDialog(AuthActivity.this);
@@ -66,14 +65,14 @@ public class AuthActivity extends AbstractionActivity {
 	    progress.setCancelable(true);
 	    progress.show();
 	}
-	
+
 	@Override
 	protected void onPostExecute(Void result) {
 	    progress.dismiss();
-	    
+
 	    ToastUtils.show(AuthActivity.this, R.string.auth_success);
-	    
-	    Intent intent = new Intent(AuthActivity.this, PostsActivity.class);
+
+	    Intent intent = new Intent(AuthActivity.this, MainActivity.class);
 	    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 	    startActivity(intent);
 	}
@@ -99,7 +98,7 @@ public class AuthActivity extends AbstractionActivity {
 			String cookieNameAndValue[] = cookie.split("=");
 			String cookieName = cookieNameAndValue[0].trim();
 			String cookieValue = cookieNameAndValue[1].trim();
-			
+
 			if (cookieName.equals(User.PHPSESSION_ID))
 			    preferences.setPHPSessionId(cookieValue);
 			if (cookieName.equals(User.HSEC_ID))

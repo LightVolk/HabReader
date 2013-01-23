@@ -3,7 +3,6 @@ package net.meiolania.apps.habrahabr.slidemenu;
 import java.util.ArrayList;
 
 import net.meiolania.apps.habrahabr.R;
-<<<<<<< HEAD
 import net.meiolania.apps.habrahabr.activities.MainActivity;
 import net.meiolania.apps.habrahabr.fragments.companies.CompaniesFragment;
 import net.meiolania.apps.habrahabr.fragments.events.EventsMainFragment;
@@ -15,18 +14,11 @@ import net.meiolania.apps.habrahabr.fragments.users.UsersFragment;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 
-=======
 import net.meiolania.apps.habrahabr.activities.AuthActivity;
-import net.meiolania.apps.habrahabr.activities.CompaniesActivity;
-import net.meiolania.apps.habrahabr.activities.EventsActivity;
 import net.meiolania.apps.habrahabr.activities.FeedActivity;
 import net.meiolania.apps.habrahabr.activities.HubsActivity;
-import net.meiolania.apps.habrahabr.activities.PostsActivity;
-import net.meiolania.apps.habrahabr.activities.QaActivity;
 import net.meiolania.apps.habrahabr.activities.SignOutActivity;
-import net.meiolania.apps.habrahabr.activities.UsersActivity;
 import net.meiolania.apps.habrahabr.auth.User;
->>>>>>> remotes/origin/auth
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -51,7 +43,15 @@ public class MenuFragment extends SherlockListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
 	menu = new ArrayList<MenuData>();
-<<<<<<< HEAD
+
+	// Auth
+	//if (!User.getInstance().isLogged())
+	//    menu.add(new MenuData(getString(R.string.auth), R.drawable.ic_menu_user, AuthActivity.class));
+	//else {
+	//    menu.add(new MenuData(User.getInstance().getLogin(), R.drawable.ic_menu_user, null));
+	//    menu.add(new MenuData(getString(R.string.sign_out), R.drawable.ic_menu_user, SignOutActivity.class));
+	//    menu.add(new MenuData(getString(R.string.feed), R.drawable.ic_menu_posts, FeedActivity.class));
+	//}
 
 	menu.add(new MenuData(R.string.posts, R.drawable.ic_menu_posts));
 	menu.add(new MenuData(R.string.hubs, R.drawable.ic_menu_hubs));
@@ -59,24 +59,6 @@ public class MenuFragment extends SherlockListFragment {
 	menu.add(new MenuData(R.string.events, R.drawable.ic_menu_events));
 	menu.add(new MenuData(R.string.companies, R.drawable.ic_menu_companies));
 	menu.add(new MenuData(R.string.people, R.drawable.ic_menu_user));
-=======
-	
-	// Auth
-	if(!User.getInstance().isLogged())
-	    menu.add(new MenuData(getString(R.string.auth), R.drawable.ic_menu_user, AuthActivity.class));
-	else{
-	    menu.add(new MenuData(User.getInstance().getLogin(), R.drawable.ic_menu_user, null));
-	    menu.add(new MenuData(getString(R.string.sign_out), R.drawable.ic_menu_user, SignOutActivity.class));
-	    menu.add(new MenuData(getString(R.string.feed), R.drawable.ic_menu_posts, FeedActivity.class));
-	}
-	
-	menu.add(new MenuData(getString(R.string.posts), R.drawable.ic_menu_posts, PostsActivity.class));
-	menu.add(new MenuData(getString(R.string.hubs), R.drawable.ic_menu_hubs, HubsActivity.class));
-	menu.add(new MenuData(getString(R.string.qa), R.drawable.ic_menu_qa, QaActivity.class));
-	menu.add(new MenuData(getString(R.string.events), R.drawable.ic_menu_events, EventsActivity.class));
-	menu.add(new MenuData(getString(R.string.companies), R.drawable.ic_menu_companies, CompaniesActivity.class));
-	menu.add(new MenuData(getString(R.string.people), R.drawable.ic_menu_user, UsersActivity.class));
->>>>>>> remotes/origin/auth
 
 	menuAdapter = new MenuAdapter(getSherlockActivity(), menu);
 	setListAdapter(menuAdapter);
