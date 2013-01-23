@@ -89,9 +89,6 @@
 
         <!-- Events -->
         <activity
-            android:name=".activities.EventsActivity"
-            android:configChanges="orientation|keyboardHidden" />
-        <activity
             android:name=".activities.EventsShowActivity"
             android:configChanges="orientation|keyboardHidden"
             android:exported="false"

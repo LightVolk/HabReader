@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.activities.MainActivity;
 import net.meiolania.apps.habrahabr.fragments.companies.CompaniesFragment;
-import net.meiolania.apps.habrahabr.fragments.events.EventComingFragment;
+import net.meiolania.apps.habrahabr.fragments.events.EventsMainFragment;
 import net.meiolania.apps.habrahabr.fragments.hubs.HubsFragment;
+import net.meiolania.apps.habrahabr.fragments.hubs.HubsMainFragment;
 import net.meiolania.apps.habrahabr.fragments.posts.PostsMainFragment;
 import net.meiolania.apps.habrahabr.fragments.qa.QaMainFragment;
 import net.meiolania.apps.habrahabr.fragments.users.UsersFragment;
@@ -63,7 +64,7 @@ public class MenuFragment extends SherlockListFragment {
 	    newContent = new QaMainFragment();
 	    break;
 	case 3:
-	    newContent = new EventComingFragment();
+	    newContent = new EventsMainFragment();
 	    break;
 	case 4:
 	    newContent = new CompaniesFragment();

@@ -4,6 +4,8 @@ import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.ui.MainTabListener;
 import android.os.Bundle;
+import android.os.Handler;
+
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -15,16 +17,23 @@ public class PostsMainFragment extends SherlockFragment {
 	return new PostsMainFragment();
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-	showActionBar();
+    public void onActivityCreated(Bundle savedInstanceState) {
+	super.onActivityCreated(savedInstanceState);
+	// It's not good
+	// TODO: Think about that
+	Handler h = new Handler();
+	h.postDelayed(new Runnable() {
+	    public void run() {
+		showActionBar();
+	    }
+	}, 300);
     }
-    
+
     private void showActionBar() {
 	SherlockFragmentActivity activity = getSherlockActivity();
-	
+
 	ActionBar actionBar = activity.getSupportActionBar();
+	actionBar.removeAllTabs();
 	actionBar.setDisplayHomeAsUpEnabled(true);
 	actionBar.setTitle(R.string.posts);
 	actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);

@@ -1,4 +1,4 @@
-package net.meiolania.apps.habrahabr.fragments.qa;
+package net.meiolania.apps.habrahabr.fragments.events;
 
 import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.R;
@@ -11,10 +11,10 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.app.ActionBar.Tab;
 
-public class QaMainFragment extends SherlockFragment {
+public class EventsMainFragment extends SherlockFragment {
 
-    public static QaMainFragment newInstance() {
-	return new QaMainFragment();
+    public static EventsMainFragment newInstance() {
+	return new EventsMainFragment();
     }
 
     @Override
@@ -36,38 +36,31 @@ public class QaMainFragment extends SherlockFragment {
 	ActionBar actionBar = activity.getSupportActionBar();
 	actionBar.removeAllTabs();
 	actionBar.setDisplayHomeAsUpEnabled(true);
-	actionBar.setTitle(R.string.qa);
+	actionBar.setTitle(R.string.events);
 	actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 	Preferences preferences = Preferences.getInstance(activity);
-	int selectedTab = preferences.getQaDefaultTab();
+	int selectedTab = preferences.getEventsDefaultTab();
 
-	/* Inbox tab */
+	/* Coming tab */
 	Tab tab = actionBar.newTab();
-	tab.setText(R.string.inbox);
-	tab.setTag("inbox");
-	tab.setTabListener(new MainTabListener<QaInboxFragment>(activity, "inbox", QaInboxFragment.class));
+	tab.setText(R.string.coming);
+	tab.setTag("coming");
+	tab.setTabListener(new MainTabListener<EventComingFragment>(activity, "coming", EventComingFragment.class));
 	actionBar.addTab(tab, (selectedTab == 0 ? true : false));
 
-	/* Hot tab */
+	/* Current tab */
 	tab = actionBar.newTab();
-	tab.setText(R.string.hot);
-	tab.setTag("hot");
-	tab.setTabListener(new MainTabListener<QaHotFragment>(activity, "hot", QaHotFragment.class));
+	tab.setText(R.string.current);
+	tab.setTag("current");
+	tab.setTabListener(new MainTabListener<EventCurrentFragment>(activity, "current", EventCurrentFragment.class));
 	actionBar.addTab(tab, (selectedTab == 1 ? true : false));
 
-	/* Popular tab */
+	/* Past tab */
 	tab = actionBar.newTab();
-	tab.setText(R.string.popular);
-	tab.setTag("popular");
-	tab.setTabListener(new MainTabListener<QaPopularFragment>(activity, "popular", QaPopularFragment.class));
+	tab.setText(R.string.past);
+	tab.setTag("past");
+	tab.setTabListener(new MainTabListener<EventPastFragment>(activity, "past", EventPastFragment.class));
 	actionBar.addTab(tab, (selectedTab == 2 ? true : false));
-
-	/* Unanswered tab */
-	tab = actionBar.newTab();
-	tab.setText(R.string.unanswered);
-	tab.setTag("unanswered");
-	tab.setTabListener(new MainTabListener<QaUnansweredFragment>(activity, "unanswered", QaUnansweredFragment.class));
-	actionBar.addTab(tab, (selectedTab == 3 ? true : false));
     }
 }

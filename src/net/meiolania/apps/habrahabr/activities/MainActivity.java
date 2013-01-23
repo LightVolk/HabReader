@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.Window;
 
@@ -65,9 +66,16 @@ public class MainActivity extends SlidingFragmentActivity {
 
     public void switchContent(Fragment fragment) {
 	mContent = fragment;
-
 	getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
-	getSlidingMenu().showContent();
+
+	// It's not good
+	// TODO: Think about that
+	Handler h = new Handler();
+	h.postDelayed(new Runnable() {
+	    public void run() {
+		getSlidingMenu().showContent();
+	    }
+	}, 50);
     }
 
     @Override
