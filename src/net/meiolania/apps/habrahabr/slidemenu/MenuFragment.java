@@ -14,11 +14,6 @@ import net.meiolania.apps.habrahabr.fragments.users.UsersFragment;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 
-import net.meiolania.apps.habrahabr.activities.AuthActivity;
-import net.meiolania.apps.habrahabr.activities.FeedActivity;
-import net.meiolania.apps.habrahabr.activities.HubsActivity;
-import net.meiolania.apps.habrahabr.activities.SignOutActivity;
-import net.meiolania.apps.habrahabr.auth.User;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -72,7 +67,7 @@ public class MenuFragment extends SherlockListFragment {
 	    newContent = new PostsMainFragment();
 	    break;
 	case 1:
-	    newContent = new HubsFragment();
+	    newContent = new HubsMainFragment();
 	    break;
 	case 2:
 	    newContent = new QaMainFragment();
