@@ -1,11 +1,5 @@
 package net.meiolania.apps.habrahabr.activities;
 
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-import com.slidingmenu.lib.SlidingMenu;
-import com.slidingmenu.lib.app.SlidingFragmentActivity;
-
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.auth.User;
 import net.meiolania.apps.habrahabr.fragments.posts.PostsMainFragment;
@@ -13,16 +7,21 @@ import net.meiolania.apps.habrahabr.slidemenu.MenuFragment;
 import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.Window;
 
-public class MainActivity extends SlidingFragmentActivity {
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.slidingmenu.lib.SlidingMenu;
+import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
+public class MainActivity extends SlidingFragmentActivity {
+    public final static String DEVELOPER_PLAY_LINK = "https://play.google.com/store/apps/developer?id=Andrey+Zaytsev";
     private Fragment mContent;
 
     @Override
@@ -46,6 +45,7 @@ public class MainActivity extends SlidingFragmentActivity {
 	getSupportActionBar().setHomeButtonEnabled(true);
 	getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	setSupportProgressBarIndeterminateVisibility(false);
+	
 	// set the Above View
 	if (savedInstanceState != null)
 	    mContent = getSupportFragmentManager().getFragment(savedInstanceState, "mContent");
@@ -82,14 +82,7 @@ public class MainActivity extends SlidingFragmentActivity {
 	mContent = fragment;
 	getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
 
-	// It's not good
-	// TODO: Think about that
-	Handler h = new Handler();
-	h.postDelayed(new Runnable() {
-	    public void run() {
-		getSlidingMenu().showContent();
-	    }
-	}, 50);
+	toggle();
     }
 
     @Override
@@ -102,17 +95,17 @@ public class MainActivity extends SlidingFragmentActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 	switch (item.getItemId()) {
-	case android.R.id.home:
-	    toggle();
-	    return true;
-	case R.id.preferences:
-	    startActivity(new Intent(this, PreferencesActivity.class));
-	    return true;
-	case R.id.more_applications:
-	    Uri uri = Uri.parse("https://play.google.com/store/apps/developer?id=Andrey+Zaytsev");
-	    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-	    startActivity(intent);
-	    return true;
+	    case android.R.id.home:
+		toggle();
+		return true;
+	    case R.id.preferences:
+		startActivity(new Intent(this, PreferencesActivity.class));
+		return true;
+	    case R.id.more_applications:
+		Uri uri = Uri.parse(DEVELOPER_PLAY_LINK);
+		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+		startActivity(intent);
+		return true;
 	}
 	return super.onOptionsItemSelected(item);
     }

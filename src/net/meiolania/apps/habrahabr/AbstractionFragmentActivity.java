@@ -73,6 +73,7 @@ public abstract class AbstractionFragmentActivity extends SherlockFragmentActivi
 	    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 	getScreenPref();
+	
 	super.onResume();
     }
 
@@ -99,17 +100,17 @@ public abstract class AbstractionFragmentActivity extends SherlockFragmentActivi
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 	switch (item.getItemId()) {
-	case android.R.id.home:
-	    finish();
-	    return true;
-	case R.id.preferences:
-	    startActivity(new Intent(this, PreferencesActivity.class));
-	    return true;
-	case R.id.more_applications:
-	    Uri uri = Uri.parse(DEVELOPER_PLAY_LINK);
-	    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-	    startActivity(intent);
-	    return true;
+	    case android.R.id.home:
+		finish();
+		return true;
+	    case R.id.preferences:
+		startActivity(new Intent(this, PreferencesActivity.class));
+		return true;
+	    case R.id.more_applications:
+		Uri uri = Uri.parse(DEVELOPER_PLAY_LINK);
+		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+		startActivity(intent);
+		return true;
 	}
 	return super.onOptionsItemSelected(item);
     }
