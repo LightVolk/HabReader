@@ -78,6 +78,9 @@ public class PostsLoader extends AsyncTaskLoader<ArrayList<PostsData>> {
 		Element score = post.select("a.score").first();
 		if(score == null)
 		    score = post.select("span.score").first();
+		    
+		Element postText = post.select("div.content").first();
+        	Element image = postText.select("img").first();
 
 		postsData.setTitle(postTitle.text());
 		postsData.setUrl(postTitle.attr("abs:href"));
@@ -86,6 +89,8 @@ public class PostsLoader extends AsyncTaskLoader<ArrayList<PostsData>> {
 		postsData.setAuthor(author != null ? author.text() : "");
 		postsData.setComments(comments != null ? comments.text() : "0");
 		postsData.setScore(score.text());
+		postsData.setText(postText.text());
+        	postsData.setImage(image != null ? image.attr("abs:src") : "");
 
 		data.add(postsData);
 	    }

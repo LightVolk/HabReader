@@ -25,6 +25,8 @@ public class PostsData {
     protected String date;
     protected String comments;
     protected String score;
+    protected String image;
+    protected String text;
 
     public String getTitle() {
 	return title;
@@ -81,5 +83,20 @@ public class PostsData {
     public String getScore() {
 	return score;
     }
+    
+    public void setImage(String image) {
+        this.image = image;
+    }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public String getText() {
+        return text;
+    }
 }
