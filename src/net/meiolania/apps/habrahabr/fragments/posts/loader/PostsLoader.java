@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import net.meiolania.apps.habrahabr.auth.User;
+import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.data.PostsData;
 
 import org.jsoup.Jsoup;
@@ -34,12 +35,15 @@ import android.util.Log;
 public class PostsLoader extends AsyncTaskLoader<ArrayList<PostsData>> {
     public final static String TAG = PostsLoader.class.getName();
     private String url;
+    private boolean postsFullInfo = false;
     private static int page;
 
     public PostsLoader(Context context, String url) {
 	super(context);
 
 	this.url = url;
+
+	this.postsFullInfo = Preferences.getInstance(context).getPostsFullInfo();
     }
 
     public static void setPage(int page) {
@@ -78,9 +82,14 @@ public class PostsLoader extends AsyncTaskLoader<ArrayList<PostsData>> {
 		Element score = post.select("a.score").first();
 		if(score == null)
 		    score = post.select("span.score").first();
+
+		if (postsFullInfo) {
+		    Element postText = post.select("div.content").first();
+		    Element image = postText.select("img").first();
 		    
-		Element postText = post.select("div.content").first();
-        	Element image = postText.select("img").first();
+		    postsData.setText(postText.text());
+		    postsData.setImage(image != null ? image.attr("abs:src") : "");
+		}
 
 		postsData.setTitle(postTitle.text());
 		postsData.setUrl(postTitle.attr("abs:href"));
@@ -89,8 +98,6 @@ public class PostsLoader extends AsyncTaskLoader<ArrayList<PostsData>> {
 		postsData.setAuthor(author != null ? author.text() : "");
 		postsData.setComments(comments != null ? comments.text() : "0");
 		postsData.setScore(score.text());
-		postsData.setText(postText.text());
-        	postsData.setImage(image != null ? image.attr("abs:src") : "");
 
 		data.add(postsData);
 	    }

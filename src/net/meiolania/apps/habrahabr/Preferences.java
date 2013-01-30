@@ -69,6 +69,10 @@ public final class Preferences {
     public final static String HSECID_KEY = "hsecid";
     public final static String HSECID_DEFAULT = null;
 
+    // Posts full info
+    public static final String POSTS_FULL_INFO = "posts_full_info";
+    public static final boolean POSTS_FULL_INFO_DEFAULT = false;
+
     private static Preferences preferences = null;
     private static SharedPreferences sharedPreferences;
 
@@ -122,6 +126,10 @@ public final class Preferences {
 
     public String getShareText() {
 	return sharedPreferences.getString(SHARE_TEXT_KEY, SHARE_TEXT_DEFAULT);
+    }
+    
+    public boolean getPostsFullInfo() {
+	return sharedPreferences.getBoolean(POSTS_FULL_INFO, POSTS_FULL_INFO_DEFAULT);
     }
 
     public void setViewScale(Context context, float scale) {
