@@ -29,6 +29,12 @@
             android:key="posts_additional_layout"
             android:summary="@string/posts_additional_layout_summary_preferences"
             android:title="@string/additional_layout_preferences" />
+        
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="posts_full_info"
+            android:summary="@string/posts_full_info_summary_preferences"
+            android:title="@string/posts_full_info_preferences" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/qa" >
         <ListPreference

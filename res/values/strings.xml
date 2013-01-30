@@ -91,6 +91,8 @@
 	<string name="qa_additional_layout_summary_preferences">Отображать дополнительную информацию при просмотре списка вопросов</string>
 	<string name="share_text_preferences">Шаблон для кнопки \"share\"</string>
 	<string name="share_text_default_preferences">$link$ - $title$ \#HabReader</string>
+	<string name="posts_full_info_preferences">Отображать краткий текст поста</string>
+	<string name="posts_full_info_summary_preferences">Отображать краткий текст поста при просмотре списка постов</string>
 
 	<string name="saved_user_scale">UserScale</string>
 </resources>
