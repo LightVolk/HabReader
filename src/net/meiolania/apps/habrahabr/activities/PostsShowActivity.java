@@ -27,6 +27,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
+import com.actionbarsherlock.view.MenuItem;
 
 public class PostsShowActivity extends AbstractionFragmentActivity {
     public final static String EXTRA_URL = "url";

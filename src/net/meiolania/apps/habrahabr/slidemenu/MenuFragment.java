@@ -4,14 +4,18 @@ import java.util.ArrayList;
 
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.activities.MainActivity;
+import net.meiolania.apps.habrahabr.auth.AuthFragment;
+import net.meiolania.apps.habrahabr.auth.SignOutFragment;
 import net.meiolania.apps.habrahabr.auth.User;
 import net.meiolania.apps.habrahabr.fragments.companies.CompaniesFragment;
 import net.meiolania.apps.habrahabr.fragments.events.EventsMainFragment;
+import net.meiolania.apps.habrahabr.fragments.feed.FeedMainFragment;
 import net.meiolania.apps.habrahabr.fragments.hubs.HubsMainFragment;
 import net.meiolania.apps.habrahabr.fragments.posts.PostsMainFragment;
 import net.meiolania.apps.habrahabr.fragments.qa.QaMainFragment;
 import net.meiolania.apps.habrahabr.fragments.users.UsersFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -29,7 +33,7 @@ public class MenuFragment extends SherlockListFragment {
     private MenuAdapter menuAdapter;
 
     private enum ItemType {
-	AUTH, PROFILE, SIGN_OUT, FEED, POSTS, HUBS, QA, EVENTS, COMPANIES, PEOPLE
+	AUTH, PROFILE, SIGN_OUT, FEED, FAVORITES, POSTS, HUBS, QA, EVENTS, COMPANIES, PEOPLE
     };
 
     @Override
@@ -40,15 +44,16 @@ public class MenuFragment extends SherlockListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
+	
 	menu = new ArrayList<MenuData>();
 
-	// Auth
 	if (!User.getInstance().isLogged())
 	    menu.add(new MenuData(R.string.auth, R.drawable.ic_menu_user, ItemType.AUTH));
 	else {
 	    menu.add(new MenuData(User.getInstance().getLogin(), R.drawable.ic_menu_user, ItemType.PROFILE));
 	    menu.add(new MenuData(R.string.sign_out, R.drawable.ic_menu_user, ItemType.SIGN_OUT));
 	    menu.add(new MenuData(R.string.feed, R.drawable.ic_menu_posts, ItemType.FEED));
+	    menu.add(new MenuData(R.string.favorites, R.drawable.ic_menu_posts, ItemType.FAVORITES));
 	}
 
 	menu.add(new MenuData(R.string.posts, R.drawable.ic_menu_posts, ItemType.POSTS));
@@ -67,6 +72,15 @@ public class MenuFragment extends SherlockListFragment {
 	MenuData data = menu.get(position);
 	Fragment newContent = null;
 	switch (data.itemType) {
+	    case AUTH:
+		newContent = new AuthFragment();
+		break;
+	    case SIGN_OUT:
+		newContent = new SignOutFragment();
+		break;
+	    case FEED:
+		newContent = new FeedMainFragment();
+		break;
 	    case POSTS:
 		newContent = new PostsMainFragment();
 		break;
@@ -90,13 +104,15 @@ public class MenuFragment extends SherlockListFragment {
 	    switchFragment(newContent);
     }
 
-    // the meat of switching the above fragment
     private void switchFragment(Fragment fragment) {
 	if (getSherlockActivity() == null)
 	    return;
 
-	MainActivity fca = (MainActivity) getSherlockActivity();
-	fca.switchContent(fragment);
+	if (getSherlockActivity() instanceof MainActivity) {
+	    MainActivity fca = (MainActivity) getSherlockActivity();
+	    fca.switchContent(fragment);
+	} else
+	    startActivity(new Intent(getSherlockActivity(), MainActivity.class));
     }
 
     private class MenuData {

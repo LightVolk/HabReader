@@ -4,29 +4,18 @@ import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.ui.MainTabListener;
 import android.os.Bundle;
-import android.os.Handler;
 
 import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.ActionBar.Tab;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.app.ActionBar.Tab;
 
 public class PostsMainFragment extends SherlockFragment {
 
-    public static PostsMainFragment newInstance() {
-	return new PostsMainFragment();
-    }
-
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
-	// It's not good
-	// TODO: Think about that
-	Handler h = new Handler();
-	h.postDelayed(new Runnable() {
-	    public void run() {
-		showActionBar();
-	    }
-	}, 300);
+	
+	showActionBar();
     }
 
     private void showActionBar() {

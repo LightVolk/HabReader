@@ -16,6 +16,7 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.ui;
 
+import net.meiolania.apps.habrahabr.R;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -38,7 +39,6 @@ public class TabListener<T extends Fragment> implements com.actionbarsherlock.ap
 
     public TabListener(Context context, String tag, Class<T> fragmentClass, Bundle arguments) {
 	this(context, tag, fragmentClass);
-
 	this.arguments = arguments;
     }
 
@@ -50,7 +50,7 @@ public class TabListener<T extends Fragment> implements com.actionbarsherlock.ap
 	    if (arguments != null)
 		fragment.setArguments(arguments);
 	}
-	ft.replace(android.R.id.content, fragment, tag);
+	ft.replace(R.id.content_frame, fragment, tag);
     }
 
     @Override

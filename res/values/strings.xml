@@ -36,9 +36,9 @@
 	<string name="hubs">Хабы</string>
 	<string name="companies">Компании</string>
 	<string name="people">Пользователи</string>
+	<string name="favorites">Избранное</string>
 	
 	<!-- Dashboard menus -->
-	<string name="favorites">Избранное</string>
 	<string name="preferences">Настройки</string>
 	<string name="more_applications">Другие приложения</string>
 	

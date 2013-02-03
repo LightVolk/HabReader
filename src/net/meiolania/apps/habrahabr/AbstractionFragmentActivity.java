@@ -16,10 +16,9 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr;
 
-import net.meiolania.apps.habrahabr.Preferences;
-import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.activities.PreferencesActivity;
 import net.meiolania.apps.habrahabr.auth.User;
+import net.meiolania.apps.habrahabr.slidemenu.MenuFragment;
 import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
 import android.app.AlertDialog;
 import android.content.DialogInterface.OnClickListener;
@@ -29,14 +28,14 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.slidingmenu.lib.SlidingMenu;
+import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
-public abstract class AbstractionFragmentActivity extends SherlockFragmentActivity {
+public abstract class AbstractionFragmentActivity extends SlidingFragmentActivity {
     public final static String DEVELOPER_PLAY_LINK = "https://play.google.com/store/apps/developer?id=Andrey+Zaytsev";
-    Preferences preferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,12 +43,32 @@ public abstract class AbstractionFragmentActivity extends SherlockFragmentActivi
 
 	requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
-	preferences = Preferences.getInstance(this);
-	if (preferences.getFullScreen())
-	    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	initFullscreen();
+	initKeepScreenOn();
 
-	getScreenPref();
+	// Auth
+	User.getInstance().init(this);
 
+	getSupportActionBar().setHomeButtonEnabled(true);
+	getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+	setSupportProgressBarIndeterminateVisibility(false);
+	
+	// Slide menu
+	setContentView(R.layout.empty_for_slidemenu);
+	setBehindContentView(R.layout.menu_frame);
+
+	SlidingMenu slidingMenu = getSlidingMenu();
+	slidingMenu.setMode(SlidingMenu.LEFT);
+	slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+	slidingMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+	slidingMenu.setMenu(R.layout.slide_menu);
+
+	// set the Behind View
+	setBehindContentView(R.layout.menu_frame);
+	getSupportFragmentManager().beginTransaction().replace(R.id.menu_frame, new MenuFragment()).commit();
+	
+	// No connection dialog
+	// @TODO: rewrite
 	if (!ConnectionUtils.isConnected(this)) {
 	    AlertDialog.Builder dialog = new AlertDialog.Builder(this);
 	    dialog.setTitle(R.string.error);
@@ -58,36 +77,28 @@ public abstract class AbstractionFragmentActivity extends SherlockFragmentActivi
 	    dialog.setCancelable(false);
 	    dialog.show();
 	}
-
-	User.getInstance().init(this);
-
-	getSupportActionBar().setHomeButtonEnabled(true);
-	setSupportProgressBarIndeterminateVisibility(false);
     }
 
     @Override
     protected void onResume() {
-	if (preferences.getFullScreen())
-	    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-	else
-	    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	initFullscreen();
+	initKeepScreenOn();
 
-	getScreenPref();
-	
 	super.onResume();
     }
 
-    private void getScreenPref() {
-	if (preferences.getKeepScreen()) {
+    private void initKeepScreenOn() {
+	if (Preferences.getInstance(this).getKeepScreen())
 	    getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-	} else {
+	else
 	    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-	}
     }
-
-    @Override
-    protected void onPause() {
-	super.onPause();
+    
+    private void initFullscreen() {
+	if (Preferences.getInstance(this).getFullScreen())
+	    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	else
+	    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     @Override
