@@ -1,28 +1,19 @@
 HabReader
 =========
 
-HabReader это open source клиент для сайта [Habrahabr.ru](http://habrahabr.ru).
-
-Поддерживаются следующие разделы сайта:
+Android application for [Habrahabr.ru](http://habrahabr.ru).
 
 <a href="https://play.google.com/store/apps/details?id=net.meiolania.apps.habrahabr"><img src="http://www.android.com/images/brand/get_it_on_play_logo_large.png" align="right" style="margin: 0 100px 0 0;" /></a>
 
-- Посты
-- Хабы
-- Q&A
-- События
-- Компании
-- Люди
 
-
-Разработчики
+Developers
 ===========
 
-- [Андрей Зайцев](http://habrahabr.ru/users/aeinsam/)
-- [Сергей Иванов](http://habrahabr.ru/users/Falcon5F/)
+- [Andrey Zaytsev](http://habrahabr.ru/users/aeinsam/)
+- [Sergey Ivanov](http://habrahabr.ru/users/Falcon5F/)
 
 
-Используемые библиотеки
+Libraries
 =======================
 
 - [ActionBarSherlock](https://github.com/JakeWharton/ActionBarSherlock)
@@ -32,17 +23,17 @@ HabReader это open source клиент для сайта [Habrahabr.ru](http:
 - [jsoup](https://github.com/jhy/jsoup)
 
 
-Иконки
+Icons
 ======
 
-- Иконка приложения взята из [HabraPack](https://github.com/Incwadra/HabraPack) [Ильи Черничкина](http://habrahabr.ru/users/INCWADRA/).
-- Иконки бокового меню взяты [здесь](http://www.visualpharm.com/must_have_icon_set/).
+- [HabraPack](https://github.com/Incwadra/HabraPack).
+- [VisualPharm](http://www.visualpharm.com/must_have_icon_set/).
 
 
-Лицензия
+License
 ========
 
-	Copyright 2012 Andrey Zaytsev
+	Copyright 2012-2013 Andrey Zaytsev, Sergey Ivanov
 	
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
