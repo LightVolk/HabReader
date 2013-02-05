@@ -1,7 +1,6 @@
 package net.meiolania.apps.habrahabr.activities;
 
 import net.meiolania.apps.habrahabr.AbstractionFragmentActivity;
-import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.fragments.posts.PostsMainFragment;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -20,7 +19,6 @@ public class MainActivity extends AbstractionFragmentActivity {
 	if (content == null)
 	    content = new PostsMainFragment();
 
-	setContentView(R.layout.content_frame);
 	getSupportFragmentManager().beginTransaction().replace(android.R.id.content, content).commit();
     }
 

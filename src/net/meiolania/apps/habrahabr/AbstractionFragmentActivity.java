@@ -55,17 +55,14 @@ public abstract class AbstractionFragmentActivity extends SlidingFragmentActivit
 	
 	// Slide menu
 	setContentView(R.layout.empty_for_slidemenu);
-	setBehindContentView(R.layout.menu_frame);
+	
+	setBehindContentView(R.layout.slide_menu);
+	getSupportFragmentManager().beginTransaction().replace(R.id.slide_menu, new MenuFragment()).commit();
 
 	SlidingMenu slidingMenu = getSlidingMenu();
 	slidingMenu.setMode(SlidingMenu.LEFT);
 	slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 	slidingMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
-	slidingMenu.setMenu(R.layout.slide_menu);
-
-	// set the Behind View
-	setBehindContentView(R.layout.menu_frame);
-	getSupportFragmentManager().beginTransaction().replace(R.id.menu_frame, new MenuFragment()).commit();
 	
 	// No connection dialog
 	// @TODO: rewrite
