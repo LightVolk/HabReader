@@ -21,37 +21,20 @@
         android:theme="@style/Theme" >
 
         <!-- The main entry point of application -->
-        <activity
-            android:name=".activities.MainActivity"
-            android:configChanges="orientation|keyboardHidden" >
+        <activity android:name=".activities.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <!-- Preferences -->
-        <activity
-            android:name=".activities.PreferencesActivity"
-            android:configChanges="orientation|keyboardHidden" />
-
-        <!-- Auth -->
-        <activity
-            android:name=".activities.AuthActivity"
-            android:configChanges="orientation|keyboardHidden" />
-        <activity
-            android:name=".activities.SignOutActivity"
-            android:configChanges="orientation|keyboardHidden" />
-
-        <!-- Feed -->
-        <activity
-            android:name=".activities.FeedActivity"
-            android:configChanges="orientation|keyboardHidden" />
+        <activity android:name=".activities.PreferencesActivity" />
 
         <!-- Posts -->
         <activity
             android:name=".activities.PostsShowActivity"
-            android:configChanges="orientation|keyboardHidden"
             android:exported="false"
             android:label="@string/app_name" >
             <intent-filter>
@@ -66,25 +49,15 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activities.PostsSearchActivity"
-            android:configChanges="orientation|keyboardHidden" />
+        <activity android:name=".activities.PostsSearchActivity" />
 
         <!-- Hubs -->
-        <activity
-            android:name=".activities.HubsActivity"
-            android:configChanges="orientation|keyboardHidden" />
-        <activity
-            android:name=".activities.HubsShowActivity"
-            android:configChanges="orientation|keyboardHidden" />
-        <activity
-            android:name=".activities.HubsSearchActivity"
-            android:configChanges="orientation|keyboardHidden" />
+        <activity android:name=".activities.HubsShowActivity" />
+        <activity android:name=".activities.HubsSearchActivity" />
 
         <!-- Q&A -->
         <activity
             android:name=".activities.QaShowActivity"
-            android:configChanges="orientation|keyboardHidden"
             android:exported="false"
             android:label="@string/app_name" >
             <intent-filter>
@@ -99,14 +72,11 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activities.QaSearchActivity"
-            android:configChanges="orientation|keyboardHidden" />
+        <activity android:name=".activities.QaSearchActivity" />
 
         <!-- Events -->
         <activity
             android:name=".activities.EventsShowActivity"
-            android:configChanges="orientation|keyboardHidden"
             android:exported="false"
             android:label="@string/app_name" >
             <intent-filter>
@@ -125,7 +95,6 @@
         <!-- Companies -->
         <activity
             android:name=".activities.CompaniesShowActivity"
-            android:configChanges="orientation|keyboardHidden"
             android:exported="false"
             android:label="@string/app_name" >
             <intent-filter>
@@ -141,10 +110,9 @@
             </intent-filter>
         </activity>
 
-        <!-- People -->
+        <!-- Users -->
         <activity
             android:name=".activities.UsersShowActivity"
-            android:configChanges="orientation|keyboardHidden"
             android:exported="false"
             android:label="@string/app_name" >
             <intent-filter>
@@ -159,9 +127,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activities.UsersSearchActivity"
-            android:configChanges="orientation|keyboardHidden" />
+        <activity android:name=".activities.UsersSearchActivity" />
 
         <!-- Billing service -->
         <service android:name="net.robotmedia.billing.BillingService" />

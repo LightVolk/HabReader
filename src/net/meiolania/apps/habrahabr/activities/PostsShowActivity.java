@@ -25,22 +25,33 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.net.Uri;
 import android.os.Bundle;
+
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
-import com.actionbarsherlock.view.MenuItem;
 
 public class PostsShowActivity extends AbstractionFragmentActivity {
     public final static String EXTRA_URL = "url";
     public final static String EXTRA_TITLE = "title";
     private String url;
     private String title;
+    private int currentTab;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
+	
+	if (savedInstanceState != null)
+	    currentTab = savedInstanceState.getInt("currentTab");
 
 	loadExtras();
 	showActionBar();
+    }
+    
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        
+        outState.putInt("currentTab", getSupportActionBar().getSelectedTab().getPosition());
     }
 
     private void loadExtras() {
@@ -66,7 +77,7 @@ public class PostsShowActivity extends AbstractionFragmentActivity {
 
 	Tab tab = actionBar.newTab().setText(R.string.post).setTag("post")
 		.setTabListener(new TabListener<PostShowFragment>(this, "post", PostShowFragment.class, arguments));
-	actionBar.addTab(tab);
+	actionBar.addTab(tab, (currentTab == 0) ? true : false);
 
 	/*
 	 * Comments tab
@@ -76,7 +87,7 @@ public class PostsShowActivity extends AbstractionFragmentActivity {
 
 	tab = actionBar.newTab().setText(R.string.comments).setTag("comments")
 		.setTabListener(new TabListener<PostsCommentsFragment>(this, "comments", PostsCommentsFragment.class, arguments));
-	actionBar.addTab(tab);
+	actionBar.addTab(tab, (currentTab == 1) ? true : false);
     }
 
     @Override

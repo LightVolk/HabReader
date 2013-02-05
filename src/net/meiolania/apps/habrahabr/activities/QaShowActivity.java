@@ -33,14 +33,24 @@ public class QaShowActivity extends AbstractionFragmentActivity {
     public final static String EXTRA_TITLE = "title";
     private String title;
     private String url;
+    private int currentTab;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
+	
+	if (savedInstanceState != null)
+	    currentTab = savedInstanceState.getInt("currentTab");
 
 	loadExtras();
-
 	showActionBar();
+    }
+    
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        
+        outState.putInt("currentTab", getSupportActionBar().getSelectedTab().getPosition());
     }
 
     private void loadExtras() {
@@ -65,7 +75,7 @@ public class QaShowActivity extends AbstractionFragmentActivity {
 
 	Tab tab = actionBar.newTab().setText(R.string.question).setTag("question")
 		.setTabListener(new TabListener<QaShowFragment>(this, "question", QaShowFragment.class, arguments));
-	actionBar.addTab(tab);
+	actionBar.addTab(tab, (currentTab == 0) ? true : false);
 
 	/*
 	 * Comments tab
@@ -75,7 +85,7 @@ public class QaShowActivity extends AbstractionFragmentActivity {
 
 	tab = actionBar.newTab().setText(R.string.comments).setTag("comments")
 		.setTabListener(new TabListener<QaCommentsFragment>(this, "comments", QaCommentsFragment.class, arguments));
-	actionBar.addTab(tab);
+	actionBar.addTab(tab, (currentTab == 1) ? true : false);
     }
 
     @Override

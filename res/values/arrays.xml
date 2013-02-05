@@ -46,7 +46,6 @@
     <string-array name="qa_tabs">
         <item>@string/inbox</item>
         <item>@string/hot</item>
-        <item>@string/popular</item>
         <item>@string/unanswered</item>
     </string-array>
     
