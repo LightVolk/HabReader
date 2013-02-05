@@ -27,7 +27,6 @@ import net.meiolania.apps.habrahabr.fragments.users.loader.UsersLoader;
 import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.view.KeyEvent;
@@ -51,14 +50,10 @@ public class UsersFragment extends SherlockListFragment implements LoaderCallbac
     private String url;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-	showActionBar();
-    }
-
-    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
+	
+	showActionBar();
 
 	if (getArguments() != null)
 	    url = getArguments().getString(URL_ARGUMENT);
@@ -71,15 +66,8 @@ public class UsersFragment extends SherlockListFragment implements LoaderCallbac
 	    adapter = new UserAdapter(getSherlockActivity(), users);
 	}
 
-	// It's not good
-	// TODO: Think about that
-	Handler h = new Handler();
-	h.postDelayed(new Runnable() {
-	    public void run() {
-		setListAdapter(adapter);
-		setListShown(true);
-	    }
-	}, 400);
+	setListAdapter(adapter);
+	setListShown(true);
 
 	if (ConnectionUtils.isConnected(getSherlockActivity()))
 	    getSherlockActivity().getSupportLoaderManager().initLoader(LOADER_USER, null, this);
@@ -87,6 +75,7 @@ public class UsersFragment extends SherlockListFragment implements LoaderCallbac
 
     private void showActionBar() {
 	ActionBar actionBar = getSherlockActivity().getSupportActionBar();
+	actionBar.removeAllTabs();
 	actionBar.setDisplayHomeAsUpEnabled(true);
 	actionBar.setTitle(R.string.people);
 	actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);

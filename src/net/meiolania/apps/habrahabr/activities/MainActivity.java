@@ -11,7 +11,6 @@ import android.support.v4.app.Fragment;
 import com.actionbarsherlock.view.MenuItem;
 
 public class MainActivity extends AbstractionFragmentActivity {
-    public final static String DEVELOPER_PLAY_LINK = "https://play.google.com/store/apps/developer?id=Andrey+Zaytsev";
     private Fragment content;
 
     @Override
@@ -22,12 +21,12 @@ public class MainActivity extends AbstractionFragmentActivity {
 	    content = new PostsMainFragment();
 
 	setContentView(R.layout.content_frame);
-	getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, content).commit();
+	getSupportFragmentManager().beginTransaction().replace(android.R.id.content, content).commit();
     }
 
     public void switchContent(Fragment fragment) {
 	content = fragment;
-	getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
+	getSupportFragmentManager().beginTransaction().replace(android.R.id.content, fragment).commit();
 
 	toggle();
     }

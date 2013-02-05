@@ -2,7 +2,7 @@ package net.meiolania.apps.habrahabr.fragments.posts;
 
 import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.R;
-import net.meiolania.apps.habrahabr.ui.MainTabListener;
+import net.meiolania.apps.habrahabr.ui.TabListener;
 import android.os.Bundle;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -34,21 +34,21 @@ public class PostsMainFragment extends SherlockFragment {
 	Tab tab = actionBar.newTab();
 	tab.setText(R.string.best);
 	tab.setTag("best");
-	tab.setTabListener(new MainTabListener<PostsBestFragment>(activity, "best", PostsBestFragment.class));
+	tab.setTabListener(new TabListener<PostsBestFragment>(activity, "best", PostsBestFragment.class));
 	actionBar.addTab(tab, (selectedTab == 0 ? true : false));
 
 	/* Thematic tab */
 	tab = actionBar.newTab();
 	tab.setText(R.string.thematic);
 	tab.setTag("thematic");
-	tab.setTabListener(new MainTabListener<PostsThematicFragment>(activity, "thematic", PostsThematicFragment.class));
+	tab.setTabListener(new TabListener<PostsThematicFragment>(activity, "thematic", PostsThematicFragment.class));
 	actionBar.addTab(tab, (selectedTab == 1 ? true : false));
 
 	/* Corporate tab */
 	tab = actionBar.newTab();
 	tab.setText(R.string.corporate);
 	tab.setTag("corporate");
-	tab.setTabListener(new MainTabListener<PostsCorporateFragment>(activity, "corporate", PostsCorporateFragment.class));
+	tab.setTabListener(new TabListener<PostsCorporateFragment>(activity, "corporate", PostsCorporateFragment.class));
 	actionBar.addTab(tab, (selectedTab == 2 ? true : false));
     }
 }

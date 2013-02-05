@@ -26,7 +26,6 @@ import net.meiolania.apps.habrahabr.fragments.companies.loader.CompaniesLoader;
 import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.view.View;
@@ -49,6 +48,7 @@ public class CompaniesFragment extends SherlockListFragment implements OnScrollL
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
+	
 	showActionBar();
 
 	setRetainInstance(true);
@@ -58,15 +58,8 @@ public class CompaniesFragment extends SherlockListFragment implements OnScrollL
 	    adapter = new CompaniesAdapter(getSherlockActivity(), companies);
 	}
 
-	// It's not good
-	// TODO: Think about that
-	Handler h = new Handler();
-	h.postDelayed(new Runnable() {
-	    public void run() {
-		setListAdapter(adapter);
-		setListShown(true);
-	    }
-	}, 400);
+	setListAdapter(adapter);
+	setListShown(true);
 
 	getListView().setOnScrollListener(this);
     }
@@ -78,6 +71,7 @@ public class CompaniesFragment extends SherlockListFragment implements OnScrollL
 
     private void showActionBar() {
 	ActionBar actionBar = getSherlockActivity().getSupportActionBar();
+	actionBar.removeAllTabs();
 	actionBar.setDisplayHomeAsUpEnabled(true);
 	actionBar.setTitle(R.string.companies);
 	actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
