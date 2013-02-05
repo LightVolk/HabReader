@@ -24,14 +24,10 @@ import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.fragments.hubs.HubsFragment;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.view.MenuItem;
 
 public class HubsSearchActivity extends AbstractionFragmentActivity {
     public final static String URL = "http://habrahabr.ru/search/page%page%/?q=%query%&target_type=hubs";
@@ -72,21 +68,6 @@ public class HubsSearchActivity extends AbstractionFragmentActivity {
 	FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 	fragmentTransaction.replace(android.R.id.content, fragment);
 	fragmentTransaction.commit();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-	switch (item.getItemId()) {
-	case android.R.id.home:
-	    Intent intent = new Intent(this, HubsActivity.class);
-	    if (NavUtils.shouldUpRecreateTask(this, intent)) {
-		TaskStackBuilder.create(this).addNextIntent(intent).startActivities();
-		finish();
-	    } else
-		NavUtils.navigateUpTo(this, intent);
-	    return true;
-	}
-	return super.onOptionsItemSelected(item);
     }
 
     @Override
