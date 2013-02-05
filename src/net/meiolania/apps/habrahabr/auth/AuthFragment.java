@@ -63,6 +63,8 @@ public class AuthFragment extends SherlockFragment {
 	ActionBar actionBar = getSherlockActivity().getSupportActionBar();
 	actionBar.setTitle(R.string.auth);
 	actionBar.removeAllTabs();
+	actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+	getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
     }
 
     private void showAuthPage() {
@@ -90,15 +92,7 @@ public class AuthFragment extends SherlockFragment {
 			if (cookieName.equals(User.HSEC_ID))
 			    preferences.setHSecId(cookieValue);
 		    }
-		}
-	    }
-
-	    @Override
-	    public void onPageFinished(WebView view, String url) {
-		super.onPageFinished(view, url);
-
-		if (url.equals(MAIN_URL)) {
-		    // @TODO: It's awful
+		    
 		    new GetUserName().execute();
 		}
 	    }

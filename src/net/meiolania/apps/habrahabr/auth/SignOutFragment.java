@@ -21,6 +21,7 @@ import net.meiolania.apps.habrahabr.activities.MainActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -28,11 +29,14 @@ public class SignOutFragment extends SherlockFragment {
     
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+	super.onActivityCreated(savedInstanceState);
+	
 	Preferences preferences = Preferences.getInstance(getSherlockActivity());
 	preferences.setPHPSessionId(null);
 	preferences.setLogin(null);
 	preferences.setHSecId(null);
 	
+	CookieSyncManager.createInstance(getSherlockActivity());
 	CookieManager.getInstance().removeAllCookie();
 	
 	User.getInstance().init(getSherlockActivity());

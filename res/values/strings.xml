@@ -31,6 +31,7 @@
 	<string name="favorites">Избранное</string>
 	
 	<!-- Slide menu -->
+	<string name="sections">Разделы</string>
 	<string name="posts">Посты</string>
 	<string name="qa">Q&amp;A</string>
 	<string name="events">События</string>
