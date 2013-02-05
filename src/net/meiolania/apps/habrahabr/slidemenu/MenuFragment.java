@@ -32,8 +32,8 @@ public class MenuFragment extends SherlockListFragment {
     private ArrayList<MenuData> menu;
     private MenuAdapter menuAdapter;
 
-    private enum ItemType {
-	AUTH, PROFILE, SIGN_OUT, FEED, FAVORITES, POSTS, HUBS, QA, EVENTS, COMPANIES, PEOPLE
+    public enum ItemType {
+	AUTH, PROFILE, SIGN_OUT, FEED, FAVORITES, POSTS, HUBS, QA, EVENTS, COMPANIES, USERS
     };
 
     @Override
@@ -56,7 +56,7 @@ public class MenuFragment extends SherlockListFragment {
 	menu.add(new MenuData(R.string.qa, R.drawable.ic_menu_qa, ItemType.QA));
 	menu.add(new MenuData(R.string.events, R.drawable.ic_menu_events, ItemType.EVENTS));
 	menu.add(new MenuData(R.string.companies, R.drawable.ic_menu_companies, ItemType.COMPANIES));
-	menu.add(new MenuData(R.string.people, R.drawable.ic_menu_user, ItemType.PEOPLE));
+	menu.add(new MenuData(R.string.people, R.drawable.ic_menu_user, ItemType.USERS));
 
 	menuAdapter = new MenuAdapter(getSherlockActivity(), menu);
 	setListAdapter(menuAdapter);
@@ -70,11 +70,17 @@ public class MenuFragment extends SherlockListFragment {
 	    case AUTH:
 		newContent = new AuthFragment();
 		break;
+	    case PROFILE:
+		
+		break;
 	    case SIGN_OUT:
 		newContent = new SignOutFragment();
 		break;
 	    case FEED:
 		newContent = new FeedMainFragment();
+		break;
+	    case FAVORITES:
+		
 		break;
 	    case POSTS:
 		newContent = new PostsMainFragment();
@@ -91,21 +97,21 @@ public class MenuFragment extends SherlockListFragment {
 	    case COMPANIES:
 		newContent = new CompaniesFragment();
 		break;
-	    case PEOPLE:
+	    case USERS:
 		newContent = new UsersFragment();
 		break;
 	}
 	if (newContent != null)
-	    switchFragment(newContent);
+	    switchFragment(newContent, data.itemType);
     }
 
-    private void switchFragment(Fragment fragment) {
+    private void switchFragment(Fragment fragment, ItemType contentType) {
 	if (getSherlockActivity() == null)
 	    return;
 
 	if (getSherlockActivity() instanceof MainActivity) {
 	    MainActivity fca = (MainActivity) getSherlockActivity();
-	    fca.switchContent(fragment);
+	    fca.switchContent(fragment, contentType);
 	} else
 	    startActivity(new Intent(getSherlockActivity(), MainActivity.class));
     }

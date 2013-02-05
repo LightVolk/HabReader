@@ -26,8 +26,9 @@
 	<string name="auth_success">Авторизация выполнена</string>
 	<string name="sign_out">Выход</string>
 	
-	<!-- Feed -->
+	<!-- User -->
 	<string name="feed">Лента</string>
+	<string name="favorites">Избранное</string>
 	
 	<!-- Slide menu -->
 	<string name="posts">Посты</string>
@@ -36,7 +37,6 @@
 	<string name="hubs">Хабы</string>
 	<string name="companies">Компании</string>
 	<string name="people">Пользователи</string>
-	<string name="favorites">Избранное</string>
 	
 	<!-- Dashboard menus -->
 	<string name="preferences">Настройки</string>

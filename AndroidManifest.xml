@@ -19,11 +19,22 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme" >
-        
+
+        <!-- The main entry point of application -->
+        <activity
+            android:name=".activities.MainActivity"
+            android:configChanges="orientation|keyboardHidden" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Preferences -->
         <activity
             android:name=".activities.PreferencesActivity"
             android:configChanges="orientation|keyboardHidden" />
-        
+
         <!-- Auth -->
         <activity
             android:name=".activities.AuthActivity"
@@ -31,22 +42,13 @@
         <activity
             android:name=".activities.SignOutActivity"
             android:configChanges="orientation|keyboardHidden" />
-        
+
         <!-- Feed -->
         <activity
             android:name=".activities.FeedActivity"
             android:configChanges="orientation|keyboardHidden" />
 
         <!-- Posts -->
-        <!-- The main entry point of application -->
-        <activity
-            android:name=".activities.MainActivity"
-            android:configChanges="orientation|keyboardHidden" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".activities.PostsShowActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -161,6 +163,7 @@
             android:name=".activities.UsersSearchActivity"
             android:configChanges="orientation|keyboardHidden" />
 
+        <!-- Billing service -->
         <service android:name="net.robotmedia.billing.BillingService" />
 
         <receiver android:name="net.robotmedia.billing.BillingReceiver" >

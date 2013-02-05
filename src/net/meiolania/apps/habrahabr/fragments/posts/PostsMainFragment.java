@@ -27,8 +27,7 @@ public class PostsMainFragment extends SherlockFragment {
 	actionBar.setTitle(R.string.posts);
 	actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-	Preferences preferences = Preferences.getInstance(activity);
-	int selectedTab = preferences.getPostsDefaultTab();
+	int selectedTab = Preferences.getInstance(activity).getPostsDefaultTab();
 
 	/* Best tab */
 	Tab tab = actionBar.newTab();

@@ -44,13 +44,6 @@ public class QaMainFragment extends SherlockFragment {
 	tab.setTabListener(new TabListener<QaHotFragment>(activity, "hot", QaHotFragment.class));
 	actionBar.addTab(tab, (selectedTab == 1 ? true : false));
 
-	/* Popular tab */
-	tab = actionBar.newTab();
-	tab.setText(R.string.popular);
-	tab.setTag("popular");
-	tab.setTabListener(new TabListener<QaPopularFragment>(activity, "popular", QaPopularFragment.class));
-	actionBar.addTab(tab, (selectedTab == 2 ? true : false));
-
 	/* Unanswered tab */
 	tab = actionBar.newTab();
 	tab.setText(R.string.unanswered);
