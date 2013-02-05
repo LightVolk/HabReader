@@ -1,5 +1,5 @@
 /*
-Copyright 2012 Andrey Zaytsev
+Copyright 2012-2013 Andrey Zaytsev, Sergey Ivanov
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ public class QaData {
     protected String hubs;
     protected String url;
     protected String date;
-    // TODO: add a link to author's profile
     protected String author;
     protected String answers;
     protected String score;

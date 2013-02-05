@@ -1,5 +1,5 @@
 /*
-Copyright 2012 Andrey Zaytsev, Sergey Ivanov
+Copyright 2012-2013 Andrey Zaytsev, Sergey Ivanov
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

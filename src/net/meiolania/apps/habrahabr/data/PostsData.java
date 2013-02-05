@@ -1,5 +1,5 @@
 /*
-Copyright 2012 Andrey Zaytsev
+Copyright 2012-2013 Andrey Zaytsev, Sergey Ivanov
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ public class PostsData {
     protected String title;
     protected String url;
     protected String hubs;
-    // TODO: add a link to the author's profile
     protected String author;
     protected String date;
     protected String comments;

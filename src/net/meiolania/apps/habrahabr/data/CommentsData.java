@@ -1,5 +1,5 @@
 /*
-Copyright 2012 Andrey Zaytsev
+Copyright 2012-2013 Andrey Zaytsev, Sergey Ivanov
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@ limitations under the License.
 package net.meiolania.apps.habrahabr.data;
 
 public class CommentsData {
-    public final static int MAX_LEVEL = 7;
+    public final static int MAX_LEVEL = 5;
     protected String url;
     protected String author;
     protected String authorUrl;
