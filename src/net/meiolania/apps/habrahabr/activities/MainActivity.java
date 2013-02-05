@@ -21,6 +21,7 @@ import net.meiolania.apps.habrahabr.auth.AuthFragment;
 import net.meiolania.apps.habrahabr.auth.SignOutFragment;
 import net.meiolania.apps.habrahabr.fragments.companies.CompaniesFragment;
 import net.meiolania.apps.habrahabr.fragments.events.EventsMainFragment;
+import net.meiolania.apps.habrahabr.fragments.favorites.FavoritesMainFragment;
 import net.meiolania.apps.habrahabr.fragments.feed.FeedMainFragment;
 import net.meiolania.apps.habrahabr.fragments.hubs.HubsMainFragment;
 import net.meiolania.apps.habrahabr.fragments.posts.PostsMainFragment;
@@ -53,6 +54,7 @@ public class MainActivity extends AbstractionFragmentActivity {
 		    break;
 		case 1:
 
+		    contentType = ItemType.PROFILE;
 		    break;
 		case 2:
 		    content = new SignOutFragment();
@@ -63,7 +65,8 @@ public class MainActivity extends AbstractionFragmentActivity {
 		    contentType = ItemType.FEED;
 		    break;
 		case 4:
-
+		    content = new FavoritesMainFragment();
+		    contentType = ItemType.FAVORITES;
 		    break;
 		case 5:
 		    content = new PostsMainFragment();

@@ -25,6 +25,7 @@ import net.meiolania.apps.habrahabr.auth.SignOutFragment;
 import net.meiolania.apps.habrahabr.auth.User;
 import net.meiolania.apps.habrahabr.fragments.companies.CompaniesFragment;
 import net.meiolania.apps.habrahabr.fragments.events.EventsMainFragment;
+import net.meiolania.apps.habrahabr.fragments.favorites.FavoritesMainFragment;
 import net.meiolania.apps.habrahabr.fragments.feed.FeedMainFragment;
 import net.meiolania.apps.habrahabr.fragments.hubs.HubsMainFragment;
 import net.meiolania.apps.habrahabr.fragments.posts.PostsMainFragment;
@@ -96,7 +97,7 @@ public class MenuFragment extends SherlockListFragment {
 		newContent = new FeedMainFragment();
 		break;
 	    case FAVORITES:
-		
+		newContent = new FavoritesMainFragment();
 		break;
 	    case POSTS:
 		newContent = new PostsMainFragment();

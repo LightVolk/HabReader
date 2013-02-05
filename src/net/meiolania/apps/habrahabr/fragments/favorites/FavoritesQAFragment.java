@@ -1,5 +1,5 @@
 /*
-Copyright 2012-2013 Andrey Zaytsev, Sergey Ivanov
+Copyright 2013 Andrey Zaytsev, Sergey Ivanov
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,19 +14,20 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-package net.meiolania.apps.habrahabr.fragments.feed;
+package net.meiolania.apps.habrahabr.fragments.favorites;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 
+import net.meiolania.apps.habrahabr.auth.User;
 import net.meiolania.apps.habrahabr.fragments.qa.AbstractionQaFragment;
 
-public class FeedQAFragment extends AbstractionQaFragment {
-    public static final String URL = "http://habrahabr.ru/feed/qa/page%page%/";
-    	
+public class FavoritesQAFragment extends AbstractionQaFragment {
+    public static final String URL = "http://habrahabr.ru/users/%user%/favorites/questions/page%page%/";
+    
     @Override
     protected String getUrl() {
-	return URL;
+	return URL.replace("%user%", User.getInstance().getLogin());
     }
 
     @Override
