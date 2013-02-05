@@ -19,13 +19,17 @@ package net.meiolania.apps.habrahabr.fragments.hubs;
 import net.meiolania.apps.habrahabr.R;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.app.SherlockListFragment;
-import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 
-public class HubsMainFragment extends SherlockListFragment implements OnNavigationListener {
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
+import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+
+public class HubsMainFragment extends SherlockFragment implements OnNavigationListener {
     public final static int LIST_ALL_HUBS = 0;
     public final static int LIST_API = 1;
     public final static int LIST_ADMIN = 2;
@@ -45,7 +49,13 @@ public class HubsMainFragment extends SherlockListFragment implements OnNavigati
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
+
 	showActionBar();
+    }
+    
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.hubs_fragment, container, false);
     }
 
     private void showActionBar() {
@@ -69,57 +79,59 @@ public class HubsMainFragment extends SherlockListFragment implements OnNavigati
 
 	Bundle arguments = new Bundle();
 	switch ((int) itemId) {
-	default:
-	case LIST_ALL_HUBS:
-	    arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/page%page%/");
-	    break;
-	case LIST_API:
-	    arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/api/page%page%/");
-	    break;
-	case LIST_ADMIN:
-	    arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/administration/page%page%/");
-	    break;
-	case LIST_DB:
-	    arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/databases/page%page%/");
-	    break;
-	case LIST_SECURITY:
-	    arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/security/page%page%/");
-	    break;
-	case LIST_DESIGN:
-	    arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/design-and-media/page%page%/");
-	    break;
-	case LIST_GADGETS:
-	    arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/hardware/page%page%/");
-	    break;
-	case LIST_COMPANIES:
-	    arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/companies-and-services/page%page%/");
-	    break;
-	case LIST_MANAGEMENT:
-	    arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/management/page%page%/");
-	    break;
-	case LIST_PROGRAMMING:
-	    arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/programming/page%page%/");
-	    break;
-	case LIST_SOFTWARE:
-	    arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/software/page%page%/");
-	    break;
-	case LIST_TELECOMMUNICATIONS:
-	    arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/telecommunications/page%page%/");
-	    break;
-	case LIST_FRAMEWORKS:
-	    arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/fw-and-cms/page%page%/");
-	    break;
-	case LIST_FRONTEND:
-	    arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/frontend/page%page%/");
-	    break;
-	case LIST_OTHERS:
-	    arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/others/page%page%/");
-	    break;
+	    default:
+	    case LIST_ALL_HUBS:
+		arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/page%page%/");
+		break;
+	    case LIST_API:
+		arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/api/page%page%/");
+		break;
+	    case LIST_ADMIN:
+		arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/administration/page%page%/");
+		break;
+	    case LIST_DB:
+		arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/databases/page%page%/");
+		break;
+	    case LIST_SECURITY:
+		arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/security/page%page%/");
+		break;
+	    case LIST_DESIGN:
+		arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/design-and-media/page%page%/");
+		break;
+	    case LIST_GADGETS:
+		arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/hardware/page%page%/");
+		break;
+	    case LIST_COMPANIES:
+		arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/companies-and-services/page%page%/");
+		break;
+	    case LIST_MANAGEMENT:
+		arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/management/page%page%/");
+		break;
+	    case LIST_PROGRAMMING:
+		arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/programming/page%page%/");
+		break;
+	    case LIST_SOFTWARE:
+		arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/software/page%page%/");
+		break;
+	    case LIST_TELECOMMUNICATIONS:
+		arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/telecommunications/page%page%/");
+		break;
+	    case LIST_FRAMEWORKS:
+		arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/fw-and-cms/page%page%/");
+		break;
+	    case LIST_FRONTEND:
+		arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/frontend/page%page%/");
+		break;
+	    case LIST_OTHERS:
+		arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/others/page%page%/");
+		break;
 	}
 
 	fragment.setArguments(arguments);
-	ft.replace(R.id.content_frame, fragment);
+	
+	ft.replace(R.id.hubs_fragment, fragment);
 	ft.commit();
+	
 	return false;
     }
 }
