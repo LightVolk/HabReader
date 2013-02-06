@@ -82,13 +82,14 @@ public class QaCommentsFragment extends SherlockListFragment implements LoaderCa
 	CommentsData commentsData = (CommentsData) getListAdapter().getItem(adapterContextMenuInfo.position);
 
 	switch (item.getItemId()) {
-	case MENU_OPEN_COMMENT_IN_BROWSER:
-	    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(commentsData.getUrl())));
-	    break;
-	case MENU_OPEN_AUTHOR_PROFILE:
-	    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(commentsData.getAuthorUrl())));
-	    break;
+	    case MENU_OPEN_COMMENT_IN_BROWSER:
+		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(commentsData.getUrl())));
+		break;
+	    case MENU_OPEN_AUTHOR_PROFILE:
+		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(commentsData.getAuthorUrl())));
+		break;
 	}
+	
 	return super.onContextItemSelected(item);
     }
 
@@ -104,8 +105,10 @@ public class QaCommentsFragment extends SherlockListFragment implements LoaderCa
 
     @Override
     public void onLoadFinished(Loader<ArrayList<CommentsData>> loader, ArrayList<CommentsData> data) {
-	comments.addAll(data);
-	adapter.notifyDataSetChanged();
+	if (comments.isEmpty()) {
+	    comments.addAll(data);
+	    adapter.notifyDataSetChanged();
+	}
 
 	if (getSherlockActivity() != null)
 	    getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
