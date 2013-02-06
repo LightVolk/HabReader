@@ -23,7 +23,9 @@ import net.meiolania.apps.habrahabr.fragments.posts.loader.PostShowLoader;
 import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
 import net.meiolania.apps.habrahabr.utils.HabrWebClient;
 import net.meiolania.apps.habrahabr.utils.IntentUtils;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
@@ -94,6 +96,7 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
 	return loader;
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void onLoadFinished(Loader<PostsFullData> loader, PostsFullData data) {
 	if (getSherlockActivity() != null) {
@@ -106,7 +109,12 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
 
 	    content.setWebViewClient(new HabrWebClient(getSherlockActivity()));
 	    content.getSettings().setSupportZoom(true);
-	    content.getSettings().setBuiltInZoomControls(prefs.getPostsZoom());
+	    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+		content.getSettings().setBuiltInZoomControls(true);
+		content.getSettings().setDisplayZoomControls(prefs.getPostsZoom());
+	    } else
+		content.getSettings().setBuiltInZoomControls(prefs.getPostsZoom());
+
 	    content.getSettings().setJavaScriptEnabled(true);
 	    content.setInitialScale(Preferences.getInstance(getSherlockActivity()).getViewScale(getSherlockActivity()));
 	    content.getSettings().setDefaultZoom(ZoomDensity.FAR);
@@ -135,12 +143,18 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
 	    progressDialog.dismiss();
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void onResume() {
 	super.onResume();
 	content = (WebView) getSherlockActivity().findViewById(R.id.post_content);
 	prefs = Preferences.getInstance(getSherlockActivity());
-	content.getSettings().setBuiltInZoomControls(prefs.getPostsZoom());
+
+	if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+	    content.getSettings().setBuiltInZoomControls(true);
+	    content.getSettings().setDisplayZoomControls(prefs.getPostsZoom());
+	} else
+	    content.getSettings().setBuiltInZoomControls(prefs.getPostsZoom());
     }
 
 }
