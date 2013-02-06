@@ -13,7 +13,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">15dp</item>
         <item name="android:layout_marginBottom">10dp</item>
-        <item name="android:background">@drawable/data_fields</item>
+        <item name="android:background">@drawable/text_info_background</item>
     </style>
 
     <style name="Widget.HabReader.ActionBar.TabBar" parent="Widget.Sherlock.ActionBar.TabBar">
