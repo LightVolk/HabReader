@@ -87,16 +87,23 @@ public class UsersShowFragment extends SherlockFragment implements LoaderCallbac
 
 	    /* Karma */
 	    TextView karma = (TextView) activity.findViewById(R.id.karma);
-	    karma.setText(getString(R.string.karma_count_s, data.getKarma()));
+	    if (data.getKarma().length() > 0)
+		karma.setText(getString(R.string.karma_count_s, data.getKarma()));
+	    else
+		karma.setVisibility(View.GONE);
 
 	    /* Rating */
 	    TextView rating = (TextView) activity.findViewById(R.id.rating);
-	    rating.setText(getString(R.string.rating_count_s, data.getRating()));
+	    if (data.getRating().length() > 0)
+		rating.setText(getString(R.string.rating_count_s, data.getRating()));
+	    else
+		rating.setVisibility(View.GONE);
 
 	    /* Birthday */
 	    TextView birthday = (TextView) activity.findViewById(R.id.birthday);
-	    birthday.setText(data.getBirthday());
-	    if (data.getBirthday().length() <= 0)
+	    if (data.getBirthday().length() > 0)
+		birthday.setText(data.getBirthday());
+	    else
 		birthday.setVisibility(View.GONE);
 
 	    /* Interests */

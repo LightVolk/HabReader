@@ -113,7 +113,6 @@ public class CompaniesShowFragment extends SherlockFragment implements LoaderCal
 
     private void showProgressDialog() {
 	progressDialog = new ProgressDialog(getSherlockActivity());
-	progressDialog.setTitle(R.string.loading);
 	progressDialog.setMessage(getString(R.string.loading_company));
 	progressDialog.setCancelable(true);
 	progressDialog.show();

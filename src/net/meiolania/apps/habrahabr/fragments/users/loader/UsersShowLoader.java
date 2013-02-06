@@ -56,9 +56,9 @@ public class UsersShowLoader extends AsyncTaskLoader<UsersFullData> {
 	    Element interests = document.select("dl.interests > dd").first();
 
 	    data.setAvatar(avatar.attr("src"));
-	    data.setKarma(karma.text());
+	    data.setKarma(karma != null ? karma.text() : "");
 	    data.setUsername(username.text());
-	    data.setRating(rating.text());
+	    data.setRating(rating != null ? rating.text() : "");
 	    data.setBirthday(birthday != null ? birthday.text() : "");
 	    data.setFullname(fullname != null ? fullname.text() : "");
 	    data.setSummary(summary != null ? summary.html() : "");
