@@ -5,35 +5,57 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:orientation="vertical"
-        android:padding="10dp" >
+        android:padding="15dp" >
 
         <TextView
-            android:id="@+id/event_title"
-            style="@style/DataFields"
-            android:textSize="17sp"
-            android:textStyle="bold" />
+            android:id="@+id/event_location_divider"
+            style="@style/HabReader.Theme.Light.Users.Divider"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/location_event" />
 
         <TextView
             android:id="@+id/event_location"
-            style="@style/DataFields" />
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+        
+        <TextView
+            android:id="@+id/event_date_divider"
+            style="@style/HabReader.Theme.Light.Users.Divider"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/date_event" />
 
         <TextView
             android:id="@+id/event_date"
-            style="@style/DataFields" />
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+        
+        <TextView
+            android:id="@+id/event_pay_divider"
+            style="@style/HabReader.Theme.Light.Users.Divider"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/pay" />
 
         <TextView
             android:id="@+id/event_pay"
-            style="@style/DataFields" />
-
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+        
         <TextView
-            android:id="@+id/event_site"
-            style="@style/DataFields" />
+            android:id="@+id/event_description_divider"
+            style="@style/HabReader.Theme.Light.Users.Divider"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/description" />
 
         <TextView
             android:id="@+id/event_description"
-            style="@style/DataFields" />
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </ScrollView>

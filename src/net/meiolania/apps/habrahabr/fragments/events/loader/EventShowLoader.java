@@ -56,29 +56,29 @@ public class EventShowLoader extends AsyncTaskLoader<EventFullData> {
 	    int i = 0;
 	    for (Element info : additionalInfo) {
 		switch (i) {
-		case INFO_LOCATION:
-		    location = info;
-		    break;
-		case INFO_DATE:
-		    date = info;
-		    break;
-		case INFO_PAY:
-		    pay = info;
-		    break;
-		case INFO_SITE:
-		    site = info;
-		    break;
+		    case INFO_LOCATION:
+			location = info;
+			break;
+		    case INFO_DATE:
+			date = info;
+			break;
+		    case INFO_PAY:
+			pay = info;
+			break;
+		    case INFO_SITE:
+			site = info;
+			break;
 		}
 		i++;
 	    }
 
 	    event.setTitle(title.text());
 	    event.setUrl(url);
-	    event.setDate(date.text());
-	    event.setText(description.html());
-	    event.setPay(pay.text());
-	    event.setLocation(location.text());
-	    event.setSite(site.text());
+	    event.setDate(date != null ? date.text() : "");
+	    event.setText(description != null ? description.html() : "");
+	    event.setPay(pay != null ? pay.text() : "");
+	    event.setLocation(location != null ? location.text() : "");
+	    event.setSite(site != null ? site.text() : "");
 	} catch (IOException e) {
 	}
 

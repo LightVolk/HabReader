@@ -22,11 +22,12 @@ import net.meiolania.apps.habrahabr.fragments.events.loader.EventShowLoader;
 import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
 import net.meiolania.apps.habrahabr.utils.IntentUtils;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.text.Html;
-import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +44,8 @@ public class EventsShowFragment extends SherlockFragment implements LoaderCallba
     public final static int LOADER_EVENT = 0;
     public final static String URL_ARGUMENT = "url";
     private String url;
-    private EventFullData event;
+    private String eventUrl;
+    private String title;
     private ProgressDialog progressDialog;
 
     @Override
@@ -74,9 +76,14 @@ public class EventsShowFragment extends SherlockFragment implements LoaderCallba
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 	switch (item.getItemId()) {
-	case R.id.share:
-	    IntentUtils.createShareIntent(getSherlockActivity(), event.getTitle(), url);
-	    break;
+	    case R.id.go_to_event_website:
+		Uri uri = Uri.parse(eventUrl);
+		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+		startActivity(intent);
+		return true;
+	    case R.id.share:
+		IntentUtils.createShareIntent(getSherlockActivity(), title, url);
+		return true;
 	}
 	return super.onOptionsItemSelected(item);
     }
@@ -99,28 +106,53 @@ public class EventsShowFragment extends SherlockFragment implements LoaderCallba
 	    ActionBar actionBar = activity.getSupportActionBar();
 	    actionBar.setTitle(data.getTitle());
 
-	    TextView title = (TextView) activity.findViewById(R.id.event_title);
-	    title.setText(data.getTitle());
+	    title = data.getTitle();
+	    eventUrl = data.getSite();
 
+	    /* Location */
+	    TextView locationDivider = (TextView) activity.findViewById(R.id.event_location_divider);
 	    TextView location = (TextView) activity.findViewById(R.id.event_location);
-	    location.setText(data.getLocation());
 
+	    if (data.getLocation().length() > 0)
+		location.setText(data.getLocation());
+	    else {
+		locationDivider.setVisibility(View.GONE);
+		location.setVisibility(View.GONE);
+	    }
+
+	    /* Date */
+	    TextView dateDivider = (TextView) activity.findViewById(R.id.event_date_divider);
 	    TextView date = (TextView) activity.findViewById(R.id.event_date);
-	    date.setText(data.getDate());
 
+	    if (data.getDate().length() > 0)
+		date.setText(data.getDate());
+	    else {
+		dateDivider.setVisibility(View.GONE);
+		date.setVisibility(View.GONE);
+	    }
+
+	    /* Pay */
+	    TextView payDivider = (TextView) activity.findViewById(R.id.event_pay_divider);
 	    TextView pay = (TextView) activity.findViewById(R.id.event_pay);
-	    pay.setText(data.getPay());
 
-	    TextView site = (TextView) activity.findViewById(R.id.event_site);
-	    site.setText(data.getSite());
-	    Linkify.addLinks(site, Linkify.ALL);
+	    if (data.getPay().length() > 0)
+		pay.setText(data.getPay());
+	    else {
+		payDivider.setVisibility(View.GONE);
+		pay.setVisibility(View.GONE);
+	    }
 
-	    // TODO: need more work, can't click on links.
+	    /* Description */
+	    TextView descriptionDivider = (TextView) activity.findViewById(R.id.event_description_divider);
 	    TextView description = (TextView) activity.findViewById(R.id.event_description);
-	    description.setText(Html.fromHtml(data.getText()));
-	}
 
-	event = data;
+	    if (data.getText().length() > 0)
+		description.setText(Html.fromHtml(data.getText()));
+	    else {
+		descriptionDivider.setVisibility(View.GONE);
+		description.setVisibility(View.GONE);
+	    }
+	}
 
 	hideProgressDialog();
     }

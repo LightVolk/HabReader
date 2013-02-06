@@ -2,6 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 	
     <item
+        android:id="@+id/go_to_event_website"
+        android:icon="@drawable/ic_go_to_website"
+        android:showAsAction="always"
+        android:title="@string/go_to_event_website" />
+    
+    <item
         android:id="@+id/share"
         android:icon="@drawable/ic_share"
         android:showAsAction="always"

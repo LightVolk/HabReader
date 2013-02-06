@@ -66,6 +66,11 @@
 	<string name="current">Текущие</string>
 	<string name="past">Прошедшие</string>
 	<string name="loading_event">Загрузка события</string>
+	<string name="go_to_event_website">Перейти на сайт мероприятия</string>
+	<string name="location_event">Место проведения</string>
+	<string name="date_event">Время проведения</string>
+	<string name="pay">Стоимость участия</string>
+	<string name="description">Описание</string>
 	
 	<!-- Companies -->
 	<string name="loading_company">Загрузка данных о компании</string>
