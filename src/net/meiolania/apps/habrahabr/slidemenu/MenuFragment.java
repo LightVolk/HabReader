@@ -31,7 +31,6 @@ import net.meiolania.apps.habrahabr.fragments.posts.PostsMainFragment;
 import net.meiolania.apps.habrahabr.fragments.qa.QaMainFragment;
 import net.meiolania.apps.habrahabr.fragments.users.UsersFragment;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -129,10 +128,6 @@ public class MenuFragment extends SherlockListFragment {
 	if (getSherlockActivity() instanceof MainActivity) {
 	    MainActivity fca = (MainActivity) getSherlockActivity();
 	    fca.switchContent(fragment, contentType);
-	} else {
-	    Intent intent = new Intent(getSherlockActivity(), MainActivity.class);
-	    intent.putExtra(MainActivity.CONTENT_EXTRAS, contentType.ordinal());
-	    startActivity(intent);
 	}
     }
 

@@ -40,20 +40,18 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 public class MainActivity extends AbstractionFragmentActivity {
-    public static final String CONTENT_EXTRAS = "content";
     private Fragment content;
     private MenuFragment.ItemType contentType;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
+	
+	getSlidingMenu().setSlidingEnabled(true);
 
 	int currentSection = -1;
 	if (savedInstanceState != null)
 	    currentSection = savedInstanceState.getInt("currentSection");
-
-	if (getIntent().getExtras() != null)
-	    currentSection = getIntent().getExtras().getInt(CONTENT_EXTRAS);
 
 	// @TODO: think of something new.
 	switch (currentSection) {

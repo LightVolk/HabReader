@@ -65,6 +65,7 @@ public abstract class AbstractionFragmentActivity extends SlidingFragmentActivit
 	slidingMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
 	slidingMenu.setShadowDrawable(R.drawable.shadow);
 	slidingMenu.setShadowWidth(30);
+	slidingMenu.setSlidingEnabled(false);
 
 	// No connection dialog
 	// @TODO: rewrite
