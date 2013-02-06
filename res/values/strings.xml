@@ -111,6 +111,8 @@
 	<string name="share_text_default_preferences">$link$ - $title$ \#HabReader</string>
 	<string name="posts_full_info_preferences">Отображать краткий текст поста</string>
 	<string name="posts_full_info_summary_preferences">Отображать краткий текст поста при просмотре списка постов</string>
+	<string name="posts_zoom_summary_preferences">Кнопки масштаба при просмотре поста</string>
+	<string name="posts_zoom_preferences">Масштабирование</string>
 
 	<string name="saved_user_scale">UserScale</string>
 </resources>

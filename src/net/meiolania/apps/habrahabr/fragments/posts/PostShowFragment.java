@@ -45,6 +45,8 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
     private String url;
     private ProgressDialog progressDialog;
     private PostsFullData data;
+    private Preferences prefs;
+    private WebView content;
     private static final String STYLESHEET = "<link rel=\"stylesheet\" type=\"text/css\" href=\"file:///android_asset/style.css\" />";
 
     @Override
@@ -98,11 +100,13 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
 	    ActionBar actionBar = getSherlockActivity().getSupportActionBar();
 	    actionBar.setTitle(data.getTitle());
 
-	    WebView content = (WebView) getSherlockActivity().findViewById(R.id.post_content);
+	    content = (WebView) getSherlockActivity().findViewById(R.id.post_content);
+
+	    prefs = Preferences.getInstance(getSherlockActivity());
 
 	    content.setWebViewClient(new HabrWebClient(getSherlockActivity()));
 	    content.getSettings().setSupportZoom(true);
-	    content.getSettings().setBuiltInZoomControls(true);
+	    content.getSettings().setBuiltInZoomControls(prefs.getPostsZoom());
 	    content.getSettings().setJavaScriptEnabled(true);
 	    content.setInitialScale(Preferences.getInstance(getSherlockActivity()).getViewScale(getSherlockActivity()));
 	    content.getSettings().setDefaultZoom(ZoomDensity.FAR);
@@ -129,6 +133,14 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
     private void hideProgressDialog() {
 	if (progressDialog != null)
 	    progressDialog.dismiss();
+    }
+
+    @Override
+    public void onResume() {
+	super.onResume();
+	content = (WebView) getSherlockActivity().findViewById(R.id.post_content);
+	prefs = Preferences.getInstance(getSherlockActivity());
+	content.getSettings().setBuiltInZoomControls(prefs.getPostsZoom());
     }
 
 }

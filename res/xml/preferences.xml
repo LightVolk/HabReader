@@ -34,6 +34,11 @@
             android:key="posts_full_info"
             android:summary="@string/posts_full_info_summary_preferences"
             android:title="@string/posts_full_info_preferences" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="posts_zoom"
+            android:summary="@string/posts_zoom_summary_preferences"
+            android:title="@string/posts_zoom_preferences" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/qa" >
         <ListPreference

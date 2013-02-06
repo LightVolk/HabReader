@@ -52,10 +52,10 @@ public abstract class AbstractionFragmentActivity extends SlidingFragmentActivit
 	getSupportActionBar().setHomeButtonEnabled(true);
 	getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	setSupportProgressBarIndeterminateVisibility(false);
-	
+
 	// Slide menu
 	setContentView(R.layout.empty_for_slidemenu);
-	
+
 	setBehindContentView(R.layout.slide_menu);
 	getSupportFragmentManager().beginTransaction().replace(R.id.slide_menu, new MenuFragment()).commit();
 
@@ -63,7 +63,9 @@ public abstract class AbstractionFragmentActivity extends SlidingFragmentActivit
 	slidingMenu.setMode(SlidingMenu.LEFT);
 	slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 	slidingMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
-	
+	slidingMenu.setShadowDrawable(R.drawable.shadow);
+	slidingMenu.setShadowWidth(30);
+
 	// No connection dialog
 	// @TODO: rewrite
 	if (!ConnectionUtils.isConnected(this)) {
@@ -90,7 +92,7 @@ public abstract class AbstractionFragmentActivity extends SlidingFragmentActivit
 	else
 	    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
-    
+
     private void initFullscreen() {
 	if (Preferences.getInstance(this).getFullScreen())
 	    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -108,17 +110,17 @@ public abstract class AbstractionFragmentActivity extends SlidingFragmentActivit
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 	switch (item.getItemId()) {
-	    case android.R.id.home:
-		finish();
-		return true;
-	    case R.id.preferences:
-		startActivity(new Intent(this, PreferencesActivity.class));
-		return true;
-	    case R.id.more_applications:
-		Uri uri = Uri.parse(DEVELOPER_PLAY_LINK);
-		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-		startActivity(intent);
-		return true;
+	case android.R.id.home:
+	    finish();
+	    return true;
+	case R.id.preferences:
+	    startActivity(new Intent(this, PreferencesActivity.class));
+	    return true;
+	case R.id.more_applications:
+	    Uri uri = Uri.parse(DEVELOPER_PLAY_LINK);
+	    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+	    startActivity(intent);
+	    return true;
 	}
 	return super.onOptionsItemSelected(item);
     }

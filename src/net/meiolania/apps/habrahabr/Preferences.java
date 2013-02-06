@@ -72,6 +72,9 @@ public final class Preferences {
     // Posts full info
     public static final String POSTS_FULL_INFO = "posts_full_info";
     public static final boolean POSTS_FULL_INFO_DEFAULT = false;
+    
+    public static final String POSTS_ZOOM = "posts_zoom";
+    public static final boolean POSTS_ZOOM_DEFAULT = true;
 
     private static Preferences preferences = null;
     private static SharedPreferences sharedPreferences;
@@ -131,6 +134,10 @@ public final class Preferences {
     public boolean getPostsFullInfo() {
 	return sharedPreferences.getBoolean(POSTS_FULL_INFO, POSTS_FULL_INFO_DEFAULT);
     }
+    
+    public boolean getPostsZoom() {
+	return sharedPreferences.getBoolean(POSTS_ZOOM, POSTS_ZOOM_DEFAULT);
+    }
 
     public void setViewScale(Context context, float scale) {
 	SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -144,7 +151,7 @@ public final class Preferences {
     }
 
     /*
-     * @TODO: need to think about security
+     * TODO: need to think about security
      */
 
     public String getLogin() {
