@@ -62,47 +62,49 @@ public class CompaniesShowLoader extends AsyncTaskLoader<CompanyFullData> {
 	    company.setCompanyName(companyname.text().replace(" / Хабрахабр", ""));
 
 	    int i = 0;
+	    Element temp;
 	    for (Element data : datas) {
 		switch (i) {
-		case INFO_DATE:
-		    company.setDate(data.getElementsByTag("dd").first().text());
-		    break;
-		case INFO_SITE:
-		    company.setCompanyUrl(data.getElementsByTag("dd").first().text());
-		    break;
-		case INFO_INDUSTRIES:
-		    company.setIndustries(data.getElementsByTag("dd").first().text());
-		    break;
-		case INFO_LOCATION:
-		    company.setLocation(data.getElementsByTag("dd").first().text());
-		    break;
-		case INFO_QUANTITY:
-		    company.setQuantity(data.getElementsByTag("dd").first().text());
-		    break;
-		case INFO_SUMMARY:
-		    company.setSummary(data.select("dd.summary").first().html());
-		    break;
-		case INFO_MANAGEMENT:
+		    case INFO_DATE:
+			temp = data.getElementsByTag("dd").first();
+			company.setDate(temp != null ? temp.text() : "");
+			break;
+		    case INFO_SITE:
+			temp = data.getElementsByTag("dd").first();
+			company.setCompanyUrl(temp != null ? temp.text() : "");
+			break;
+		    case INFO_INDUSTRIES:
+			temp = data.getElementsByTag("dd").first();
+			company.setIndustries(temp != null ? temp.text() : "");
+			break;
+		    case INFO_LOCATION:
+			temp = data.getElementsByTag("dd").first();
+			company.setLocation(temp != null ? temp.text() : "");
+			break;
+		    case INFO_QUANTITY:
+			temp = data.getElementsByTag("dd").first();
+			company.setQuantity(temp != null ? temp.text() : "");
+			break;
+		    case INFO_SUMMARY:
+			temp = data.getElementsByTag("dd").first();
+			company.setSummary(temp != null ? temp.text() : "");
+			break;
+		    case INFO_MANAGEMENT:
+			Elements managers = data.getElementsByTag("dd");
+			StringBuilder managerContent = new StringBuilder();
 
-		    // TODO: think of a new algorithm
-		    Elements managers = data.getElementsByTag("dd");
-		    StringBuilder managerContent = new StringBuilder();
+			for (Element manager : managers)
+			    managerContent.append(manager.html());
+			company.setManagement(managerContent.toString());
+			break;
+		    case INFO_DEVELOPMENT_STAGES:
+			Elements stages = data.getElementsByTag("dd");
+			StringBuilder stagesContent = new StringBuilder();
 
-		    for (Element manager : managers)
-			managerContent.append(manager.html());
-		    company.setManagement(managerContent.toString());
-
-		    break;
-		case INFO_DEVELOPMENT_STAGES:
-
-		    Elements stages = data.getElementsByTag("dd");
-		    StringBuilder stagesContent = new StringBuilder();
-
-		    for (Element stage : stages)
-			stagesContent.append(stage.html());
-		    company.setDevelopmentStages(stagesContent.toString());
-
-		    break;
+			for (Element stage : stages)
+			    stagesContent.append(stage.html());
+			company.setDevelopmentStages(stagesContent.toString());
+			break;
 		}
 		i++;
 	    }

@@ -5,41 +5,82 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:orientation="vertical"
-        android:padding="10dp" >
-
+        android:padding="15dp" >
+        
         <TextView
-            android:id="@+id/company_date"
-            style="@style/DataFields" />
-
-        <TextView
-            android:id="@+id/company_site"
-            style="@style/DataFields" />
-
+            style="@style/HabReader.Theme.Light.Users.Divider"
+            android:id="@+id/company_industries_divider"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/industries" />
+        
         <TextView
             android:id="@+id/company_industries"
-            style="@style/DataFields" />
-
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+        
+        <TextView
+            style="@style/HabReader.Theme.Light.Users.Divider"
+            android:id="@+id/company_location_divider"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/location" />
+        
         <TextView
             android:id="@+id/company_location"
-            style="@style/DataFields" />
-
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+        
+        <TextView
+            style="@style/HabReader.Theme.Light.Users.Divider"
+            android:id="@+id/company_quantity_divider"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/quantity" />
+        
         <TextView
             android:id="@+id/company_quantity"
-            style="@style/DataFields" />
-
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+        
+        <TextView
+            style="@style/HabReader.Theme.Light.Users.Divider"
+            android:id="@+id/company_summary_divider"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/company_summary" />
+        
         <WebView
             android:id="@+id/company_summary"
-            style="@style/DataFields" />
-
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+        
+        <TextView
+            style="@style/HabReader.Theme.Light.Users.Divider"
+            android:id="@+id/company_management_divider"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/management" />
+        
         <WebView
             android:id="@+id/company_management"
-            style="@style/DataFields" />
-
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+        
+        <TextView
+            style="@style/HabReader.Theme.Light.Users.Divider"
+            android:id="@+id/company_development_stages_divider"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/development_stages" />
+        
         <WebView
             android:id="@+id/company_development_stages"
-            style="@style/DataFields" />
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+        
     </LinearLayout>
 
 </ScrollView>

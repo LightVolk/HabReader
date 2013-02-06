@@ -69,6 +69,13 @@
 	
 	<!-- Companies -->
 	<string name="loading_company">Загрузка данных о компании</string>
+	<string name="go_to_company_website">Перейти на сайт компании</string>
+	<string name="industries">Отрасли</string>
+	<string name="location">Местоположение</string>
+	<string name="quantity">Численность</string>
+	<string name="company_summary">О компании</string>
+	<string name="management">Руководство</string>
+	<string name="development_stages">Этапы развития</string>
 	
 	<!-- People -->
 	<string name="loading_profile_info">Загрузка профиля</string>

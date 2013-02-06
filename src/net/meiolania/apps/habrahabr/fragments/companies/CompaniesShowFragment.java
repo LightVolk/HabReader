@@ -21,6 +21,8 @@ import net.meiolania.apps.habrahabr.data.CompanyFullData;
 import net.meiolania.apps.habrahabr.fragments.companies.loader.CompaniesShowLoader;
 import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
@@ -33,12 +35,23 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 
 public class CompaniesShowFragment extends SherlockFragment implements LoaderCallbacks<CompanyFullData> {
     public final static String URL_ARGUMENT = "url";
     public final static int LOADER_COMPANY = 0;
     private String url;
     private ProgressDialog progressDialog;
+    private String companyUrl;
+    
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -58,6 +71,25 @@ public class CompaniesShowFragment extends SherlockFragment implements LoaderCal
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+	super.onCreateOptionsMenu(menu, inflater);
+
+	inflater.inflate(R.menu.companies_show_fragment, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+	switch (item.getItemId()) {
+	    case R.id.go_to_website:
+		Uri uri = Uri.parse(companyUrl);
+		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+		startActivity(intent);
+		return true;
+	}
+	return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public Loader<CompanyFullData> onCreateLoader(int id, Bundle args) {
 	showProgressDialog();
 
@@ -74,33 +106,76 @@ public class CompaniesShowFragment extends SherlockFragment implements LoaderCal
 	if (activity != null) {
 	    ActionBar actionBar = activity.getSupportActionBar();
 	    actionBar.setTitle(data.getCompanyName());
-	    
-	    TextView date = (TextView) activity.findViewById(R.id.company_date);
-	    date.setText(data.getDate());
+	    actionBar.setSubtitle(data.getDate());
 
-	    TextView site = (TextView) activity.findViewById(R.id.company_site);
-	    site.setText(data.getCompanyUrl());
+	    /* Company website */
+	    companyUrl = data.getCompanyUrl();
 
+	    /* Industries */
+	    TextView industriesDivider = (TextView) activity.findViewById(R.id.company_industries_divider);
 	    TextView industries = (TextView) activity.findViewById(R.id.company_industries);
-	    industries.setText(data.getIndustries());
 
+	    if (data.getIndustries().length() > 0)
+		industries.setText(data.getIndustries());
+	    else {
+		industriesDivider.setVisibility(View.GONE);
+		industries.setVisibility(View.GONE);
+	    }
+
+	    /* Location */
+	    TextView locationDivider = (TextView) activity.findViewById(R.id.company_location_divider);
 	    TextView location = (TextView) activity.findViewById(R.id.company_location);
-	    location.setText(data.getLocation());
 
+	    if (data.getLocation().length() > 0)
+		location.setText(data.getLocation());
+	    else {
+		locationDivider.setVisibility(View.GONE);
+		location.setVisibility(View.GONE);
+	    }
+
+	    /* Quantity */
+	    TextView quantityDivider = (TextView) activity.findViewById(R.id.company_quantity_divider);
 	    TextView quantity = (TextView) activity.findViewById(R.id.company_quantity);
-	    quantity.setText(data.getQuantity());
 
+	    if (data.getQuantity().length() > 0)
+		quantity.setText(data.getQuantity());
+	    else {
+		quantityDivider.setVisibility(View.GONE);
+		quantity.setVisibility(View.GONE);
+	    }
+
+	    /* Summary */
+	    TextView summaryDivider = (TextView) activity.findViewById(R.id.company_summary_divider);
 	    WebView summary = (WebView) activity.findViewById(R.id.company_summary);
-	    summary.getSettings().setSupportZoom(true);
-	    summary.loadDataWithBaseURL("", data.getSummary(), "text/html", "UTF-8", null);
 
+	    if (data.getSummary().length() > 0)
+		summary.loadDataWithBaseURL("", data.getSummary(), "text/html", "UTF-8", null);
+	    else {
+		summaryDivider.setVisibility(View.GONE);
+		summary.setVisibility(View.GONE);
+	    }
+
+	    /* Management */
+	    TextView managementDivider = (TextView) activity.findViewById(R.id.company_management_divider);
 	    WebView management = (WebView) activity.findViewById(R.id.company_management);
-	    management.getSettings().setSupportZoom(true);
-	    management.loadDataWithBaseURL("", data.getManagement(), "text/html", "UTF-8", null);
 
+	    if (data.getManagement().length() > 0)
+		management.loadDataWithBaseURL("", data.getManagement(), "text/html", "UTF-8", null);
+	    else {
+		managementDivider.setVisibility(View.GONE);
+		management.setVisibility(View.GONE);
+	    }
+
+	    /* Development stages */
+	    TextView developmentStagesDivider = (TextView) activity.findViewById(R.id.company_development_stages_divider);
 	    WebView developmentStages = (WebView) activity.findViewById(R.id.company_development_stages);
-	    developmentStages.getSettings().setSupportZoom(true);
-	    developmentStages.loadDataWithBaseURL("", data.getDevelopmentStages(), "text/html", "UTF-8", null);
+
+	    if (data.getDevelopmentStages().length() > 0)
+		developmentStages.loadDataWithBaseURL("", data.getDevelopmentStages(), "text/html", "UTF-8", null);
+	    else {
+		developmentStagesDivider.setVisibility(View.GONE);
+		developmentStages.setVisibility(View.GONE);
+	    }
 	}
 
 	hideProgressDialog();
