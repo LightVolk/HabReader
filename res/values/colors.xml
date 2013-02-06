@@ -15,5 +15,6 @@
     <color name="rating_positive">#339900</color>
     <color name="user_karma">#66cc66</color>
     <color name="user_rating">#cc66cc</color>
+    <color name="users_divider">#80a1b0</color>
     
 </resources>

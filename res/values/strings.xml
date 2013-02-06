@@ -74,6 +74,11 @@
 	<string name="loading_profile_info">Загрузка профиля</string>
 	<string name="people_search">Поиск пользователей</string>
 	<string name="karma_count">Карма %d</string>
+	<string name="base_info">Основная информация</string>
+	<string name="interests">Интересы</string>
+	<string name="summary">О себе</string>
+	<string name="karma_count_s">Карма %s</string>
+	<string name="rating_count_s">Рейтинг %s</string>
 	
 	<!-- Preferences -->
 	<string name="base_preferences">Основные настройки</string>

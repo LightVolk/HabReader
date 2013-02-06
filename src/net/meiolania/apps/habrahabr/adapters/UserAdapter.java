@@ -65,7 +65,7 @@ public class UserAdapter extends BaseAdapter {
 	View view = convertView;
 	if (view == null) {
 	    LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	    view = layoutInflater.inflate(R.layout.people_list_row, null);
+	    view = layoutInflater.inflate(R.layout.users_list_row, null);
 	}
 
 	TextView title = (TextView) view.findViewById(R.id.people_title);

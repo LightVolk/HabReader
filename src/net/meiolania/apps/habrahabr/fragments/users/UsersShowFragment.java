@@ -55,7 +55,7 @@ public class UsersShowFragment extends SherlockFragment implements LoaderCallbac
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-	return inflater.inflate(R.layout.people_show_activity, container, false);
+	return inflater.inflate(R.layout.users_show_activity, container, false);
     }
 
     @Override
@@ -76,37 +76,48 @@ public class UsersShowFragment extends SherlockFragment implements LoaderCallbac
 	    ActionBar actionBar = activity.getSupportActionBar();
 	    actionBar.setTitle(data.getUsername());
 
+	    /* Show avatar */
 	    ImageView avatar = (ImageView) activity.findViewById(R.id.avatar);
 	    ImageLoader imageLoader = ImageLoader.getInstance();
 	    imageLoader.init(ImageLoaderConfiguration.createDefault(getSherlockActivity()));
 	    imageLoader.displayImage(data.getAvatar(), avatar);
 
-	    TextView fullname = (TextView) activity.findViewById(R.id.fullname);
-	    fullname.setText(data.getFullname());
-	    if (data.getFullname().length() <= 0)
-		fullname.setVisibility(View.GONE);
+	    if (data.getFullname().length() > 0)
+		actionBar.setSubtitle(data.getFullname());
 
+	    /* Karma */
 	    TextView karma = (TextView) activity.findViewById(R.id.karma);
-	    karma.setText(data.getKarma());
+	    karma.setText(getString(R.string.karma_count_s, data.getKarma()));
 
+	    /* Rating */
 	    TextView rating = (TextView) activity.findViewById(R.id.rating);
-	    rating.setText(data.getRating());
+	    rating.setText(getString(R.string.rating_count_s, data.getRating()));
 
+	    /* Birthday */
 	    TextView birthday = (TextView) activity.findViewById(R.id.birthday);
 	    birthday.setText(data.getBirthday());
 	    if (data.getBirthday().length() <= 0)
 		birthday.setVisibility(View.GONE);
 
+	    /* Interests */
+	    TextView interestsDivider = (TextView) activity.findViewById(R.id.interests_divider);
 	    TextView interests = (TextView) activity.findViewById(R.id.interests);
-	    interests.setText(data.getInterests());
-	    if (data.getInterests().length() <= 0)
-		interests.setVisibility(View.GONE);
 
-	    // TODO: need more work, can't click on links. Awful formatting.
+	    if (data.getInterests().length() <= 0) {
+		interestsDivider.setVisibility(View.GONE);
+		interests.setVisibility(View.GONE);
+	    } else
+		interests.setText(data.getInterests());
+
+	    /* Summary */
+	    TextView summaryDivider = (TextView) activity.findViewById(R.id.summary_divider);
 	    TextView summary = (TextView) activity.findViewById(R.id.summary);
-	    summary.setText(Html.fromHtml(data.getSummary()));
-	    if (data.getSummary().length() <= 0)
+
+	    if (data.getSummary().length() <= 0) {
+		summaryDivider.setVisibility(View.GONE);
 		summary.setVisibility(View.GONE);
+	    } else
+		summary.setText(Html.fromHtml(data.getSummary()));
 	}
 
 	hideProgressDialog();
@@ -119,7 +130,6 @@ public class UsersShowFragment extends SherlockFragment implements LoaderCallbac
 
     private void showProgressDialog() {
 	progressDialog = new ProgressDialog(getSherlockActivity());
-	progressDialog.setTitle(R.string.loading);
 	progressDialog.setMessage(getString(R.string.loading_profile_info));
 	progressDialog.setCancelable(true);
 	progressDialog.show();
