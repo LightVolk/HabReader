@@ -40,7 +40,7 @@ public class User {
 	phpsessid = preferences.getPHPSessionId();
 	hsecid = preferences.getHSecId();
 
-	// TOOD: think more about this?
+	// TODO: think more about this?
 	if (login != null && phpsessid != null && hsecid != null)
 	    isLogged = true;
 	else

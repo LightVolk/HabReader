@@ -38,7 +38,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:textColor="@color/list_post_hubs"
+                android:textColor="@color/list_hubs"
                 android:textSize="@dimen/text_size_small" />
         </LinearLayout>
     </LinearLayout>

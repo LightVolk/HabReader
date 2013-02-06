@@ -26,7 +26,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class QaAdapter extends BaseAdapter {
@@ -71,7 +71,7 @@ public class QaAdapter extends BaseAdapter {
 	TextView date = (TextView) view.findViewById(R.id.qa_date);
 	TextView answers = (TextView) view.findViewById(R.id.qa_answers);
 
-	LinearLayout qaInfo = (LinearLayout) view.findViewById(R.id.qa_info);
+	RelativeLayout qaInfo = (RelativeLayout) view.findViewById(R.id.qa_info);
 
 	if (additionalLayout) {
 	    hubs.setText(data.getHubs());
