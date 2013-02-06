@@ -8,17 +8,6 @@
         <item name="android:actionBarTabBarStyle">@style/Widget.HabReader.ActionBar.TabBar</item>
     </style>
 
-    <style name="DashboardButton">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center_horizontal</item>
-        <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:background">@drawable/db_buttons</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">@dimen/dashboard_buttons</item>
-        <item name="android:textColor">@color/black</item>
-    </style>
-
     <style name="DataFields">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -32,8 +21,7 @@
     </style>
 
     <style name="Widget.HabReader.ActionBar.TabText" parent="Widget.Sherlock.ActionBar.TabText">
-        <item name="android:maxLength">13</item>
-        <item name="android:textSize">11sp</item>
+        <item name="android:textSize">10sp</item>
         <item name="android:maxLines">1</item>
     </style>
 

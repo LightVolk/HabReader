@@ -64,9 +64,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:drawableLeft="@drawable/vote_up"
+                android:drawableLeft="@drawable/ic_vote_up"
                 android:drawablePadding="3dp"
-                android:drawableRight="@drawable/vote_down"
+                android:drawableRight="@drawable/ic_vote_down"
                 android:textSize="@dimen/text_size_small" />
 
             <TextView

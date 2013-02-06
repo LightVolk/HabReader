@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.activities.MainActivity;
 import net.meiolania.apps.habrahabr.auth.AuthFragment;
-import net.meiolania.apps.habrahabr.auth.SignOutFragment;
 import net.meiolania.apps.habrahabr.auth.User;
 import net.meiolania.apps.habrahabr.fragments.companies.CompaniesFragment;
 import net.meiolania.apps.habrahabr.fragments.events.EventsMainFragment;
@@ -50,7 +49,7 @@ public class MenuFragment extends SherlockListFragment {
     private MenuAdapter menuAdapter;
 
     public enum ItemType {
-	AUTH, PROFILE, SIGN_OUT, FEED, FAVORITES, POSTS, HUBS, QA, EVENTS, COMPANIES, USERS
+	AUTH, PROFILE, FEED, FAVORITES, POSTS, HUBS, QA, EVENTS, COMPANIES, USERS
     };
 
     @Override
@@ -60,21 +59,20 @@ public class MenuFragment extends SherlockListFragment {
 	menu = new ArrayList<MenuData>();
 
 	if (!User.getInstance().isLogged())
-	    menu.add(new MenuData(R.string.auth, R.drawable.ic_menu_user, ItemType.AUTH, false));
+	    menu.add(new MenuData(R.string.auth, R.drawable.ic_users, ItemType.AUTH, false));
 	else {
 	    menu.add(new MenuData(User.getInstance().getLogin(), 0, ItemType.PROFILE, true));
-	    menu.add(new MenuData(R.string.feed, R.drawable.ic_menu_posts, ItemType.FEED, false));
-	    menu.add(new MenuData(R.string.favorites, R.drawable.ic_menu_posts, ItemType.FAVORITES, false));
-	    menu.add(new MenuData(R.string.sign_out, R.drawable.ic_menu_user, ItemType.SIGN_OUT, false));
+	    menu.add(new MenuData(R.string.feed, R.drawable.ic_feed, ItemType.FEED, false));
+	    menu.add(new MenuData(R.string.favorites, R.drawable.ic_favorites, ItemType.FAVORITES, false));
 	}
 
 	menu.add(new MenuData(R.string.sections, 0, null, true));
-	menu.add(new MenuData(R.string.posts, R.drawable.ic_menu_posts, ItemType.POSTS, false));
-	menu.add(new MenuData(R.string.hubs, R.drawable.ic_menu_hubs, ItemType.HUBS, false));
-	menu.add(new MenuData(R.string.qa, R.drawable.ic_menu_qa, ItemType.QA, false));
-	menu.add(new MenuData(R.string.events, R.drawable.ic_menu_events, ItemType.EVENTS, false));
-	menu.add(new MenuData(R.string.companies, R.drawable.ic_menu_companies, ItemType.COMPANIES, false));
-	menu.add(new MenuData(R.string.people, R.drawable.ic_menu_user, ItemType.USERS, false));
+	menu.add(new MenuData(R.string.posts, R.drawable.ic_posts, ItemType.POSTS, false));
+	menu.add(new MenuData(R.string.hubs, R.drawable.ic_hubs, ItemType.HUBS, false));
+	menu.add(new MenuData(R.string.qa, R.drawable.ic_qa, ItemType.QA, false));
+	menu.add(new MenuData(R.string.events, R.drawable.ic_events, ItemType.EVENTS, false));
+	menu.add(new MenuData(R.string.companies, R.drawable.ic_companies, ItemType.COMPANIES, false));
+	menu.add(new MenuData(R.string.people, R.drawable.ic_users, ItemType.USERS, false));
 
 	menuAdapter = new MenuAdapter(getSherlockActivity(), menu);
 	setListAdapter(menuAdapter);
@@ -94,9 +92,6 @@ public class MenuFragment extends SherlockListFragment {
 		break;
 	    case PROFILE:
 
-		break;
-	    case SIGN_OUT:
-		newContent = new SignOutFragment();
 		break;
 	    case FEED:
 		newContent = new FeedMainFragment();
@@ -134,8 +129,11 @@ public class MenuFragment extends SherlockListFragment {
 	if (getSherlockActivity() instanceof MainActivity) {
 	    MainActivity fca = (MainActivity) getSherlockActivity();
 	    fca.switchContent(fragment, contentType);
-	} else
-	    startActivity(new Intent(getSherlockActivity(), MainActivity.class));
+	} else {
+	    Intent intent = new Intent(getSherlockActivity(), MainActivity.class);
+	    intent.putExtra(MainActivity.CONTENT_EXTRAS, contentType.ordinal());
+	    startActivity(intent);
+	}
     }
 
     /* Helper classes */

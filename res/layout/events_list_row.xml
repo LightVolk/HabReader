@@ -33,16 +33,12 @@
             android:orientation="horizontal"
             android:weightSum="4" >
 
-            <!-- http://www.iconfinder.com/icondetails/6634/128/calendar_date_event_plan_icon -->
-
             <TextView
                 android:id="@+id/event_date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
-                android:drawableLeft="@drawable/calendar"
-                android:drawablePadding="2dp"
                 android:textSize="@dimen/text_size_small" />
 
             <TextView

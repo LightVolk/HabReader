@@ -17,6 +17,7 @@ limitations under the License.
 package net.meiolania.apps.habrahabr.activities;
 
 import net.meiolania.apps.habrahabr.AbstractionFragmentActivity;
+import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.auth.AuthFragment;
 import net.meiolania.apps.habrahabr.auth.SignOutFragment;
 import net.meiolania.apps.habrahabr.fragments.companies.CompaniesFragment;
@@ -34,9 +35,12 @@ import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 public class MainActivity extends AbstractionFragmentActivity {
+    public static final String CONTENT_EXTRAS = "content";
     private Fragment content;
     private MenuFragment.ItemType contentType;
 
@@ -44,55 +48,55 @@ public class MainActivity extends AbstractionFragmentActivity {
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 
-	if (savedInstanceState != null) {
-	    // @TODO: think of something new.
-	    int currentSection = savedInstanceState.getInt("currentSection");
-	    switch (currentSection) {
-		case 0:
-		    content = new AuthFragment();
-		    contentType = ItemType.AUTH;
-		    break;
-		case 1:
+	int currentSection = -1;
+	if (savedInstanceState != null)
+	    currentSection = savedInstanceState.getInt("currentSection");
 
-		    contentType = ItemType.PROFILE;
-		    break;
-		case 2:
-		    content = new SignOutFragment();
-		    contentType = ItemType.SIGN_OUT;
-		    break;
-		case 3:
-		    content = new FeedMainFragment();
-		    contentType = ItemType.FEED;
-		    break;
-		case 4:
-		    content = new FavoritesMainFragment();
-		    contentType = ItemType.FAVORITES;
-		    break;
-		case 5:
-		    content = new PostsMainFragment();
-		    contentType = ItemType.POSTS;
-		    break;
-		case 6:
-		    content = new HubsMainFragment();
-		    contentType = ItemType.HUBS;
-		    break;
-		case 7:
-		    content = new QaMainFragment();
-		    contentType = ItemType.QA;
-		    break;
-		case 8:
-		    content = new EventsMainFragment();
-		    contentType = ItemType.EVENTS;
-		    break;
-		case 9:
-		    content = new CompaniesFragment();
-		    contentType = ItemType.COMPANIES;
-		    break;
-		case 10:
-		    content = new UsersFragment();
-		    contentType = ItemType.USERS;
-		    break;
-	    }
+	if (getIntent().getExtras() != null)
+	    currentSection = getIntent().getExtras().getInt(CONTENT_EXTRAS);
+
+	// @TODO: think of something new.
+	switch (currentSection) {
+	    case 0:
+		content = new AuthFragment();
+		contentType = ItemType.AUTH;
+		break;
+	    case 1:
+
+		contentType = ItemType.PROFILE;
+		break;
+	    case 2:
+		content = new FeedMainFragment();
+		contentType = ItemType.FEED;
+		break;
+	    case 3:
+		content = new FavoritesMainFragment();
+		contentType = ItemType.FAVORITES;
+		break;
+	    case 4:
+		content = new PostsMainFragment();
+		contentType = ItemType.POSTS;
+		break;
+	    case 5:
+		content = new HubsMainFragment();
+		contentType = ItemType.HUBS;
+		break;
+	    case 6:
+		content = new QaMainFragment();
+		contentType = ItemType.QA;
+		break;
+	    case 7:
+		content = new EventsMainFragment();
+		contentType = ItemType.EVENTS;
+		break;
+	    case 8:
+		content = new CompaniesFragment();
+		contentType = ItemType.COMPANIES;
+		break;
+	    case 9:
+		content = new UsersFragment();
+		contentType = ItemType.USERS;
+		break;
 	}
 
 	if (content == null) {
@@ -118,12 +122,25 @@ public class MainActivity extends AbstractionFragmentActivity {
 
 	toggle();
     }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+	super.onCreateOptionsMenu(menu);
+	
+	MenuInflater menuInflater = getSupportMenuInflater();
+	menuInflater.inflate(R.menu.main_activity, menu);
+	
+        return true;
+    }
 
     @Override
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
 	switch (item.getItemId()) {
 	    case android.R.id.home:
 		toggle();
+		return true;
+	    case R.id.sign_out:
+		switchContent(new SignOutFragment(), null);
 		return true;
 	}
 	return super.onMenuItemSelected(featureId, item);
