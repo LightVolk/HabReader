@@ -1,58 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    android:layout_margin="10dp"
+    android:background="@drawable/list_row_background"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+    <TextView
+        android:id="@+id/qa_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:textSize="@dimen/title_in_list" />
+
+    <TextView
+        android:id="@+id/qa_hubs"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:textSize="@dimen/text_size_small" />
 
     <LinearLayout
+        android:id="@+id/qa_info"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_margin="10dp"
-        android:background="@drawable/list_row"
-        android:orientation="vertical"
-        android:padding="10dp" >
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="8" >
 
         <TextView
-            android:id="@+id/qa_title"
-            android:layout_width="fill_parent"
+            android:id="@+id/qa_date"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:textSize="@dimen/title_in_list" />
-
-        <TextView
-            android:id="@+id/qa_hubs"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
+            android:layout_weight="3"
             android:textSize="@dimen/text_size_small" />
 
-        <LinearLayout
-            android:id="@+id/qa_info"
-            android:layout_width="fill_parent"
+        <TextView
+            android:id="@+id/qa_author"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="8" >
+            android:layout_weight="2"
+            android:textSize="@dimen/text_size_small" />
 
-            <TextView
-                android:id="@+id/qa_date"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:textSize="@dimen/text_size_small" />
-
-            <TextView
-                android:id="@+id/qa_author"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:textSize="@dimen/text_size_small" />
-
-            <TextView
-                android:id="@+id/qa_answers"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:textSize="@dimen/text_size_small" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/qa_answers"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:textSize="@dimen/text_size_small" />
     </LinearLayout>
 
 </LinearLayout>
