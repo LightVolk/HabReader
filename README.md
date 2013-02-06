@@ -23,13 +23,6 @@ Libraries
 - [jsoup](https://github.com/jhy/jsoup)
 
 
-Icons
-======
-
-- [HabraPack](https://github.com/Incwadra/HabraPack)
-- [VisualPharm](http://www.visualpharm.com/must_have_icon_set/)
-
-
 License
 ========
 
