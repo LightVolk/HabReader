@@ -5,7 +5,6 @@ import com.actionbarsherlock.app.SherlockDialogFragment;
 import net.meiolania.apps.habrahabr.R;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,15 +26,13 @@ public class CommentDialogFragment extends SherlockDialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 	View v = inflater.inflate(R.layout.fragment_comment, container);
 
-	TextView commentBody = (TextView) getSherlockActivity().findViewById(R.id.comment_body);
-	commentBody.setText(comment);
+	TextView commentBody = (TextView) v.findViewById(R.id.comment_body);
+	commentBody.setText(Html.fromHtml(comment));
 	return v;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
-	
-	Log.w("COMMENT", comment);
     }
 }
