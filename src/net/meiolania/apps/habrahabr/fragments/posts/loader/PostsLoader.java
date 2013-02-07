@@ -85,8 +85,8 @@ public class PostsLoader extends AsyncTaskLoader<ArrayList<PostsData>> {
 
 		if (postsFullInfo) {
 		    Element postText = post.select("div.content").first();
+		    Element image = postText.select("img").first(); // must be before next line
 		    postText.select("img").remove();
-		    Element image = postText.select("img").first();
 		    
 		    postsData.setText(postText.html());
 		    postsData.setImage(image != null ? image.attr("abs:src") : "");
