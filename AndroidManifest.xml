@@ -35,7 +35,7 @@
         <!-- Posts -->
         <activity
             android:name=".activities.PostsShowActivity"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -58,7 +58,7 @@
         <!-- Q&A -->
         <activity
             android:name=".activities.QaShowActivity"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -77,7 +77,7 @@
         <!-- Events -->
         <activity
             android:name=".activities.EventsShowActivity"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -95,7 +95,7 @@
         <!-- Companies -->
         <activity
             android:name=".activities.CompaniesShowActivity"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -113,7 +113,7 @@
         <!-- Users -->
         <activity
             android:name=".activities.UsersShowActivity"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
