@@ -37,8 +37,7 @@ public class QaAdapter extends BaseAdapter {
 	this.context = context;
 	this.questions = questions;
 
-	Preferences preferences = Preferences.getInstance(context);
-	this.additionalLayout = preferences.getAdditionalQa();
+	this.additionalLayout = Preferences.getInstance(context).getAdditionalQa();
     }
 
     public int getCount() {

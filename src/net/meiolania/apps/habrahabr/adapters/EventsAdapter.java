@@ -26,7 +26,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class EventsAdapter extends BaseAdapter {
@@ -38,8 +37,7 @@ public class EventsAdapter extends BaseAdapter {
 	this.context = context;
 	this.events = events;
 
-	Preferences preferences = Preferences.getInstance(context);
-	this.additionalLayout = preferences.getAdditionalEvents();
+	additionalLayout = Preferences.getInstance(context).getAdditionalEvents();
     }
 
     public int getCount() {
@@ -57,31 +55,37 @@ public class EventsAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 	EventsData data = getItem(position);
 
-	View view = convertView;
-	if (view == null) {
-	    LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	    view = layoutInflater.inflate(R.layout.events_list_row, null);
-	}
-
-	TextView title = (TextView) view.findViewById(R.id.event_title);
-	title.setText(data.getTitle());
-
-	TextView text = (TextView) view.findViewById(R.id.event_text);
-	TextView date = (TextView) view.findViewById(R.id.event_date);
-	TextView hubs = (TextView) view.findViewById(R.id.event_hubs);
-
-	LinearLayout info = (LinearLayout) view.findViewById(R.id.event_info);
-
 	if (additionalLayout) {
+	    View view = convertView;
+	    if (view == null) {
+		LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		view = layoutInflater.inflate(R.layout.events_list_row, null);
+	    }
+
+	    TextView title = (TextView) view.findViewById(R.id.event_title);
+	    title.setText(data.getTitle());
+
+	    TextView text = (TextView) view.findViewById(R.id.event_text);
+	    TextView date = (TextView) view.findViewById(R.id.event_date);
+	    TextView hubs = (TextView) view.findViewById(R.id.event_hubs);
+	    
 	    text.setText(data.getText());
 	    date.setText(data.getDate());
 	    hubs.setText(data.getHubs());
-	} else {
-	    text.setVisibility(View.GONE);
-	    info.setVisibility(View.GONE);
-	}
 
-	return view;
+	    return view;
+	} else {
+	    View view = convertView;
+	    if (view == null) {
+		LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		view = layoutInflater.inflate(R.layout.events_list_row_simple, null);
+	    }
+	    
+	    TextView title = (TextView) view.findViewById(R.id.event_title);
+	    title.setText(data.getTitle());
+	    
+	    return view;
+	}
     }
 
 }

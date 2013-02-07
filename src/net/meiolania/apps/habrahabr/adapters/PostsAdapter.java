@@ -48,13 +48,13 @@ public class PostsAdapter extends BaseAdapter {
 	this.posts = posts;
 
 	Preferences preferences = Preferences.getInstance(context);
-	this.additionalLayout = preferences.getAdditionalPosts();
-	this.postsFullInfo = preferences.getPostsFullInfo();
+	additionalLayout = preferences.getAdditionalPosts();
+	postsFullInfo = preferences.getPostsFullInfo();
 
 	DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory().cacheOnDisc().build();
 	ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(context).memoryCacheSize(3000000)
 		.maxImageWidthForMemoryCache(200).discCacheSize(50000000).httpReadTimeout(5000).defaultDisplayImageOptions(options).build();
-	this.imageLoader.init(configuration);
+	imageLoader.init(configuration);
     }
 
     @Override
