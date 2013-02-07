@@ -59,25 +59,35 @@ public class CompaniesAdapter extends BaseAdapter {
 	return position;
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View view, ViewGroup parent) {
 	CompaniesData data = getItem(position);
 
-	View view = convertView;
+	ViewHolder viewHolder;
 	if (view == null) {
 	    LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	    view = layoutInflater.inflate(R.layout.companies_list_row, null);
-	}
+	    
+	    viewHolder = new ViewHolder();
+	    
+	    viewHolder.title = (TextView) view.findViewById(R.id.company_title);
+	    viewHolder.icon = (ImageView) view.findViewById(R.id.company_icon);
+	    viewHolder.index = (TextView) view.findViewById(R.id.company_index);
+	    
+	    view.setTag(viewHolder);
+	} else
+	    viewHolder = (ViewHolder) view.getTag();
 
-	TextView title = (TextView) view.findViewById(R.id.company_title);
-	title.setText(data.getTitle());
-
-	ImageView icon = (ImageView) view.findViewById(R.id.company_icon);
-	imageLoader.displayImage(data.getIcon(), icon);
-
-	TextView index = (TextView) view.findViewById(R.id.company_index);
-	index.setText(String.format(context.getString(R.string.habraindex), data.getIndex()));
+	viewHolder.title.setText(data.getTitle());
+	imageLoader.displayImage(data.getIcon(), viewHolder.icon);
+	viewHolder.index.setText(String.format(context.getString(R.string.habraindex), data.getIndex()));
 
 	return view;
+    }
+    
+    static class ViewHolder {
+	TextView title;
+	ImageView icon;
+	TextView index;
     }
 
 }

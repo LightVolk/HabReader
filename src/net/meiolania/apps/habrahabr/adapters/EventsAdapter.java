@@ -52,40 +52,57 @@ public class EventsAdapter extends BaseAdapter {
 	return position;
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View view, ViewGroup parent) {
 	EventsData data = getItem(position);
 
 	if (additionalLayout) {
-	    View view = convertView;
+	    ViewHolder viewHolder;
 	    if (view == null) {
 		LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		view = layoutInflater.inflate(R.layout.events_list_row, null);
-	    }
 
-	    TextView title = (TextView) view.findViewById(R.id.event_title);
-	    title.setText(data.getTitle());
+		viewHolder = new ViewHolder();
 
-	    TextView text = (TextView) view.findViewById(R.id.event_text);
-	    TextView date = (TextView) view.findViewById(R.id.event_date);
-	    TextView hubs = (TextView) view.findViewById(R.id.event_hubs);
-	    
-	    text.setText(data.getText());
-	    date.setText(data.getDate());
-	    hubs.setText(data.getHubs());
+		viewHolder.title = (TextView) view.findViewById(R.id.event_title);
+		viewHolder.text = (TextView) view.findViewById(R.id.event_text);
+		viewHolder.date = (TextView) view.findViewById(R.id.event_date);
+		viewHolder.hubs = (TextView) view.findViewById(R.id.event_hubs);
+
+		view.setTag(viewHolder);
+	    } else
+		viewHolder = (ViewHolder) view.getTag();
+
+	    viewHolder.title.setText(data.getTitle());
+	    viewHolder.text.setText(data.getText());
+	    viewHolder.date.setText(data.getDate());
+	    viewHolder.hubs.setText(data.getHubs());
 
 	    return view;
 	} else {
-	    View view = convertView;
+	    ViewHolder viewHolder;
 	    if (view == null) {
 		LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		view = layoutInflater.inflate(R.layout.events_list_row_simple, null);
-	    }
-	    
-	    TextView title = (TextView) view.findViewById(R.id.event_title);
-	    title.setText(data.getTitle());
-	    
+
+		viewHolder = new ViewHolder();
+
+		viewHolder.title = (TextView) view.findViewById(R.id.event_title);
+
+		view.setTag(viewHolder);
+	    } else
+		viewHolder = (ViewHolder) view.getTag();
+
+	    viewHolder.title.setText(data.getTitle());
+
 	    return view;
 	}
+    }
+
+    static class ViewHolder {
+	TextView title;
+	TextView text;
+	TextView date;
+	TextView hubs;
     }
 
 }
