@@ -25,12 +25,15 @@ import net.meiolania.apps.habrahabr.fragments.posts.loader.PostCommentsLoader;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 import com.actionbarsherlock.app.SherlockListFragment;
@@ -40,6 +43,8 @@ public class PostsCommentsFragment extends SherlockListFragment implements Loade
     public final static int MENU_OPEN_COMMENT_IN_BROWSER = 0;
     public final static int MENU_OPEN_AUTHOR_PROFILE = 1;
     public final static String URL_ARGUMENT = "url";
+    public final static String EXTRA_COMMENT_AUTHOR = null;
+    public final static String EXTRA_COMMENT_BODY = "comment";
     private ArrayList<CommentsData> comments;
     private CommentsAdapter adapter;
     private String url;
@@ -91,6 +96,21 @@ public class PostsCommentsFragment extends SherlockListFragment implements Loade
 	}
 
 	return super.onContextItemSelected(item);
+    }
+    
+    @Override
+    public void onListItemClick(ListView list, View view, int position, long id) {
+	CommentsData data = (CommentsData) getListAdapter().getItem(position);
+
+	FragmentTransaction ft = getFragmentManager().beginTransaction();
+	
+	CommentDialogFragment dFragment = new CommentDialogFragment();
+
+	Bundle arguments = new Bundle();
+	arguments.putString(EXTRA_COMMENT_BODY, data.getComment());
+
+	dFragment.setArguments(arguments);
+        dFragment.show(ft, "dialog");
     }
 
     @Override
