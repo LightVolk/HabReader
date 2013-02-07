@@ -23,6 +23,7 @@ import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.data.PostsData;
 import net.meiolania.apps.habrahabr.utils.UIUtils;
 import android.content.Context;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -101,7 +102,7 @@ public class PostsAdapter extends BaseAdapter {
 	    } else
 		image.setVisibility(View.GONE);
 
-	    text.setText(data.getText());
+	    text.setText(Html.fromHtml(data.getText()));
 	} else {
 	    image.setVisibility(View.GONE);
 	    text.setVisibility(View.GONE);

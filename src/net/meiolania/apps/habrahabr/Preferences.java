@@ -73,6 +73,8 @@ public final class Preferences {
     public static final String POSTS_FULL_INFO = "posts_full_info";
     public static final boolean POSTS_FULL_INFO_DEFAULT = false;
     
+    
+    // Zoom buttons in post view
     public static final String POSTS_ZOOM = "posts_zoom";
     public static final boolean POSTS_ZOOM_DEFAULT = true;
 

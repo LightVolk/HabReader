@@ -91,10 +91,12 @@ public class PostsData {
         return image;
     }
 
+    /** Text before {@code</habracut>} */
     public void setText(String text) {
         this.text = text;
     }
 
+    /** @return text before {@code</habracut>} */
     public String getText() {
         return text;
     }
