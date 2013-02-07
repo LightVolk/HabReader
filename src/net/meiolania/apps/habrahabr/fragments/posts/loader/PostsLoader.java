@@ -36,6 +36,7 @@ public class PostsLoader extends AsyncTaskLoader<ArrayList<PostsData>> {
     public final static String TAG = PostsLoader.class.getName();
     private String url;
     private boolean postsFullInfo = false;
+    private boolean additionalLayout = false;
     private static int page;
 
     public PostsLoader(Context context, String url) {
@@ -43,7 +44,8 @@ public class PostsLoader extends AsyncTaskLoader<ArrayList<PostsData>> {
 
 	this.url = url;
 
-	this.postsFullInfo = Preferences.getInstance(context).getPostsFullInfo();
+	additionalLayout = Preferences.getInstance(context).getAdditionalPosts();
+	postsFullInfo = Preferences.getInstance(context).getPostsFullInfo();
     }
 
     public static void setPage(int page) {
@@ -58,15 +60,13 @@ public class PostsLoader extends AsyncTaskLoader<ArrayList<PostsData>> {
 	    String readyUrl = url.replace("%page%", String.valueOf(page));
 
 	    Log.i(TAG, "Loading a page: " + readyUrl);
-	    
+
 	    Document document;
-	    if(!User.getInstance().isLogged())
+	    if (!User.getInstance().isLogged())
 		document = Jsoup.connect(readyUrl).get();
 	    else
-		document = Jsoup.connect(readyUrl)
-				.cookie(User.PHPSESSION_ID, User.getInstance().getPhpsessid())
-				.cookie(User.HSEC_ID, User.getInstance().getHsecid())
-				.get();
+		document = Jsoup.connect(readyUrl).cookie(User.PHPSESSION_ID, User.getInstance().getPhpsessid())
+			.cookie(User.HSEC_ID, User.getInstance().getHsecid()).get();
 
 	    Elements posts = document.select("div.post");
 
@@ -74,31 +74,34 @@ public class PostsLoader extends AsyncTaskLoader<ArrayList<PostsData>> {
 		PostsData postsData = new PostsData();
 
 		Element postTitle = post.select("a.post_title").first();
-		Element hubs = post.select("div.hubs").first();
-		Element date = post.select("div.published").first();
-		Element author = post.select("div.author > a").first();
-		Element comments = post.select("div.comments > span.all").first();
-		
-		Element score = post.select("a.score").first();
-		if(score == null)
-		    score = post.select("span.score").first();
-
-		if (postsFullInfo) {
-		    Element postText = post.select("div.content").first();
-		    Element image = postText.select("img").first(); // must be before next line
-		    postText.select("img").remove();
-		    
-		    postsData.setText(postText.html());
-		    postsData.setImage(image != null ? image.attr("abs:src") : "");
-		}
-
 		postsData.setTitle(postTitle.text());
 		postsData.setUrl(postTitle.attr("abs:href"));
-		postsData.setHubs(hubs.text());
-		postsData.setDate(date.text());
-		postsData.setAuthor(author != null ? author.text() : "");
-		postsData.setComments(comments != null ? comments.text() : "0");
-		postsData.setScore(score.text());
+
+		if (additionalLayout) {
+		    Element hubs = post.select("div.hubs").first();
+		    Element date = post.select("div.published").first();
+		    Element author = post.select("div.author > a").first();
+		    Element comments = post.select("div.comments > span.all").first();
+
+		    Element score = post.select("a.score").first();
+		    if (score == null)
+			score = post.select("span.score").first();
+
+		    if (postsFullInfo) {
+			Element postText = post.select("div.content").first();
+			Element image = postText.select("img").first();
+			postText.select("img").remove();
+
+			postsData.setText(postText.html());
+			postsData.setImage(image != null ? image.attr("abs:src") : "");
+		    }
+
+		    postsData.setHubs(hubs.text());
+		    postsData.setDate(date.text());
+		    postsData.setAuthor(author != null ? author.text() : "");
+		    postsData.setComments(comments != null ? comments.text() : "0");
+		    postsData.setScore(score.text());
+		}
 
 		data.add(postsData);
 	    }

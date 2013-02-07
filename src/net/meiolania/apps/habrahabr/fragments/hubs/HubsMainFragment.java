@@ -17,17 +17,26 @@ limitations under the License.
 package net.meiolania.apps.habrahabr.fragments.hubs;
 
 import net.meiolania.apps.habrahabr.R;
+import net.meiolania.apps.habrahabr.activities.HubsSearchActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 
 public class HubsMainFragment extends SherlockFragment implements OnNavigationListener {
     public final static int LIST_ALL_HUBS = 0;
@@ -47,15 +56,42 @@ public class HubsMainFragment extends SherlockFragment implements OnNavigationLi
     public final static int LIST_OTHERS = 14;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        
+        setHasOptionsMenu(true);
+    }
+    
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
 
 	showActionBar();
     }
-    
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.hubs_fragment, container, false);
+	return inflater.inflate(R.layout.hubs_fragment, container, false);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        
+        inflater.inflate(R.menu.hubs_fragment, menu);
+
+	final EditText searchQuery = (EditText) menu.findItem(R.id.search).getActionView().findViewById(R.id.search_query);
+	searchQuery.setOnEditorActionListener(new OnEditorActionListener() {
+	    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+		if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+		    Intent intent = new Intent(getSherlockActivity(), HubsSearchActivity.class);
+		    intent.putExtra(HubsSearchActivity.EXTRA_QUERY, searchQuery.getText().toString());
+		    startActivity(intent);
+		    return true;
+		}
+		return false;
+	    }
+	});
     }
 
     private void showActionBar() {
@@ -128,10 +164,10 @@ public class HubsMainFragment extends SherlockFragment implements OnNavigationLi
 	}
 
 	fragment.setArguments(arguments);
-	
+
 	ft.replace(R.id.hubs_fragment, fragment);
 	ft.commit();
-	
+
 	return false;
     }
 }

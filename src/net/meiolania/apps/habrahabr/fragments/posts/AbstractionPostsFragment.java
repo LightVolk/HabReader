@@ -18,6 +18,7 @@ package net.meiolania.apps.habrahabr.fragments.posts;
 
 import java.util.ArrayList;
 
+import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.activities.PostsSearchActivity;
 import net.meiolania.apps.habrahabr.activities.PostsShowActivity;
@@ -71,8 +72,10 @@ public abstract class AbstractionPostsFragment extends SherlockListFragment impl
 	setListAdapter(adapter);
 	setListShown(true);
 
-	getListView().setDivider(null);
-	getListView().setDividerHeight(0);
+	if (Preferences.getInstance(getSherlockActivity()).getAdditionalPosts()) {
+	    getListView().setDivider(null);
+	    getListView().setDividerHeight(0);
+	}
 
 	getListView().setOnScrollListener(this);
     }

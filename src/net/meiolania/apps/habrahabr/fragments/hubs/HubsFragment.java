@@ -19,7 +19,6 @@ package net.meiolania.apps.habrahabr.fragments.hubs;
 import java.util.ArrayList;
 
 import net.meiolania.apps.habrahabr.R;
-import net.meiolania.apps.habrahabr.activities.HubsSearchActivity;
 import net.meiolania.apps.habrahabr.activities.HubsShowActivity;
 import net.meiolania.apps.habrahabr.adapters.HubsAdapter;
 import net.meiolania.apps.habrahabr.data.HubsData;
@@ -29,20 +28,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 
 public class HubsFragment extends SherlockListFragment implements OnScrollListener, LoaderCallbacks<ArrayList<HubsData>> {
     public final static int LOADER_HUBS = 0;
@@ -58,8 +50,6 @@ public class HubsFragment extends SherlockListFragment implements OnScrollListen
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
 
-	setHasOptionsMenu(true);
-
 	if (getArguments() != null)
 	    url = getArguments().getString(URL_ARGUMENT);
 	else
@@ -74,26 +64,6 @@ public class HubsFragment extends SherlockListFragment implements OnScrollListen
 	setListShown(true);
 
 	getListView().setOnScrollListener(this);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-	inflater.inflate(R.menu.hubs_fragment, menu);
-
-	final EditText searchQuery = (EditText) menu.findItem(R.id.search).getActionView().findViewById(R.id.search_query);
-	searchQuery.setOnEditorActionListener(new OnEditorActionListener() {
-	    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-		if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-		    Intent intent = new Intent(getSherlockActivity(), HubsSearchActivity.class);
-		    intent.putExtra(HubsSearchActivity.EXTRA_QUERY, searchQuery.getText().toString());
-		    startActivity(intent);
-		    return true;
-		}
-		return false;
-	    }
-	});
-
-	super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

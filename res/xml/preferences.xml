@@ -33,7 +33,8 @@
             android:defaultValue="false"
             android:key="posts_full_info"
             android:summary="@string/posts_full_info_summary_preferences"
-            android:title="@string/posts_full_info_preferences" />
+            android:title="@string/posts_full_info_preferences"
+            android:dependency="posts_additional_layout" />
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="posts_zoom"
