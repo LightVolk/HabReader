@@ -109,7 +109,7 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
 
 	    content.setWebViewClient(new HabrWebClient(getSherlockActivity()));
 	    content.getSettings().setSupportZoom(true);
-	    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+	    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 		content.getSettings().setBuiltInZoomControls(true);
 		content.getSettings().setDisplayZoomControls(prefs.getPostsZoom());
 	    } else
@@ -150,7 +150,7 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
 	content = (WebView) getSherlockActivity().findViewById(R.id.post_content);
 	prefs = Preferences.getInstance(getSherlockActivity());
 
-	if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 	    content.getSettings().setBuiltInZoomControls(true);
 	    content.getSettings().setDisplayZoomControls(prefs.getPostsZoom());
 	} else
