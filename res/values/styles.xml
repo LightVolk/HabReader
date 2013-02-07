@@ -15,7 +15,7 @@
         <item name="android:layout_marginBottom">10dp</item>
         <item name="android:background">@drawable/text_info_background</item>
     </style>
-    
+
     <style name="HabReader.Theme.Light.InfoContainer">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -23,7 +23,7 @@
         <item name="android:layout_marginBottom">10dp</item>
         <item name="android:background">@drawable/text_info_background</item>
     </style>
-    
+
     <style name="HabReader.Theme.Light.Users.Divider" parent="android:Widget.Holo.Light.TextView">
         <item name="android:drawableBottom">@drawable/users_divider</item>
         <item name="android:drawablePadding">4dp</item>
