@@ -4,17 +4,16 @@
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
     <color name="comment_author">#666666</color>
-    <color name="data_fields_background">#d7d7d7</color>
     <color name="list_author_name">#d80057</color>
     <color name="list_date">#7e7e7e</color>
     <color name="list_hubs">#999999</color>
-    <color name="list_row_stroke">#e6e6fa</color>
-    <color name="list_row_solid">#ffffff</color>
-    <color name="listview_background">#ffffff</color>
     <color name="rating_negative">#cc0000</color>
     <color name="rating_positive">#339900</color>
     <color name="user_karma">#66cc66</color>
     <color name="user_rating">#cc66cc</color>
     <color name="users_divider">#80a1b0</color>
+    <color name="simple_list_row_selected">#33B5E5</color>
+    <color name="simple_list_row_focused">#33B5E5</color>
+    <color name="simple_list_row">#ffffff</color>
     
 </resources>

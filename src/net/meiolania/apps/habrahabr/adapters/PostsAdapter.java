@@ -30,7 +30,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -77,38 +76,36 @@ public class PostsAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 	PostsData data = getItem(position);
 
-	View view = convertView;
-	if (view == null) {
-	    LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	    view = layoutInflater.inflate(R.layout.posts_list_row, null);
-	}
-
-	TextView title = (TextView) view.findViewById(R.id.post_title);
-	title.setText(data.getTitle());
-
-	TextView hubs = (TextView) view.findViewById(R.id.post_hubs);
-	TextView author = (TextView) view.findViewById(R.id.post_author);
-	TextView date = (TextView) view.findViewById(R.id.post_date);
-	TextView score = (TextView) view.findViewById(R.id.post_score);
-	ImageView image = (ImageView) view.findViewById(R.id.post_image);
-	TextView text = (TextView) view.findViewById(R.id.post_text);
-
-	RelativeLayout postInfo = (RelativeLayout) view.findViewById(R.id.post_info);
-
-	if (postsFullInfo) {
-	    if (!TextUtils.isEmpty(data.getImage())) {
-		image.setVisibility(View.VISIBLE);
-		imageLoader.displayImage(data.getImage(), image);
-	    } else
-		image.setVisibility(View.GONE);
-
-	    text.setText(Html.fromHtml(data.getText()));
-	} else {
-	    image.setVisibility(View.GONE);
-	    text.setVisibility(View.GONE);
-	}
-
 	if (additionalLayout) {
+	    View view = convertView;
+	    if (view == null) {
+		LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		view = layoutInflater.inflate(R.layout.posts_list_row, null);
+	    }
+
+	    TextView title = (TextView) view.findViewById(R.id.post_title);
+	    title.setText(data.getTitle());
+
+	    TextView hubs = (TextView) view.findViewById(R.id.post_hubs);
+	    TextView author = (TextView) view.findViewById(R.id.post_author);
+	    TextView date = (TextView) view.findViewById(R.id.post_date);
+	    TextView score = (TextView) view.findViewById(R.id.post_score);
+	    ImageView image = (ImageView) view.findViewById(R.id.post_image);
+	    TextView text = (TextView) view.findViewById(R.id.post_text);
+
+	    if (postsFullInfo) {
+		if (!TextUtils.isEmpty(data.getImage())) {
+		    image.setVisibility(View.VISIBLE);
+		    imageLoader.displayImage(data.getImage(), image);
+		} else
+		    image.setVisibility(View.GONE);
+
+		text.setText(Html.fromHtml(data.getText()));
+	    } else {
+		image.setVisibility(View.GONE);
+		text.setVisibility(View.GONE);
+	    }
+
 	    hubs.setText(data.getHubs());
 	    author.setText(data.getAuthor());
 	    date.setText(data.getDate());
@@ -117,21 +114,28 @@ public class PostsAdapter extends BaseAdapter {
 	    if (rating != null) {
 		score.setVisibility(View.VISIBLE);
 
-		if (rating > 0) {
+		if (rating > 0)
 		    score.setTextColor(context.getResources().getColor(R.color.rating_positive));
-		} else if (rating < 0) {
+		else if (rating < 0)
 		    score.setTextColor(context.getResources().getColor(R.color.rating_negative));
-		} else {
+		else
 		    score.setTextColor(context.getResources().getColor(R.color.black));
-		}
 	    }
 	    score.setText(data.getScore());
-	} else {
-	    hubs.setVisibility(View.GONE);
-	    postInfo.setVisibility(View.GONE);
-	}
 
-	return view;
+	    return view;
+	} else {
+	    View view = convertView;
+	    if (view == null) {
+		LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		view = layoutInflater.inflate(R.layout.posts_list_row_simple, null);
+	    }
+
+	    TextView title = (TextView) view.findViewById(R.id.post_title);
+	    title.setText(data.getTitle());
+
+	    return view;
+	}
     }
 
 }

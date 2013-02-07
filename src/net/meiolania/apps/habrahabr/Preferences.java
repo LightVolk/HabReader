@@ -37,10 +37,6 @@ public final class Preferences {
     public final static String ADDITIONAL_LAYOUT_POSTS_KEY = "posts_additional_layout";
     public final static boolean ADDITIONAL_LAYOUT_POSTS_DEFAULT = true;
 
-    // Additional layout for hubs
-    public final static String ADDITIONAL_LAYOUT_HUBS_KEY = "hubs_additional_layout";
-    public final static boolean ADDITIONAL_LAYOUT_HUBS_DEFAULT = true;
-
     // Additional layout for Q&A
     public final static String ADDITIONAL_LAYOUT_QA_KEY = "qa_additional_layout";
     public final static boolean ADDITIONAL_LAYOUT_QA_DEFAULT = true;
@@ -72,7 +68,6 @@ public final class Preferences {
     // Posts full info
     public static final String POSTS_FULL_INFO = "posts_full_info";
     public static final boolean POSTS_FULL_INFO_DEFAULT = false;
-    
     
     // Zoom buttons in post view
     public static final String POSTS_ZOOM = "posts_zoom";
@@ -119,10 +114,6 @@ public final class Preferences {
 
     public boolean getAdditionalPosts() {
 	return sharedPreferences.getBoolean(ADDITIONAL_LAYOUT_POSTS_KEY, ADDITIONAL_LAYOUT_POSTS_DEFAULT);
-    }
-
-    public boolean getAdditionalHubs() {
-	return sharedPreferences.getBoolean(ADDITIONAL_LAYOUT_HUBS_KEY, ADDITIONAL_LAYOUT_HUBS_DEFAULT);
     }
 
     public boolean getAdditionalQa() {
