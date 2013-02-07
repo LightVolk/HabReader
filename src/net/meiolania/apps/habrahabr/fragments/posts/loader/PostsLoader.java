@@ -75,6 +75,7 @@ public class PostsLoader extends AsyncTaskLoader<ArrayList<PostsData>> {
 
 		Element postTitle = post.select("a.post_title").first();
 		postsData.setTitle(postTitle.text());
+		postsData.setUrl(postTitle.attr("abs:href"));
 
 		if (additionalLayout) {
 		    Element hubs = post.select("div.hubs").first();
@@ -95,7 +96,6 @@ public class PostsLoader extends AsyncTaskLoader<ArrayList<PostsData>> {
 			postsData.setImage(image != null ? image.attr("abs:src") : "");
 		    }
 
-		    postsData.setUrl(postTitle.attr("abs:href"));
 		    postsData.setHubs(hubs.text());
 		    postsData.setDate(date.text());
 		    postsData.setAuthor(author != null ? author.text() : "");

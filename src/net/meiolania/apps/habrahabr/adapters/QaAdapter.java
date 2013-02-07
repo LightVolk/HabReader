@@ -26,7 +26,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class QaAdapter extends BaseAdapter {
@@ -57,33 +56,39 @@ public class QaAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 	QaData data = getItem(position);
 
-	View view = convertView;
-	if (view == null) {
-	    LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	    view = layoutInflater.inflate(R.layout.qa_list_row, null);
-	}
-
-	TextView title = (TextView) view.findViewById(R.id.qa_title);
-	title.setText(data.getTitle());
-
-	TextView hubs = (TextView) view.findViewById(R.id.qa_hubs);
-	TextView author = (TextView) view.findViewById(R.id.qa_author);
-	TextView date = (TextView) view.findViewById(R.id.qa_date);
-	TextView answers = (TextView) view.findViewById(R.id.qa_answers);
-
-	RelativeLayout qaInfo = (RelativeLayout) view.findViewById(R.id.qa_info);
-
 	if (additionalLayout) {
+	    View view = convertView;
+	    if (view == null) {
+		LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		view = layoutInflater.inflate(R.layout.qa_list_row, null);
+	    }
+
+	    TextView title = (TextView) view.findViewById(R.id.qa_title);
+	    title.setText(data.getTitle());
+
+	    TextView hubs = (TextView) view.findViewById(R.id.qa_hubs);
+	    TextView author = (TextView) view.findViewById(R.id.qa_author);
+	    TextView date = (TextView) view.findViewById(R.id.qa_date);
+	    TextView answers = (TextView) view.findViewById(R.id.qa_answers);
+
 	    hubs.setText(data.getHubs());
 	    author.setText(data.getAuthor());
 	    date.setText(data.getDate());
 	    answers.setText(data.getAnswers());
-	} else {
-	    hubs.setVisibility(View.GONE);
-	    qaInfo.setVisibility(View.GONE);
-	}
 
-	return view;
+	    return view;
+	} else {
+	    View view = convertView;
+	    if (view == null) {
+		LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		view = layoutInflater.inflate(R.layout.qa_list_row_simple, null);
+	    }
+	    
+	    TextView title = (TextView) view.findViewById(R.id.qa_title);
+	    title.setText(data.getTitle());
+	    
+	    return view;
+	}
     }
 
 }
