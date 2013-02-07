@@ -20,6 +20,7 @@ import net.meiolania.apps.habrahabr.AbstractionFragmentActivity;
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.auth.AuthFragment;
 import net.meiolania.apps.habrahabr.auth.SignOutFragment;
+import net.meiolania.apps.habrahabr.auth.User;
 import net.meiolania.apps.habrahabr.fragments.companies.CompaniesFragment;
 import net.meiolania.apps.habrahabr.fragments.events.EventsMainFragment;
 import net.meiolania.apps.habrahabr.fragments.favorites.FavoritesMainFragment;
@@ -46,7 +47,7 @@ public class MainActivity extends AbstractionFragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
-	
+
 	getSlidingMenu().setSlidingEnabled(true);
 
 	int currentSection = -1;
@@ -120,15 +121,17 @@ public class MainActivity extends AbstractionFragmentActivity {
 
 	toggle();
     }
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 	super.onCreateOptionsMenu(menu);
-	
-	MenuInflater menuInflater = getSupportMenuInflater();
-	menuInflater.inflate(R.menu.main_activity, menu);
-	
-        return true;
+
+	if (User.getInstance().isLogged()) {
+	    MenuInflater menuInflater = getSupportMenuInflater();
+	    menuInflater.inflate(R.menu.main_activity, menu);
+	}
+
+	return true;
     }
 
     @Override
