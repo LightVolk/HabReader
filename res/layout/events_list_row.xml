@@ -2,48 +2,53 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:layout_margin="10dp"
-    android:background="@drawable/list_row_background"
-    android:orientation="vertical"
-    android:padding="10dp" >
-
-    <TextView
-        android:id="@+id/event_title"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:textSize="@dimen/title_in_list" />
-
-    <TextView
-        android:id="@+id/event_text"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:maxLines="3"
-        android:textSize="@dimen/text_size_small" />
+    android:padding="7dp" >
 
     <LinearLayout
-        android:id="@+id/event_info"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="4" >
+        android:layout_height="fill_parent"
+        android:background="@drawable/list_row_background"
+        android:orientation="vertical"
+        android:padding="10dp" >
 
         <TextView
-            android:id="@+id/event_date"
-            android:layout_width="0dp"
+            android:id="@+id/event_title"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:textSize="@dimen/text_size_small" />
+            android:layout_marginBottom="5dp"
+            android:textSize="@dimen/title_in_list" />
 
         <TextView
-            android:id="@+id/event_hubs"
-            android:layout_width="0dp"
+            android:id="@+id/event_text"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:textColor="@color/list_hubs"
+            android:layout_marginBottom="5dp"
+            android:maxLines="3"
             android:textSize="@dimen/text_size_small" />
+
+        <LinearLayout
+            android:id="@+id/event_info"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="4" >
+
+            <TextView
+                android:id="@+id/event_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:textSize="@dimen/text_size_small" />
+
+            <TextView
+                android:id="@+id/event_hubs"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:textColor="@color/list_hubs"
+                android:textSize="@dimen/text_size_small" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

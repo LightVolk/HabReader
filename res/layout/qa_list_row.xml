@@ -2,60 +2,65 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:layout_margin="10dp"
-    android:background="@drawable/list_row_background"
-    android:orientation="vertical"
-    android:padding="10dp" >
+    android:padding="7dp" >
 
-    <TextView
-        android:id="@+id/qa_title"
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:textSize="@dimen/title_in_list" />
-
-    <TextView
-        android:id="@+id/qa_hubs"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:textColor="@color/list_hubs"
-        android:textSize="@dimen/text_size_small" />
-
-    <RelativeLayout
-        android:id="@+id/qa_info"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="fill_horizontal" >
+        android:layout_height="fill_parent"
+        android:background="@drawable/list_row_background"
+        android:orientation="vertical"
+        android:padding="10dp" >
 
         <TextView
-            android:id="@+id/qa_answers"
-            android:layout_width="wrap_content"
+            android:id="@+id/qa_title"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/qa"
-            android:layout_alignParentLeft="true"
-            android:drawablePadding="3dp"
-            android:textSize="@dimen/text_size_small" />
+            android:layout_marginBottom="5dp"
+            android:textSize="@dimen/title_in_list" />
 
         <TextView
-            android:id="@+id/qa_date"
-            android:layout_width="wrap_content"
+            android:id="@+id/qa_hubs"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:textColor="@color/list_date"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/list_hubs"
             android:textSize="@dimen/text_size_small" />
 
-        <TextView
-            android:id="@+id/qa_author"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/qa_info"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_toRightOf="@id/post_date"
-            android:drawablePadding="3dp"
-            android:drawableRight="@drawable/user"
-            android:gravity="right"
-            android:textColor="@color/list_author_name"
-            android:textSize="@dimen/text_size_small" />
-    </RelativeLayout>
+            android:layout_gravity="fill_horizontal" >
+
+            <TextView
+                android:id="@+id/qa_answers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:drawableLeft="@drawable/qa"
+                android:drawablePadding="3dp"
+                android:textSize="@dimen/text_size_small" />
+
+            <TextView
+                android:id="@+id/qa_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@color/list_date"
+                android:textSize="@dimen/text_size_small" />
+
+            <TextView
+                android:id="@+id/qa_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@id/post_date"
+                android:drawablePadding="3dp"
+                android:drawableRight="@drawable/user"
+                android:gravity="right"
+                android:textColor="@color/list_author_name"
+                android:textSize="@dimen/text_size_small" />
+        </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>
