@@ -6,82 +6,87 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="15dp" >
-        
+
         <TextView
-            style="@style/HabReader.Theme.Light.Users.Divider"
             android:id="@+id/company_industries_divider"
+            style="@style/HabReader.Theme.Light.Users.Divider"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/industries" />
-        
+
         <TextView
             android:id="@+id/company_industries"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
-        
+
         <TextView
-            style="@style/HabReader.Theme.Light.Users.Divider"
             android:id="@+id/company_location_divider"
+            style="@style/HabReader.Theme.Light.Users.Divider"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/location" />
-        
+
         <TextView
             android:id="@+id/company_location"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
-        
+
         <TextView
-            style="@style/HabReader.Theme.Light.Users.Divider"
             android:id="@+id/company_quantity_divider"
+            style="@style/HabReader.Theme.Light.Users.Divider"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/quantity" />
-        
+
         <TextView
             android:id="@+id/company_quantity"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
-        
+
         <TextView
-            style="@style/HabReader.Theme.Light.Users.Divider"
             android:id="@+id/company_summary_divider"
+            style="@style/HabReader.Theme.Light.Users.Divider"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/company_summary" />
-        
+
         <WebView
             android:id="@+id/company_summary"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
-        
+
         <TextView
-            style="@style/HabReader.Theme.Light.Users.Divider"
             android:id="@+id/company_management_divider"
+            style="@style/HabReader.Theme.Light.Users.Divider"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/management" />
-        
+
         <WebView
             android:id="@+id/company_management"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
-        
+
         <TextView
-            style="@style/HabReader.Theme.Light.Users.Divider"
             android:id="@+id/company_development_stages_divider"
+            style="@style/HabReader.Theme.Light.Users.Divider"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/development_stages" />
-        
+
         <WebView
             android:id="@+id/company_development_stages"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
-        
+
+        <TextView
+            android:id="@+id/deleted_info"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center" />
     </LinearLayout>
 
 </ScrollView>
