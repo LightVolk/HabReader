@@ -65,7 +65,9 @@ public abstract class AbstractionEventsFragment extends SherlockListFragment imp
 	}
 
 	setListAdapter(adapter);
-	setListShown(false);
+	
+	if (firstLoading)
+	    setListShown(false);
 
 	if (Preferences.getInstance(getSherlockActivity()).getAdditionalEvents()) {
 	    getListView().setDivider(null);

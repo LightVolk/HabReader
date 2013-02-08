@@ -70,7 +70,9 @@ public abstract class AbstractionQaFragment extends SherlockListFragment impleme
 	}
 
 	setListAdapter(adapter);
-	setListShown(false);
+	
+	if (firstLoading)
+	    setListShown(false);
 
 	if (Preferences.getInstance(getSherlockActivity()).getAdditionalQa()) {
 	    getListView().setDivider(null);

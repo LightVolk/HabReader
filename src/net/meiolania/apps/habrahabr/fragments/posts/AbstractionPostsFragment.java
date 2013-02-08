@@ -71,7 +71,9 @@ public abstract class AbstractionPostsFragment extends SherlockListFragment impl
 	}
 
 	setListAdapter(adapter);
-	setListShown(false);
+	
+	if (firstLoading)
+	    setListShown(false);
 
 	if (Preferences.getInstance(getSherlockActivity()).getAdditionalPosts()) {
 	    getListView().setDivider(null);
@@ -79,14 +81,14 @@ public abstract class AbstractionPostsFragment extends SherlockListFragment impl
 	}
 
 	getListView().setOnScrollListener(this);
-	
+
 	setEmptyText(getString(R.string.no_items_post));
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 	super.onCreateOptionsMenu(menu, inflater);
-	
+
 	inflater.inflate(R.menu.posts_fragment, menu);
 
 	final EditText searchQuery = (EditText) menu.findItem(R.id.search).getActionView().findViewById(R.id.search_query);
@@ -101,7 +103,7 @@ public abstract class AbstractionPostsFragment extends SherlockListFragment impl
 		return false;
 	    }
 	});
-	
+
 	PageActionProvider pageActionProvider = (PageActionProvider) menu.findItem(R.id.page).getActionProvider();
 	pageActionProvider.setPage(page);
     }
@@ -131,8 +133,6 @@ public abstract class AbstractionPostsFragment extends SherlockListFragment impl
 	    getSherlockActivity().getSupportLoaderManager().restartLoader(getLoaderId(), null, this);
 
 	    isLoadData = true;
-	    
-	    
 	}
     }
 
@@ -156,19 +156,19 @@ public abstract class AbstractionPostsFragment extends SherlockListFragment impl
     public void onLoadFinished(Loader<ArrayList<PostsData>> loader, ArrayList<PostsData> data) {
 	if (data.isEmpty())
 	    noMoreData = true;
-	
+
 	posts.addAll(data);
 	adapter.notifyDataSetChanged();
-	
+
 	firstLoading = false;
-	
+
 	if (getSherlockActivity() != null)
 	    getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
 
 	isLoadData = false;
-	
+
 	setListShown(true);
-	
+
 	getSherlockActivity().invalidateOptionsMenu();
     }
 
