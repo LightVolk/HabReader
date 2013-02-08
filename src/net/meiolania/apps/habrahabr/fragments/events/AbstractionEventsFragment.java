@@ -55,7 +55,7 @@ public abstract class AbstractionEventsFragment extends SherlockListFragment imp
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
-	
+
 	setHasOptionsMenu(true);
 	setRetainInstance(true);
 
@@ -65,7 +65,7 @@ public abstract class AbstractionEventsFragment extends SherlockListFragment imp
 	}
 
 	setListAdapter(adapter);
-	
+
 	if (firstLoading)
 	    setListShown(false);
 
@@ -75,16 +75,16 @@ public abstract class AbstractionEventsFragment extends SherlockListFragment imp
 	}
 
 	getListView().setOnScrollListener(this);
-	
+
 	setEmptyText(getString(R.string.no_items_events));
     }
-    
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 	super.onCreateOptionsMenu(menu, inflater);
-	
+
 	inflater.inflate(R.menu.events_fragment, menu);
-	
+
 	PageActionProvider pageActionProvider = (PageActionProvider) menu.findItem(R.id.page).getActionProvider();
 	pageActionProvider.setPage(page);
     }
@@ -141,17 +141,18 @@ public abstract class AbstractionEventsFragment extends SherlockListFragment imp
 
 	events.addAll(data);
 	adapter.notifyDataSetChanged();
-	
+
 	firstLoading = false;
 
 	if (getSherlockActivity() != null)
 	    getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
 
 	isLoadData = false;
-	
-	setListShown(true);
-	
-	getSherlockActivity().invalidateOptionsMenu();
+
+	if (getSherlockActivity() != null) {
+	    setListShown(true);
+	    getSherlockActivity().invalidateOptionsMenu();
+	}
     }
 
     @Override

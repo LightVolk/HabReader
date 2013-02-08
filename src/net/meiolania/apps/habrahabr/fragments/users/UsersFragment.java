@@ -137,7 +137,8 @@ public class UsersFragment extends SherlockListFragment implements LoaderCallbac
 	users.addAll(data);
 	adapter.notifyDataSetChanged();
 	
-	setListShown(true);
+	if (getSherlockActivity() != null)
+	    setListShown(true);
     }
 
     @Override

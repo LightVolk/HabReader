@@ -128,7 +128,8 @@ public class HubsFragment extends SherlockListFragment implements OnScrollListen
 
 	isLoadData = false;
 	
-	setListShown(true);
+	if (getSherlockActivity() != null)
+	    setListShown(true);
     }
 
     @Override

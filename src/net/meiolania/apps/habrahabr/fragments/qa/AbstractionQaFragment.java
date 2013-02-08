@@ -70,7 +70,7 @@ public abstract class AbstractionQaFragment extends SherlockListFragment impleme
 	}
 
 	setListAdapter(adapter);
-	
+
 	if (firstLoading)
 	    setListShown(false);
 
@@ -80,14 +80,14 @@ public abstract class AbstractionQaFragment extends SherlockListFragment impleme
 	}
 
 	getListView().setOnScrollListener(this);
-	
+
 	setEmptyText(getString(R.string.no_items_qa));
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 	super.onCreateOptionsMenu(menu, inflater);
-	
+
 	inflater.inflate(R.menu.qa_fragment, menu);
 
 	final EditText searchQuery = (EditText) menu.findItem(R.id.search).getActionView().findViewById(R.id.search_query);
@@ -102,7 +102,7 @@ public abstract class AbstractionQaFragment extends SherlockListFragment impleme
 		return false;
 	    }
 	});
-	
+
 	PageActionProvider pageActionProvider = (PageActionProvider) menu.findItem(R.id.page).getActionProvider();
 	pageActionProvider.setPage(page);
     }
@@ -159,17 +159,18 @@ public abstract class AbstractionQaFragment extends SherlockListFragment impleme
 
 	questions.addAll(data);
 	adapter.notifyDataSetChanged();
-	
+
 	firstLoading = false;
 
 	if (getSherlockActivity() != null)
 	    getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
 
 	isLoadData = false;
-	
-	setListShown(true);
-	
-	getSherlockActivity().invalidateOptionsMenu();
+
+	if (getSherlockActivity() != null) {
+	    setListShown(true);
+	    getSherlockActivity().invalidateOptionsMenu();
+	}
     }
 
     @Override

@@ -71,7 +71,7 @@ public abstract class AbstractionPostsFragment extends SherlockListFragment impl
 	}
 
 	setListAdapter(adapter);
-	
+
 	if (firstLoading)
 	    setListShown(false);
 
@@ -167,9 +167,10 @@ public abstract class AbstractionPostsFragment extends SherlockListFragment impl
 
 	isLoadData = false;
 
-	setListShown(true);
-
-	getSherlockActivity().invalidateOptionsMenu();
+	if (getSherlockActivity() != null) {
+	    setListShown(true);
+	    getSherlockActivity().invalidateOptionsMenu();
+	}
     }
 
     @Override

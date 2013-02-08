@@ -51,9 +51,9 @@ public class CompaniesFragment extends SherlockListFragment implements OnScrollL
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
-	
+
 	showActionBar();
-	
+
 	setHasOptionsMenu(true);
 	setRetainInstance(true);
 
@@ -66,16 +66,16 @@ public class CompaniesFragment extends SherlockListFragment implements OnScrollL
 	setListShown(false);
 
 	getListView().setOnScrollListener(this);
-	
+
 	setEmptyText(getString(R.string.no_items_companies));
     }
-    
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 	super.onCreateOptionsMenu(menu, inflater);
-	
+
 	inflater.inflate(R.menu.companies_fragment, menu);
-	
+
 	PageActionProvider pageActionProvider = (PageActionProvider) menu.findItem(R.id.page).getActionProvider();
 	pageActionProvider.setPage(page);
     }
@@ -140,17 +140,19 @@ public class CompaniesFragment extends SherlockListFragment implements OnScrollL
 
 	companies.addAll(data);
 	adapter.notifyDataSetChanged();
-	
+
 	firstLoading = false;
 
 	if (getSherlockActivity() != null)
 	    getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
 
 	isLoadData = false;
-	
-	setListShown(true);
-	
-	getSherlockActivity().invalidateOptionsMenu();
+
+	if (getSherlockActivity() != null) {
+	    setListShown(true);
+
+	    getSherlockActivity().invalidateOptionsMenu();
+	}
     }
 
     @Override
