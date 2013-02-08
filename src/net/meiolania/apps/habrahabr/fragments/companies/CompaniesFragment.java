@@ -33,7 +33,6 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockListFragment;
@@ -136,11 +135,8 @@ public class CompaniesFragment extends SherlockListFragment implements OnScrollL
 
     @Override
     public void onLoadFinished(Loader<ArrayList<CompaniesData>> loader, ArrayList<CompaniesData> data) {
-	if (data.isEmpty()) {
+	if (data.isEmpty())
 	    noMoreData = true;
-
-	    Toast.makeText(getSherlockActivity(), R.string.no_more_pages, Toast.LENGTH_SHORT).show();
-	}
 
 	companies.addAll(data);
 	adapter.notifyDataSetChanged();

@@ -39,7 +39,6 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.actionbarsherlock.app.SherlockListFragment;
@@ -153,11 +152,8 @@ public abstract class AbstractionQaFragment extends SherlockListFragment impleme
 
     @Override
     public void onLoadFinished(Loader<ArrayList<QaData>> loader, ArrayList<QaData> data) {
-	if (data.isEmpty()) {
+	if (data.isEmpty())
 	    noMoreData = true;
-
-	    Toast.makeText(getSherlockActivity(), R.string.no_more_pages, Toast.LENGTH_SHORT).show();
-	}
 
 	questions.addAll(data);
 	adapter.notifyDataSetChanged();

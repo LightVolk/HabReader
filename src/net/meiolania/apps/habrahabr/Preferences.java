@@ -72,6 +72,10 @@ public final class Preferences {
     // Zoom buttons in post view
     public static final String POSTS_ZOOM = "posts_zoom";
     public static final boolean POSTS_ZOOM_DEFAULT = true;
+    
+    // User scale
+    public static final String USER_SCALE = "user_scale";
+    public static final float USER_SCALE_DEFAULT = 0.0f;
 
     private static Preferences preferences = null;
     private static SharedPreferences sharedPreferences;
@@ -134,12 +138,12 @@ public final class Preferences {
 
     public void setViewScale(Context context, float scale) {
 	SharedPreferences.Editor editor = sharedPreferences.edit();
-	editor.putFloat(context.getString(R.string.saved_user_scale), scale);
+	editor.putFloat(USER_SCALE, scale);
 	editor.commit();
     }
 
     public int getViewScale(Context context) {
-	float userScale = sharedPreferences.getFloat(context.getString(R.string.saved_user_scale), 0.0f);
+	float userScale = sharedPreferences.getFloat(USER_SCALE, USER_SCALE_DEFAULT);
 	return (int) (100 * userScale);
     }
 

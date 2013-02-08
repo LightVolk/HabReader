@@ -1,126 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">HabReader</string>
-	
-	<!-- Base -->
-	<string name="loading">Загрузка</string>
-	<string name="share">Поделиться с друзьями</string>
-	<string name="inbox">Входящие</string>
-	<string name="hot">Горячие</string>
-	<string name="popular">Популярные</string>
-	<string name="loading_page">Загрузка страницы %d</string>
-	<string name="no_more_pages">Нет страниц для загрузки</string>
-	<string name="search">Поиск</string>
-	<string name="loading_comments">Загрузка комментариев</string>
-	<string name="open_comment_in_browser">Открыть комментарий в браузере</string>
-	<string name="open_author_profile">Открыть профиль автора</string>
-	<string name="habraindex">Хабраиндекс %s</string>
-	<string name="error">Ошибка</string>
-	<string name="no_connection">Отсутствует соединение с интернетом</string>
-	<string name="close">Закрыть</string>
-	<string name="rating_count">Рейтинг %d</string>
-	<string name="error_404">К сожалению, такой страницы не существует. Вероятно, она была удалена автором с сервера, либо её здесь никогда не было.</string>
-	<string name="count_pages">Количество загруженных страниц</string>
-	<string name="no_items_comments">Нет комментариев</string>
-	
-	<!-- Auth -->
-	<string name="auth">Авторизация</string>
-	<string name="auth_success">Авторизация выполнена</string>
-	<string name="sign_out">Выход</string>
-	
-	<!-- User -->
-	<string name="feed">Лента</string>
-	<string name="favorites">Избранное</string>
-	
-	<!-- Slide menu -->
-	<string name="sections">Разделы</string>
-	<string name="posts">Посты</string>
-	<string name="qa">Q&amp;A</string>
-	<string name="events">События</string>
-	<string name="hubs">Хабы</string>
-	<string name="companies">Компании</string>
-	<string name="people">Пользователи</string>
-	
-	<!-- Dashboard menus -->
-	<string name="preferences">Настройки</string>
-	<string name="more_applications">Другие приложения</string>
-	
-	<!-- Posts -->
-	<string name="best">Лучшие</string>
-	<string name="thematic">Тематические</string>
-	<string name="corporate">Корпоративные</string>
-	<string name="post">Пост</string>
-	<string name="comments">Комментарии</string>
-	<string name="loading_post">Загрузка поста</string>
-	<string name="post_search">Поиск постов</string>
-	<string name="no_items_post">Не удалось загрузить список постов</string>
-	
-	<!-- Hubs -->
-	<string name="hubs_search">Поиск хабов</string>
-	<string name="no_items_hubs">Не удалось загрузить список хабов</string>
-	
-	<!-- Q&A -->
-	<string name="question">Вопрос</string>
-	<string name="unanswered">Без ответа</string>
-	<string name="loading_question">Загрузка вопроса</string>
-	<string name="qa_search">Поиск вопросов</string>
-	<string name="no_items_qa">Не удалось загрузить список вопросов</string>
-	
-	<!-- Events -->
-	<string name="coming">Предстоящие</string>
-	<string name="current">Текущие</string>
-	<string name="past">Прошедшие</string>
-	<string name="loading_event">Загрузка события</string>
-	<string name="go_to_event_website">Перейти на сайт мероприятия</string>
-	<string name="location_event">Место проведения</string>
-	<string name="date_event">Время проведения</string>
-	<string name="pay">Стоимость участия</string>
-	<string name="description">Описание</string>
-	<string name="no_items_events">Не удалось загрузить список событий</string>
-	
-	<!-- Companies -->
-	<string name="loading_company">Загрузка данных о компании</string>
-	<string name="go_to_company_website">Перейти на сайт компании</string>
-	<string name="industries">Отрасли</string>
-	<string name="location">Местоположение</string>
-	<string name="quantity">Численность</string>
-	<string name="company_summary">О компании</string>
-	<string name="management">Руководство</string>
-	<string name="development_stages">Этапы развития</string>
-	<string name="no_items_companies">Не удалось загрузить список компаний</string>
-	
-	<!-- Users -->
-	<string name="loading_profile_info">Загрузка профиля</string>
-	<string name="people_search">Поиск пользователей</string>
-	<string name="karma_count">Карма %d</string>
-	<string name="base_info">Основная информация</string>
-	<string name="interests">Интересы</string>
-	<string name="summary">О себе</string>
-	<string name="karma_count_s">Карма %s</string>
-	<string name="rating_count_s">Рейтинг %s</string>
-	<string name="no_items_users">Не удалось загрузить список пользователей</string>
-	
-	<!-- Preferences -->
-	<string name="base_preferences">Основные настройки</string>
-	<string name="additional_preferences">Дополнительная информация</string>
-	<string name="donate_preferences">Помочь разработке</string>
-	<string name="review_preferences">Оценить приложение</string>
-	<string name="donate_thanks_preferences">Спасибо за поддержку приложения!</string>
-	<string name="fullscreen_preferences">Полноэкранный режим</string>
-	<string name="version_preferences">Версия</string>
-	<string name="keepscreen_preferences">Не выключать экран</string>
-	<string name="source_code_preferences">Исходный код</string>
-	<string name="default_tab_preferences">Вкладка по умолчанию</string>
-	<string name="additional_layout_preferences">Отображать дополнительную информацию</string>
-	<string name="events_additional_layout_summary_preferences">Отображать дополнительную информацию при просмотре списка событий</string>
-	<string name="posts_additional_layout_summary_preferences">Отображать дополнительную информацию при просмотре списка постов</string>
-	<string name="qa_additional_layout_summary_preferences">Отображать дополнительную информацию при просмотре списка вопросов</string>
-	<string name="share_text_preferences">Шаблон для кнопки \"share\"</string>
-	<string name="share_text_default_preferences">$link$ - $title$ \#HabReader</string>
-	<string name="posts_full_info_preferences">Отображать краткий текст поста</string>
-	<string name="posts_full_info_summary_preferences">Отображать краткий текст поста при просмотре списка постов</string>
-	<string name="posts_zoom_summary_preferences">Кнопки масштаба при просмотре поста</string>
-	<string name="posts_zoom_preferences">Масштабирование</string>
 
-	<string name="saved_user_scale">UserScale</string>
+    <string name="app_name">HabReader</string>
+
+    <!-- Base -->
+    <string name="loading">Загрузка</string>
+    <string name="share">Поделиться с друзьями</string>
+    <string name="inbox">Входящие</string>
+    <string name="hot">Горячие</string>
+    <string name="popular">Популярные</string>
+    <string name="loading_page">Загрузка страницы %d</string>
+    <string name="search">Поиск</string>
+    <string name="open_comment_in_browser">Открыть комментарий в браузере</string>
+    <string name="open_author_profile">Открыть профиль автора</string>
+    <string name="habraindex">Хабраиндекс %s</string>
+    <string name="error">Ошибка</string>
+    <string name="no_connection">Отсутствует соединение с интернетом</string>
+    <string name="close">Закрыть</string>
+    <string name="rating_count">Рейтинг %d</string>
+    <string name="error_404">К сожалению, такой страницы не существует. Вероятно, она была удалена автором с сервера, либо её здесь никогда не было.</string>
+    <string name="count_pages">Количество загруженных страниц</string>
+    <string name="no_items_comments">Нет комментариев</string>
+
+    <!-- Auth -->
+    <string name="auth">Авторизация</string>
+    <string name="auth_success">Авторизация выполнена</string>
+    <string name="sign_out">Выход</string>
+
+    <!-- User -->
+    <string name="feed">Лента</string>
+    <string name="favorites">Избранное</string>
+
+    <!-- Slide menu -->
+    <string name="sections">Разделы</string>
+    <string name="posts">Посты</string>
+    <string name="qa">Q&amp;A</string>
+    <string name="events">События</string>
+    <string name="hubs">Хабы</string>
+    <string name="companies">Компании</string>
+    <string name="people">Пользователи</string>
+
+    <!-- Dashboard menus -->
+    <string name="preferences">Настройки</string>
+    <string name="more_applications">Другие приложения</string>
+
+    <!-- Posts -->
+    <string name="best">Лучшие</string>
+    <string name="thematic">Тематические</string>
+    <string name="corporate">Корпоративные</string>
+    <string name="post">Пост</string>
+    <string name="comments">Комментарии</string>
+    <string name="loading_post">Загрузка поста</string>
+    <string name="post_search">Поиск постов</string>
+    <string name="no_items_post">Не удалось загрузить список постов</string>
+
+    <!-- Hubs -->
+    <string name="hubs_search">Поиск хабов</string>
+    <string name="no_items_hubs">Не удалось загрузить список хабов</string>
+
+    <!-- Q&A -->
+    <string name="question">Вопрос</string>
+    <string name="unanswered">Без ответа</string>
+    <string name="loading_question">Загрузка вопроса</string>
+    <string name="qa_search">Поиск вопросов</string>
+    <string name="no_items_qa">Не удалось загрузить список вопросов</string>
+
+    <!-- Events -->
+    <string name="coming">Предстоящие</string>
+    <string name="current">Текущие</string>
+    <string name="past">Прошедшие</string>
+    <string name="loading_event">Загрузка события</string>
+    <string name="go_to_event_website">Перейти на сайт мероприятия</string>
+    <string name="location_event">Место проведения</string>
+    <string name="date_event">Время проведения</string>
+    <string name="pay">Стоимость участия</string>
+    <string name="description">Описание</string>
+    <string name="no_items_events">Не удалось загрузить список событий</string>
+
+    <!-- Companies -->
+    <string name="loading_company">Загрузка данных о компании</string>
+    <string name="go_to_company_website">Перейти на сайт компании</string>
+    <string name="industries">Отрасли</string>
+    <string name="location">Местоположение</string>
+    <string name="quantity">Численность</string>
+    <string name="company_summary">О компании</string>
+    <string name="management">Руководство</string>
+    <string name="development_stages">Этапы развития</string>
+    <string name="no_items_companies">Не удалось загрузить список компаний</string>
+
+    <!-- Users -->
+    <string name="loading_profile_info">Загрузка профиля</string>
+    <string name="people_search">Поиск пользователей</string>
+    <string name="karma_count">Карма %d</string>
+    <string name="base_info">Основная информация</string>
+    <string name="interests">Интересы</string>
+    <string name="summary">О себе</string>
+    <string name="karma_count_s">Карма %s</string>
+    <string name="rating_count_s">Рейтинг %s</string>
+    <string name="no_items_users">Не удалось загрузить список пользователей</string>
+
+    <!-- Preferences -->
+    <string name="base_preferences">Основные настройки</string>
+    <string name="additional_preferences">Дополнительная информация</string>
+    <string name="donate_preferences">Помочь разработке</string>
+    <string name="review_preferences">Оценить приложение</string>
+    <string name="donate_thanks_preferences">Спасибо за поддержку приложения!</string>
+    <string name="fullscreen_preferences">Полноэкранный режим</string>
+    <string name="version_preferences">Версия</string>
+    <string name="keepscreen_preferences">Не выключать экран</string>
+    <string name="source_code_preferences">Исходный код</string>
+    <string name="default_tab_preferences">Вкладка по умолчанию</string>
+    <string name="additional_layout_preferences">Отображать дополнительную информацию</string>
+    <string name="events_additional_layout_summary_preferences">Отображать дополнительную информацию при просмотре списка событий</string>
+    <string name="posts_additional_layout_summary_preferences">Отображать дополнительную информацию при просмотре списка постов</string>
+    <string name="qa_additional_layout_summary_preferences">Отображать дополнительную информацию при просмотре списка вопросов</string>
+    <string name="share_text_preferences">Шаблон для кнопки \"share\"</string>
+    <string name="share_text_default_preferences">$link$ - $title$ \#HabReader</string>
+    <string name="posts_full_info_preferences">Отображать краткий текст поста</string>
+    <string name="posts_full_info_summary_preferences">Отображать краткий текст поста при просмотре списка постов</string>
+    <string name="posts_zoom_summary_preferences">Кнопки масштаба при просмотре поста</string>
+    <string name="posts_zoom_preferences">Масштабирование</string>
+
 </resources>

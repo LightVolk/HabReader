@@ -34,7 +34,6 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
@@ -135,11 +134,8 @@ public abstract class AbstractionEventsFragment extends SherlockListFragment imp
 
     @Override
     public void onLoadFinished(Loader<ArrayList<EventsData>> loader, ArrayList<EventsData> data) {
-	if (data.isEmpty()) {
+	if (data.isEmpty())
 	    noMoreData = true;
-
-	    Toast.makeText(getSherlockActivity(), R.string.no_more_pages, Toast.LENGTH_SHORT).show();
-	}
 
 	events.addAll(data);
 	adapter.notifyDataSetChanged();

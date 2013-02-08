@@ -40,7 +40,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
@@ -155,12 +154,8 @@ public abstract class AbstractionPostsFragment extends SherlockListFragment impl
 
     @Override
     public void onLoadFinished(Loader<ArrayList<PostsData>> loader, ArrayList<PostsData> data) {
-	if (data.isEmpty()) {
+	if (data.isEmpty())
 	    noMoreData = true;
-
-	    if (getSherlockActivity() != null)
-		Toast.makeText(getSherlockActivity(), R.string.no_more_pages, Toast.LENGTH_SHORT).show();
-	}
 	
 	posts.addAll(data);
 	adapter.notifyDataSetChanged();

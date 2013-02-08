@@ -23,7 +23,6 @@ import net.meiolania.apps.habrahabr.fragments.qa.loader.QaShowLoader;
 import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
 import net.meiolania.apps.habrahabr.utils.HabrWebClient;
 import net.meiolania.apps.habrahabr.utils.IntentUtils;
-import net.meiolania.apps.habrahabr.utils.UIUtils;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
@@ -31,8 +30,8 @@ import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.webkit.WebSettings.ZoomDensity;
+import android.webkit.WebView;
 import android.widget.FrameLayout;
 
 import com.actionbarsherlock.app.ActionBar;

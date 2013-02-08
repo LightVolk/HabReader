@@ -32,7 +32,6 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 
@@ -116,11 +115,8 @@ public class HubsFragment extends SherlockListFragment implements OnScrollListen
 
     @Override
     public void onLoadFinished(Loader<ArrayList<HubsData>> loader, ArrayList<HubsData> data) {
-	if (data.isEmpty()) {
+	if (data.isEmpty())
 	    noMoreData = true;
-
-	    Toast.makeText(getSherlockActivity(), R.string.no_more_pages, Toast.LENGTH_SHORT).show();
-	}
 
 	hubs.addAll(data);
 	adapter.notifyDataSetChanged();
