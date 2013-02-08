@@ -16,9 +16,6 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.fragments.favorites;
 
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-
 import net.meiolania.apps.habrahabr.auth.User;
 import net.meiolania.apps.habrahabr.fragments.qa.AbstractionQaFragment;
 
@@ -33,11 +30,6 @@ public class FavoritesQAFragment extends AbstractionQaFragment {
     @Override
     protected int getLoaderId() {
 	return 1;
-    }
-    
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-	// Don't create menu. We don't need it.
     }
 
 }
