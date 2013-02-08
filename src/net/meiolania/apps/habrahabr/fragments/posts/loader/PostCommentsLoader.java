@@ -71,6 +71,7 @@ public class PostCommentsLoader extends AsyncTaskLoader<ArrayList<CommentsData>>
 	    Element linkToComment = comment.select("a.link_to_comment").first();
 	    Element score = comment.select("span.score").first();
 	    Element time = comment.select("time").first();
+	    time.select("span.time_changed").remove();
 
 	    commentsData.setScore(score.text());
 	    commentsData.setUrl(linkToComment.attr("abs:href"));

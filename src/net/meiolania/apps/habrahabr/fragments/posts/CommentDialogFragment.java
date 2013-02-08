@@ -49,7 +49,7 @@ public class CommentDialogFragment extends SherlockDialogFragment {
 	WebView cBody = (WebView) v.findViewById(R.id.comment_view);
 
 	cBody.setWebViewClient(new HabrWebClient(getSherlockActivity()));
-	cBody.setBackgroundColor(0x00000000);
+	//cBody.setBackgroundColor(0x00000000);
 	cBody.getSettings().setSupportZoom(false);
 	cBody.getSettings().setBuiltInZoomControls(false);
 	cBody.getSettings().setDefaultZoom(ZoomDensity.FAR);
