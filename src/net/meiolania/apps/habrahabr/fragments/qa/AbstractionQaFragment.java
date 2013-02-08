@@ -51,6 +51,7 @@ public abstract class AbstractionQaFragment extends SherlockListFragment impleme
     protected ArrayList<QaData> questions;
     protected QaAdapter adapter;
     protected boolean noMoreData;
+    protected boolean firstLoading = true;
 
     protected abstract String getUrl();
 
@@ -69,7 +70,7 @@ public abstract class AbstractionQaFragment extends SherlockListFragment impleme
 	}
 
 	setListAdapter(adapter);
-	setListShown(true);
+	setListShown(false);
 
 	if (Preferences.getInstance(getSherlockActivity()).getAdditionalQa()) {
 	    getListView().setDivider(null);
@@ -77,6 +78,8 @@ public abstract class AbstractionQaFragment extends SherlockListFragment impleme
 	}
 
 	getListView().setOnScrollListener(this);
+	
+	setEmptyText(getString(R.string.no_items_qa));
     }
 
     @Override
@@ -116,7 +119,8 @@ public abstract class AbstractionQaFragment extends SherlockListFragment impleme
 
     protected void restartLoading() {
 	if (ConnectionUtils.isConnected(getSherlockActivity())) {
-	    getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
+	    if (!firstLoading)
+		getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
 
 	    QaLoader.setPage(++page);
 
@@ -153,11 +157,15 @@ public abstract class AbstractionQaFragment extends SherlockListFragment impleme
 
 	questions.addAll(data);
 	adapter.notifyDataSetChanged();
+	
+	firstLoading = false;
 
 	if (getSherlockActivity() != null)
 	    getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
 
 	isLoadData = false;
+	
+	setListShown(true);
     }
 
     @Override

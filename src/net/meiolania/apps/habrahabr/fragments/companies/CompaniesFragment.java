@@ -44,6 +44,7 @@ public class CompaniesFragment extends SherlockListFragment implements OnScrollL
     private int page;
     private boolean isLoadData;
     private boolean noMoreData;
+    private boolean firstLoading = true;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -59,9 +60,11 @@ public class CompaniesFragment extends SherlockListFragment implements OnScrollL
 	}
 
 	setListAdapter(adapter);
-	setListShown(true);
+	setListShown(false);
 
 	getListView().setOnScrollListener(this);
+	
+	setEmptyText(getString(R.string.no_items_companies));
     }
 
     @Override
@@ -89,7 +92,8 @@ public class CompaniesFragment extends SherlockListFragment implements OnScrollL
 
     protected void restartLoading() {
 	if (ConnectionUtils.isConnected(getSherlockActivity())) {
-	    getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
+	    if (!firstLoading)
+		getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
 
 	    CompaniesLoader.setPage(++page);
 
@@ -126,11 +130,15 @@ public class CompaniesFragment extends SherlockListFragment implements OnScrollL
 
 	companies.addAll(data);
 	adapter.notifyDataSetChanged();
+	
+	firstLoading = false;
 
 	if (getSherlockActivity() != null)
 	    getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
 
 	isLoadData = false;
+	
+	setListShown(true);
     }
 
     @Override

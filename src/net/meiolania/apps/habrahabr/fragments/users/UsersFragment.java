@@ -67,10 +67,12 @@ public class UsersFragment extends SherlockListFragment implements LoaderCallbac
 	}
 
 	setListAdapter(adapter);
-	setListShown(true);
+	setListShown(false);
 
 	if (ConnectionUtils.isConnected(getSherlockActivity()))
 	    getSherlockActivity().getSupportLoaderManager().initLoader(LOADER_USER, null, this);
+	
+	setEmptyText(getString(R.string.no_items_users));
     }
 
     private void showActionBar() {
@@ -118,8 +120,6 @@ public class UsersFragment extends SherlockListFragment implements LoaderCallbac
 
     @Override
     public Loader<ArrayList<UsersData>> onCreateLoader(int id, Bundle args) {
-	getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
-
 	UsersLoader loader = null;
 
 	if (url == null)
@@ -136,9 +136,8 @@ public class UsersFragment extends SherlockListFragment implements LoaderCallbac
     public void onLoadFinished(Loader<ArrayList<UsersData>> loader, ArrayList<UsersData> data) {
 	users.addAll(data);
 	adapter.notifyDataSetChanged();
-
-	if (getSherlockActivity() != null)
-	    getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
+	
+	setListShown(true);
     }
 
     @Override

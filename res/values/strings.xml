@@ -51,15 +51,18 @@
 	<string name="comments">Комментарии</string>
 	<string name="loading_post">Загрузка поста</string>
 	<string name="post_search">Поиск постов</string>
+	<string name="no_items_post">Не удалось загрузить список постов</string>
 	
 	<!-- Hubs -->
 	<string name="hubs_search">Поиск хабов</string>
+	<string name="no_items_hubs">Не удалось загрузить список хабов</string>
 	
 	<!-- Q&A -->
 	<string name="question">Вопрос</string>
 	<string name="unanswered">Без ответа</string>
 	<string name="loading_question">Загрузка вопроса</string>
 	<string name="qa_search">Поиск вопросов</string>
+	<string name="no_items_qa">Не удалось загрузить список вопросов</string>
 	
 	<!-- Events -->
 	<string name="coming">Предстоящие</string>
@@ -71,6 +74,7 @@
 	<string name="date_event">Время проведения</string>
 	<string name="pay">Стоимость участия</string>
 	<string name="description">Описание</string>
+	<string name="no_items_events">Не удалось загрузить список событий</string>
 	
 	<!-- Companies -->
 	<string name="loading_company">Загрузка данных о компании</string>
@@ -81,8 +85,9 @@
 	<string name="company_summary">О компании</string>
 	<string name="management">Руководство</string>
 	<string name="development_stages">Этапы развития</string>
+	<string name="no_items_companies">Не удалось загрузить список компаний</string>
 	
-	<!-- People -->
+	<!-- Users -->
 	<string name="loading_profile_info">Загрузка профиля</string>
 	<string name="people_search">Поиск пользователей</string>
 	<string name="karma_count">Карма %d</string>
@@ -91,6 +96,7 @@
 	<string name="summary">О себе</string>
 	<string name="karma_count_s">Карма %s</string>
 	<string name="rating_count_s">Рейтинг %s</string>
+	<string name="no_items_users">Не удалось загрузить список пользователей</string>
 	
 	<!-- Preferences -->
 	<string name="base_preferences">Основные настройки</string>

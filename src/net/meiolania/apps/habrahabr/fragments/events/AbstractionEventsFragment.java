@@ -44,6 +44,7 @@ public abstract class AbstractionEventsFragment extends SherlockListFragment imp
     protected ArrayList<EventsData> events;
     protected EventsAdapter adapter;
     protected boolean noMoreData;
+    protected boolean firstLoading = true;
 
     protected abstract String getUrl();
 
@@ -61,7 +62,7 @@ public abstract class AbstractionEventsFragment extends SherlockListFragment imp
 	}
 
 	setListAdapter(adapter);
-	setListShown(true);
+	setListShown(false);
 
 	if (Preferences.getInstance(getSherlockActivity()).getAdditionalEvents()) {
 	    getListView().setDivider(null);
@@ -69,6 +70,8 @@ public abstract class AbstractionEventsFragment extends SherlockListFragment imp
 	}
 
 	getListView().setOnScrollListener(this);
+	
+	setEmptyText(getString(R.string.no_items_events));
     }
 
     @Override
@@ -88,7 +91,8 @@ public abstract class AbstractionEventsFragment extends SherlockListFragment imp
 
     protected void restartLoading() {
 	if (ConnectionUtils.isConnected(getSherlockActivity())) {
-	    getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
+	    if (!firstLoading)
+		getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
 
 	    EventLoader.setPage(++page);
 
@@ -125,11 +129,15 @@ public abstract class AbstractionEventsFragment extends SherlockListFragment imp
 
 	events.addAll(data);
 	adapter.notifyDataSetChanged();
+	
+	firstLoading = false;
 
 	if (getSherlockActivity() != null)
 	    getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
 
 	isLoadData = false;
+	
+	setListShown(true);
     }
 
     @Override

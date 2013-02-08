@@ -52,6 +52,7 @@ public abstract class AbstractionPostsFragment extends SherlockListFragment impl
     protected ArrayList<PostsData> posts;
     protected PostsAdapter adapter;
     protected boolean noMoreData;
+    protected boolean firstLoading = true;
 
     protected abstract String getUrl();
 
@@ -70,7 +71,7 @@ public abstract class AbstractionPostsFragment extends SherlockListFragment impl
 	}
 
 	setListAdapter(adapter);
-	setListShown(true);
+	setListShown(false);
 
 	if (Preferences.getInstance(getSherlockActivity()).getAdditionalPosts()) {
 	    getListView().setDivider(null);
@@ -78,6 +79,8 @@ public abstract class AbstractionPostsFragment extends SherlockListFragment impl
 	}
 
 	getListView().setOnScrollListener(this);
+	
+	setEmptyText(getString(R.string.no_items_post));
     }
 
     @Override
@@ -117,7 +120,8 @@ public abstract class AbstractionPostsFragment extends SherlockListFragment impl
 
     protected void restartLoading() {
 	if (ConnectionUtils.isConnected(getSherlockActivity())) {
-	    getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
+	    if (!firstLoading)
+		getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
 
 	    PostsLoader.setPage(++page);
 
@@ -128,7 +132,7 @@ public abstract class AbstractionPostsFragment extends SherlockListFragment impl
     }
 
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-	if ((firstVisibleItem + visibleItemCount) == totalItemCount && !isLoadData)
+	if ((firstVisibleItem + visibleItemCount) == totalItemCount && !isLoadData && !noMoreData)
 	    restartLoading();
     }
 
@@ -151,14 +155,18 @@ public abstract class AbstractionPostsFragment extends SherlockListFragment impl
 	    if (getSherlockActivity() != null)
 		Toast.makeText(getSherlockActivity(), R.string.no_more_pages, Toast.LENGTH_SHORT).show();
 	}
-
+	
 	posts.addAll(data);
 	adapter.notifyDataSetChanged();
-
+	
+	firstLoading = false;
+	
 	if (getSherlockActivity() != null)
 	    getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
 
 	isLoadData = false;
+	
+	setListShown(true);
     }
 
     @Override

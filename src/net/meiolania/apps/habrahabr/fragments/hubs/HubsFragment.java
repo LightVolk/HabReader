@@ -45,6 +45,7 @@ public class HubsFragment extends SherlockListFragment implements OnScrollListen
     private boolean isLoadData;
     private String url;
     private boolean noMoreData;
+    private boolean firstLoading = true;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -61,9 +62,11 @@ public class HubsFragment extends SherlockListFragment implements OnScrollListen
 	}
 
 	setListAdapter(adapter);
-	setListShown(true);
+	setListShown(false);
 
 	getListView().setOnScrollListener(this);
+	
+	setEmptyText(getString(R.string.no_items_hubs));
     }
 
     @Override
@@ -83,7 +86,8 @@ public class HubsFragment extends SherlockListFragment implements OnScrollListen
 
     protected void restartLoading() {
 	if (ConnectionUtils.isConnected(getSherlockActivity())) {
-	    getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
+	    if (!firstLoading)
+		getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
 
 	    HubsLoader.setPage(++page);
 
@@ -120,11 +124,15 @@ public class HubsFragment extends SherlockListFragment implements OnScrollListen
 
 	hubs.addAll(data);
 	adapter.notifyDataSetChanged();
-
+	
+	firstLoading = false;
+	
 	if (getSherlockActivity() != null)
 	    getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
 
 	isLoadData = false;
+	
+	setListShown(true);
     }
 
     @Override
