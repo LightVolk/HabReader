@@ -63,7 +63,7 @@ public class PostsCommentsFragment extends SherlockListFragment implements Loade
 	}
 
 	setListAdapter(adapter);
-	setListShown(true);
+	setListShown(false);
 
 	getListView().setDivider(null);
 	getListView().setDividerHeight(0);
@@ -71,6 +71,8 @@ public class PostsCommentsFragment extends SherlockListFragment implements Loade
 	registerForContextMenu(getListView());
 
 	getSherlockActivity().getSupportLoaderManager().initLoader(LOADER_COMMENTS, null, this);
+	
+	setEmptyText(getString(R.string.no_items_comments));
     }
 
     @Override
@@ -116,8 +118,6 @@ public class PostsCommentsFragment extends SherlockListFragment implements Loade
 
     @Override
     public Loader<ArrayList<CommentsData>> onCreateLoader(int id, Bundle args) {
-	getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
-
 	PostCommentsLoader loader = new PostCommentsLoader(getSherlockActivity(), url);
 	loader.forceLoad();
 
@@ -130,9 +130,8 @@ public class PostsCommentsFragment extends SherlockListFragment implements Loade
 	    comments.addAll(data);
 	    adapter.notifyDataSetChanged();
 	}
-
-	if (getSherlockActivity() != null)
-	    getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
+	
+	setListShown(true);
     }
 
     @Override

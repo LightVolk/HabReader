@@ -25,6 +25,7 @@ import net.meiolania.apps.habrahabr.activities.PostsShowActivity;
 import net.meiolania.apps.habrahabr.adapters.PostsAdapter;
 import net.meiolania.apps.habrahabr.data.PostsData;
 import net.meiolania.apps.habrahabr.fragments.posts.loader.PostsLoader;
+import net.meiolania.apps.habrahabr.ui.PageActionProvider;
 import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,8 +39,8 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
@@ -85,6 +86,8 @@ public abstract class AbstractionPostsFragment extends SherlockListFragment impl
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+	super.onCreateOptionsMenu(menu, inflater);
+	
 	inflater.inflate(R.menu.posts_fragment, menu);
 
 	final EditText searchQuery = (EditText) menu.findItem(R.id.search).getActionView().findViewById(R.id.search_query);
@@ -99,8 +102,9 @@ public abstract class AbstractionPostsFragment extends SherlockListFragment impl
 		return false;
 	    }
 	});
-
-	super.onCreateOptionsMenu(menu, inflater);
+	
+	PageActionProvider pageActionProvider = (PageActionProvider) menu.findItem(R.id.page).getActionProvider();
+	pageActionProvider.setPage(page);
     }
 
     @Override
@@ -128,6 +132,8 @@ public abstract class AbstractionPostsFragment extends SherlockListFragment impl
 	    getSherlockActivity().getSupportLoaderManager().restartLoader(getLoaderId(), null, this);
 
 	    isLoadData = true;
+	    
+	    
 	}
     }
 
@@ -167,6 +173,8 @@ public abstract class AbstractionPostsFragment extends SherlockListFragment impl
 	isLoadData = false;
 	
 	setListShown(true);
+	
+	getSherlockActivity().invalidateOptionsMenu();
     }
 
     @Override

@@ -24,6 +24,7 @@ import net.meiolania.apps.habrahabr.activities.EventsShowActivity;
 import net.meiolania.apps.habrahabr.adapters.EventsAdapter;
 import net.meiolania.apps.habrahabr.data.EventsData;
 import net.meiolania.apps.habrahabr.fragments.events.loader.EventLoader;
+import net.meiolania.apps.habrahabr.ui.PageActionProvider;
 import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,11 +32,13 @@ import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.Toast;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 
 public abstract class AbstractionEventsFragment extends SherlockListFragment implements OnScrollListener,
 	LoaderCallbacks<ArrayList<EventsData>> {
@@ -53,7 +56,8 @@ public abstract class AbstractionEventsFragment extends SherlockListFragment imp
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
-
+	
+	setHasOptionsMenu(true);
 	setRetainInstance(true);
 
 	if (adapter == null) {
@@ -72,6 +76,16 @@ public abstract class AbstractionEventsFragment extends SherlockListFragment imp
 	getListView().setOnScrollListener(this);
 	
 	setEmptyText(getString(R.string.no_items_events));
+    }
+    
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+	super.onCreateOptionsMenu(menu, inflater);
+	
+	inflater.inflate(R.menu.events_fragment, menu);
+	
+	PageActionProvider pageActionProvider = (PageActionProvider) menu.findItem(R.id.page).getActionProvider();
+	pageActionProvider.setPage(page);
     }
 
     @Override
@@ -138,6 +152,8 @@ public abstract class AbstractionEventsFragment extends SherlockListFragment imp
 	isLoadData = false;
 	
 	setListShown(true);
+	
+	getSherlockActivity().invalidateOptionsMenu();
     }
 
     @Override

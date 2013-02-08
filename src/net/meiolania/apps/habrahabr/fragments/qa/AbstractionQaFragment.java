@@ -25,6 +25,7 @@ import net.meiolania.apps.habrahabr.activities.QaShowActivity;
 import net.meiolania.apps.habrahabr.adapters.QaAdapter;
 import net.meiolania.apps.habrahabr.data.QaData;
 import net.meiolania.apps.habrahabr.fragments.qa.loader.QaLoader;
+import net.meiolania.apps.habrahabr.ui.PageActionProvider;
 import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
 import android.content.Intent;
 import android.os.Bundle;
@@ -84,6 +85,8 @@ public abstract class AbstractionQaFragment extends SherlockListFragment impleme
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+	super.onCreateOptionsMenu(menu, inflater);
+	
 	inflater.inflate(R.menu.qa_fragment, menu);
 
 	final EditText searchQuery = (EditText) menu.findItem(R.id.search).getActionView().findViewById(R.id.search_query);
@@ -98,8 +101,9 @@ public abstract class AbstractionQaFragment extends SherlockListFragment impleme
 		return false;
 	    }
 	});
-
-	super.onCreateOptionsMenu(menu, inflater);
+	
+	PageActionProvider pageActionProvider = (PageActionProvider) menu.findItem(R.id.page).getActionProvider();
+	pageActionProvider.setPage(page);
     }
 
     @Override
@@ -166,6 +170,8 @@ public abstract class AbstractionQaFragment extends SherlockListFragment impleme
 	isLoadData = false;
 	
 	setListShown(true);
+	
+	getSherlockActivity().invalidateOptionsMenu();
     }
 
     @Override

@@ -23,6 +23,7 @@ import net.meiolania.apps.habrahabr.activities.CompaniesShowActivity;
 import net.meiolania.apps.habrahabr.adapters.CompaniesAdapter;
 import net.meiolania.apps.habrahabr.data.CompaniesData;
 import net.meiolania.apps.habrahabr.fragments.companies.loader.CompaniesLoader;
+import net.meiolania.apps.habrahabr.ui.PageActionProvider;
 import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,6 +37,8 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 
 public class CompaniesFragment extends SherlockListFragment implements OnScrollListener, LoaderCallbacks<ArrayList<CompaniesData>> {
     public final static int LOADER_COMPANIES = 0;
@@ -51,7 +54,8 @@ public class CompaniesFragment extends SherlockListFragment implements OnScrollL
 	super.onActivityCreated(savedInstanceState);
 	
 	showActionBar();
-
+	
+	setHasOptionsMenu(true);
 	setRetainInstance(true);
 
 	if (adapter == null) {
@@ -65,6 +69,16 @@ public class CompaniesFragment extends SherlockListFragment implements OnScrollL
 	getListView().setOnScrollListener(this);
 	
 	setEmptyText(getString(R.string.no_items_companies));
+    }
+    
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+	super.onCreateOptionsMenu(menu, inflater);
+	
+	inflater.inflate(R.menu.companies_fragment, menu);
+	
+	PageActionProvider pageActionProvider = (PageActionProvider) menu.findItem(R.id.page).getActionProvider();
+	pageActionProvider.setPage(page);
     }
 
     @Override
@@ -139,6 +153,8 @@ public class CompaniesFragment extends SherlockListFragment implements OnScrollL
 	isLoadData = false;
 	
 	setListShown(true);
+	
+	getSherlockActivity().invalidateOptionsMenu();
     }
 
     @Override

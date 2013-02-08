@@ -20,6 +20,8 @@
 	<string name="close">Закрыть</string>
 	<string name="rating_count">Рейтинг %d</string>
 	<string name="error_404">К сожалению, такой страницы не существует. Вероятно, она была удалена автором с сервера, либо её здесь никогда не было.</string>
+	<string name="count_pages">Количество загруженных страниц</string>
+	<string name="no_items_comments">Нет комментариев</string>
 	
 	<!-- Auth -->
 	<string name="auth">Авторизация</string>

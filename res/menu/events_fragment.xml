@@ -6,11 +6,5 @@
         android:actionProviderClass="net.meiolania.apps.habrahabr.ui.PageActionProvider"
         android:showAsAction="always"
         android:title="@string/count_pages"/>
-    <item
-        android:id="@+id/search"
-        android:actionLayout="@layout/search"
-        android:icon="@drawable/ic_search"
-        android:showAsAction="always|collapseActionView"
-        android:title="@string/search"/>
 
 </menu>
