@@ -113,6 +113,7 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
 
 	    content.setWebViewClient(new HabrWebClient(getSherlockActivity()));
 	    content.getSettings().setSupportZoom(true);
+
 	    content.getSettings().setJavaScriptEnabled(true);
 	    content.getSettings().setDefaultZoom(ZoomDensity.FAR);
 	    content.setInitialScale(prefs.getViewScale(getSherlockActivity()));
@@ -149,9 +150,9 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
 	content = (WebView) getSherlockActivity().findViewById(R.id.post_content);
 	prefs = Preferences.getInstance(getSherlockActivity());
 
-	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-	    content.getSettings().setDisplayZoomControls(prefs.getPostsZoom());
+	if (UIUtils.isHoneycombOrHigher()) {
 	    content.getSettings().setBuiltInZoomControls(true);
+	    content.getSettings().setDisplayZoomControls(prefs.getPostsZoom());
 	} else
 	    content.getSettings().setBuiltInZoomControls(prefs.getPostsZoom());
     }

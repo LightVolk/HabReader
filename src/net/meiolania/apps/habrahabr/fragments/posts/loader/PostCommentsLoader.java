@@ -70,12 +70,14 @@ public class PostCommentsLoader extends AsyncTaskLoader<ArrayList<CommentsData>>
 	    Element message = comment.select("div.message").first();
 	    Element linkToComment = comment.select("a.link_to_comment").first();
 	    Element score = comment.select("span.score").first();
+	    Element time = comment.select("time").first();
 
 	    commentsData.setScore(score.text());
 	    commentsData.setUrl(linkToComment.attr("abs:href"));
 	    commentsData.setAuthorUrl(name.attr("abs:href"));
 	    commentsData.setAuthor(name.text());
 	    commentsData.setComment(message.html());
+	    commentsData.setTime(time.text());
 	    commentsData.setLevel(level);
 
 	    commentsDatas.add(commentsData);

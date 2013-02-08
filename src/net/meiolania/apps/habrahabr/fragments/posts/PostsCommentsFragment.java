@@ -45,6 +45,7 @@ public class PostsCommentsFragment extends SherlockListFragment implements Loade
     public final static String EXTRA_COMMENT_AUTHOR = "author";
     public final static String EXTRA_COMMENT_BODY = "comment";
     public final static String EXTRA_COMMENT_SCORE = "score";
+    public final static String EXTRA_COMMENT_TIME = "time";
     private ArrayList<CommentsData> comments;
     private CommentsAdapter adapter;
     private String url;
@@ -111,6 +112,7 @@ public class PostsCommentsFragment extends SherlockListFragment implements Loade
 	arguments.putString(EXTRA_COMMENT_AUTHOR, data.getAuthor());
 	arguments.putString(EXTRA_COMMENT_BODY, data.getComment());
 	arguments.putString(EXTRA_COMMENT_SCORE, data.getScore());
+	arguments.putString(EXTRA_COMMENT_TIME, data.getTime());
 
 	dFragment.setArguments(arguments);
         dFragment.show(ft, "dialog");

@@ -28,6 +28,7 @@ public class CommentDialogFragment extends SherlockDialogFragment {
 	author = getArguments().getString(PostsCommentsFragment.EXTRA_COMMENT_AUTHOR);
 	comment = getArguments().getString(PostsCommentsFragment.EXTRA_COMMENT_BODY);
 	score = getArguments().getString(PostsCommentsFragment.EXTRA_COMMENT_SCORE);
+	time = getArguments().getString(PostsCommentsFragment.EXTRA_COMMENT_TIME);
 
 	setStyle(DialogFragment.STYLE_NO_TITLE, 0);
     }
@@ -39,9 +40,11 @@ public class CommentDialogFragment extends SherlockDialogFragment {
 
 	TextView cAuthor = (TextView) v.findViewById(R.id.comment_author);
 	TextView cScore = (TextView) v.findViewById(R.id.comment_score);
+	TextView cTime = (TextView) v.findViewById(R.id.comment_time);
 
 	cAuthor.setText(author);
 	cScore.setText(score);
+	cTime.setText(time);
 
 	WebView cBody = (WebView) v.findViewById(R.id.comment_view);
 

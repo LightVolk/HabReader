@@ -23,6 +23,7 @@ public class CommentsData {
     protected String authorUrl;
     protected String comment;
     protected String score;
+    protected String time;
     protected int level;
 
     public String getAuthorUrl() {
@@ -64,6 +65,14 @@ public class CommentsData {
     public void setScore(String score) {
 	this.score = score;
     }
+    
+    public String getTime() {
+	return time;
+    }
+    
+    public void setTime(String time) {
+	this.time = time;
+    }
 
     public int getLevel() {
 	return level;
@@ -72,5 +81,4 @@ public class CommentsData {
     public void setLevel(int level) {
 	this.level = level;
     }
-
 }

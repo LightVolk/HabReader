@@ -57,62 +57,56 @@ public class CompaniesShowLoader extends AsyncTaskLoader<CompanyFullData> {
 
 	    Document document = Jsoup.connect(url).get();
 
-	    Element state = document.select("div.state").first();
-	    if (state != null)
-		company.setDeletedInfo(state.text());
-	    else {
+	    Elements datas = document.select("div.company_profile > dl");
+	    Element companyname = document.select("head > title").first();
+	    company.setCompanyName(companyname.text().replace(" / Хабрахабр", ""));
 
-		Elements datas = document.select("div.company_profile > dl");
-		Element companyname = document.select("head > title").first();
-		company.setTitle(companyname.text().replace(" / Хабрахабр", ""));
+	    int i = 0;
+	    Element temp;
+	    for (Element data : datas) {
+		switch (i) {
+		    case INFO_DATE:
+			temp = data.getElementsByTag("dd").first();
+			company.setDate(temp != null ? temp.text() : "");
+			break;
+		    case INFO_SITE:
+			temp = data.getElementsByTag("dd").first();
+			company.setCompanyUrl(temp != null ? temp.text() : "");
+			break;
+		    case INFO_INDUSTRIES:
+			temp = data.getElementsByTag("dd").first();
+			company.setIndustries(temp != null ? temp.text() : "");
+			break;
+		    case INFO_LOCATION:
+			temp = data.getElementsByTag("dd").first();
+			company.setLocation(temp != null ? temp.text() : "");
+			break;
+		    case INFO_QUANTITY:
+			temp = data.getElementsByTag("dd").first();
+			company.setQuantity(temp != null ? temp.text() : "");
+			break;
+		    case INFO_SUMMARY:
+			temp = data.getElementsByTag("dd").first();
+			company.setSummary(temp != null ? temp.text() : "");
+			break;
+		    case INFO_MANAGEMENT:
+			Elements managers = data.getElementsByTag("dd");
+			StringBuilder managerContent = new StringBuilder();
 
-		int i = 0;
-		Element temp;
-		for (Element data : datas) {
-		    switch (i) {
-			case INFO_DATE:
-			    temp = data.getElementsByTag("dd").first();
-			    company.setDate(temp != null ? temp.text() : "");
-			    break;
-			case INFO_SITE:
-			    temp = data.getElementsByTag("dd").first();
-			    company.setCompanyUrl(temp != null ? temp.text() : "");
-			    break;
-			case INFO_INDUSTRIES:
-			    temp = data.getElementsByTag("dd").first();
-			    company.setIndustries(temp != null ? temp.text() : "");
-			    break;
-			case INFO_LOCATION:
-			    temp = data.getElementsByTag("dd").first();
-			    company.setLocation(temp != null ? temp.text() : "");
-			    break;
-			case INFO_QUANTITY:
-			    temp = data.getElementsByTag("dd").first();
-			    company.setQuantity(temp != null ? temp.text() : "");
-			    break;
-			case INFO_SUMMARY:
-			    temp = data.getElementsByTag("dd").first();
-			    company.setSummary(temp != null ? temp.text() : "");
-			    break;
-			case INFO_MANAGEMENT:
-			    Elements managers = data.getElementsByTag("dd");
-			    StringBuilder managerContent = new StringBuilder();
+			for (Element manager : managers)
+			    managerContent.append(manager.html());
+			company.setManagement(managerContent.toString());
+			break;
+		    case INFO_DEVELOPMENT_STAGES:
+			Elements stages = data.getElementsByTag("dd");
+			StringBuilder stagesContent = new StringBuilder();
 
-			    for (Element manager : managers)
-				managerContent.append(manager.html());
-			    company.setManagement(managerContent.toString());
-			    break;
-			case INFO_DEVELOPMENT_STAGES:
-			    Elements stages = data.getElementsByTag("dd");
-			    StringBuilder stagesContent = new StringBuilder();
-
-			    for (Element stage : stages)
-				stagesContent.append(stage.html());
-			    company.setDevelopmentStages(stagesContent.toString());
-			    break;
-		    }
-		    i++;
+			for (Element stage : stages)
+			    stagesContent.append(stage.html());
+			company.setDevelopmentStages(stagesContent.toString());
+			break;
 		}
+		i++;
 	    }
 	} catch (IOException e) {
 	}
