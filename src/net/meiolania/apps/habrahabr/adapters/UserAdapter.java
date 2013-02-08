@@ -59,28 +59,38 @@ public class UserAdapter extends BaseAdapter {
 	return position;
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View view, ViewGroup parent) {
 	UsersData data = getItem(position);
 
-	View view = convertView;
+	ViewHolder viewHolder;
 	if (view == null) {
 	    LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	    view = layoutInflater.inflate(R.layout.users_list_row, null);
-	}
+	    
+	    viewHolder = new ViewHolder();
+	    
+	    viewHolder.title = (TextView) view.findViewById(R.id.people_title);
+	    viewHolder.avatar = (ImageView) view.findViewById(R.id.people_avatar);
+	    viewHolder.karma = (TextView) view.findViewById(R.id.people_karma);
+	    viewHolder.rating = (TextView) view.findViewById(R.id.people_rating);
+	    
+	    view.setTag(viewHolder);
+	} else
+	    viewHolder = (ViewHolder) view.getTag();
 
-	TextView title = (TextView) view.findViewById(R.id.people_title);
-	title.setText(data.getName());
-
-	ImageView avatar = (ImageView) view.findViewById(R.id.people_avatar);
-	imageLoader.displayImage(data.getAvatar(), avatar);
-
-	TextView karma = (TextView) view.findViewById(R.id.people_karma);
-	karma.setText(context.getString(R.string.karma_count).replace("%d", data.getKarma()));
-
-	TextView rating = (TextView) view.findViewById(R.id.people_rating);
-	rating.setText(context.getString(R.string.rating_count).replace("%d", data.getRating()));
+	viewHolder.title.setText(data.getName());
+	imageLoader.displayImage(data.getAvatar(), viewHolder.avatar);
+	viewHolder.karma.setText(context.getString(R.string.karma_count).replace("%d", data.getKarma()));
+	viewHolder.rating.setText(context.getString(R.string.rating_count).replace("%d", data.getRating()));
 
 	return view;
+    }
+    
+    static class ViewHolder {
+	TextView title;
+	ImageView avatar;
+	TextView karma;
+	TextView rating;
     }
 
 }

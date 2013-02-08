@@ -48,24 +48,35 @@ public class HubsAdapter extends BaseAdapter {
 	return position;
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View view, ViewGroup parent) {
 	HubsData data = getItem(position);
 
-	View view = convertView;
+	ViewHolder viewHolder;
 	if (view == null) {
 	    LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	    view = layoutInflater.inflate(R.layout.hubs_list_row, null);
-	}
+	    
+	    viewHolder = new ViewHolder();
+	    
+	    viewHolder.title = (TextView) view.findViewById(R.id.hub_title);
+	    viewHolder.stat = (TextView) view.findViewById(R.id.hub_stat);
+	    viewHolder.index = (TextView) view.findViewById(R.id.hub_index);
+	    
+	    view.setTag(viewHolder);
+	} else
+	    viewHolder = (ViewHolder) view.getTag();
 
-	TextView title = (TextView) view.findViewById(R.id.hub_title);
-	TextView stat = (TextView) view.findViewById(R.id.hub_stat);
-	TextView index = (TextView) view.findViewById(R.id.hub_index);
-
-	title.setText(data.getTitle());
-	stat.setText(data.getStat());
-	index.setText(data.getIndex());
+	viewHolder.title.setText(data.getTitle());
+	viewHolder.stat.setText(data.getStat());
+	viewHolder.index.setText(data.getIndex());
 
 	return view;
+    }
+    
+    static class ViewHolder {
+	TextView title;
+	TextView stat;
+	TextView index;
     }
 
 }

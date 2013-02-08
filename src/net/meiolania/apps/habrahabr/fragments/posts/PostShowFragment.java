@@ -23,6 +23,7 @@ import net.meiolania.apps.habrahabr.fragments.posts.loader.PostShowLoader;
 import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
 import net.meiolania.apps.habrahabr.utils.HabrWebClient;
 import net.meiolania.apps.habrahabr.utils.IntentUtils;
+import net.meiolania.apps.habrahabr.utils.UIUtils;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.os.Build;
@@ -34,6 +35,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings.ZoomDensity;
 import android.webkit.WebView;
+import android.widget.FrameLayout;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
@@ -45,10 +47,11 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
     public final static String URL_ARGUMENT = "url";
     private final static int LOADER_POST = 0;
     private String url;
+    private String title;
     private ProgressDialog progressDialog;
-    private PostsFullData data;
     private Preferences prefs;
     private WebView content;
+    private FrameLayout webviewContainer;
     private static final String STYLESHEET = "<link rel=\"stylesheet\" type=\"text/css\" href=\"file:///android_asset/style.css\" />";
 
     @Override
@@ -59,6 +62,9 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
 	setRetainInstance(true);
 
 	url = getArguments().getString(URL_ARGUMENT);
+
+	content = (WebView) getSherlockActivity().findViewById(R.id.post_content);
+	webviewContainer = (FrameLayout) getSherlockActivity().findViewById(R.id.webview_container);
 
 	if (ConnectionUtils.isConnected(getSherlockActivity()))
 	    getSherlockActivity().getSupportLoaderManager().initLoader(LOADER_POST, null, this);
@@ -79,9 +85,9 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 	switch (item.getItemId()) {
-	case R.id.share:
-	    IntentUtils.createShareIntent(getSherlockActivity(), data.getTitle(), url);
-	    break;
+	    case R.id.share:
+		IntentUtils.createShareIntent(getSherlockActivity(), title, url);
+		break;
 	}
 	return super.onOptionsItemSelected(item);
     }
@@ -103,13 +109,12 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
 	    ActionBar actionBar = getSherlockActivity().getSupportActionBar();
 	    actionBar.setTitle(data.getTitle());
 
-	    content = (WebView) getSherlockActivity().findViewById(R.id.post_content);
-
 	    prefs = Preferences.getInstance(getSherlockActivity());
 
 	    content.setWebViewClient(new HabrWebClient(getSherlockActivity()));
 	    content.getSettings().setSupportZoom(true);
-	    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+	    
+	    if (UIUtils.isHoneycombOrHigher()) {
 		content.getSettings().setBuiltInZoomControls(true);
 		content.getSettings().setDisplayZoomControls(prefs.getPostsZoom());
 	    } else
@@ -122,7 +127,7 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
 	    content.loadDataWithBaseURL("", STYLESHEET + data.getContent(), "text/html", "UTF-8", null);
 	}
 
-	this.data = data;
+	title = data.getTitle();
 
 	hideProgressDialog();
     }
@@ -147,6 +152,7 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
     @Override
     public void onResume() {
 	super.onResume();
+
 	content = (WebView) getSherlockActivity().findViewById(R.id.post_content);
 	prefs = Preferences.getInstance(getSherlockActivity());
 
@@ -155,6 +161,15 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
 	    content.getSettings().setDisplayZoomControls(prefs.getPostsZoom());
 	} else
 	    content.getSettings().setBuiltInZoomControls(prefs.getPostsZoom());
+    }
+
+    @Override
+    public void onDestroy() {
+	super.onDestroy();
+
+	// http://stackoverflow.com/a/8011027/921834
+	webviewContainer.removeAllViews();
+	content.destroy();
     }
 
 }

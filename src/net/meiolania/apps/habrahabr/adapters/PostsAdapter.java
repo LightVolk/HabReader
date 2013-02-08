@@ -73,69 +73,89 @@ public class PostsAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View view, ViewGroup parent) {
 	PostsData data = getItem(position);
 
 	if (additionalLayout) {
-	    View view = convertView;
+	    ViewHolder viewHolder;
 	    if (view == null) {
 		LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		view = layoutInflater.inflate(R.layout.posts_list_row, null);
-	    }
+		
+		viewHolder = new ViewHolder();
+		viewHolder.title = (TextView) view.findViewById(R.id.post_title);
+		viewHolder.hubs = (TextView) view.findViewById(R.id.post_hubs);
+		viewHolder.author = (TextView) view.findViewById(R.id.post_author);
+		viewHolder.date = (TextView) view.findViewById(R.id.post_date);
+		viewHolder.score = (TextView) view.findViewById(R.id.post_score);
+		viewHolder.image = (ImageView) view.findViewById(R.id.post_image);
+		viewHolder.text = (TextView) view.findViewById(R.id.post_text);
+		
+		view.setTag(viewHolder);
+	    } else
+		viewHolder = (ViewHolder) view.getTag();
 
-	    TextView title = (TextView) view.findViewById(R.id.post_title);
-	    title.setText(data.getTitle());
-
-	    TextView hubs = (TextView) view.findViewById(R.id.post_hubs);
-	    TextView author = (TextView) view.findViewById(R.id.post_author);
-	    TextView date = (TextView) view.findViewById(R.id.post_date);
-	    TextView score = (TextView) view.findViewById(R.id.post_score);
-	    ImageView image = (ImageView) view.findViewById(R.id.post_image);
-	    TextView text = (TextView) view.findViewById(R.id.post_text);
+	    viewHolder.title.setText(data.getTitle());
 
 	    if (postsFullInfo) {
 		if (!TextUtils.isEmpty(data.getImage())) {
-		    image.setVisibility(View.VISIBLE);
-		    imageLoader.displayImage(data.getImage(), image);
+		    viewHolder.image.setVisibility(View.VISIBLE);
+		    imageLoader.displayImage(data.getImage(), viewHolder.image);
 		} else
-		    image.setVisibility(View.GONE);
+		    viewHolder.image.setVisibility(View.GONE);
 
-		text.setText(Html.fromHtml(data.getText()));
+		viewHolder.text.setText(Html.fromHtml(data.getText()));
 	    } else {
-		image.setVisibility(View.GONE);
-		text.setVisibility(View.GONE);
+		viewHolder.image.setVisibility(View.GONE);
+		viewHolder.text.setVisibility(View.GONE);
 	    }
 
-	    hubs.setText(data.getHubs());
-	    author.setText(data.getAuthor());
-	    date.setText(data.getDate());
+	    viewHolder.hubs.setText(data.getHubs());
+	    viewHolder.author.setText(data.getAuthor());
+	    viewHolder.date.setText(data.getDate());
 
 	    Integer rating = UIUtils.parseRating(data.getScore());
 	    if (rating != null) {
-		score.setVisibility(View.VISIBLE);
+		viewHolder.score.setVisibility(View.VISIBLE);
 
 		if (rating > 0)
-		    score.setTextColor(context.getResources().getColor(R.color.rating_positive));
+		    viewHolder.score.setTextColor(context.getResources().getColor(R.color.rating_positive));
 		else if (rating < 0)
-		    score.setTextColor(context.getResources().getColor(R.color.rating_negative));
+		    viewHolder.score.setTextColor(context.getResources().getColor(R.color.rating_negative));
 		else
-		    score.setTextColor(context.getResources().getColor(R.color.black));
+		    viewHolder.score.setTextColor(context.getResources().getColor(R.color.black));
 	    }
-	    score.setText(data.getScore());
+	    viewHolder.score.setText(data.getScore());
 
 	    return view;
 	} else {
-	    View view = convertView;
+	    ViewHolder viewHolder;
 	    if (view == null) {
 		LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		view = layoutInflater.inflate(R.layout.posts_list_row_simple, null);
-	    }
+		
+		viewHolder = new ViewHolder();
+		
+		viewHolder.title = (TextView) view.findViewById(R.id.post_title);
+		
+		view.setTag(viewHolder);
+	    } else
+		viewHolder = (ViewHolder) view.getTag();
 
-	    TextView title = (TextView) view.findViewById(R.id.post_title);
-	    title.setText(data.getTitle());
+	    viewHolder.title.setText(data.getTitle());
 
 	    return view;
 	}
+    }
+    
+    static class ViewHolder {
+	TextView title;
+	TextView hubs;
+	TextView author;
+	TextView date;
+	TextView score;
+	ImageView image;
+	TextView text;
     }
 
 }

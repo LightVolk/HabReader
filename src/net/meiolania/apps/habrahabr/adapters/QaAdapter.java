@@ -52,42 +52,60 @@ public class QaAdapter extends BaseAdapter {
 	return position;
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View view, ViewGroup parent) {
 	QaData data = getItem(position);
 
 	if (additionalLayout) {
-	    View view = convertView;
+	    ViewHolder viewHolder;
 	    if (view == null) {
 		LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		view = layoutInflater.inflate(R.layout.qa_list_row, null);
-	    }
+		
+		viewHolder = new ViewHolder();
+		
+		viewHolder.title = (TextView) view.findViewById(R.id.qa_title);
+		viewHolder.hubs = (TextView) view.findViewById(R.id.qa_hubs);
+		viewHolder.author = (TextView) view.findViewById(R.id.qa_author);
+		viewHolder.date = (TextView) view.findViewById(R.id.qa_date);
+		viewHolder.answers = (TextView) view.findViewById(R.id.qa_answers);
+		
+		view.setTag(viewHolder);
+	    } else
+		viewHolder = (ViewHolder) view.getTag();
 
-	    TextView title = (TextView) view.findViewById(R.id.qa_title);
-	    title.setText(data.getTitle());
-
-	    TextView hubs = (TextView) view.findViewById(R.id.qa_hubs);
-	    TextView author = (TextView) view.findViewById(R.id.qa_author);
-	    TextView date = (TextView) view.findViewById(R.id.qa_date);
-	    TextView answers = (TextView) view.findViewById(R.id.qa_answers);
-
-	    hubs.setText(data.getHubs());
-	    author.setText(data.getAuthor());
-	    date.setText(data.getDate());
-	    answers.setText(data.getAnswers());
+	    viewHolder.title.setText(data.getTitle());
+	    viewHolder.hubs.setText(data.getHubs());
+	    viewHolder.author.setText(data.getAuthor());
+	    viewHolder.date.setText(data.getDate());
+	    viewHolder.answers.setText(data.getAnswers());
 
 	    return view;
 	} else {
-	    View view = convertView;
+	    ViewHolder viewHolder;
 	    if (view == null) {
 		LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		view = layoutInflater.inflate(R.layout.qa_list_row_simple, null);
-	    }
+		
+		viewHolder = new ViewHolder();
+		
+		viewHolder.title = (TextView) view.findViewById(R.id.qa_title);
+		
+		view.setTag(viewHolder);
+	    } else
+		viewHolder = (ViewHolder) view.getTag();
 	    
-	    TextView title = (TextView) view.findViewById(R.id.qa_title);
-	    title.setText(data.getTitle());
+	    viewHolder.title.setText(data.getTitle());
 	    
 	    return view;
 	}
+    }
+    
+    static class ViewHolder {
+	TextView title;
+	TextView hubs;
+	TextView author;
+	TextView date;
+	TextView answers;
     }
 
 }

@@ -1,10 +1,9 @@
 HabReader
 =========
 
-Android application for [Habrahabr.ru](http://habrahabr.ru).
-
 <a href="https://play.google.com/store/apps/details?id=net.meiolania.apps.habrahabr"><img src="http://www.android.com/images/brand/get_it_on_play_logo_large.png" align="right" style="margin: 0 100px 0 0;" /></a>
 
+Android application for [Habrahabr.ru](http://habrahabr.ru).
 
 Developers
 ===========
