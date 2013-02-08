@@ -23,6 +23,7 @@ import net.meiolania.apps.habrahabr.fragments.qa.loader.QaShowLoader;
 import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
 import net.meiolania.apps.habrahabr.utils.HabrWebClient;
 import net.meiolania.apps.habrahabr.utils.IntentUtils;
+import net.meiolania.apps.habrahabr.utils.UIUtils;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
@@ -32,6 +33,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebSettings.ZoomDensity;
+import android.widget.FrameLayout;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
@@ -43,8 +45,10 @@ public class QaShowFragment extends SherlockFragment implements LoaderCallbacks<
     public final static String URL_ARGUMENT = "url";
     public final static int LOADER_QA = 0;
     private String url;
-    private QaFullData data;
+    private String title;
     private ProgressDialog progressDialog;
+    private WebView content;
+    private FrameLayout webviewContainer;
     private static final String STYLESHEET = "<link rel=\"stylesheet\" type=\"text/css\" href=\"file:///android_asset/style.css\" />";
 
     @Override
@@ -55,6 +59,9 @@ public class QaShowFragment extends SherlockFragment implements LoaderCallbacks<
 	setRetainInstance(true);
 
 	url = getArguments().getString(URL_ARGUMENT);
+
+	content = (WebView) getSherlockActivity().findViewById(R.id.qa_content);
+	webviewContainer = (FrameLayout) getSherlockActivity().findViewById(R.id.webview_container);
 
 	if (ConnectionUtils.isConnected(getSherlockActivity()))
 	    getSherlockActivity().getSupportLoaderManager().initLoader(LOADER_QA, null, this);
@@ -75,9 +82,9 @@ public class QaShowFragment extends SherlockFragment implements LoaderCallbacks<
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 	switch (item.getItemId()) {
-	case R.id.share:
-	    IntentUtils.createShareIntent(getSherlockActivity(), data.getTitle(), url);
-	    break;
+	    case R.id.share:
+		IntentUtils.createShareIntent(getSherlockActivity(), title, url);
+		break;
 	}
 	return super.onOptionsItemSelected(item);
     }
@@ -97,16 +104,18 @@ public class QaShowFragment extends SherlockFragment implements LoaderCallbacks<
 	if (getSherlockActivity() != null) {
 	    ActionBar actionBar = getSherlockActivity().getSupportActionBar();
 	    actionBar.setTitle(data.getTitle());
-	    WebView content = (WebView) getSherlockActivity().findViewById(R.id.qa_content);
+	    
 	    content.setWebViewClient(new HabrWebClient(getSherlockActivity()));
-	    content.getSettings().setBuiltInZoomControls(true);
 	    content.getSettings().setSupportZoom(true);
+	    content.getSettings().setBuiltInZoomControls(true);
+	    content.getSettings().setJavaScriptEnabled(true);
 	    content.setInitialScale(Preferences.getInstance(getSherlockActivity()).getViewScale(getSherlockActivity()));
 	    content.getSettings().setDefaultZoom(ZoomDensity.FAR);
+
 	    content.loadDataWithBaseURL("", STYLESHEET + data.getContent(), "text/html", "UTF-8", null);
 	}
 
-	this.data = data;
+	title = data.getTitle();
 
 	hideProgressDialog();
     }
@@ -126,6 +135,15 @@ public class QaShowFragment extends SherlockFragment implements LoaderCallbacks<
     private void hideProgressDialog() {
 	if (progressDialog != null)
 	    progressDialog.dismiss();
+    }
+
+    @Override
+    public void onDestroy() {
+	super.onDestroy();
+
+	// http://stackoverflow.com/a/8011027/921834
+	webviewContainer.removeAllViews();
+	content.destroy();
     }
 
 }
