@@ -121,8 +121,8 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
 		content.getSettings().setBuiltInZoomControls(prefs.getPostsZoom());
 
 	    content.getSettings().setJavaScriptEnabled(true);
-	    content.setInitialScale(Preferences.getInstance(getSherlockActivity()).getViewScale(getSherlockActivity()));
 	    content.getSettings().setDefaultZoom(ZoomDensity.FAR);
+	    content.setInitialScale(prefs.getViewScale(getSherlockActivity()));
 
 	    content.loadDataWithBaseURL("", STYLESHEET + data.getContent(), "text/html", "UTF-8", null);
 	}

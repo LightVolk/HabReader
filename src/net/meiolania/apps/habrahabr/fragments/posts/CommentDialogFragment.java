@@ -2,6 +2,7 @@ package net.meiolania.apps.habrahabr.fragments.posts;
 
 import com.actionbarsherlock.app.SherlockDialogFragment;
 
+import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.utils.HabrWebClient;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ public class CommentDialogFragment extends SherlockDialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 	View v = inflater.inflate(R.layout.fragment_comment, container);
+	Preferences prefs = Preferences.getInstance(getSherlockActivity());
 
 	TextView cAuthor = (TextView) v.findViewById(R.id.comment_author);
 	TextView cScore = (TextView) v.findViewById(R.id.comment_score);
@@ -42,13 +44,14 @@ public class CommentDialogFragment extends SherlockDialogFragment {
 	cAuthor.setText(author);
 	cScore.setText(score);
 
-	WebView cBody = (WebView) v.findViewById(R.id.comment_body);
+	WebView cBody = (WebView) v.findViewById(R.id.comment_view);
 
 	cBody.setWebViewClient(new HabrWebClient(getSherlockActivity()));
+	cBody.setBackgroundColor(0x00000000);
 	cBody.getSettings().setSupportZoom(false);
 	cBody.getSettings().setBuiltInZoomControls(false);
-	cBody.setBackgroundColor(0x00000000);
 	cBody.getSettings().setDefaultZoom(ZoomDensity.FAR);
+	cBody.setInitialScale(prefs.getViewScale(getSherlockActivity()));
 	cBody.loadDataWithBaseURL(null, STYLESHEET + comment, "text/html", "UTF-8", null);
 	return v;
     }
