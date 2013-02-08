@@ -45,12 +45,12 @@ public class CompaniesShowFragment extends SherlockFragment implements LoaderCal
     private String url;
     private ProgressDialog progressDialog;
     private String companyUrl;
-    
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        
-        setHasOptionsMenu(true);
+	super.onCreate(savedInstanceState);
+
+	setHasOptionsMenu(true);
     }
 
     @Override
@@ -105,76 +105,129 @@ public class CompaniesShowFragment extends SherlockFragment implements LoaderCal
 
 	if (activity != null) {
 	    ActionBar actionBar = activity.getSupportActionBar();
-	    actionBar.setTitle(data.getCompanyName());
-	    actionBar.setSubtitle(data.getDate());
 
-	    /* Company website */
-	    companyUrl = data.getCompanyUrl();
+	    if (data.getDeletedInfo() == null) {
+		actionBar.setTitle(data.getTitle());
+		actionBar.setSubtitle(data.getDate());
 
-	    /* Industries */
-	    TextView industriesDivider = (TextView) activity.findViewById(R.id.company_industries_divider);
-	    TextView industries = (TextView) activity.findViewById(R.id.company_industries);
+		/* Company website */
+		companyUrl = data.getCompanyUrl();
 
-	    if (data.getIndustries().length() > 0)
-		industries.setText(data.getIndustries());
-	    else {
+		/* Industries */
+		TextView industriesDivider = (TextView) activity.findViewById(R.id.company_industries_divider);
+		TextView industries = (TextView) activity.findViewById(R.id.company_industries);
+
+		if (data.getIndustries().length() > 0)
+		    industries.setText(data.getIndustries());
+		else {
+		    industriesDivider.setVisibility(View.GONE);
+		    industries.setVisibility(View.GONE);
+		}
+
+		/* Location */
+		TextView locationDivider = (TextView) activity.findViewById(R.id.company_location_divider);
+		TextView location = (TextView) activity.findViewById(R.id.company_location);
+
+		if (data.getLocation().length() > 0)
+		    location.setText(data.getLocation());
+		else {
+		    locationDivider.setVisibility(View.GONE);
+		    location.setVisibility(View.GONE);
+		}
+
+		/* Quantity */
+		TextView quantityDivider = (TextView) activity.findViewById(R.id.company_quantity_divider);
+		TextView quantity = (TextView) activity.findViewById(R.id.company_quantity);
+
+		if (data.getQuantity().length() > 0)
+		    quantity.setText(data.getQuantity());
+		else {
+		    quantityDivider.setVisibility(View.GONE);
+		    quantity.setVisibility(View.GONE);
+		}
+
+		/* Summary */
+		TextView summaryDivider = (TextView) activity.findViewById(R.id.company_summary_divider);
+		WebView summary = (WebView) activity.findViewById(R.id.company_summary);
+
+		if (data.getSummary().length() > 0)
+		    summary.loadDataWithBaseURL("", data.getSummary(), "text/html", "UTF-8", null);
+		else {
+		    summaryDivider.setVisibility(View.GONE);
+		    summary.setVisibility(View.GONE);
+		}
+
+		/* Management */
+		TextView managementDivider = (TextView) activity.findViewById(R.id.company_management_divider);
+		WebView management = (WebView) activity.findViewById(R.id.company_management);
+
+		if (data.getManagement().length() > 0)
+		    management.loadDataWithBaseURL("", data.getManagement(), "text/html", "UTF-8", null);
+		else {
+		    managementDivider.setVisibility(View.GONE);
+		    management.setVisibility(View.GONE);
+		}
+
+		/* Development stages */
+		TextView developmentStagesDivider = (TextView) activity.findViewById(R.id.company_development_stages_divider);
+		WebView developmentStages = (WebView) activity.findViewById(R.id.company_development_stages);
+
+		if (data.getDevelopmentStages().length() > 0)
+		    developmentStages.loadDataWithBaseURL("", data.getDevelopmentStages(), "text/html", "UTF-8", null);
+		else {
+		    developmentStagesDivider.setVisibility(View.GONE);
+		    developmentStages.setVisibility(View.GONE);
+		}
+		
+		/* Hide deleted info */
+		TextView deletedInfo = (TextView) activity.findViewById(R.id.deleted_info);
+		deletedInfo.setVisibility(View.GONE);
+	    } else {
+		/* Hide industries */
+		TextView industriesDivider = (TextView) activity.findViewById(R.id.company_industries_divider);
+		TextView industries = (TextView) activity.findViewById(R.id.company_industries);
+
 		industriesDivider.setVisibility(View.GONE);
 		industries.setVisibility(View.GONE);
-	    }
 
-	    /* Location */
-	    TextView locationDivider = (TextView) activity.findViewById(R.id.company_location_divider);
-	    TextView location = (TextView) activity.findViewById(R.id.company_location);
+		/* Hide location */
+		TextView locationDivider = (TextView) activity.findViewById(R.id.company_location_divider);
+		TextView location = (TextView) activity.findViewById(R.id.company_location);
 
-	    if (data.getLocation().length() > 0)
-		location.setText(data.getLocation());
-	    else {
 		locationDivider.setVisibility(View.GONE);
 		location.setVisibility(View.GONE);
-	    }
 
-	    /* Quantity */
-	    TextView quantityDivider = (TextView) activity.findViewById(R.id.company_quantity_divider);
-	    TextView quantity = (TextView) activity.findViewById(R.id.company_quantity);
+		/* Hide quantity */
+		TextView quantityDivider = (TextView) activity.findViewById(R.id.company_quantity_divider);
+		TextView quantity = (TextView) activity.findViewById(R.id.company_quantity);
 
-	    if (data.getQuantity().length() > 0)
-		quantity.setText(data.getQuantity());
-	    else {
 		quantityDivider.setVisibility(View.GONE);
 		quantity.setVisibility(View.GONE);
-	    }
 
-	    /* Summary */
-	    TextView summaryDivider = (TextView) activity.findViewById(R.id.company_summary_divider);
-	    WebView summary = (WebView) activity.findViewById(R.id.company_summary);
+		/* Hide summary */
+		TextView summaryDivider = (TextView) activity.findViewById(R.id.company_summary_divider);
+		WebView summary = (WebView) activity.findViewById(R.id.company_summary);
 
-	    if (data.getSummary().length() > 0)
-		summary.loadDataWithBaseURL("", data.getSummary(), "text/html", "UTF-8", null);
-	    else {
 		summaryDivider.setVisibility(View.GONE);
 		summary.setVisibility(View.GONE);
-	    }
 
-	    /* Management */
-	    TextView managementDivider = (TextView) activity.findViewById(R.id.company_management_divider);
-	    WebView management = (WebView) activity.findViewById(R.id.company_management);
+		/* Hide management */
+		TextView managementDivider = (TextView) activity.findViewById(R.id.company_management_divider);
+		WebView management = (WebView) activity.findViewById(R.id.company_management);
 
-	    if (data.getManagement().length() > 0)
-		management.loadDataWithBaseURL("", data.getManagement(), "text/html", "UTF-8", null);
-	    else {
 		managementDivider.setVisibility(View.GONE);
 		management.setVisibility(View.GONE);
-	    }
 
-	    /* Development stages */
-	    TextView developmentStagesDivider = (TextView) activity.findViewById(R.id.company_development_stages_divider);
-	    WebView developmentStages = (WebView) activity.findViewById(R.id.company_development_stages);
+		/* Development stages */
+		TextView developmentStagesDivider = (TextView) activity.findViewById(R.id.company_development_stages_divider);
+		WebView developmentStages = (WebView) activity.findViewById(R.id.company_development_stages);
 
-	    if (data.getDevelopmentStages().length() > 0)
-		developmentStages.loadDataWithBaseURL("", data.getDevelopmentStages(), "text/html", "UTF-8", null);
-	    else {
 		developmentStagesDivider.setVisibility(View.GONE);
 		developmentStages.setVisibility(View.GONE);
+		
+		/* Show error */
+		TextView deletedInfo = (TextView) activity.findViewById(R.id.deleted_info);
+		deletedInfo.setText(data.getTitle() + " " + data.getDeletedInfo());
 	    }
 	}
 
