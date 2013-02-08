@@ -4,8 +4,8 @@
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
     <color name="comment_author">#666666</color>
+    <color name="date">#7e7e7e</color>
     <color name="list_author_name">#d80057</color>
-    <color name="list_date">#7e7e7e</color>
     <color name="list_hubs">#999999</color>
     <color name="rating_negative">#cc0000</color>
     <color name="rating_positive">#339900</color>

@@ -1,10 +1,12 @@
 package net.meiolania.apps.habrahabr.fragments.posts;
 
 import com.actionbarsherlock.app.SherlockDialogFragment;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.utils.HabrWebClient;
+import net.meiolania.apps.habrahabr.utils.UIUtils;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -37,6 +39,8 @@ public class CommentDialogFragment extends SherlockDialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 	View v = inflater.inflate(R.layout.fragment_comment, container);
 	Preferences prefs = Preferences.getInstance(getSherlockActivity());
+	
+	SherlockFragmentActivity activity = getSherlockActivity();
 
 	TextView cAuthor = (TextView) v.findViewById(R.id.comment_author);
 	TextView cScore = (TextView) v.findViewById(R.id.comment_score);
@@ -45,6 +49,14 @@ public class CommentDialogFragment extends SherlockDialogFragment {
 	cAuthor.setText(author);
 	cScore.setText(score);
 	cTime.setText(time);
+	
+	Integer rating = UIUtils.parseRating(score);
+	if (rating > 0)
+	    cScore.setTextColor(activity.getResources().getColor(R.color.rating_positive));
+	else if (rating < 0)
+	    cScore.setTextColor(activity.getResources().getColor(R.color.rating_negative));
+	else
+	    cScore.setTextColor(activity.getResources().getColor(R.color.black));
 
 	WebView cBody = (WebView) v.findViewById(R.id.comment_view);
 

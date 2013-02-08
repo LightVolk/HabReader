@@ -66,6 +66,7 @@ public class CommentsAdapter extends BaseAdapter {
 	    viewHolder.comment = (TextView) view.findViewById(R.id.comment_text);
 	    viewHolder.author = (TextView) view.findViewById(R.id.comment_author);
 	    viewHolder.score = (TextView) view.findViewById(R.id.comment_score);
+	    viewHolder.time = (TextView) view.findViewById(R.id.comment_time);
 	    
 	    view.setTag(viewHolder);
 	} else
@@ -74,6 +75,7 @@ public class CommentsAdapter extends BaseAdapter {
 	// TODO: Handle images; Html.fromHtml(source, imageGetter, tagHandler)
 	viewHolder.comment.setText(Html.fromHtml(data.getComment()));
 	viewHolder.author.setText(data.getAuthor());
+	viewHolder.time.setText(data.getTime());
 
 	Integer rating = UIUtils.parseRating(data.getScore());
 
@@ -89,12 +91,12 @@ public class CommentsAdapter extends BaseAdapter {
 	if (data.getLevel() > 0) {
 	    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
 		    LinearLayout.LayoutParams.FILL_PARENT);
-	    layoutParams.setMargins(10 + data.getLevel() * MARGIN, 10, 10, 10);
+	    layoutParams.setMargins(7 + data.getLevel() * MARGIN, 4, 7, 4);
 	    viewHolder.commentBox.setLayoutParams(layoutParams);
 	} else {
 	    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
 		    LinearLayout.LayoutParams.FILL_PARENT);
-	    layoutParams.setMargins(10, 10, 10, 10);
+	    layoutParams.setMargins(7, 4, 7, 4);
 	    viewHolder.commentBox.setLayoutParams(layoutParams);
 	}
 
@@ -106,6 +108,7 @@ public class CommentsAdapter extends BaseAdapter {
 	TextView comment;
 	TextView author;
 	TextView score;
+	TextView time;
     }
 
 }
