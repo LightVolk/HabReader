@@ -32,6 +32,7 @@
     <string name="favorites">Избранное</string>
 
     <!-- Slide menu -->
+    <string name="account">Аккаунт</string>
     <string name="sections">Разделы</string>
     <string name="posts">Посты</string>
     <string name="qa">Q&amp;A</string>

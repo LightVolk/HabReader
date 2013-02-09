@@ -62,7 +62,9 @@ public class MenuFragment extends SherlockListFragment {
 	if (!User.getInstance().isLogged())
 	    menu.add(new MenuData(R.string.auth, R.drawable.ic_users, ItemType.AUTH, false));
 	else {
-	    menu.add(new MenuData(User.getInstance().getLogin(), 0, ItemType.PROFILE, true));
+	    menu.add(new MenuData(R.string.account, 0, null, true));
+	    // TODO: set user avatar
+	    menu.add(new MenuData(User.getInstance().getLogin(), R.drawable.ic_no_avatar, ItemType.PROFILE, false));
 	    menu.add(new MenuData(R.string.feed, R.drawable.ic_feed, ItemType.FEED, false));
 	    menu.add(new MenuData(R.string.favorites, R.drawable.ic_favorites, ItemType.FAVORITES, false));
 	}
@@ -92,6 +94,9 @@ public class MenuFragment extends SherlockListFragment {
 	    newContent = new AuthFragment();
 	    break;
 	case PROFILE:
+	    Intent intent = new Intent(getSherlockActivity(), UsersShowActivity.class);
+	    intent.putExtra(UsersShowActivity.EXTRA_URL, "http://habrahabr.ru/users/" + User.getInstance().getLogin());
+	    getSherlockActivity().startActivity(intent);
 	    break;
 	case FEED:
 	    newContent = new FeedMainFragment();
