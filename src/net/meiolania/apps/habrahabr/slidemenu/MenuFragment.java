@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.activities.MainActivity;
+import net.meiolania.apps.habrahabr.activities.UsersShowActivity;
 import net.meiolania.apps.habrahabr.auth.AuthFragment;
 import net.meiolania.apps.habrahabr.auth.User;
 import net.meiolania.apps.habrahabr.fragments.companies.CompaniesFragment;
@@ -31,6 +32,7 @@ import net.meiolania.apps.habrahabr.fragments.posts.PostsMainFragment;
 import net.meiolania.apps.habrahabr.fragments.qa.QaMainFragment;
 import net.meiolania.apps.habrahabr.fragments.users.UsersFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -86,36 +88,35 @@ public class MenuFragment extends SherlockListFragment {
 
 	Fragment newContent = null;
 	switch (data.itemType) {
-	    case AUTH:
-		newContent = new AuthFragment();
-		break;
-	    case PROFILE:
-
-		break;
-	    case FEED:
-		newContent = new FeedMainFragment();
-		break;
-	    case FAVORITES:
-		newContent = new FavoritesMainFragment();
-		break;
-	    case POSTS:
-		newContent = new PostsMainFragment();
-		break;
-	    case HUBS:
-		newContent = new HubsMainFragment();
-		break;
-	    case QA:
-		newContent = new QaMainFragment();
-		break;
-	    case EVENTS:
-		newContent = new EventsMainFragment();
-		break;
-	    case COMPANIES:
-		newContent = new CompaniesFragment();
-		break;
-	    case USERS:
-		newContent = new UsersFragment();
-		break;
+	case AUTH:
+	    newContent = new AuthFragment();
+	    break;
+	case PROFILE:
+	    break;
+	case FEED:
+	    newContent = new FeedMainFragment();
+	    break;
+	case FAVORITES:
+	    newContent = new FavoritesMainFragment();
+	    break;
+	case POSTS:
+	    newContent = new PostsMainFragment();
+	    break;
+	case HUBS:
+	    newContent = new HubsMainFragment();
+	    break;
+	case QA:
+	    newContent = new QaMainFragment();
+	    break;
+	case EVENTS:
+	    newContent = new EventsMainFragment();
+	    break;
+	case COMPANIES:
+	    newContent = new CompaniesFragment();
+	    break;
+	case USERS:
+	    newContent = new UsersFragment();
+	    break;
 	}
 	if (newContent != null)
 	    switchFragment(newContent, data.itemType);

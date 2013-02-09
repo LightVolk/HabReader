@@ -53,7 +53,7 @@ public class HabrWebClient extends WebViewClient {
 	    context.startActivity(intent);
 	} else if (url.startsWith("http://habrahabr.ru/users/")) {
 	    Intent intent = new Intent(context, UsersShowActivity.class);
-	    intent.putExtra(PostsShowActivity.EXTRA_URL, url);
+	    intent.putExtra(UsersShowActivity.EXTRA_URL, url);
 	    context.startActivity(intent);
 	} else {
 	    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));

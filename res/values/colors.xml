@@ -12,6 +12,7 @@
     <color name="user_karma">#66cc66</color>
     <color name="user_rating">#cc66cc</color>
     <color name="users_divider">#80a1b0</color>
+    <color name="section_bg">#80a1b0</color>
     <color name="simple_list_row_selected">#33B5E5</color>
     <color name="simple_list_row_focused">#33B5E5</color>
     <color name="simple_list_row">#ffffff</color>
