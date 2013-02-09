@@ -64,7 +64,7 @@ public class MenuFragment extends SherlockListFragment {
 	else {
 	    menu.add(new MenuData(R.string.account, 0, null, true));
 	    // TODO: set user avatar
-	    menu.add(new MenuData(User.getInstance().getLogin(), R.drawable.ic_no_avatar, ItemType.PROFILE, false));
+	    menu.add(new MenuData(User.getInstance().getLogin(), R.drawable.ic_users, ItemType.PROFILE, false));
 	    menu.add(new MenuData(R.string.feed, R.drawable.ic_feed, ItemType.FEED, false));
 	    menu.add(new MenuData(R.string.favorites, R.drawable.ic_favorites, ItemType.FAVORITES, false));
 	}
