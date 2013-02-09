@@ -105,7 +105,7 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
     @SuppressLint("NewApi")
     @Override
     public void onLoadFinished(Loader<PostsFullData> loader, PostsFullData data) {
-	if (getSherlockActivity() != null) {
+	if (getSherlockActivity() != null && data != null) {
 	    ActionBar actionBar = getSherlockActivity().getSupportActionBar();
 	    actionBar.setTitle(data.getTitle());
 

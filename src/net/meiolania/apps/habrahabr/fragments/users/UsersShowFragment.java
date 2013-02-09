@@ -72,7 +72,7 @@ public class UsersShowFragment extends SherlockFragment implements LoaderCallbac
     public void onLoadFinished(Loader<UsersFullData> loader, UsersFullData data) {
 	SherlockFragmentActivity activity = getSherlockActivity();
 
-	if (activity != null) {
+	if (activity != null && data != null) {
 	    ActionBar actionBar = activity.getSupportActionBar();
 	    actionBar.setTitle(data.getUsername());
 

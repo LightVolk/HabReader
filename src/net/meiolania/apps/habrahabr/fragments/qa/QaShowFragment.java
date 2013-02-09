@@ -100,7 +100,7 @@ public class QaShowFragment extends SherlockFragment implements LoaderCallbacks<
 
     @Override
     public void onLoadFinished(Loader<QaFullData> loader, QaFullData data) {
-	if (getSherlockActivity() != null) {
+	if (getSherlockActivity() != null && data != null) {
 	    ActionBar actionBar = getSherlockActivity().getSupportActionBar();
 	    actionBar.setTitle(data.getTitle());
 	    

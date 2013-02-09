@@ -102,7 +102,7 @@ public class EventsShowFragment extends SherlockFragment implements LoaderCallba
     public void onLoadFinished(Loader<EventFullData> loader, EventFullData data) {
 	SherlockFragmentActivity activity = getSherlockActivity();
 
-	if (activity != null) {
+	if (activity != null && data != null) {
 	    ActionBar actionBar = activity.getSupportActionBar();
 	    actionBar.setTitle(data.getTitle());
 
