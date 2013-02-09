@@ -18,6 +18,7 @@ package net.meiolania.apps.habrahabr.utils;
 
 import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.activities.PostsShowActivity;
+import net.meiolania.apps.habrahabr.activities.UsersShowActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.MailTo;
@@ -46,10 +47,12 @@ public class HabrWebClient extends WebViewClient {
 	    MailTo mt = MailTo.parse(url);
 	    Intent i = newEmailIntent(context, mt.getTo(), mt.getSubject(), mt.getBody(), mt.getCc());
 	    context.startActivity(i);
-	    view.reload();
-	    return true;
-	} else if (url.startsWith("http://habra")) {
+	} else if (url.startsWith("http://habrahabr.ru/post/")) {
 	    Intent intent = new Intent(context, PostsShowActivity.class);
+	    intent.putExtra(PostsShowActivity.EXTRA_URL, url);
+	    context.startActivity(intent);
+	} else if (url.startsWith("http://habrahabr.ru/users/")) {
+	    Intent intent = new Intent(context, UsersShowActivity.class);
 	    intent.putExtra(PostsShowActivity.EXTRA_URL, url);
 	    context.startActivity(intent);
 	} else {

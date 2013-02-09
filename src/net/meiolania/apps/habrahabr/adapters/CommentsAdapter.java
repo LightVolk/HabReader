@@ -59,15 +59,15 @@ public class CommentsAdapter extends BaseAdapter {
 	if (view == null) {
 	    LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	    view = layoutInflater.inflate(R.layout.comments_list_row, null);
-	    
+
 	    viewHolder = new ViewHolder();
-	    
+
 	    viewHolder.commentBox = (LinearLayout) view.findViewById(R.id.comment_box);
 	    viewHolder.comment = (TextView) view.findViewById(R.id.comment_text);
 	    viewHolder.author = (TextView) view.findViewById(R.id.comment_author);
 	    viewHolder.score = (TextView) view.findViewById(R.id.comment_score);
 	    viewHolder.time = (TextView) view.findViewById(R.id.comment_time);
-	    
+
 	    view.setTag(viewHolder);
 	} else
 	    viewHolder = (ViewHolder) view.getTag();
@@ -79,22 +79,29 @@ public class CommentsAdapter extends BaseAdapter {
 
 	Integer rating = UIUtils.parseRating(data.getScore());
 
-	if (rating > 0)
-	    viewHolder.score.setTextColor(context.getResources().getColor(R.color.rating_positive));
-	else if (rating < 0)
-	    viewHolder.score.setTextColor(context.getResources().getColor(R.color.rating_negative));
-	else
-	    viewHolder.score.setTextColor(context.getResources().getColor(R.color.black));
-
-	viewHolder.score.setText(data.getScore());
+	// Temporary fix
+	/*
+	 * TODO: think more about that. Create a separate method in UIUtils
+	 * 'cause it's used in more than one class
+	 */
+	if (rating != null) {
+	    if (rating > 0)
+		viewHolder.score.setTextColor(context.getResources().getColor(R.color.rating_positive));
+	    else if (rating < 0)
+		viewHolder.score.setTextColor(context.getResources().getColor(R.color.rating_negative));
+	    else
+		viewHolder.score.setTextColor(context.getResources().getColor(R.color.black));
+	    viewHolder.score.setText(data.getScore());
+	} else
+	    viewHolder.score.setVisibility(View.GONE);
 
 	if (data.getLevel() > 0) {
-	    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+	    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,
 		    LinearLayout.LayoutParams.FILL_PARENT);
 	    layoutParams.setMargins(7 + data.getLevel() * MARGIN, 4, 7, 4);
 	    viewHolder.commentBox.setLayoutParams(layoutParams);
 	} else {
-	    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+	    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,
 		    LinearLayout.LayoutParams.FILL_PARENT);
 	    layoutParams.setMargins(7, 4, 7, 4);
 	    viewHolder.commentBox.setLayoutParams(layoutParams);
@@ -102,7 +109,7 @@ public class CommentsAdapter extends BaseAdapter {
 
 	return view;
     }
-    
+
     static class ViewHolder {
 	LinearLayout commentBox;
 	TextView comment;
