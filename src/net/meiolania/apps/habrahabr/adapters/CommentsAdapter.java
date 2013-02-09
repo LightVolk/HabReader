@@ -92,8 +92,8 @@ public class CommentsAdapter extends BaseAdapter {
 	    else
 		viewHolder.score.setTextColor(context.getResources().getColor(R.color.black));
 	    viewHolder.score.setText(data.getScore());
-	} else
-	    viewHolder.score.setVisibility(View.GONE);
+	}// else
+	//    viewHolder.score.setVisibility(View.GONE);
 
 	if (data.getLevel() > 0) {
 	    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,
