@@ -115,7 +115,7 @@ public class CompaniesShowFragment extends SherlockFragment implements LoaderCal
 	    TextView industriesDivider = (TextView) activity.findViewById(R.id.company_industries_divider);
 	    TextView industries = (TextView) activity.findViewById(R.id.company_industries);
 
-	    if (data.getIndustries().length() > 0)
+	    if (data.getIndustries() != null)
 		industries.setText(data.getIndustries());
 	    else {
 		industriesDivider.setVisibility(View.GONE);
@@ -126,7 +126,7 @@ public class CompaniesShowFragment extends SherlockFragment implements LoaderCal
 	    TextView locationDivider = (TextView) activity.findViewById(R.id.company_location_divider);
 	    TextView location = (TextView) activity.findViewById(R.id.company_location);
 
-	    if (data.getLocation().length() > 0)
+	    if (data.getLocation() != null)
 		location.setText(data.getLocation());
 	    else {
 		locationDivider.setVisibility(View.GONE);
@@ -137,7 +137,7 @@ public class CompaniesShowFragment extends SherlockFragment implements LoaderCal
 	    TextView quantityDivider = (TextView) activity.findViewById(R.id.company_quantity_divider);
 	    TextView quantity = (TextView) activity.findViewById(R.id.company_quantity);
 
-	    if (data.getQuantity().length() > 0)
+	    if (data.getQuantity() != null)
 		quantity.setText(data.getQuantity());
 	    else {
 		quantityDivider.setVisibility(View.GONE);
@@ -148,7 +148,7 @@ public class CompaniesShowFragment extends SherlockFragment implements LoaderCal
 	    TextView summaryDivider = (TextView) activity.findViewById(R.id.company_summary_divider);
 	    WebView summary = (WebView) activity.findViewById(R.id.company_summary);
 
-	    if (data.getSummary().length() > 0)
+	    if (data.getSummary() != null)
 		summary.loadDataWithBaseURL("", data.getSummary(), "text/html", "UTF-8", null);
 	    else {
 		summaryDivider.setVisibility(View.GONE);
@@ -159,7 +159,7 @@ public class CompaniesShowFragment extends SherlockFragment implements LoaderCal
 	    TextView managementDivider = (TextView) activity.findViewById(R.id.company_management_divider);
 	    WebView management = (WebView) activity.findViewById(R.id.company_management);
 
-	    if (data.getManagement().length() > 0)
+	    if (data.getManagement() != null)
 		management.loadDataWithBaseURL("", data.getManagement(), "text/html", "UTF-8", null);
 	    else {
 		managementDivider.setVisibility(View.GONE);
@@ -170,7 +170,7 @@ public class CompaniesShowFragment extends SherlockFragment implements LoaderCal
 	    TextView developmentStagesDivider = (TextView) activity.findViewById(R.id.company_development_stages_divider);
 	    WebView developmentStages = (WebView) activity.findViewById(R.id.company_development_stages);
 
-	    if (data.getDevelopmentStages().length() > 0)
+	    if (data.getDevelopmentStages() != null)
 		developmentStages.loadDataWithBaseURL("", data.getDevelopmentStages(), "text/html", "UTF-8", null);
 	    else {
 		developmentStagesDivider.setVisibility(View.GONE);
