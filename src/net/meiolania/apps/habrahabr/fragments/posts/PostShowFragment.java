@@ -26,7 +26,6 @@ import net.meiolania.apps.habrahabr.utils.IntentUtils;
 import net.meiolania.apps.habrahabr.utils.UIUtils;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
