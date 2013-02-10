@@ -56,51 +56,56 @@ public class MainActivity extends AbstractionFragmentActivity {
 
 	// @TODO: think of something new.
 	switch (currentSection) {
-	    case 0:
-		content = new AuthFragment();
-		contentType = ItemType.AUTH;
-		break;
-	    case 1:
+	case 0:
+	    content = new AuthFragment();
+	    contentType = ItemType.AUTH;
+	    break;
+	case 1:
 
-		contentType = ItemType.PROFILE;
-		break;
-	    case 2:
-		content = new FeedMainFragment();
-		contentType = ItemType.FEED;
-		break;
-	    case 3:
-		content = new FavoritesMainFragment();
-		contentType = ItemType.FAVORITES;
-		break;
-	    case 4:
-		content = new PostsMainFragment();
-		contentType = ItemType.POSTS;
-		break;
-	    case 5:
-		content = new HubsMainFragment();
-		contentType = ItemType.HUBS;
-		break;
-	    case 6:
-		content = new QaMainFragment();
-		contentType = ItemType.QA;
-		break;
-	    case 7:
-		content = new EventsMainFragment();
-		contentType = ItemType.EVENTS;
-		break;
-	    case 8:
-		content = new CompaniesFragment();
-		contentType = ItemType.COMPANIES;
-		break;
-	    case 9:
-		content = new UsersFragment();
-		contentType = ItemType.USERS;
-		break;
+	    contentType = ItemType.PROFILE;
+	    break;
+	case 2:
+	    content = new FeedMainFragment();
+	    contentType = ItemType.FEED;
+	    break;
+	case 3:
+	    content = new FavoritesMainFragment();
+	    contentType = ItemType.FAVORITES;
+	    break;
+	case 4:
+	    content = new PostsMainFragment();
+	    contentType = ItemType.POSTS;
+	    break;
+	case 5:
+	    content = new HubsMainFragment();
+	    contentType = ItemType.HUBS;
+	    break;
+	case 6:
+	    content = new QaMainFragment();
+	    contentType = ItemType.QA;
+	    break;
+	case 7:
+	    content = new EventsMainFragment();
+	    contentType = ItemType.EVENTS;
+	    break;
+	case 8:
+	    content = new CompaniesFragment();
+	    contentType = ItemType.COMPANIES;
+	    break;
+	case 9:
+	    content = new UsersFragment();
+	    contentType = ItemType.USERS;
+	    break;
 	}
 
 	if (content == null) {
-	    content = new PostsMainFragment();
-	    contentType = ItemType.POSTS;
+	    if (!User.getInstance().isLogged()) {
+		content = new PostsMainFragment();
+		contentType = ItemType.POSTS;
+	    } else {
+		content = new FeedMainFragment();
+		contentType = ItemType.FEED;
+	    }
 	}
 
 	getSupportFragmentManager().beginTransaction().replace(android.R.id.content, content).commit();
@@ -137,12 +142,12 @@ public class MainActivity extends AbstractionFragmentActivity {
     @Override
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
 	switch (item.getItemId()) {
-	    case android.R.id.home:
-		toggle();
-		return true;
-	    case R.id.sign_out:
-		switchContent(new SignOutFragment(), null);
-		return true;
+	case android.R.id.home:
+	    toggle();
+	    return true;
+	case R.id.sign_out:
+	    switchContent(new SignOutFragment(), null);
+	    return true;
 	}
 	return super.onMenuItemSelected(featureId, item);
     }
