@@ -16,7 +16,10 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.activities;
 
+import com.actionbarsherlock.app.ActionBar;
+
 import net.meiolania.apps.habrahabr.AbstractionFragmentActivity;
+import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.fragments.posts.PostsSearchFragment;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -30,7 +33,19 @@ public class PostsSearchActivity extends AbstractionFragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
+	loadExtras();
+	showActionBar();
 	loadSearchedPosts();
+    }
+    
+    private void loadExtras() {
+	query = getIntent().getStringExtra(EXTRA_QUERY);
+    }
+
+    private void showActionBar() {
+	ActionBar actionBar = getSupportActionBar();
+	actionBar.setTitle(R.string.post_search);
+	actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     private void loadSearchedPosts() {
