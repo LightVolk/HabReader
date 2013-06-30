@@ -84,7 +84,7 @@
                 android:data="https://github.com/AEinsam/HabReader" />
         </Preference>
         <Preference
-            android:summary="2.0"
+            android:summary="2.1"
             android:title="@string/version_preferences" />
     </PreferenceCategory>
 

@@ -20,23 +20,23 @@ import android.os.Build;
 
 public class UIUtils {
 
-    public static Integer parseRating(String rating) {
-	if (rating.trim().equals("â€”"))
-	    return null;
-	else
-	    return Integer.parseInt(rating.replace("+", "").replace("â€“", "-"));
-    }
+	public static Integer parseRating(String rating) {
+		if (rating.trim().equals("—"))
+			return null;
+		else
+			return Integer.parseInt(rating.replace("+", "").replace("–", "-"));
+	}
 
-    public static boolean isHoneycomb() {
-	return (isHoneycombOrHigher() && !isIceCreamOrHigher());
-    }
+	public static boolean isHoneycomb() {
+		return (isHoneycombOrHigher() && !isIceCreamOrHigher());
+	}
 
-    public static boolean isHoneycombOrHigher() {
-	return Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
-    }
+	public static boolean isHoneycombOrHigher() {
+		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
+	}
 
-    public static boolean isIceCreamOrHigher() {
-	return Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH;
-    }
+	public static boolean isIceCreamOrHigher() {
+		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH;
+	}
 
 }
