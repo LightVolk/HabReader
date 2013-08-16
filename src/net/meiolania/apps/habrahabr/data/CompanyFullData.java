@@ -17,86 +17,86 @@ limitations under the License.
 package net.meiolania.apps.habrahabr.data;
 
 public class CompanyFullData extends CompaniesData {
-    protected String companyName;
-    protected String companyUrl;
-    protected String date;
-    protected String industries;
-    protected String location;
-    protected String summary;
-    protected String quantity;
-    protected String management;
-    protected String developmentStages;
-    
-    /** @return Company name */
-    public String getCompanyName() {
-	return companyName;
-    }
+	protected String companyName;
+	protected String companyUrl;
+	protected String date;
+	protected String industries;
+	protected String location;
+	protected String summary;
+	protected String quantity;
+	protected String management;
+	protected String developmentStages;
 
-    public void setCompanyName(String companyName) {
-	this.companyName = companyName;
-    }
-    
-    public String getQuantity() {
-	return quantity;
-    }
+	/** @return Company name */
+	public String getCompanyName() {
+		return companyName;
+	}
 
-    public void setQuantity(String quantity) {
-	this.quantity = quantity;
-    }
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
 
-    public String getCompanyUrl() {
-	return companyUrl;
-    }
+	public String getQuantity() {
+		return quantity;
+	}
 
-    public void setCompanyUrl(String companyUrl) {
-	this.companyUrl = companyUrl;
-    }
+	public void setQuantity(String quantity) {
+		this.quantity = quantity;
+	}
 
-    public String getDate() {
-	return date;
-    }
+	public String getCompanyUrl() {
+		return companyUrl;
+	}
 
-    public void setDate(String date) {
-	this.date = date;
-    }
+	public void setCompanyUrl(String companyUrl) {
+		this.companyUrl = companyUrl;
+	}
 
-    public String getIndustries() {
-	return industries;
-    }
+	public String getDate() {
+		return date;
+	}
 
-    public void setIndustries(String industries) {
-	this.industries = industries;
-    }
+	public void setDate(String date) {
+		this.date = date;
+	}
 
-    public String getLocation() {
-	return location;
-    }
+	public String getIndustries() {
+		return industries;
+	}
 
-    public void setLocation(String location) {
-	this.location = location;
-    }
+	public void setIndustries(String industries) {
+		this.industries = industries;
+	}
 
-    public String getSummary() {
-	return summary;
-    }
+	public String getLocation() {
+		return location;
+	}
 
-    public void setSummary(String summary) {
-	this.summary = summary;
-    }
+	public void setLocation(String location) {
+		this.location = location;
+	}
 
-    public String getManagement() {
-	return management;
-    }
+	public String getSummary() {
+		return summary;
+	}
 
-    public void setManagement(String management) {
-	this.management = management;
-    }
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
 
-    public String getDevelopmentStages() {
-	return developmentStages;
-    }
+	public String getManagement() {
+		return management;
+	}
 
-    public void setDevelopmentStages(String developmentStages) {
-	this.developmentStages = developmentStages;
-    }
+	public void setManagement(String management) {
+		this.management = management;
+	}
+
+	public String getDevelopmentStages() {
+		return developmentStages;
+	}
+
+	public void setDevelopmentStages(String developmentStages) {
+		this.developmentStages = developmentStages;
+	}
 }

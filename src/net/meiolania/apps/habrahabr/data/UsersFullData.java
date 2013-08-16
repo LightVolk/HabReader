@@ -17,54 +17,54 @@ limitations under the License.
 package net.meiolania.apps.habrahabr.data;
 
 public class UsersFullData extends UsersData {
-    protected String username;
-    protected String fullname;
-    protected String birthday;
-    protected String summary;
-    protected String interests;
+	protected String username;
+	protected String fullname;
+	protected String birthday;
+	protected String summary;
+	protected String interests;
 
-    /** @return User's nickname */
-    public String getUsername() {
-	return username;
-    }
+	/** @return User's nickname */
+	public String getUsername() {
+		return username;
+	}
 
-    public void setUsername(String username) {
-	this.username = username;
-    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    /** @return User's real name */
-    public String getFullname() {
-	return fullname;
-    }
+	/** @return User's real name */
+	public String getFullname() {
+		return fullname;
+	}
 
-    public void setFullname(String fullname) {
-	this.fullname = fullname;
-    }
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
+	}
 
-    public String getBirthday() {
-	return birthday;
-    }
+	public String getBirthday() {
+		return birthday;
+	}
 
-    public void setBirthday(String birthday) {
-	this.birthday = birthday;
-    }
+	public void setBirthday(String birthday) {
+		this.birthday = birthday;
+	}
 
-    /** @return About user */
-    public String getSummary() {
-	return summary;
-    }
+	/** @return About user */
+	public String getSummary() {
+		return summary;
+	}
 
-    public void setSummary(String summary) {
-	this.summary = summary;
-    }
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
 
-    /** @return User's interests */
-    public String getInterests() {
-	return interests;
-    }
+	/** @return User's interests */
+	public String getInterests() {
+		return interests;
+	}
 
-    public void setInterests(String interests) {
-	this.interests = interests;
-    }
+	public void setInterests(String interests) {
+		this.interests = interests;
+	}
 
 }

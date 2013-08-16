@@ -33,71 +33,75 @@ import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
 public class QaLoader extends AsyncTaskLoader<ArrayList<QaData>> {
-    public final static String TAG = QaLoader.class.getName();
-    private String url;
-    private boolean additionalLayout = false;
-    private static int page;
+	public final static String TAG = QaLoader.class.getName();
+	private String url;
+	private boolean additionalLayout = false;
+	private static int page;
 
-    public QaLoader(Context context, String url) {
-	super(context);
+	public QaLoader(Context context, String url) {
+		super(context);
 
-	this.url = url;
+		this.url = url;
 
-	additionalLayout = Preferences.getInstance(context).getAdditionalQa();
-    }
-
-    public static void setPage(int page) {
-	QaLoader.page = page;
-    }
-
-    @Override
-    public ArrayList<QaData> loadInBackground() {
-	ArrayList<QaData> data = new ArrayList<QaData>();
-
-	try {
-	    String readyUrl = url.replace("%page%", String.valueOf(page));
-
-	    Log.i(TAG, "Loading a page: " + readyUrl);
-
-	    Document document;
-	    if (!User.getInstance().isLogged())
-		document = Jsoup.connect(readyUrl).get();
-	    else
-		document = Jsoup.connect(readyUrl).cookie(User.PHPSESSION_ID, User.getInstance().getPhpsessid())
-			.cookie(User.HSEC_ID, User.getInstance().getHsecid()).get();
-
-	    Elements qaList = document.select("div.post");
-
-	    for (Element qa : qaList) {
-		QaData qaData = new QaData();
-
-		Element title = qa.select("a.post_title").first();
-		qaData.setTitle(title.text());
-		qaData.setUrl(title.attr("abs:href"));
-
-		if (additionalLayout) {
-		    Element hubs = qa.select("div.hubs").first();
-		    Element answers = qa.select("div.informative").first();
-		    Element date = qa.select("div.published").first();
-		    Element author = qa.select("div.author > a").first();
-
-		    Element score = qa.select("a.score").first();
-		    if (score == null)
-			score = qa.select("span.score").first();
-
-		    qaData.setHubs(hubs.text());
-		    qaData.setAnswers(answers.text());
-		    qaData.setDate(date.text());
-		    qaData.setAuthor(author.text());
-		    qaData.setScore(score.text());
-		}
-
-		data.add(qaData);
-	    }
-	} catch (IOException e) {
+		additionalLayout = Preferences.getInstance(context).getAdditionalQa();
 	}
 
-	return data;
-    }
+	public static void setPage(int page) {
+		QaLoader.page = page;
+	}
+
+	@Override
+	public ArrayList<QaData> loadInBackground() {
+		ArrayList<QaData> data = new ArrayList<QaData>();
+
+		try {
+			String readyUrl = url.replace("%page%", String.valueOf(page));
+
+			Log.i(TAG, "Loading a page: " + readyUrl);
+
+			Document document;
+			if (!User.getInstance().isLogged())
+				document = Jsoup.connect(readyUrl).get();
+			else
+				document = Jsoup
+						.connect(readyUrl)
+						.cookie(User.PHPSESSION_ID,
+								User.getInstance().getPhpsessid())
+						.cookie(User.HSEC_ID, User.getInstance().getHsecid())
+						.get();
+
+			Elements qaList = document.select("div.post");
+
+			for (Element qa : qaList) {
+				QaData qaData = new QaData();
+
+				Element title = qa.select("a.post_title").first();
+				qaData.setTitle(title.text());
+				qaData.setUrl(title.attr("abs:href"));
+
+				if (additionalLayout) {
+					Element hubs = qa.select("div.hubs").first();
+					Element answers = qa.select("div.informative").first();
+					Element date = qa.select("div.published").first();
+					Element author = qa.select("div.author > a").first();
+
+					Element score = qa.select("a.score").first();
+					if (score == null)
+						score = qa.select("span.score").first();
+
+					qaData.setHubs(hubs.text());
+					qaData.setAnswers(answers.text());
+					qaData.setDate(date.text());
+					qaData.setAuthor(author.text());
+					qaData.setScore(score.text());
+				}
+
+				data.add(qaData);
+			}
+		} catch (IOException e) {
+		}
+
+		return data;
+	}
 
 }

@@ -21,14 +21,16 @@ import android.net.ConnectivityManager;
 
 public class ConnectionUtils {
 
-    public static boolean isConnected(Context context) {
-	ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+	public static boolean isConnected(Context context) {
+		ConnectivityManager manager = (ConnectivityManager) context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-	if (manager.getActiveNetworkInfo() != null && manager.getActiveNetworkInfo().isAvailable()
-		&& manager.getActiveNetworkInfo().isConnected())
-	    return true;
+		if (manager.getActiveNetworkInfo() != null
+				&& manager.getActiveNetworkInfo().isAvailable()
+				&& manager.getActiveNetworkInfo().isConnected())
+			return true;
 
-	return false;
-    }
+		return false;
+	}
 
 }

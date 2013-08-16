@@ -28,45 +28,46 @@ import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
 public class UsersShowLoader extends AsyncTaskLoader<UsersFullData> {
-    public final static String TAG = UsersShowLoader.class.getName();
-    private String url;
+	public final static String TAG = UsersShowLoader.class.getName();
+	private String url;
 
-    public UsersShowLoader(Context context, String url) {
-	super(context);
+	public UsersShowLoader(Context context, String url) {
+		super(context);
 
-	this.url = url;
-    }
-
-    @Override
-    public UsersFullData loadInBackground() {
-	UsersFullData data = new UsersFullData();
-
-	try {
-	    Log.i(TAG, "Loading a page: " + url);
-
-	    Document document = Jsoup.connect(url).get();
-
-	    Element avatar = document.select("a.avatar > img").first();
-	    Element karma = document.select("div.karma > div.score > div.num").first();
-	    Element username = document.select("h2.username > a").first();
-	    Element rating = document.select("div.rating > div.num").first();
-	    Element birthday = document.select("dd.bday").first();
-	    Element fullname = document.select("div.fullname").first();
-	    Element summary = document.select("dd.summary").first();
-	    Element interests = document.select("dl.interests > dd").first();
-
-	    data.setAvatar(avatar.attr("src"));
-	    data.setKarma(karma != null ? karma.text() : "");
-	    data.setUsername(username.text());
-	    data.setRating(rating != null ? rating.text() : "");
-	    data.setBirthday(birthday != null ? birthday.text() : "");
-	    data.setFullname(fullname != null ? fullname.text() : "");
-	    data.setSummary(summary != null ? summary.html() : "");
-	    data.setInterests(interests != null ? interests.text() : "");
-	} catch (IOException e) {
+		this.url = url;
 	}
 
-	return data;
-    }
+	@Override
+	public UsersFullData loadInBackground() {
+		UsersFullData data = new UsersFullData();
+
+		try {
+			Log.i(TAG, "Loading a page: " + url);
+
+			Document document = Jsoup.connect(url).get();
+
+			Element avatar = document.select("a.avatar > img").first();
+			Element karma = document.select("div.karma > div.score > div.num")
+					.first();
+			Element username = document.select("h2.username > a").first();
+			Element rating = document.select("div.rating > div.num").first();
+			Element birthday = document.select("dd.bday").first();
+			Element fullname = document.select("div.fullname").first();
+			Element summary = document.select("dd.summary").first();
+			Element interests = document.select("dl.interests > dd").first();
+
+			data.setAvatar(avatar.attr("src"));
+			data.setKarma(karma != null ? karma.text() : "");
+			data.setUsername(username.text());
+			data.setRating(rating != null ? rating.text() : "");
+			data.setBirthday(birthday != null ? birthday.text() : "");
+			data.setFullname(fullname != null ? fullname.text() : "");
+			data.setSummary(summary != null ? summary.html() : "");
+			data.setInterests(interests != null ? interests.text() : "");
+		} catch (IOException e) {
+		}
+
+		return data;
+	}
 
 }

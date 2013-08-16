@@ -39,125 +39,134 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 
-public class CompaniesFragment extends SherlockListFragment implements OnScrollListener, LoaderCallbacks<ArrayList<CompaniesData>> {
-    public final static int LOADER_COMPANIES = 0;
-    private ArrayList<CompaniesData> companies;
-    private CompaniesAdapter adapter;
-    private int page;
-    private boolean isLoadData;
-    private boolean noMoreData;
-    private boolean firstLoading = true;
+public class CompaniesFragment extends SherlockListFragment implements
+		OnScrollListener, LoaderCallbacks<ArrayList<CompaniesData>> {
+	public final static int LOADER_COMPANIES = 0;
+	private ArrayList<CompaniesData> companies;
+	private CompaniesAdapter adapter;
+	private int page;
+	private boolean isLoadData;
+	private boolean noMoreData;
+	private boolean firstLoading = true;
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-	super.onActivityCreated(savedInstanceState);
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 
-	showActionBar();
+		showActionBar();
 
-	setHasOptionsMenu(true);
-	setRetainInstance(true);
+		setHasOptionsMenu(true);
+		setRetainInstance(true);
 
-	if (adapter == null) {
-	    companies = new ArrayList<CompaniesData>();
-	    adapter = new CompaniesAdapter(getSherlockActivity(), companies);
+		if (adapter == null) {
+			companies = new ArrayList<CompaniesData>();
+			adapter = new CompaniesAdapter(getSherlockActivity(), companies);
+		}
+
+		setListAdapter(adapter);
+		setListShown(false);
+
+		getListView().setOnScrollListener(this);
+
+		setEmptyText(getString(R.string.no_items_companies));
 	}
 
-	setListAdapter(adapter);
-	setListShown(false);
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		super.onCreateOptionsMenu(menu, inflater);
 
-	getListView().setOnScrollListener(this);
+		inflater.inflate(R.menu.companies_fragment, menu);
 
-	setEmptyText(getString(R.string.no_items_companies));
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-	super.onCreateOptionsMenu(menu, inflater);
-
-	inflater.inflate(R.menu.companies_fragment, menu);
-
-	PageActionProvider pageActionProvider = (PageActionProvider) menu.findItem(R.id.page).getActionProvider();
-	pageActionProvider.setPage(page);
-    }
-
-    @Override
-    public void onListItemClick(ListView list, View view, int position, long id) {
-	showCompany(position);
-    }
-
-    private void showActionBar() {
-	ActionBar actionBar = getSherlockActivity().getSupportActionBar();
-	actionBar.removeAllTabs();
-	actionBar.setDisplayHomeAsUpEnabled(true);
-	actionBar.setTitle(R.string.companies);
-	actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-    }
-
-    protected void showCompany(int position) {
-	CompaniesData data = companies.get(position);
-
-	Intent intent = new Intent(getSherlockActivity(), CompaniesShowActivity.class);
-	intent.putExtra(CompaniesShowActivity.EXTRA_TITLE, data.getTitle());
-	intent.putExtra(CompaniesShowActivity.EXTRA_URL, data.getProfileUrl());
-
-	startActivity(intent);
-    }
-
-    protected void restartLoading() {
-	if (ConnectionUtils.isConnected(getSherlockActivity())) {
-	    if (!firstLoading)
-		getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
-
-	    CompaniesLoader.setPage(++page);
-
-	    getSherlockActivity().getSupportLoaderManager().restartLoader(LOADER_COMPANIES, null, this);
-
-	    isLoadData = true;
+		PageActionProvider pageActionProvider = (PageActionProvider) menu
+				.findItem(R.id.page).getActionProvider();
+		pageActionProvider.setPage(page);
 	}
-    }
 
-    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-	if ((firstVisibleItem + visibleItemCount) == totalItemCount && !isLoadData && !noMoreData)
-	    restartLoading();
-    }
-
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-    }
-
-    @Override
-    public Loader<ArrayList<CompaniesData>> onCreateLoader(int id, Bundle args) {
-	CompaniesLoader loader = new CompaniesLoader(getSherlockActivity());
-	loader.forceLoad();
-
-	return loader;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<ArrayList<CompaniesData>> loader, ArrayList<CompaniesData> data) {
-	if (data.isEmpty())
-	    noMoreData = true;
-
-	companies.addAll(data);
-	adapter.notifyDataSetChanged();
-
-	firstLoading = false;
-
-	if (getSherlockActivity() != null)
-	    getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
-
-	isLoadData = false;
-
-	if (getSherlockActivity() != null) {
-	    setListShown(true);
-
-	    getSherlockActivity().invalidateOptionsMenu();
+	@Override
+	public void onListItemClick(ListView list, View view, int position, long id) {
+		showCompany(position);
 	}
-    }
 
-    @Override
-    public void onLoaderReset(Loader<ArrayList<CompaniesData>> loader) {
+	private void showActionBar() {
+		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
+		actionBar.removeAllTabs();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setTitle(R.string.companies);
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+	}
 
-    }
+	protected void showCompany(int position) {
+		CompaniesData data = companies.get(position);
+
+		Intent intent = new Intent(getSherlockActivity(),
+				CompaniesShowActivity.class);
+		intent.putExtra(CompaniesShowActivity.EXTRA_TITLE, data.getTitle());
+		intent.putExtra(CompaniesShowActivity.EXTRA_URL, data.getProfileUrl());
+
+		startActivity(intent);
+	}
+
+	protected void restartLoading() {
+		if (ConnectionUtils.isConnected(getSherlockActivity())) {
+			if (!firstLoading)
+				getSherlockActivity()
+						.setSupportProgressBarIndeterminateVisibility(true);
+
+			CompaniesLoader.setPage(++page);
+
+			getSherlockActivity().getSupportLoaderManager().restartLoader(
+					LOADER_COMPANIES, null, this);
+
+			isLoadData = true;
+		}
+	}
+
+	public void onScroll(AbsListView view, int firstVisibleItem,
+			int visibleItemCount, int totalItemCount) {
+		if ((firstVisibleItem + visibleItemCount) == totalItemCount
+				&& !isLoadData && !noMoreData)
+			restartLoading();
+	}
+
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+	}
+
+	@Override
+	public Loader<ArrayList<CompaniesData>> onCreateLoader(int id, Bundle args) {
+		CompaniesLoader loader = new CompaniesLoader(getSherlockActivity());
+		loader.forceLoad();
+
+		return loader;
+	}
+
+	@Override
+	public void onLoadFinished(Loader<ArrayList<CompaniesData>> loader,
+			ArrayList<CompaniesData> data) {
+		if (data.isEmpty())
+			noMoreData = true;
+
+		companies.addAll(data);
+		adapter.notifyDataSetChanged();
+
+		firstLoading = false;
+
+		if (getSherlockActivity() != null)
+			getSherlockActivity().setSupportProgressBarIndeterminateVisibility(
+					false);
+
+		isLoadData = false;
+
+		if (getSherlockActivity() != null) {
+			setListShown(true);
+
+			getSherlockActivity().invalidateOptionsMenu();
+		}
+	}
+
+	@Override
+	public void onLoaderReset(Loader<ArrayList<CompaniesData>> loader) {
+
+	}
 
 }

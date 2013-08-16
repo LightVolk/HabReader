@@ -39,125 +39,134 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 
-public abstract class AbstractionEventsFragment extends SherlockListFragment implements OnScrollListener,
-	LoaderCallbacks<ArrayList<EventsData>> {
-    protected int page;
-    protected boolean isLoadData;
-    protected ArrayList<EventsData> events;
-    protected EventsAdapter adapter;
-    protected boolean noMoreData;
-    protected boolean firstLoading = true;
+public abstract class AbstractionEventsFragment extends SherlockListFragment
+		implements OnScrollListener, LoaderCallbacks<ArrayList<EventsData>> {
+	protected int page;
+	protected boolean isLoadData;
+	protected ArrayList<EventsData> events;
+	protected EventsAdapter adapter;
+	protected boolean noMoreData;
+	protected boolean firstLoading = true;
 
-    protected abstract String getUrl();
+	protected abstract String getUrl();
 
-    protected abstract int getLoaderId();
+	protected abstract int getLoaderId();
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-	super.onActivityCreated(savedInstanceState);
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 
-	setHasOptionsMenu(true);
-	setRetainInstance(true);
+		setHasOptionsMenu(true);
+		setRetainInstance(true);
 
-	if (adapter == null) {
-	    events = new ArrayList<EventsData>();
-	    adapter = new EventsAdapter(getSherlockActivity(), events);
+		if (adapter == null) {
+			events = new ArrayList<EventsData>();
+			adapter = new EventsAdapter(getSherlockActivity(), events);
+		}
+
+		setListAdapter(adapter);
+
+		if (firstLoading)
+			setListShown(false);
+
+		if (Preferences.getInstance(getSherlockActivity())
+				.getAdditionalEvents()) {
+			getListView().setDivider(null);
+			getListView().setDividerHeight(0);
+		}
+
+		getListView().setOnScrollListener(this);
+
+		setEmptyText(getString(R.string.no_items_events));
 	}
 
-	setListAdapter(adapter);
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		super.onCreateOptionsMenu(menu, inflater);
 
-	if (firstLoading)
-	    setListShown(false);
+		inflater.inflate(R.menu.events_fragment, menu);
 
-	if (Preferences.getInstance(getSherlockActivity()).getAdditionalEvents()) {
-	    getListView().setDivider(null);
-	    getListView().setDividerHeight(0);
+		PageActionProvider pageActionProvider = (PageActionProvider) menu
+				.findItem(R.id.page).getActionProvider();
+		pageActionProvider.setPage(page);
 	}
 
-	getListView().setOnScrollListener(this);
-
-	setEmptyText(getString(R.string.no_items_events));
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-	super.onCreateOptionsMenu(menu, inflater);
-
-	inflater.inflate(R.menu.events_fragment, menu);
-
-	PageActionProvider pageActionProvider = (PageActionProvider) menu.findItem(R.id.page).getActionProvider();
-	pageActionProvider.setPage(page);
-    }
-
-    @Override
-    public void onListItemClick(ListView list, View view, int position, long id) {
-	showEvent(position);
-    }
-
-    protected void showEvent(int position) {
-	EventsData data = events.get(position);
-
-	Intent intent = new Intent(getSherlockActivity(), EventsShowActivity.class);
-	intent.putExtra(EventsShowActivity.EXTRA_TITLE, data.getTitle());
-	intent.putExtra(EventsShowActivity.EXTRA_URL, data.getUrl());
-
-	startActivity(intent);
-    }
-
-    protected void restartLoading() {
-	if (ConnectionUtils.isConnected(getSherlockActivity())) {
-	    if (!firstLoading)
-		getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
-
-	    EventLoader.setPage(++page);
-
-	    getSherlockActivity().getSupportLoaderManager().restartLoader(getLoaderId(), null, this);
-
-	    isLoadData = true;
+	@Override
+	public void onListItemClick(ListView list, View view, int position, long id) {
+		showEvent(position);
 	}
-    }
 
-    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-	if ((firstVisibleItem + visibleItemCount) == totalItemCount && !isLoadData && !noMoreData)
-	    restartLoading();
-    }
+	protected void showEvent(int position) {
+		EventsData data = events.get(position);
 
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
+		Intent intent = new Intent(getSherlockActivity(),
+				EventsShowActivity.class);
+		intent.putExtra(EventsShowActivity.EXTRA_TITLE, data.getTitle());
+		intent.putExtra(EventsShowActivity.EXTRA_URL, data.getUrl());
 
-    }
-
-    @Override
-    public Loader<ArrayList<EventsData>> onCreateLoader(int id, Bundle args) {
-	EventLoader loader = new EventLoader(getSherlockActivity(), getUrl());
-	loader.forceLoad();
-
-	return loader;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<ArrayList<EventsData>> loader, ArrayList<EventsData> data) {
-	if (data.isEmpty())
-	    noMoreData = true;
-
-	events.addAll(data);
-	adapter.notifyDataSetChanged();
-
-	firstLoading = false;
-
-	if (getSherlockActivity() != null)
-	    getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
-
-	isLoadData = false;
-
-	if (getSherlockActivity() != null) {
-	    setListShown(true);
-	    getSherlockActivity().invalidateOptionsMenu();
+		startActivity(intent);
 	}
-    }
 
-    @Override
-    public void onLoaderReset(Loader<ArrayList<EventsData>> loader) {
+	protected void restartLoading() {
+		if (ConnectionUtils.isConnected(getSherlockActivity())) {
+			if (!firstLoading)
+				getSherlockActivity()
+						.setSupportProgressBarIndeterminateVisibility(true);
 
-    }
+			EventLoader.setPage(++page);
+
+			getSherlockActivity().getSupportLoaderManager().restartLoader(
+					getLoaderId(), null, this);
+
+			isLoadData = true;
+		}
+	}
+
+	public void onScroll(AbsListView view, int firstVisibleItem,
+			int visibleItemCount, int totalItemCount) {
+		if ((firstVisibleItem + visibleItemCount) == totalItemCount
+				&& !isLoadData && !noMoreData)
+			restartLoading();
+	}
+
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+	}
+
+	@Override
+	public Loader<ArrayList<EventsData>> onCreateLoader(int id, Bundle args) {
+		EventLoader loader = new EventLoader(getSherlockActivity(), getUrl());
+		loader.forceLoad();
+
+		return loader;
+	}
+
+	@Override
+	public void onLoadFinished(Loader<ArrayList<EventsData>> loader,
+			ArrayList<EventsData> data) {
+		if (data.isEmpty())
+			noMoreData = true;
+
+		events.addAll(data);
+		adapter.notifyDataSetChanged();
+
+		firstLoading = false;
+
+		if (getSherlockActivity() != null)
+			getSherlockActivity().setSupportProgressBarIndeterminateVisibility(
+					false);
+
+		isLoadData = false;
+
+		if (getSherlockActivity() != null) {
+			setListShown(true);
+			getSherlockActivity().invalidateOptionsMenu();
+		}
+	}
+
+	@Override
+	public void onLoaderReset(Loader<ArrayList<EventsData>> loader) {
+
+	}
 
 }

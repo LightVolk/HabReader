@@ -40,109 +40,116 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public class QaShowFragment extends SherlockFragment implements LoaderCallbacks<QaFullData> {
-    public final static String URL_ARGUMENT = "url";
-    public final static int LOADER_QA = 0;
-    private String url;
-    private String title;
-    private ProgressDialog progressDialog;
-    private WebView content;
-    private FrameLayout webviewContainer;
-    private static final String STYLESHEET = "<link rel=\"stylesheet\" type=\"text/css\" href=\"file:///android_asset/style.css\" />";
+public class QaShowFragment extends SherlockFragment implements
+		LoaderCallbacks<QaFullData> {
+	public final static String URL_ARGUMENT = "url";
+	public final static int LOADER_QA = 0;
+	private String url;
+	private String title;
+	private ProgressDialog progressDialog;
+	private WebView content;
+	private FrameLayout webviewContainer;
+	private static final String STYLESHEET = "<link rel=\"stylesheet\" type=\"text/css\" href=\"file:///android_asset/style.css\" />";
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-	super.onActivityCreated(savedInstanceState);
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 
-	setHasOptionsMenu(true);
-	setRetainInstance(true);
+		setHasOptionsMenu(true);
+		setRetainInstance(true);
 
-	url = getArguments().getString(URL_ARGUMENT);
+		url = getArguments().getString(URL_ARGUMENT);
 
-	content = (WebView) getSherlockActivity().findViewById(R.id.qa_content);
-	webviewContainer = (FrameLayout) getSherlockActivity().findViewById(R.id.webview_container);
+		content = (WebView) getSherlockActivity().findViewById(R.id.qa_content);
+		webviewContainer = (FrameLayout) getSherlockActivity().findViewById(
+				R.id.webview_container);
 
-	if (ConnectionUtils.isConnected(getSherlockActivity()))
-	    getSherlockActivity().getSupportLoaderManager().initLoader(LOADER_QA, null, this);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-	return inflater.inflate(R.layout.qa_show_activity, container, false);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-	super.onCreateOptionsMenu(menu, inflater);
-
-	inflater.inflate(R.menu.qa_show_activity, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-	switch (item.getItemId()) {
-	    case R.id.share:
-		IntentUtils.createShareIntent(getSherlockActivity(), title, url);
-		break;
-	}
-	return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public Loader<QaFullData> onCreateLoader(int id, Bundle args) {
-	showProgressDialog();
-
-	QaShowLoader loader = new QaShowLoader(getSherlockActivity(), url);
-	loader.forceLoad();
-
-	return loader;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<QaFullData> loader, QaFullData data) {
-	if (getSherlockActivity() != null && data != null) {
-	    ActionBar actionBar = getSherlockActivity().getSupportActionBar();
-	    actionBar.setTitle(data.getTitle());
-	    
-	    content.setWebViewClient(new HabrWebClient(getSherlockActivity()));
-	    content.getSettings().setSupportZoom(true);
-	    content.getSettings().setBuiltInZoomControls(true);
-	    content.getSettings().setJavaScriptEnabled(true);
-	    content.setInitialScale(Preferences.getInstance(getSherlockActivity()).getViewScale(getSherlockActivity()));
-	    content.getSettings().setDefaultZoom(ZoomDensity.FAR);
-
-	    content.loadDataWithBaseURL("", STYLESHEET + data.getContent(), "text/html", "UTF-8", null);
+		if (ConnectionUtils.isConnected(getSherlockActivity()))
+			getSherlockActivity().getSupportLoaderManager().initLoader(
+					LOADER_QA, null, this);
 	}
 
-	title = data.getTitle();
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.qa_show_activity, container, false);
+	}
 
-	hideProgressDialog();
-    }
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		super.onCreateOptionsMenu(menu, inflater);
 
-    @Override
-    public void onLoaderReset(Loader<QaFullData> loader) {
+		inflater.inflate(R.menu.qa_show_activity, menu);
+	}
 
-    }
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.share:
+				IntentUtils
+						.createShareIntent(getSherlockActivity(), title, url);
+				break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
 
-    private void showProgressDialog() {
-	progressDialog = new ProgressDialog(getSherlockActivity());
-	progressDialog.setMessage(getString(R.string.loading_question));
-	progressDialog.setCancelable(true);
-	progressDialog.show();
-    }
+	@Override
+	public Loader<QaFullData> onCreateLoader(int id, Bundle args) {
+		showProgressDialog();
 
-    private void hideProgressDialog() {
-	if (progressDialog != null)
-	    progressDialog.dismiss();
-    }
+		QaShowLoader loader = new QaShowLoader(getSherlockActivity(), url);
+		loader.forceLoad();
 
-    @Override
-    public void onDestroy() {
-	super.onDestroy();
+		return loader;
+	}
 
-	// http://stackoverflow.com/a/8011027/921834
-	webviewContainer.removeAllViews();
-	content.destroy();
-    }
+	@Override
+	public void onLoadFinished(Loader<QaFullData> loader, QaFullData data) {
+		if (getSherlockActivity() != null && data != null) {
+			ActionBar actionBar = getSherlockActivity().getSupportActionBar();
+			actionBar.setTitle(data.getTitle());
+
+			content.setWebViewClient(new HabrWebClient(getSherlockActivity()));
+			content.getSettings().setSupportZoom(true);
+			content.getSettings().setBuiltInZoomControls(true);
+			content.getSettings().setJavaScriptEnabled(true);
+			content.setInitialScale(Preferences.getInstance(
+					getSherlockActivity()).getViewScale(getSherlockActivity()));
+			content.getSettings().setDefaultZoom(ZoomDensity.FAR);
+
+			content.loadDataWithBaseURL("", STYLESHEET + data.getContent(),
+					"text/html", "UTF-8", null);
+		}
+
+		title = data.getTitle();
+
+		hideProgressDialog();
+	}
+
+	@Override
+	public void onLoaderReset(Loader<QaFullData> loader) {
+
+	}
+
+	private void showProgressDialog() {
+		progressDialog = new ProgressDialog(getSherlockActivity());
+		progressDialog.setMessage(getString(R.string.loading_question));
+		progressDialog.setCancelable(true);
+		progressDialog.show();
+	}
+
+	private void hideProgressDialog() {
+		if (progressDialog != null)
+			progressDialog.dismiss();
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+
+		// http://stackoverflow.com/a/8011027/921834
+		webviewContainer.removeAllViews();
+		content.destroy();
+	}
 
 }

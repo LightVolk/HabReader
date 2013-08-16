@@ -31,55 +31,57 @@ import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
 public class UsersLoader extends AsyncTaskLoader<ArrayList<UsersData>> {
-    public final static String TAG = UsersLoader.class.getName();
-    public final static String DEFAULT_URL = "http://habrahabr.ru/users/";
+	public final static String TAG = UsersLoader.class.getName();
+	public final static String DEFAULT_URL = "http://habrahabr.ru/users/";
 
-    private String url;
+	private String url;
 
-    public UsersLoader(Context context) {
-	super(context);
+	public UsersLoader(Context context) {
+		super(context);
 
-	url = DEFAULT_URL;
-    }
-
-    public UsersLoader(Context context, String url) {
-	super(context);
-
-	this.url = url;
-    }
-
-    @Override
-    public ArrayList<UsersData> loadInBackground() {
-	ArrayList<UsersData> data = new ArrayList<UsersData>();
-
-	try {
-	    Log.i(TAG, "Loading a page: " + url);
-
-	    Document document = Jsoup.connect(url).get();
-	    Elements users = document.select("div.user");
-
-	    for (Element user : users) {
-		UsersData usersData = new UsersData();
-
-		Element rating = user.select("div.rating").first();
-		Element karma = user.select("div.karma").first();
-		Element avatar = user.select("div.avatar > a > img").first();
-		Element name = user.select("div.userlogin > div.username > a").first();
-		Element lifetime = user.select("div.info > div.lifetime").first();
-
-		usersData.setName(name.text());
-		usersData.setUrl(name.attr("abs:href"));
-		usersData.setRating(rating.text());
-		usersData.setKarma(karma.text());
-		usersData.setAvatar(avatar.attr("src"));
-		usersData.setLifetime(lifetime.text());
-
-		data.add(usersData);
-	    }
-	} catch (IOException e) {
+		url = DEFAULT_URL;
 	}
 
-	return data;
-    }
+	public UsersLoader(Context context, String url) {
+		super(context);
+
+		this.url = url;
+	}
+
+	@Override
+	public ArrayList<UsersData> loadInBackground() {
+		ArrayList<UsersData> data = new ArrayList<UsersData>();
+
+		try {
+			Log.i(TAG, "Loading a page: " + url);
+
+			Document document = Jsoup.connect(url).get();
+			Elements users = document.select("div.user");
+
+			for (Element user : users) {
+				UsersData usersData = new UsersData();
+
+				Element rating = user.select("div.rating").first();
+				Element karma = user.select("div.karma").first();
+				Element avatar = user.select("div.avatar > a > img").first();
+				Element name = user.select("div.userlogin > div.username > a")
+						.first();
+				Element lifetime = user.select("div.info > div.lifetime")
+						.first();
+
+				usersData.setName(name.text());
+				usersData.setUrl(name.attr("abs:href"));
+				usersData.setRating(rating.text());
+				usersData.setKarma(karma.text());
+				usersData.setAvatar(avatar.attr("src"));
+				usersData.setLifetime(lifetime.text());
+
+				data.add(usersData);
+			}
+		} catch (IOException e) {
+		}
+
+		return data;
+	}
 
 }
