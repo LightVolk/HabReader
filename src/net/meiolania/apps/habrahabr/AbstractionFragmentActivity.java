@@ -18,7 +18,6 @@ package net.meiolania.apps.habrahabr;
 
 import net.meiolania.apps.habrahabr.activities.PreferencesActivity;
 import net.meiolania.apps.habrahabr.auth.User;
-import net.meiolania.apps.habrahabr.slidemenu.MenuFragment;
 import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
 import android.app.AlertDialog;
 import android.content.DialogInterface.OnClickListener;
@@ -28,14 +27,13 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.slidingmenu.lib.SlidingMenu;
-import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
 public abstract class AbstractionFragmentActivity extends
-		SlidingFragmentActivity {
+		SherlockFragmentActivity {
 	public final static String DEVELOPER_PLAY_LINK = "https://play.google.com/store/apps/developer?id=Andrey+Zaytsev";
 
 	@Override
@@ -53,21 +51,6 @@ public abstract class AbstractionFragmentActivity extends
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		setSupportProgressBarIndeterminateVisibility(false);
-
-		// Slide menu
-		setContentView(R.layout.empty_for_slidemenu);
-
-		setBehindContentView(R.layout.slide_menu);
-		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.slide_menu, new MenuFragment()).commit();
-
-		SlidingMenu slidingMenu = getSlidingMenu();
-		slidingMenu.setMode(SlidingMenu.LEFT);
-		slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-		slidingMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
-		slidingMenu.setShadowDrawable(R.drawable.shadow);
-		slidingMenu.setShadowWidth(30);
-		slidingMenu.setSlidingEnabled(false);
 
 		// No connection dialog
 		// @TODO: rewrite

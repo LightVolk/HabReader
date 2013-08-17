@@ -26,4 +26,9 @@ public class UIUtils {
 			return Integer.parseInt(rating.replace("+", "").replace("–", "-"));
 	}
 
+	public static boolean isHoneycombOrHigher() {
+		// TODO
+		return true;
+	}
+
 }

@@ -48,8 +48,6 @@ public class MainActivity extends AbstractionFragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		getSlidingMenu().setSlidingEnabled(true);
-
 		int currentSection = -1;
 		if (savedInstanceState != null)
 			currentSection = savedInstanceState.getInt("currentSection");
@@ -126,8 +124,6 @@ public class MainActivity extends AbstractionFragmentActivity {
 
 		getSupportFragmentManager().beginTransaction()
 				.replace(android.R.id.content, fragment).commit();
-
-		toggle();
 	}
 
 	@Override
@@ -146,7 +142,6 @@ public class MainActivity extends AbstractionFragmentActivity {
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home:
-				toggle();
 				return true;
 			case R.id.sign_out:
 				switchContent(new SignOutFragment(), null);
