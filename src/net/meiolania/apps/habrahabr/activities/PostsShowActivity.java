@@ -21,8 +21,6 @@ import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.fragments.posts.PostShowFragment;
 import net.meiolania.apps.habrahabr.fragments.posts.PostsCommentsFragment;
 import net.meiolania.apps.habrahabr.ui.TabListener;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -30,74 +28,76 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
 
 public class PostsShowActivity extends AbstractionFragmentActivity {
-    public final static String EXTRA_URL = "url";
-    public final static String EXTRA_TITLE = "title";
-    private String url;
-    private String title;
-    private int currentTab;
+	public final static String EXTRA_URL = "url";
+	public final static String EXTRA_TITLE = "title";
+	private String url;
+	private String title;
+	private int currentTab;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-	
-	if (savedInstanceState != null)
-	    currentTab = savedInstanceState.getInt("currentTab");
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-	loadExtras();
-	showActionBar();
-    }
-    
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        
-        outState.putInt("currentTab", getSupportActionBar().getSelectedTab().getPosition());
-    }
+		if (savedInstanceState != null)
+			currentTab = savedInstanceState.getInt("currentTab");
 
-    private void loadExtras() {
-	Uri habraUrl = getIntent().getData();
-	if (habraUrl != null)
-	    url = habraUrl.toString();
-	else
-	    url = getIntent().getStringExtra(EXTRA_URL);
-	title = getIntent().getStringExtra(EXTRA_TITLE);
-    }
+		loadExtras();
+		showActionBar();
+	}
 
-    private void showActionBar() {
-	ActionBar actionBar = getSupportActionBar();
-	actionBar.setDisplayHomeAsUpEnabled(true);
-	actionBar.setTitle(title);
-	actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
 
-	/*
-	 * Post tab
-	 */
-	Bundle arguments = new Bundle();
-	arguments.putString(PostShowFragment.URL_ARGUMENT, url);
+		outState.putInt("currentTab", getSupportActionBar().getSelectedTab()
+				.getPosition());
+	}
 
-	Tab tab = actionBar.newTab().setText(R.string.post).setTag("post")
-		.setTabListener(new TabListener<PostShowFragment>(this, "post", PostShowFragment.class, arguments));
-	actionBar.addTab(tab, (currentTab == 0) ? true : false);
+	private void loadExtras() {
+		Uri habraUrl = getIntent().getData();
+		if (habraUrl != null)
+			url = habraUrl.toString();
+		else
+			url = getIntent().getStringExtra(EXTRA_URL);
+		title = getIntent().getStringExtra(EXTRA_TITLE);
+	}
 
-	/*
-	 * Comments tab
-	 */
-	arguments = new Bundle();
-	arguments.putString(PostsCommentsFragment.URL_ARGUMENT, url);
+	private void showActionBar() {
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setTitle(title);
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-	tab = actionBar.newTab().setText(R.string.comments).setTag("comments")
-		.setTabListener(new TabListener<PostsCommentsFragment>(this, "comments", PostsCommentsFragment.class, arguments));
-	actionBar.addTab(tab, (currentTab == 1) ? true : false);
-    }
+		/*
+		 * Post tab
+		 */
+		Bundle arguments = new Bundle();
+		arguments.putString(PostShowFragment.URL_ARGUMENT, url);
 
-    @Override
-    protected OnClickListener getConnectionDialogListener() {
-	return new OnClickListener() {
-	    @Override
-	    public void onClick(DialogInterface dialog, int which) {
-		finish();
-	    }
-	};
-    }
+		Tab tab = actionBar
+				.newTab()
+				.setText(R.string.post)
+				.setTag("post")
+				.setTabListener(
+						new TabListener<PostShowFragment>(this, "post",
+								PostShowFragment.class, arguments));
+		actionBar.addTab(tab, (currentTab == 0) ? true : false);
+
+		/*
+		 * Comments tab
+		 */
+		arguments = new Bundle();
+		arguments.putString(PostsCommentsFragment.URL_ARGUMENT, url);
+
+		tab = actionBar
+				.newTab()
+				.setText(R.string.comments)
+				.setTag("comments")
+				.setTabListener(
+						new TabListener<PostsCommentsFragment>(this,
+								"comments", PostsCommentsFragment.class,
+								arguments));
+		actionBar.addTab(tab, (currentTab == 1) ? true : false);
+	}
 
 }

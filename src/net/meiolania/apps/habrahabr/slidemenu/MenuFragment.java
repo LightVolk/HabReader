@@ -149,8 +149,6 @@ public class MenuFragment extends SherlockListFragment {
 		}
 	}
 
-	/* Helper classes */
-
 	private class MenuData {
 		public String title;
 		public int icon;

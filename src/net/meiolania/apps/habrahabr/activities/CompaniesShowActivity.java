@@ -18,64 +18,54 @@ package net.meiolania.apps.habrahabr.activities;
 
 import net.meiolania.apps.habrahabr.AbstractionFragmentActivity;
 import net.meiolania.apps.habrahabr.fragments.companies.CompaniesShowFragment;
-import android.content.DialogInterface.OnClickListener;
-import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+
 import com.actionbarsherlock.app.ActionBar;
 
 public class CompaniesShowActivity extends AbstractionFragmentActivity {
-    public final static String EXTRA_URL = "url";
-    public final static String EXTRA_TITLE = "title";
-    private String url;
-    private String title;
+	public final static String EXTRA_URL = "url";
+	public final static String EXTRA_TITLE = "title";
+	private String url;
+	private String title;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-	loadExtras();
-	showActionBar();
-	loadInfo();
-    }
+		loadExtras();
+		showActionBar();
+		loadInfo();
+	}
 
-    private void loadExtras() {
-	Uri habraUrl = getIntent().getData();
-	if (habraUrl != null)
-	    url = habraUrl.toString() + "profile/";
-	else
-	    url = getIntent().getStringExtra(EXTRA_URL);
-	title = getIntent().getStringExtra(EXTRA_TITLE);
-    }
+	private void loadExtras() {
+		Uri habraUrl = getIntent().getData();
+		if (habraUrl != null)
+			url = habraUrl.toString() + "profile/";
+		else
+			url = getIntent().getStringExtra(EXTRA_URL);
+		title = getIntent().getStringExtra(EXTRA_TITLE);
+	}
 
-    private void showActionBar() {
-	ActionBar actionBar = getSupportActionBar();
-	actionBar.setDisplayHomeAsUpEnabled(true);
-	actionBar.setTitle(title);
-    }
+	private void showActionBar() {
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setTitle(title);
+	}
 
-    private void loadInfo() {
-	CompaniesShowFragment fragment = new CompaniesShowFragment();
+	private void loadInfo() {
+		CompaniesShowFragment fragment = new CompaniesShowFragment();
 
-	Bundle arguments = new Bundle();
-	arguments.putString(CompaniesShowFragment.URL_ARGUMENT, url);
+		Bundle arguments = new Bundle();
+		arguments.putString(CompaniesShowFragment.URL_ARGUMENT, url);
 
-	fragment.setArguments(arguments);
+		fragment.setArguments(arguments);
 
-	FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-	fragmentTransaction.replace(android.R.id.content, fragment);
-	fragmentTransaction.commit();
-    }
-
-    @Override
-    protected OnClickListener getConnectionDialogListener() {
-	return new OnClickListener() {
-	    @Override
-	    public void onClick(DialogInterface dialog, int which) {
-		finish();
-	    }
-	};
-    }
+		FragmentTransaction fragmentTransaction = getSupportFragmentManager()
+				.beginTransaction();
+		fragmentTransaction.replace(android.R.id.content, fragment);
+		fragmentTransaction.commit();
+	}
 
 }

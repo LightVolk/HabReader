@@ -18,9 +18,6 @@ package net.meiolania.apps.habrahabr;
 
 import net.meiolania.apps.habrahabr.activities.PreferencesActivity;
 import net.meiolania.apps.habrahabr.auth.User;
-import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
-import android.app.AlertDialog;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -51,18 +48,6 @@ public abstract class AbstractionFragmentActivity extends
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		setSupportProgressBarIndeterminateVisibility(false);
-
-		// No connection dialog
-		// @TODO: rewrite
-		if (!ConnectionUtils.isConnected(this)) {
-			AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-			dialog.setTitle(R.string.error);
-			dialog.setMessage(getString(R.string.no_connection));
-			dialog.setPositiveButton(R.string.close,
-					getConnectionDialogListener());
-			dialog.setCancelable(false);
-			dialog.show();
-		}
 	}
 
 	@Override
@@ -100,21 +85,24 @@ public abstract class AbstractionFragmentActivity extends
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case android.R.id.home:
-				finish();
-				return true;
 			case R.id.preferences:
-				startActivity(new Intent(this, PreferencesActivity.class));
+				showPreferences();
 				return true;
 			case R.id.more_applications:
-				Uri uri = Uri.parse(DEVELOPER_PLAY_LINK);
-				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-				startActivity(intent);
+				showApplications();
 				return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
-	protected abstract OnClickListener getConnectionDialogListener();
+	
+	private void showPreferences() {
+		startActivity(new Intent(this, PreferencesActivity.class));
+	}
+	
+	private void showApplications() {
+		Uri uri = Uri.parse(DEVELOPER_PLAY_LINK);
+		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+		startActivity(intent);
+	}
 
 }

@@ -21,81 +21,81 @@ import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.fragments.qa.QaCommentsFragment;
 import net.meiolania.apps.habrahabr.fragments.qa.QaShowFragment;
 import net.meiolania.apps.habrahabr.ui.TabListener;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.net.Uri;
 import android.os.Bundle;
+
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
 
 public class QaShowActivity extends AbstractionFragmentActivity {
-    public final static String EXTRA_URL = "url";
-    public final static String EXTRA_TITLE = "title";
-    private String title;
-    private String url;
-    private int currentTab;
+	public final static String EXTRA_URL = "url";
+	public final static String EXTRA_TITLE = "title";
+	private String title;
+	private String url;
+	private int currentTab;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-	
-	if (savedInstanceState != null)
-	    currentTab = savedInstanceState.getInt("currentTab");
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-	loadExtras();
-	showActionBar();
-    }
-    
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        
-        outState.putInt("currentTab", getSupportActionBar().getSelectedTab().getPosition());
-    }
+		if (savedInstanceState != null)
+			currentTab = savedInstanceState.getInt("currentTab");
 
-    private void loadExtras() {
-	Uri data = getIntent().getData();
-	if (data != null)
-	    url = data.toString();
-	else
-	    url = getIntent().getStringExtra(EXTRA_URL);
-    }
+		loadExtras();
+		showActionBar();
+	}
 
-    private void showActionBar() {
-	ActionBar actionBar = getSupportActionBar();
-	actionBar.setDisplayHomeAsUpEnabled(true);
-	actionBar.setTitle(title);
-	actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
 
-	/*
-	 * Question tab
-	 */
-	Bundle arguments = new Bundle();
-	arguments.putString(QaShowFragment.URL_ARGUMENT, url);
+		outState.putInt("currentTab", getSupportActionBar().getSelectedTab()
+				.getPosition());
+	}
 
-	Tab tab = actionBar.newTab().setText(R.string.question).setTag("question")
-		.setTabListener(new TabListener<QaShowFragment>(this, "question", QaShowFragment.class, arguments));
-	actionBar.addTab(tab, (currentTab == 0) ? true : false);
+	private void loadExtras() {
+		Uri data = getIntent().getData();
+		if (data != null)
+			url = data.toString();
+		else
+			url = getIntent().getStringExtra(EXTRA_URL);
+	}
 
-	/*
-	 * Comments tab
-	 */
-	arguments = new Bundle();
-	arguments.putString(QaCommentsFragment.URL_ARGUMENT, url);
+	private void showActionBar() {
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setTitle(title);
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-	tab = actionBar.newTab().setText(R.string.comments).setTag("comments")
-		.setTabListener(new TabListener<QaCommentsFragment>(this, "comments", QaCommentsFragment.class, arguments));
-	actionBar.addTab(tab, (currentTab == 1) ? true : false);
-    }
+		/*
+		 * Question tab
+		 */
+		Bundle arguments = new Bundle();
+		arguments.putString(QaShowFragment.URL_ARGUMENT, url);
 
-    @Override
-    protected OnClickListener getConnectionDialogListener() {
-	return new OnClickListener() {
-	    @Override
-	    public void onClick(DialogInterface dialog, int which) {
-		finish();
-	    }
-	};
-    }
+		Tab tab = actionBar
+				.newTab()
+				.setText(R.string.question)
+				.setTag("question")
+				.setTabListener(
+						new TabListener<QaShowFragment>(this, "question",
+								QaShowFragment.class, arguments));
+		actionBar.addTab(tab, (currentTab == 0) ? true : false);
+
+		/*
+		 * Comments tab
+		 */
+		arguments = new Bundle();
+		arguments.putString(QaCommentsFragment.URL_ARGUMENT, url);
+
+		tab = actionBar
+				.newTab()
+				.setText(R.string.comments)
+				.setTag("comments")
+				.setTabListener(
+						new TabListener<QaCommentsFragment>(this, "comments",
+								QaCommentsFragment.class, arguments));
+		actionBar.addTab(tab, (currentTab == 1) ? true : false);
+	}
 
 }
