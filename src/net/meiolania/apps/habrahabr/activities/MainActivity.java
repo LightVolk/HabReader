@@ -122,7 +122,7 @@ public class MainActivity extends AbstractionFragmentActivity {
 			}
 		}
 		
-		// switchContent(content, contentType);
+		switchContent(content, contentType);
 	}
 
 	@Override
