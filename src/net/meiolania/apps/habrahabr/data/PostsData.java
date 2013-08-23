@@ -17,87 +17,87 @@ limitations under the License.
 package net.meiolania.apps.habrahabr.data;
 
 public class PostsData {
-    protected String title;
-    protected String url;
-    protected String hubs;
-    protected String author;
-    protected String date;
-    protected String comments;
-    protected String score;
-    protected String image;
-    protected String text;
+	protected String title;
+	protected String url;
+	protected String hubs;
+	protected String author;
+	protected String date;
+	protected String comments;
+	protected String score;
+	protected String image;
+	protected String text;
 
-    public String getTitle() {
-	return title;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public void setTitle(String title) {
-	this.title = title;
-    }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-    public String getUrl() {
-	return url;
-    }
+	public String getUrl() {
+		return url;
+	}
 
-    public void setUrl(String url) {
-	this.url = url;
-    }
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
-    public String getHubs() {
-	return hubs;
-    }
+	public String getHubs() {
+		return hubs;
+	}
 
-    public void setHubs(String hubs) {
-	this.hubs = hubs;
-    }
+	public void setHubs(String hubs) {
+		this.hubs = hubs;
+	}
 
-    public String getAuthor() {
-	return author;
-    }
+	public String getAuthor() {
+		return author;
+	}
 
-    public void setAuthor(String author) {
-	this.author = author;
-    }
+	public void setAuthor(String author) {
+		this.author = author;
+	}
 
-    public void setDate(String date) {
-	this.date = date;
-    }
+	public void setDate(String date) {
+		this.date = date;
+	}
 
-    public String getDate() {
-	return date;
-    }
+	public String getDate() {
+		return date;
+	}
 
-    public String getComments() {
-	return comments;
-    }
+	public String getComments() {
+		return comments;
+	}
 
-    public void setComments(String comments) {
-	this.comments = comments;
-    }
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
 
-    public void setScore(String score) {
-	this.score = score;
-    }
+	public void setScore(String score) {
+		this.score = score;
+	}
 
-    public String getScore() {
-	return score;
-    }
-    
-    public void setImage(String image) {
-        this.image = image;
-    }
+	public String getScore() {
+		return score;
+	}
 
-    public String getImage() {
-        return image;
-    }
+	public void setImage(String image) {
+		this.image = image;
+	}
 
-    /** Text before {@code</habracut>} */
-    public void setText(String text) {
-        this.text = text;
-    }
+	public String getImage() {
+		return image;
+	}
 
-    /** @return text before {@code</habracut>} */
-    public String getText() {
-        return text;
-    }
+	/** Text before {@code</habracut>} */
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	/** @return text before {@code</habracut>} */
+	public String getText() {
+		return text;
+	}
 }

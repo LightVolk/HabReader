@@ -16,54 +16,43 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.activities;
 
-import com.actionbarsherlock.app.ActionBar;
-
 import net.meiolania.apps.habrahabr.AbstractionFragmentActivity;
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.fragments.posts.PostsSearchFragment;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
+import com.actionbarsherlock.app.ActionBar;
+
 public class PostsSearchActivity extends AbstractionFragmentActivity {
-    public final static String EXTRA_QUERY = "query";
-    private String query;
+	public final static String EXTRA_QUERY = "query";
+	private String query;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-	loadExtras();
-	showActionBar();
-	loadSearchedPosts();
-    }
-    
-    private void loadExtras() {
-	query = getIntent().getStringExtra(EXTRA_QUERY);
-    }
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		loadExtras();
+		showActionBar();
+		loadSearchedPosts();
+	}
 
-    private void showActionBar() {
-	ActionBar actionBar = getSupportActionBar();
-	actionBar.setTitle(R.string.post_search);
-	actionBar.setDisplayHomeAsUpEnabled(true);
-    }
+	private void loadExtras() {
+		query = getIntent().getStringExtra(EXTRA_QUERY);
+	}
 
-    private void loadSearchedPosts() {
-	PostsSearchFragment fragment = new PostsSearchFragment(query);
+	private void showActionBar() {
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setTitle(R.string.post_search);
+		actionBar.setDisplayHomeAsUpEnabled(true);
+	}
 
-	FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-	fragmentTransaction.replace(android.R.id.content, fragment);
-	fragmentTransaction.commit();
-    }
+	private void loadSearchedPosts() {
+		PostsSearchFragment fragment = new PostsSearchFragment(query);
 
-    @Override
-    protected OnClickListener getConnectionDialogListener() {
-	return new OnClickListener() {
-	    @Override
-	    public void onClick(DialogInterface dialog, int which) {
-		finish();
-	    }
-	};
-    }
+		FragmentTransaction fragmentTransaction = getSupportFragmentManager()
+				.beginTransaction();
+		fragmentTransaction.replace(android.R.id.content, fragment);
+		fragmentTransaction.commit();
+	}
 
 }

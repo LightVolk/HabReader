@@ -26,33 +26,35 @@ import com.actionbarsherlock.app.SherlockFragment;
 
 public class FavoritesMainFragment extends SherlockFragment {
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-	super.onActivityCreated(savedInstanceState);
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 
-	showActionBar();
-    }
+		showActionBar();
+	}
 
-    private void showActionBar() {
-	ActionBar actionBar = getSherlockActivity().getSupportActionBar();
-	actionBar.removeAllTabs();
-	actionBar.setTitle(R.string.favorites);
-	actionBar.setDisplayHomeAsUpEnabled(true);
-	actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+	private void showActionBar() {
+		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
+		actionBar.removeAllTabs();
+		actionBar.setTitle(R.string.favorites);
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-	/* Posts */
-	Tab tab = actionBar.newTab();
-	tab.setText(R.string.posts);
-	tab.setTag("posts");
-	tab.setTabListener(new TabListener<FavoritesPostsFragment>(getSherlockActivity(), "posts", FavoritesPostsFragment.class));
-	actionBar.addTab(tab);
+		/* Posts */
+		Tab tab = actionBar.newTab();
+		tab.setText(R.string.posts);
+		tab.setTag("posts");
+		tab.setTabListener(new TabListener<FavoritesPostsFragment>(
+				getSherlockActivity(), "posts", FavoritesPostsFragment.class));
+		actionBar.addTab(tab);
 
-	/* Q&A */
-	tab = actionBar.newTab();
-	tab.setText(R.string.qa);
-	tab.setTag("qa");
-	tab.setTabListener(new TabListener<FavoritesQAFragment>(getSherlockActivity(), "posts", FavoritesQAFragment.class));
-	actionBar.addTab(tab);
-    }
+		/* Q&A */
+		tab = actionBar.newTab();
+		tab.setText(R.string.qa);
+		tab.setTag("qa");
+		tab.setTabListener(new TabListener<FavoritesQAFragment>(
+				getSherlockActivity(), "posts", FavoritesQAFragment.class));
+		actionBar.addTab(tab);
+	}
 
 }

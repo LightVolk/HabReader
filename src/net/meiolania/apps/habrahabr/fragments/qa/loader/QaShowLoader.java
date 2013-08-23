@@ -29,43 +29,43 @@ import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
 public class QaShowLoader extends AsyncTaskLoader<QaFullData> {
-    public final static String TAG = QaShowLoader.class.getName();
-    private String url;
+	public final static String TAG = QaShowLoader.class.getName();
+	private String url;
 
-    public QaShowLoader(Context context, String url) {
-	super(context);
+	public QaShowLoader(Context context, String url) {
+		super(context);
 
-	this.url = url;
-    }
-
-    @Override
-    public QaFullData loadInBackground() {
-	QaFullData data = new QaFullData();
-
-	try {
-	    Log.i(TAG, "Loading a page: " + url);
-
-	    Document document = Jsoup.connect(url).get();
-
-	    Element title = document.select("span.post_title").first();
-	    Element hubs = document.select("div.hubs").first();
-	    Element content = document.select("div.content").first();
-	    Element tags = document.select("ul.tags").first();
-	    Element date = document.select("div.published").first();
-	    Element author = document.select("div.author > a").first();
-	    Element answers = document.select("span#comments_count").first();
-
-	    data.setTitle(title.text());
-	    data.setHubs(hubs.text());
-	    data.setContent(content.html());
-	    data.setTags(tags.text());
-	    data.setDate(date.text());
-	    data.setAuthor(author.text());
-	    data.setAnswers(answers.text());
-	} catch (IOException e) {
+		this.url = url;
 	}
 
-	return data;
-    }
+	@Override
+	public QaFullData loadInBackground() {
+		QaFullData data = new QaFullData();
+
+		try {
+			Log.i(TAG, "Loading a page: " + url);
+
+			Document document = Jsoup.connect(url).get();
+
+			Element title = document.select("span.post_title").first();
+			Element hubs = document.select("div.hubs").first();
+			Element content = document.select("div.content").first();
+			Element tags = document.select("ul.tags").first();
+			Element date = document.select("div.published").first();
+			Element author = document.select("div.author > a").first();
+			Element answers = document.select("span#comments_count").first();
+
+			data.setTitle(title.text());
+			data.setHubs(hubs.text());
+			data.setContent(content.html());
+			data.setTags(tags.text());
+			data.setDate(date.text());
+			data.setAuthor(author.text());
+			data.setAnswers(answers.text());
+		} catch (IOException e) {
+		}
+
+		return data;
+	}
 
 }

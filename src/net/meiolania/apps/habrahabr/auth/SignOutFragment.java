@@ -26,24 +26,26 @@ import android.webkit.CookieSyncManager;
 import com.actionbarsherlock.app.SherlockFragment;
 
 public class SignOutFragment extends SherlockFragment {
-    
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-	super.onActivityCreated(savedInstanceState);
-	
-	Preferences preferences = Preferences.getInstance(getSherlockActivity());
-	preferences.setPHPSessionId(null);
-	preferences.setLogin(null);
-	preferences.setHSecId(null);
-	
-	CookieSyncManager.createInstance(getSherlockActivity());
-	CookieManager.getInstance().removeAllCookie();
-	
-	User.getInstance().init(getSherlockActivity());
 
-	Intent intent = new Intent(getSherlockActivity(), MainActivity.class);
-	intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-	startActivity(intent);
-    }
-    
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+
+		Preferences preferences = Preferences
+				.getInstance(getSherlockActivity());
+		preferences.setPHPSessionId(null);
+		preferences.setLogin(null);
+		preferences.setHSecId(null);
+
+		CookieSyncManager.createInstance(getSherlockActivity());
+		CookieManager.getInstance().removeAllCookie();
+
+		User.getInstance().init(getSherlockActivity());
+
+		Intent intent = new Intent(getSherlockActivity(), MainActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+				| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		startActivity(intent);
+	}
+
 }

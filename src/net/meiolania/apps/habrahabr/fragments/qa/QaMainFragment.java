@@ -28,43 +28,46 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 public class QaMainFragment extends SherlockFragment {
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-	super.onActivityCreated(savedInstanceState);
-	
-	showActionBar();
-    }
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 
-    private void showActionBar() {
-	SherlockFragmentActivity activity = getSherlockActivity();
+		showActionBar();
+	}
 
-	ActionBar actionBar = activity.getSupportActionBar();
-	actionBar.removeAllTabs();
-	actionBar.setDisplayHomeAsUpEnabled(true);
-	actionBar.setTitle(R.string.qa);
-	actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+	private void showActionBar() {
+		SherlockFragmentActivity activity = getSherlockActivity();
 
-	int selectedTab = Preferences.getInstance(activity).getQaDefaultTab();
+		ActionBar actionBar = activity.getSupportActionBar();
+		actionBar.removeAllTabs();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setTitle(R.string.qa);
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-	/* Inbox tab */
-	Tab tab = actionBar.newTab();
-	tab.setText(R.string.inbox);
-	tab.setTag("inbox");
-	tab.setTabListener(new TabListener<QaInboxFragment>(activity, "inbox", QaInboxFragment.class));
-	actionBar.addTab(tab, selectedTab == 0 ? true : false);
+		int selectedTab = Preferences.getInstance(activity).getQaDefaultTab();
 
-	/* Hot tab */
-	tab = actionBar.newTab();
-	tab.setText(R.string.hot);
-	tab.setTag("hot");
-	tab.setTabListener(new TabListener<QaHotFragment>(activity, "hot", QaHotFragment.class));
-	actionBar.addTab(tab, selectedTab == 1 ? true : false);
+		/* Inbox tab */
+		Tab tab = actionBar.newTab();
+		tab.setText(R.string.inbox);
+		tab.setTag("inbox");
+		tab.setTabListener(new TabListener<QaInboxFragment>(activity, "inbox",
+				QaInboxFragment.class));
+		actionBar.addTab(tab, selectedTab == 0 ? true : false);
 
-	/* Unanswered tab */
-	tab = actionBar.newTab();
-	tab.setText(R.string.unanswered);
-	tab.setTag("unanswered");
-	tab.setTabListener(new TabListener<QaUnansweredFragment>(activity, "unanswered", QaUnansweredFragment.class));
-	actionBar.addTab(tab, selectedTab == 2 ? true : false);
-    }
+		/* Hot tab */
+		tab = actionBar.newTab();
+		tab.setText(R.string.hot);
+		tab.setTag("hot");
+		tab.setTabListener(new TabListener<QaHotFragment>(activity, "hot",
+				QaHotFragment.class));
+		actionBar.addTab(tab, selectedTab == 1 ? true : false);
+
+		/* Unanswered tab */
+		tab = actionBar.newTab();
+		tab.setText(R.string.unanswered);
+		tab.setTag("unanswered");
+		tab.setTabListener(new TabListener<QaUnansweredFragment>(activity,
+				"unanswered", QaUnansweredFragment.class));
+		actionBar.addTab(tab, selectedTab == 2 ? true : false);
+	}
 }

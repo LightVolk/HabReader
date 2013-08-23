@@ -35,87 +35,97 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 
-public class QaCommentsFragment extends SherlockListFragment implements LoaderCallbacks<ArrayList<CommentsData>> {
-    public final static int LOADER_COMMENTS = 1;
-    public final static int MENU_OPEN_COMMENT_IN_BROWSER = 0;
-    public final static int MENU_OPEN_AUTHOR_PROFILE = 1;
-    public final static String URL_ARGUMENT = "url";
-    private ArrayList<CommentsData> comments;
-    private CommentsAdapter adapter;
-    private String url;
+public class QaCommentsFragment extends SherlockListFragment implements
+		LoaderCallbacks<ArrayList<CommentsData>> {
+	public final static int LOADER_COMMENTS = 1;
+	public final static int MENU_OPEN_COMMENT_IN_BROWSER = 0;
+	public final static int MENU_OPEN_AUTHOR_PROFILE = 1;
+	public final static String URL_ARGUMENT = "url";
+	private ArrayList<CommentsData> comments;
+	private CommentsAdapter adapter;
+	private String url;
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-	super.onActivityCreated(savedInstanceState);
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 
-	url = getArguments().getString(URL_ARGUMENT);
+		url = getArguments().getString(URL_ARGUMENT);
 
-	setRetainInstance(true);
+		setRetainInstance(true);
 
-	if (adapter == null) {
-	    comments = new ArrayList<CommentsData>();
-	    adapter = new CommentsAdapter(getSherlockActivity(), comments);
+		if (adapter == null) {
+			comments = new ArrayList<CommentsData>();
+			adapter = new CommentsAdapter(getSherlockActivity(), comments);
+		}
+
+		setListAdapter(adapter);
+		setListShown(false);
+
+		getListView().setDivider(null);
+		getListView().setDividerHeight(0);
+
+		registerForContextMenu(getListView());
+
+		getSherlockActivity().getSupportLoaderManager().initLoader(
+				LOADER_COMMENTS, null, this);
+
+		setEmptyText(getString(R.string.no_items_comments));
 	}
 
-	setListAdapter(adapter);
-	setListShown(false);
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View view,
+			ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, view, menuInfo);
 
-	getListView().setDivider(null);
-	getListView().setDividerHeight(0);
-
-	registerForContextMenu(getListView());
-
-	getSherlockActivity().getSupportLoaderManager().initLoader(LOADER_COMMENTS, null, this);
-	
-	setEmptyText(getString(R.string.no_items_comments));
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
-	super.onCreateContextMenu(menu, view, menuInfo);
-
-	menu.add(0, MENU_OPEN_COMMENT_IN_BROWSER, 0, R.string.open_comment_in_browser);
-	menu.add(0, MENU_OPEN_AUTHOR_PROFILE, 0, R.string.open_author_profile);
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-	AdapterContextMenuInfo adapterContextMenuInfo = (AdapterContextMenuInfo) item.getMenuInfo();
-	CommentsData commentsData = (CommentsData) getListAdapter().getItem(adapterContextMenuInfo.position);
-
-	switch (item.getItemId()) {
-	    case MENU_OPEN_COMMENT_IN_BROWSER:
-		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(commentsData.getUrl())));
-		break;
-	    case MENU_OPEN_AUTHOR_PROFILE:
-		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(commentsData.getAuthorUrl())));
-		break;
+		menu.add(0, MENU_OPEN_COMMENT_IN_BROWSER, 0,
+				R.string.open_comment_in_browser);
+		menu.add(0, MENU_OPEN_AUTHOR_PROFILE, 0, R.string.open_author_profile);
 	}
-	
-	return super.onContextItemSelected(item);
-    }
 
-    @Override
-    public Loader<ArrayList<CommentsData>> onCreateLoader(int id, Bundle args) {
-	QaCommentsLoader loader = new QaCommentsLoader(getSherlockActivity(), url);
-	loader.forceLoad();
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		AdapterContextMenuInfo adapterContextMenuInfo = (AdapterContextMenuInfo) item
+				.getMenuInfo();
+		CommentsData commentsData = (CommentsData) getListAdapter().getItem(
+				adapterContextMenuInfo.position);
 
-	return loader;
-    }
+		switch (item.getItemId()) {
+			case MENU_OPEN_COMMENT_IN_BROWSER:
+				startActivity(new Intent(Intent.ACTION_VIEW,
+						Uri.parse(commentsData.getUrl())));
+				break;
+			case MENU_OPEN_AUTHOR_PROFILE:
+				startActivity(new Intent(Intent.ACTION_VIEW,
+						Uri.parse(commentsData.getAuthorUrl())));
+				break;
+		}
 
-    @Override
-    public void onLoadFinished(Loader<ArrayList<CommentsData>> loader, ArrayList<CommentsData> data) {
-	if (comments.isEmpty()) {
-	    comments.addAll(data);
-	    adapter.notifyDataSetChanged();
+		return super.onContextItemSelected(item);
 	}
-	
-	setListShown(true);
-    }
 
-    @Override
-    public void onLoaderReset(Loader<ArrayList<CommentsData>> loader) {
+	@Override
+	public Loader<ArrayList<CommentsData>> onCreateLoader(int id, Bundle args) {
+		QaCommentsLoader loader = new QaCommentsLoader(getSherlockActivity(),
+				url);
+		loader.forceLoad();
 
-    }
+		return loader;
+	}
+
+	@Override
+	public void onLoadFinished(Loader<ArrayList<CommentsData>> loader,
+			ArrayList<CommentsData> data) {
+		if (comments.isEmpty()) {
+			comments.addAll(data);
+			adapter.notifyDataSetChanged();
+		}
+
+		setListShown(true);
+	}
+
+	@Override
+	public void onLoaderReset(Loader<ArrayList<CommentsData>> loader) {
+
+	}
 
 }

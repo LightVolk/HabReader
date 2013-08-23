@@ -20,16 +20,16 @@ import net.meiolania.apps.habrahabr.auth.User;
 import net.meiolania.apps.habrahabr.fragments.posts.AbstractionPostsFragment;
 
 public class FavoritesPostsFragment extends AbstractionPostsFragment {
-    public static final String URL = "http://habrahabr.ru/users/%user%/favorites/page%page%/";
-    
-    @Override
-    protected String getUrl() {
-	return URL.replace("%user%", User.getInstance().getLogin());
-    }
+	public static final String URL = "http://habrahabr.ru/users/%user%/favorites/page%page%/";
 
-    @Override
-    protected int getLoaderId() {
-	return 0;
-    }
+	@Override
+	protected String getUrl() {
+		return URL.replace("%user%", User.getInstance().getLogin());
+	}
+
+	@Override
+	protected int getLoaderId() {
+		return 0;
+	}
 
 }

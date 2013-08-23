@@ -35,105 +35,113 @@ import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 
-public class HubsFragment extends SherlockListFragment implements OnScrollListener, LoaderCallbacks<ArrayList<HubsData>> {
-    public final static int LOADER_HUBS = 0;
-    public final static String URL_ARGUMENT = "url";
-    private ArrayList<HubsData> hubs;
-    private HubsAdapter adapter;
-    private int page;
-    private boolean isLoadData;
-    private String url;
-    private boolean noMoreData;
-    private boolean firstLoading = true;
+public class HubsFragment extends SherlockListFragment implements
+		OnScrollListener, LoaderCallbacks<ArrayList<HubsData>> {
+	public final static int LOADER_HUBS = 0;
+	public final static String URL_ARGUMENT = "url";
+	private ArrayList<HubsData> hubs;
+	private HubsAdapter adapter;
+	private int page;
+	private boolean isLoadData;
+	private String url;
+	private boolean noMoreData;
+	private boolean firstLoading = true;
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-	super.onActivityCreated(savedInstanceState);
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 
-	if (getArguments() != null)
-	    url = getArguments().getString(URL_ARGUMENT);
-	else
-	    url = "http://habrahabr.ru/hubs/page%page%/";
+		if (getArguments() != null)
+			url = getArguments().getString(URL_ARGUMENT);
+		else
+			url = "http://habrahabr.ru/hubs/page%page%/";
 
-	if (adapter == null) {
-	    hubs = new ArrayList<HubsData>();
-	    adapter = new HubsAdapter(getSherlockActivity(), hubs);
+		if (adapter == null) {
+			hubs = new ArrayList<HubsData>();
+			adapter = new HubsAdapter(getSherlockActivity(), hubs);
+		}
+
+		setListAdapter(adapter);
+		setListShown(false);
+
+		getListView().setOnScrollListener(this);
+
+		setEmptyText(getString(R.string.no_items_hubs));
 	}
 
-	setListAdapter(adapter);
-	setListShown(false);
-
-	getListView().setOnScrollListener(this);
-	
-	setEmptyText(getString(R.string.no_items_hubs));
-    }
-
-    @Override
-    public void onListItemClick(ListView list, View view, int position, long id) {
-	showHub(position);
-    }
-
-    protected void showHub(int position) {
-	HubsData data = hubs.get(position);
-
-	Intent intent = new Intent(getSherlockActivity(), HubsShowActivity.class);
-	intent.putExtra(HubsShowActivity.EXTRA_URL, data.getUrl());
-	intent.putExtra(HubsShowActivity.EXTRA_TITLE, data.getTitle());
-
-	startActivity(intent);
-    }
-
-    protected void restartLoading() {
-	if (ConnectionUtils.isConnected(getSherlockActivity())) {
-	    if (!firstLoading)
-		getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
-
-	    HubsLoader.setPage(++page);
-
-	    getSherlockActivity().getSupportLoaderManager().restartLoader(LOADER_HUBS, null, this);
-
-	    isLoadData = true;
+	@Override
+	public void onListItemClick(ListView list, View view, int position, long id) {
+		showHub(position);
 	}
-    }
 
-    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-	if ((firstVisibleItem + visibleItemCount) == totalItemCount && !isLoadData && !noMoreData)
-	    restartLoading();
-    }
+	protected void showHub(int position) {
+		HubsData data = hubs.get(position);
 
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
+		Intent intent = new Intent(getSherlockActivity(),
+				HubsShowActivity.class);
+		intent.putExtra(HubsShowActivity.EXTRA_URL, data.getUrl());
+		intent.putExtra(HubsShowActivity.EXTRA_TITLE, data.getTitle());
 
-    }
+		startActivity(intent);
+	}
 
-    @Override
-    public Loader<ArrayList<HubsData>> onCreateLoader(int id, Bundle args) {
-	HubsLoader loader = new HubsLoader(getSherlockActivity(), url);
-	loader.forceLoad();
+	protected void restartLoading() {
+		if (ConnectionUtils.isConnected(getSherlockActivity())) {
+			if (!firstLoading)
+				getSherlockActivity()
+						.setSupportProgressBarIndeterminateVisibility(true);
 
-	return loader;
-    }
+			HubsLoader.setPage(++page);
 
-    @Override
-    public void onLoadFinished(Loader<ArrayList<HubsData>> loader, ArrayList<HubsData> data) {
-	if (data.isEmpty())
-	    noMoreData = true;
+			getSherlockActivity().getSupportLoaderManager().restartLoader(
+					LOADER_HUBS, null, this);
 
-	hubs.addAll(data);
-	adapter.notifyDataSetChanged();
-	
-	firstLoading = false;
-	
-	if (getSherlockActivity() != null)
-	    getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
+			isLoadData = true;
+		}
+	}
 
-	isLoadData = false;
-	
-	if (getSherlockActivity() != null)
-	    setListShown(true);
-    }
+	public void onScroll(AbsListView view, int firstVisibleItem,
+			int visibleItemCount, int totalItemCount) {
+		if ((firstVisibleItem + visibleItemCount) == totalItemCount
+				&& !isLoadData && !noMoreData)
+			restartLoading();
+	}
 
-    @Override
-    public void onLoaderReset(Loader<ArrayList<HubsData>> loader) {
-    }
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+	}
+
+	@Override
+	public Loader<ArrayList<HubsData>> onCreateLoader(int id, Bundle args) {
+		HubsLoader loader = new HubsLoader(getSherlockActivity(), url);
+		loader.forceLoad();
+
+		return loader;
+	}
+
+	@Override
+	public void onLoadFinished(Loader<ArrayList<HubsData>> loader,
+			ArrayList<HubsData> data) {
+		if (data.isEmpty())
+			noMoreData = true;
+
+		hubs.addAll(data);
+		adapter.notifyDataSetChanged();
+
+		firstLoading = false;
+
+		if (getSherlockActivity() != null)
+			getSherlockActivity().setSupportProgressBarIndeterminateVisibility(
+					false);
+
+		isLoadData = false;
+
+		if (getSherlockActivity() != null)
+			setListShown(true);
+	}
+
+	@Override
+	public void onLoaderReset(Loader<ArrayList<HubsData>> loader) {
+	}
 
 }

@@ -28,61 +28,62 @@ import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 
 public class EventShowLoader extends AsyncTaskLoader<EventFullData> {
-    public final static int INFO_LOCATION = 0;
-    public final static int INFO_PAY = 2;
-    public final static int INFO_SITE = 3;
-    public final static int INFO_DATE = 1;
-    private String url;
+	public final static int INFO_LOCATION = 0;
+	public final static int INFO_PAY = 2;
+	public final static int INFO_SITE = 3;
+	public final static int INFO_DATE = 1;
+	private String url;
 
-    public EventShowLoader(Context context, String url) {
-	super(context);
+	public EventShowLoader(Context context, String url) {
+		super(context);
 
-	this.url = url;
-    }
-
-    @Override
-    public EventFullData loadInBackground() {
-	EventFullData event = new EventFullData();
-
-	try {
-	    Document document = Jsoup.connect(url).get();
-
-	    Element title = document.select("h1.title").first();
-	    Element description = document.select("div.description").first();
-	    Elements additionalInfo = document.select("div.info_block").first().getElementsByTag("dd");
-
-	    Element location = null, pay = null, site = null, date = null;
-	    // TODO: need to test this code more
-	    int i = 0;
-	    for (Element info : additionalInfo) {
-		switch (i) {
-		    case INFO_LOCATION:
-			location = info;
-			break;
-		    case INFO_DATE:
-			date = info;
-			break;
-		    case INFO_PAY:
-			pay = info;
-			break;
-		    case INFO_SITE:
-			site = info;
-			break;
-		}
-		i++;
-	    }
-
-	    event.setTitle(title.text());
-	    event.setUrl(url);
-	    event.setDate(date != null ? date.text() : "");
-	    event.setText(description != null ? description.html() : "");
-	    event.setPay(pay != null ? pay.text() : "");
-	    event.setLocation(location != null ? location.text() : "");
-	    event.setSite(site != null ? site.text() : "");
-	} catch (IOException e) {
+		this.url = url;
 	}
 
-	return event;
-    }
+	@Override
+	public EventFullData loadInBackground() {
+		EventFullData event = new EventFullData();
+
+		try {
+			Document document = Jsoup.connect(url).get();
+
+			Element title = document.select("h1.title").first();
+			Element description = document.select("div.description").first();
+			Elements additionalInfo = document.select("div.info_block").first()
+					.getElementsByTag("dd");
+
+			Element location = null, pay = null, site = null, date = null;
+			// TODO: need to test this code more
+			int i = 0;
+			for (Element info : additionalInfo) {
+				switch (i) {
+					case INFO_LOCATION:
+						location = info;
+						break;
+					case INFO_DATE:
+						date = info;
+						break;
+					case INFO_PAY:
+						pay = info;
+						break;
+					case INFO_SITE:
+						site = info;
+						break;
+				}
+				i++;
+			}
+
+			event.setTitle(title.text());
+			event.setUrl(url);
+			event.setDate(date != null ? date.text() : "");
+			event.setText(description != null ? description.html() : "");
+			event.setPay(pay != null ? pay.text() : "");
+			event.setLocation(location != null ? location.text() : "");
+			event.setSite(site != null ? site.text() : "");
+		} catch (IOException e) {
+		}
+
+		return event;
+	}
 
 }

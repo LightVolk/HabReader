@@ -17,68 +17,68 @@ limitations under the License.
 package net.meiolania.apps.habrahabr.data;
 
 public class CommentsData {
-    public final static int MAX_LEVEL = 5;
-    protected String url;
-    protected String author;
-    protected String authorUrl;
-    protected String comment;
-    protected String score;
-    protected String time;
-    protected int level;
+	public final static int MAX_LEVEL = 5;
+	protected String url;
+	protected String author;
+	protected String authorUrl;
+	protected String comment;
+	protected String score;
+	protected String time;
+	protected int level;
 
-    public String getAuthorUrl() {
-	return authorUrl;
-    }
+	public String getAuthorUrl() {
+		return authorUrl;
+	}
 
-    public void setAuthorUrl(String url) {
-	this.authorUrl = url;
-    }
+	public void setAuthorUrl(String url) {
+		this.authorUrl = url;
+	}
 
-    public String getUrl() {
-	return url;
-    }
+	public String getUrl() {
+		return url;
+	}
 
-    public void setUrl(String url) {
-	this.url = url;
-    }
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
-    public String getAuthor() {
-	return author;
-    }
+	public String getAuthor() {
+		return author;
+	}
 
-    public void setAuthor(String author) {
-	this.author = author;
-    }
+	public void setAuthor(String author) {
+		this.author = author;
+	}
 
-    public String getComment() {
-	return comment;
-    }
+	public String getComment() {
+		return comment;
+	}
 
-    public void setComment(String comment) {
-	this.comment = comment;
-    }
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
 
-    public String getScore() {
-	return score;
-    }
+	public String getScore() {
+		return score;
+	}
 
-    public void setScore(String score) {
-	this.score = score;
-    }
-    
-    public String getTime() {
-	return time;
-    }
-    
-    public void setTime(String time) {
-	this.time = time;
-    }
+	public void setScore(String score) {
+		this.score = score;
+	}
 
-    public int getLevel() {
-	return level;
-    }
+	public String getTime() {
+		return time;
+	}
 
-    public void setLevel(int level) {
-	this.level = level;
-    }
+	public void setTime(String time) {
+		this.time = time;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
 }

@@ -16,6 +16,8 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.ui;
 
+
+import net.meiolania.apps.habrahabr.R;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,43 +25,45 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.actionbarsherlock.app.ActionBar.Tab;
 
-public class TabListener<T extends Fragment> implements com.actionbarsherlock.app.ActionBar.TabListener {
-    private Fragment fragment;
-    private Class<T> fragmentClass;
-    private Context context;
-    private String tag;
-    private Bundle arguments;
+public class TabListener<T extends Fragment> implements
+		com.actionbarsherlock.app.ActionBar.TabListener {
+	private Fragment fragment;
+	private Class<T> fragmentClass;
+	private Context context;
+	private String tag;
+	private Bundle arguments;
 
-    public TabListener(Context context, String tag, Class<T> fragmentClass) {
-	this.context = context;
-	this.tag = tag;
-	this.fragmentClass = fragmentClass;
-    }
-
-    public TabListener(Context context, String tag, Class<T> fragmentClass, Bundle arguments) {
-	this(context, tag, fragmentClass);
-	this.arguments = arguments;
-    }
-
-    @Override
-    public void onTabSelected(Tab tab, FragmentTransaction ft) {
-	if (fragment == null) {
-	    fragment = Fragment.instantiate(context, fragmentClass.getName());
-
-	    if (arguments != null)
-		fragment.setArguments(arguments);
+	public TabListener(Context context, String tag, Class<T> fragmentClass) {
+		this.context = context;
+		this.tag = tag;
+		this.fragmentClass = fragmentClass;
 	}
-	ft.replace(android.R.id.content, fragment, tag);
-    }
 
-    @Override
-    public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+	public TabListener(Context context, String tag, Class<T> fragmentClass,
+			Bundle arguments) {
+		this(context, tag, fragmentClass);
+		this.arguments = arguments;
+	}
 
-    }
+	@Override
+	public void onTabSelected(Tab tab, FragmentTransaction ft) {
+		if (fragment == null) {
+			fragment = Fragment.instantiate(context, fragmentClass.getName());
 
-    @Override
-    public void onTabReselected(Tab tab, FragmentTransaction ft) {
+			if (arguments != null)
+				fragment.setArguments(arguments);
+		}
+		ft.replace(R.id.content_frame, fragment, tag);
+	}
 
-    }
+	@Override
+	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+
+	}
+
+	@Override
+	public void onTabReselected(Tab tab, FragmentTransaction ft) {
+
+	}
 
 }

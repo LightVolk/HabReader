@@ -31,51 +31,51 @@ import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
 public class HubsLoader extends AsyncTaskLoader<ArrayList<HubsData>> {
-    public final static String TAG = HubsLoader.class.getName();
-    private String url;
-    private static int page;
+	public final static String TAG = HubsLoader.class.getName();
+	private String url;
+	private static int page;
 
-    public HubsLoader(Context context, String url) {
-	super(context);
+	public HubsLoader(Context context, String url) {
+		super(context);
 
-	this.url = url;
-    }
-
-    public static void setPage(int page) {
-	HubsLoader.page = page;
-    }
-
-    @Override
-    public ArrayList<HubsData> loadInBackground() {
-	ArrayList<HubsData> data = new ArrayList<HubsData>();
-
-	try {
-	    String readyUrl = url.replace("%page%", String.valueOf(page));
-
-	    Log.i(TAG, "Loading a page: " + readyUrl);
-
-	    Document document = Jsoup.connect(readyUrl).get();
-
-	    Elements hubs = document.select("div.hub");
-
-	    for (Element hub : hubs) {
-		HubsData hubsData = new HubsData();
-
-		Element index = hub.select("div.habraindex").first();
-		Element title = hub.select("div.title > a").first();
-		Element stat = hub.select("div.stat").first();
-
-		hubsData.setTitle(title.text());
-		hubsData.setUrl(title.attr("abs:href"));
-		hubsData.setStat(stat.text());
-		hubsData.setIndex(index.text());
-
-		data.add(hubsData);
-	    }
-	} catch (IOException e) {
+		this.url = url;
 	}
 
-	return data;
-    }
+	public static void setPage(int page) {
+		HubsLoader.page = page;
+	}
+
+	@Override
+	public ArrayList<HubsData> loadInBackground() {
+		ArrayList<HubsData> data = new ArrayList<HubsData>();
+
+		try {
+			String readyUrl = url.replace("%page%", String.valueOf(page));
+
+			Log.i(TAG, "Loading a page: " + readyUrl);
+
+			Document document = Jsoup.connect(readyUrl).get();
+
+			Elements hubs = document.select("div.hub");
+
+			for (Element hub : hubs) {
+				HubsData hubsData = new HubsData();
+
+				Element index = hub.select("div.habraindex").first();
+				Element title = hub.select("div.title > a").first();
+				Element stat = hub.select("div.stat").first();
+
+				hubsData.setTitle(title.text());
+				hubsData.setUrl(title.attr("abs:href"));
+				hubsData.setStat(stat.text());
+				hubsData.setIndex(index.text());
+
+				data.add(hubsData);
+			}
+		} catch (IOException e) {
+		}
+
+		return data;
+	}
 
 }

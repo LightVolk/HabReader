@@ -43,107 +43,118 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 
 public class AuthFragment extends SherlockFragment {
-    public static final String MAIN_URL = "http://habrahabr.ru/";
-    public static final String LOGIN_URL = "http://habrahabr.ru/login/";
+	public static final String MAIN_URL = "http://habrahabr.ru/";
+	public static final String LOGIN_URL = "http://habrahabr.ru/login/";
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-	super.onActivityCreated(savedInstanceState);
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 
-	showActionBar();
-	showAuthPage();
-    }
+		showActionBar();
+		showAuthPage();
+	}
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-	return inflater.inflate(R.layout.auth_fragment, container, false);
-    }
-    
-    private void showActionBar() {
-	ActionBar actionBar = getSherlockActivity().getSupportActionBar();
-	actionBar.setTitle(R.string.auth);
-	actionBar.removeAllTabs();
-	actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-	getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
-    }
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.auth_fragment, container, false);
+	}
 
-    private void showAuthPage() {
-	WebView content = (WebView) getSherlockActivity().findViewById(R.id.auth_content);
+	private void showActionBar() {
+		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
+		actionBar.setTitle(R.string.auth);
+		actionBar.removeAllTabs();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+		getSherlockActivity().setSupportProgressBarIndeterminateVisibility(
+				false);
+	}
 
-	content.setWebViewClient(new WebViewClient() {
+	private void showAuthPage() {
+		WebView content = (WebView) getSherlockActivity().findViewById(
+				R.id.auth_content);
 
-	    @Override
-	    public void onPageStarted(WebView view, String url, Bitmap favicon) {
-		super.onPageStarted(view, url, favicon);
+		content.setWebViewClient(new WebViewClient() {
 
-		// We handle redirect to main page after auth
-		if (url.equals(MAIN_URL)) {
-		    String cookies[] = CookieManager.getInstance().getCookie(MAIN_URL).split(";");
+			@Override
+			public void onPageStarted(WebView view, String url, Bitmap favicon) {
+				super.onPageStarted(view, url, favicon);
 
-		    Preferences preferences = Preferences.getInstance(getSherlockActivity());
+				// We handle redirect to main page after auth
+				if (url.equals(MAIN_URL)) {
+					String cookies[] = CookieManager.getInstance()
+							.getCookie(MAIN_URL).split(";");
 
-		    for (String cookie : cookies) {
-			String cookieNameAndValue[] = cookie.split("=");
-			String cookieName = cookieNameAndValue[0].trim();
-			String cookieValue = cookieNameAndValue[1].trim();
+					Preferences preferences = Preferences
+							.getInstance(getSherlockActivity());
 
-			if (cookieName.equals(User.PHPSESSION_ID))
-			    preferences.setPHPSessionId(cookieValue);
-			if (cookieName.equals(User.HSEC_ID))
-			    preferences.setHSecId(cookieValue);
-		    }
-		    
-		    new GetUserName().execute();
+					for (String cookie : cookies) {
+						String cookieNameAndValue[] = cookie.split("=");
+						String cookieName = cookieNameAndValue[0].trim();
+						String cookieValue = cookieNameAndValue[1].trim();
+
+						if (cookieName.equals(User.PHPSESSION_ID))
+							preferences.setPHPSessionId(cookieValue);
+						if (cookieName.equals(User.HSEC_ID))
+							preferences.setHSecId(cookieValue);
+					}
+
+					new GetUserName().execute();
+				}
+			}
+
+		});
+		content.getSettings().setSupportZoom(true);
+		content.getSettings().setBuiltInZoomControls(true);
+		content.getSettings().setJavaScriptEnabled(true);
+
+		content.loadUrl(LOGIN_URL);
+	}
+
+	private class GetUserName extends AsyncTask<Void, Void, Void> {
+		private ProgressDialog progress;
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			// TODO: handle html from webview?
+			try {
+				Preferences preferences = Preferences
+						.getInstance(getSherlockActivity());
+
+				Document document = Jsoup
+						.connect(MAIN_URL)
+						.cookie(User.PHPSESSION_ID,
+								preferences.getPHPSessionId())
+						.cookie(User.HSEC_ID, preferences.getHSecId()).get();
+
+				Element usernameElement = document.select("a.username").first();
+				preferences.setLogin(usernameElement.text());
+			} catch (IOException e) {
+
+			}
+			return null;
 		}
-	    }
 
-	});
-	content.getSettings().setSupportZoom(true);
-	content.getSettings().setBuiltInZoomControls(true);
-	content.getSettings().setJavaScriptEnabled(true);
+		@Override
+		protected void onPreExecute() {
+			progress = new ProgressDialog(getSherlockActivity());
+			progress.setMessage(getString(R.string.loading));
+			progress.setCancelable(true);
+			progress.show();
+		}
 
-	content.loadUrl(LOGIN_URL);
-    }
-    
-    private class GetUserName extends AsyncTask<Void, Void, Void> {
-	private ProgressDialog progress;
+		@Override
+		protected void onPostExecute(Void result) {
+			progress.dismiss();
 
-	@Override
-	protected Void doInBackground(Void... params) {
-	    // TODO: handle html from webview?
-	    try {
-		Preferences preferences = Preferences.getInstance(getSherlockActivity());
+			ToastUtils.show(getSherlockActivity(), R.string.auth_success);
 
-		Document document = Jsoup.connect(MAIN_URL).cookie(User.PHPSESSION_ID, preferences.getPHPSessionId())
-			.cookie(User.HSEC_ID, preferences.getHSecId()).get();
+			Intent intent = new Intent(getSherlockActivity(),
+					MainActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+					| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+			startActivity(intent);
+		}
 
-		Element usernameElement = document.select("a.username").first();
-		preferences.setLogin(usernameElement.text());
-	    } catch (IOException e) {
-
-	    }
-	    return null;
 	}
-
-	@Override
-	protected void onPreExecute() {
-	    progress = new ProgressDialog(getSherlockActivity());
-	    progress.setMessage(getString(R.string.loading));
-	    progress.setCancelable(true);
-	    progress.show();
-	}
-
-	@Override
-	protected void onPostExecute(Void result) {
-	    progress.dismiss();
-
-	    ToastUtils.show(getSherlockActivity(), R.string.auth_success);
-
-	    Intent intent = new Intent(getSherlockActivity(), MainActivity.class);
-	    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-	    startActivity(intent);
-	}
-
-    }
 
 }

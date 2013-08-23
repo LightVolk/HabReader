@@ -27,48 +27,50 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 public class HabrWebClient extends WebViewClient {
-    Context context;
+	Context context;
 
-    public HabrWebClient(Context context) {
-	super();
-	this.context = context;
-    }
-
-    public void onScaleChanged(WebView view, float oldScale, float newScale) {
-	Preferences.getInstance(context).setViewScale(context, newScale);
-    }
-
-    public void onPageFinished(WebView view, String Url) {
-    }
-
-    public boolean shouldOverrideUrlLoading(WebView view, String url) {
-	// Allow the OS to handle links
-	if (url.startsWith("mailto:")) {
-	    MailTo mt = MailTo.parse(url);
-	    Intent i = newEmailIntent(context, mt.getTo(), mt.getSubject(), mt.getBody(), mt.getCc());
-	    context.startActivity(i);
-	} else if (url.startsWith("http://habrahabr.ru/post/")) {
-	    Intent intent = new Intent(context, PostsShowActivity.class);
-	    intent.putExtra(PostsShowActivity.EXTRA_URL, url);
-	    context.startActivity(intent);
-	} else if (url.startsWith("http://habrahabr.ru/users/")) {
-	    Intent intent = new Intent(context, UsersShowActivity.class);
-	    intent.putExtra(UsersShowActivity.EXTRA_URL, url);
-	    context.startActivity(intent);
-	} else {
-	    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-	    context.startActivity(intent);
+	public HabrWebClient(Context context) {
+		super();
+		this.context = context;
 	}
-	return true;
-    }
 
-    public static Intent newEmailIntent(Context context, String address, String subject, String body, String cc) {
-	Intent intent = new Intent(Intent.ACTION_SEND);
-	intent.putExtra(Intent.EXTRA_EMAIL, new String[] { address });
-	intent.putExtra(Intent.EXTRA_TEXT, body);
-	intent.putExtra(Intent.EXTRA_SUBJECT, subject);
-	intent.putExtra(Intent.EXTRA_CC, cc);
-	intent.setType("plain/text");
-	return intent;
-    }
+	public void onScaleChanged(WebView view, float oldScale, float newScale) {
+		Preferences.getInstance(context).setViewScale(context, newScale);
+	}
+
+	public void onPageFinished(WebView view, String Url) {
+	}
+
+	public boolean shouldOverrideUrlLoading(WebView view, String url) {
+		// Allow the OS to handle links
+		if (url.startsWith("mailto:")) {
+			MailTo mt = MailTo.parse(url);
+			Intent i = newEmailIntent(context, mt.getTo(), mt.getSubject(),
+					mt.getBody(), mt.getCc());
+			context.startActivity(i);
+		} else if (url.startsWith("http://habrahabr.ru/post/")) {
+			Intent intent = new Intent(context, PostsShowActivity.class);
+			intent.putExtra(PostsShowActivity.EXTRA_URL, url);
+			context.startActivity(intent);
+		} else if (url.startsWith("http://habrahabr.ru/users/")) {
+			Intent intent = new Intent(context, UsersShowActivity.class);
+			intent.putExtra(UsersShowActivity.EXTRA_URL, url);
+			context.startActivity(intent);
+		} else {
+			Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+			context.startActivity(intent);
+		}
+		return true;
+	}
+
+	public static Intent newEmailIntent(Context context, String address,
+			String subject, String body, String cc) {
+		Intent intent = new Intent(Intent.ACTION_SEND);
+		intent.putExtra(Intent.EXTRA_EMAIL, new String[] { address });
+		intent.putExtra(Intent.EXTRA_TEXT, body);
+		intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+		intent.putExtra(Intent.EXTRA_CC, cc);
+		intent.setType("plain/text");
+		return intent;
+	}
 }

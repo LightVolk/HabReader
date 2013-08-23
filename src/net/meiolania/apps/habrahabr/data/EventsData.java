@@ -17,59 +17,59 @@ limitations under the License.
 package net.meiolania.apps.habrahabr.data;
 
 public class EventsData {
-    protected String title;
-    protected String detail;
-    protected String text;
-    protected String date;
-    protected String url;
-    protected String hubs;
+	protected String title;
+	protected String detail;
+	protected String text;
+	protected String date;
+	protected String url;
+	protected String hubs;
 
-    public String getUrl() {
-	return url;
-    }
+	public String getUrl() {
+		return url;
+	}
 
-    public void setUrl(String url) {
-	this.url = url;
-    }
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
-    public String getTitle() {
-	return title;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public void setTitle(String title) {
-	this.title = title;
-    }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-    public String getDetail() {
-	return detail;
-    }
+	public String getDetail() {
+		return detail;
+	}
 
-    public void setDetail(String detail) {
-	this.detail = detail;
-    }
+	public void setDetail(String detail) {
+		this.detail = detail;
+	}
 
-    public String getText() {
-	return text;
-    }
+	public String getText() {
+		return text;
+	}
 
-    public void setText(String text) {
-	this.text = text;
-    }
+	public void setText(String text) {
+		this.text = text;
+	}
 
-    public String getDate() {
-	return date;
-    }
+	public String getDate() {
+		return date;
+	}
 
-    public void setDate(String date) {
-	this.date = date;
-    }
+	public void setDate(String date) {
+		this.date = date;
+	}
 
-    public void setHubs(String hubs) {
-	this.hubs = hubs;
-    }
+	public void setHubs(String hubs) {
+		this.hubs = hubs;
+	}
 
-    public String getHubs() {
-	return hubs;
-    }
+	public String getHubs() {
+		return hubs;
+	}
 
 }
