@@ -33,9 +33,11 @@ import net.meiolania.apps.habrahabr.fragments.qa.QaMainFragment;
 import net.meiolania.apps.habrahabr.fragments.users.UsersFragment;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +50,7 @@ import com.actionbarsherlock.app.SherlockListFragment;
 public class MenuFragment extends SherlockListFragment {
 	private ArrayList<MenuData> menu;
 	private MenuAdapter menuAdapter;
-
+	
 	public enum ItemType {
 		AUTH, PROFILE, FEED, FAVORITES, POSTS, HUBS, QA, EVENTS, COMPANIES, USERS
 	};
@@ -88,6 +90,8 @@ public class MenuFragment extends SherlockListFragment {
 
 		menuAdapter = new MenuAdapter(getSherlockActivity(), menu);
 		setListAdapter(menuAdapter);
+		
+		getListView().setBackgroundColor(Color.WHITE);
 	}
 
 	@Override
