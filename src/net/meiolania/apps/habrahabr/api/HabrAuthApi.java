@@ -9,6 +9,10 @@ public final class HabrAuthApi implements AuthApi {
 	private String sessionId;
 	private String authId;
 	
+	private HabrAuthApi() {
+		
+	}
+	
 	public static HabrAuthApi getInstance() {
 		if (instance == null)
 			instance = new HabrAuthApi();

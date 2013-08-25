@@ -46,7 +46,10 @@ public abstract class AbstractionFragmentActivity extends
 		// Auth
 		User.getInstance().init(this);
 		HabrAuthApi.getInstance().init(this);
-
+		
+		// UI
+		Fonts.init(this);
+		
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		setSupportProgressBarIndeterminateVisibility(false);
