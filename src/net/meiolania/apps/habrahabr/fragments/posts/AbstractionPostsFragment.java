@@ -17,47 +17,70 @@ limitations under the License.
 package net.meiolania.apps.habrahabr.fragments.posts;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
-import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.activities.PostsSearchActivity;
 import net.meiolania.apps.habrahabr.activities.PostsShowActivity;
 import net.meiolania.apps.habrahabr.adapters.PostsAdapter;
-import net.meiolania.apps.habrahabr.data.PostsData;
+import net.meiolania.apps.habrahabr.api.posts.PostEntry;
 import net.meiolania.apps.habrahabr.fragments.posts.loader.PostsLoader;
 import net.meiolania.apps.habrahabr.ui.PageActionProvider;
 import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 
-public abstract class AbstractionPostsFragment extends SherlockListFragment
-		implements OnScrollListener, LoaderCallbacks<ArrayList<PostsData>> {
+public abstract class AbstractionPostsFragment extends SherlockFragment
+		implements OnScrollListener, OnItemClickListener, LoaderCallbacks<List<PostEntry>> {
 	protected boolean isLoadData;
 	protected int page;
-	protected ArrayList<PostsData> posts;
+	protected List<PostEntry> posts;
 	protected PostsAdapter adapter;
 	protected boolean noMoreData;
 	protected boolean firstLoading = true;
-
+	
+	private AbsListView listView;
+	
 	protected abstract String getUrl();
 
 	protected abstract int getLoaderId();
-
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View view =  inflater.inflate(R.layout.fr_posts, container, false);
+		
+		listView = (AbsListView) view.findViewById(R.id.postsList);
+		
+		return view;
+	}
+	
+	@SuppressLint("NewApi")
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -66,23 +89,24 @@ public abstract class AbstractionPostsFragment extends SherlockListFragment
 		setHasOptionsMenu(true);
 
 		if (adapter == null) {
-			posts = new ArrayList<PostsData>();
+			posts = new ArrayList<PostEntry>();
 			adapter = new PostsAdapter(getActivity(), posts);
 		}
-
-		setListAdapter(adapter);
-
-		if (firstLoading)
-			setListShown(false);
-
-		if (Preferences.getInstance(getSherlockActivity()).getAdditionalPosts()) {
-			getListView().setDivider(null);
-			getListView().setDividerHeight(0);
+		
+		if (VERSION.SDK_INT >= VERSION_CODES.HONEYCOMB)
+			listView.setAdapter(adapter);
+		else
+		{
+			if (listView instanceof ListView)
+				((ListView) listView).setAdapter(adapter);
+			else if (listView instanceof GridView)
+				((ListView) listView).setAdapter(adapter);
+			else
+				throw new IllegalArgumentException("listView should be GridView or ListView");
 		}
-
-		getListView().setOnScrollListener(this);
-
-		setEmptyText(getString(R.string.no_items_post));
+		
+		listView.setOnScrollListener(this);
+		listView.setOnItemClickListener(this);
 	}
 
 	@Override
@@ -114,12 +138,12 @@ public abstract class AbstractionPostsFragment extends SherlockListFragment
 	}
 
 	@Override
-	public void onListItemClick(ListView list, View view, int position, long id) {
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		showPost(position);
 	}
 
 	protected void showPost(int position) {
-		PostsData data = posts.get(position);
+		PostEntry data = posts.get(position);
 
 		Intent intent = new Intent(getSherlockActivity(),
 				PostsShowActivity.class);
@@ -155,20 +179,22 @@ public abstract class AbstractionPostsFragment extends SherlockListFragment
 	}
 
 	@Override
-	public Loader<ArrayList<PostsData>> onCreateLoader(int id, Bundle args) {
+	public Loader<List<PostEntry>> onCreateLoader(int id, Bundle args) {
 		PostsLoader loader = new PostsLoader(getSherlockActivity(), getUrl());
 		loader.forceLoad();
-
+		
 		return loader;
 	}
 
 	@Override
-	public void onLoadFinished(Loader<ArrayList<PostsData>> loader,
-			ArrayList<PostsData> data) {
+	public void onLoadFinished(Loader<List<PostEntry>> loader,
+			List<PostEntry> data) {
+		// TODO: переделать. Возможно просто произошёл обрыв соединения
 		if (data.isEmpty())
 			noMoreData = true;
-
+		
 		posts.addAll(data);
+		
 		adapter.notifyDataSetChanged();
 
 		firstLoading = false;
@@ -179,14 +205,12 @@ public abstract class AbstractionPostsFragment extends SherlockListFragment
 
 		isLoadData = false;
 
-		if (getSherlockActivity() != null) {
-			setListShown(true);
-			getSherlockActivity().invalidateOptionsMenu();
-		}
+		if (getSherlockActivity() != null)
+			getSherlockActivity().supportInvalidateOptionsMenu();
 	}
 
 	@Override
-	public void onLoaderReset(Loader<ArrayList<PostsData>> loader) {
+	public void onLoaderReset(Loader<List<PostEntry>> loader) {
 
 	}
 

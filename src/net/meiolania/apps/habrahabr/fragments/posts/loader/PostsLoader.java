@@ -16,99 +16,32 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.fragments.posts.loader;
 
-import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
-import net.meiolania.apps.habrahabr.auth.User;
-import net.meiolania.apps.habrahabr.Preferences;
-import net.meiolania.apps.habrahabr.data.PostsData;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
+import net.meiolania.apps.habrahabr.api.HabrAuthApi;
+import net.meiolania.apps.habrahabr.api.posts.PostEntry;
+import net.meiolania.apps.habrahabr.api.posts.PostsApi;
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
-import android.util.Log;
 
-public class PostsLoader extends AsyncTaskLoader<ArrayList<PostsData>> {
-    public final static String TAG = PostsLoader.class.getName();
-    private String url;
-    private boolean postsFullInfo = false;
-    private boolean additionalLayout = false;
-    private static int page;
+public class PostsLoader extends AsyncTaskLoader<List<PostEntry>> {
+	public final static String TAG = PostsLoader.class.getName();
+	private static int page;
+	private PostsApi postsApi;
 
-    public PostsLoader(Context context, String url) {
-	super(context);
+	public PostsLoader(Context context, String url) {
+		super(context);
 
-	this.url = url;
-
-	additionalLayout = Preferences.getInstance(context).getAdditionalPosts();
-	postsFullInfo = Preferences.getInstance(context).getPostsFullInfo();
-    }
-
-    public static void setPage(int page) {
-	PostsLoader.page = page;
-    }
-
-    @Override
-    public ArrayList<PostsData> loadInBackground() {
-	ArrayList<PostsData> data = new ArrayList<PostsData>();
-
-	try {
-	    String readyUrl = url.replace("%page%", String.valueOf(page));
-
-	    Log.i(TAG, "Loading a page: " + readyUrl);
-
-	    Document document;
-	    if (!User.getInstance().isLogged())
-		document = Jsoup.connect(readyUrl).get();
-	    else
-		document = Jsoup.connect(readyUrl).cookie(User.PHPSESSION_ID, User.getInstance().getPhpsessid())
-			.cookie(User.HSEC_ID, User.getInstance().getHsecid()).get();
-
-	    Elements posts = document.select("div.post");
-
-	    for (Element post : posts) {
-		PostsData postsData = new PostsData();
-
-		Element postTitle = post.select("a.post_title").first();
-		postsData.setTitle(postTitle.text());
-		postsData.setUrl(postTitle.attr("abs:href"));
-
-		if (additionalLayout) {
-		    Element hubs = post.select("div.hubs").first();
-		    Element date = post.select("div.published").first();
-		    Element author = post.select("div.author > a").first();
-		    Element comments = post.select("div.comments > span.all").first();
-
-		    Element score = post.select("a.score").first();
-		    if (score == null)
-			score = post.select("span.score").first();
-
-		    if (postsFullInfo) {
-			Element postText = post.select("div.content").first();
-			Element image = postText.select("img").first();
-			postText.select("img").remove();
-
-			postsData.setText(postText.html());
-			postsData.setImage(image != null ? image.attr("abs:src") : "");
-		    }
-
-		    postsData.setHubs(hubs.text());
-		    postsData.setDate(date.text());
-		    postsData.setAuthor(author != null ? author.text() : "");
-		    postsData.setComments(comments != null ? comments.text() : "0");
-		    postsData.setScore(score.text());
-		}
-
-		data.add(postsData);
-	    }
-	} catch (IOException e) {
+		postsApi = new PostsApi(new HabrAuthApi());
 	}
 
-	return data;
-    }
+	public static void setPage(int page) {
+		PostsLoader.page = page;
+	}
+
+	@Override
+	public List<PostEntry> loadInBackground() {
+		return postsApi.getPosts(page);
+	}
 
 }
