@@ -17,47 +17,63 @@ limitations under the License.
 package net.meiolania.apps.habrahabr.fragments.posts;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.activities.PostsSearchActivity;
 import net.meiolania.apps.habrahabr.activities.PostsShowActivity;
 import net.meiolania.apps.habrahabr.adapters.PostsAdapter;
-import net.meiolania.apps.habrahabr.data.PostsData;
+import net.meiolania.apps.habrahabr.api.HabrAuthApi;
+import net.meiolania.apps.habrahabr.api.posts.PostEntry;
 import net.meiolania.apps.habrahabr.fragments.posts.loader.PostsLoader;
 import net.meiolania.apps.habrahabr.ui.PageActionProvider;
 import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 
-public abstract class AbstractionPostsFragment extends SherlockListFragment
-		implements OnScrollListener, LoaderCallbacks<ArrayList<PostsData>> {
-	protected boolean isLoadData;
-	protected int page;
-	protected ArrayList<PostsData> posts;
-	protected PostsAdapter adapter;
-	protected boolean noMoreData;
-	protected boolean firstLoading = true;
+public abstract class PostsFragment extends SherlockFragment implements OnScrollListener, OnItemClickListener,
+		LoaderCallbacks<List<PostEntry>> {
+	public final static int LOADER_ID = 0;
+	private boolean isLoadData;
+	private boolean noMoreData;
+	private List<PostEntry> posts;
+	private PostsAdapter adapter;
+	private ListView listView;
+	private int page = 1;
+	
+	public abstract List<PostEntry> getPosts(int page);
 
-	protected abstract String getUrl();
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fr_posts, container, false);
 
-	protected abstract int getLoaderId();
+		listView = (ListView) view.findViewById(R.id.postsList);
 
+		return view;
+	}
+
+	@SuppressLint("NewApi")
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -66,23 +82,13 @@ public abstract class AbstractionPostsFragment extends SherlockListFragment
 		setHasOptionsMenu(true);
 
 		if (adapter == null) {
-			posts = new ArrayList<PostsData>();
-			adapter = new PostsAdapter(getActivity(), posts);
+			posts = new ArrayList<PostEntry>();
+			adapter = new PostsAdapter(getActivity(), HabrAuthApi.getInstance(), posts);
 		}
 
-		setListAdapter(adapter);
-
-		if (firstLoading)
-			setListShown(false);
-
-		if (Preferences.getInstance(getSherlockActivity()).getAdditionalPosts()) {
-			getListView().setDivider(null);
-			getListView().setDividerHeight(0);
-		}
-
-		getListView().setOnScrollListener(this);
-
-		setEmptyText(getString(R.string.no_items_post));
+		listView.setAdapter(adapter);
+		listView.setOnScrollListener(this);
+		listView.setOnItemClickListener(this);
 	}
 
 	@Override
@@ -91,16 +97,12 @@ public abstract class AbstractionPostsFragment extends SherlockListFragment
 
 		inflater.inflate(R.menu.posts_fragment, menu);
 
-		final EditText searchQuery = (EditText) menu.findItem(R.id.search)
-				.getActionView().findViewById(R.id.search_query);
+		final EditText searchQuery = (EditText) menu.findItem(R.id.search).getActionView().findViewById(R.id.search_query);
 		searchQuery.setOnEditorActionListener(new OnEditorActionListener() {
-			public boolean onEditorAction(TextView v, int actionId,
-					KeyEvent event) {
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 				if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-					Intent intent = new Intent(getSherlockActivity(),
-							PostsSearchActivity.class);
-					intent.putExtra(PostsSearchActivity.EXTRA_QUERY,
-							searchQuery.getText().toString());
+					Intent intent = new Intent(getSherlockActivity(), PostsSearchActivity.class);
+					intent.putExtra(PostsSearchFragment.EXTRA_QUERY, searchQuery.getText().toString());
 					startActivity(intent);
 					return true;
 				}
@@ -108,21 +110,19 @@ public abstract class AbstractionPostsFragment extends SherlockListFragment
 			}
 		});
 
-		PageActionProvider pageActionProvider = (PageActionProvider) menu
-				.findItem(R.id.page).getActionProvider();
+		PageActionProvider pageActionProvider = (PageActionProvider) menu.findItem(R.id.page).getActionProvider();
 		pageActionProvider.setPage(page);
 	}
 
 	@Override
-	public void onListItemClick(ListView list, View view, int position, long id) {
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		showPost(position);
 	}
 
 	protected void showPost(int position) {
-		PostsData data = posts.get(position);
+		PostEntry data = posts.get(position);
 
-		Intent intent = new Intent(getSherlockActivity(),
-				PostsShowActivity.class);
+		Intent intent = new Intent(getSherlockActivity(), PostsShowActivity.class);
 		intent.putExtra(PostsShowActivity.EXTRA_URL, data.getUrl());
 		intent.putExtra(PostsShowActivity.EXTRA_TITLE, data.getTitle());
 
@@ -131,23 +131,15 @@ public abstract class AbstractionPostsFragment extends SherlockListFragment
 
 	protected void restartLoading() {
 		if (ConnectionUtils.isConnected(getSherlockActivity())) {
-			if (!firstLoading)
-				getSherlockActivity()
-						.setSupportProgressBarIndeterminateVisibility(true);
-
-			PostsLoader.setPage(++page);
-
-			getSherlockActivity().getSupportLoaderManager().restartLoader(
-					getLoaderId(), null, this);
+			LoaderManager loaderManager = getSherlockActivity().getSupportLoaderManager();
+			loaderManager.restartLoader(LOADER_ID, null, this);
 
 			isLoadData = true;
 		}
 	}
 
-	public void onScroll(AbsListView view, int firstVisibleItem,
-			int visibleItemCount, int totalItemCount) {
-		if ((firstVisibleItem + visibleItemCount) == totalItemCount
-				&& !isLoadData && !noMoreData)
+	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+		if ((firstVisibleItem + visibleItemCount) == totalItemCount && !isLoadData && !noMoreData)
 			restartLoading();
 	}
 
@@ -155,38 +147,31 @@ public abstract class AbstractionPostsFragment extends SherlockListFragment
 	}
 
 	@Override
-	public Loader<ArrayList<PostsData>> onCreateLoader(int id, Bundle args) {
-		PostsLoader loader = new PostsLoader(getSherlockActivity(), getUrl());
+	public Loader<List<PostEntry>> onCreateLoader(int id, Bundle args) {
+		PostsLoader loader = new PostsLoader(getSherlockActivity(), this, page);
 		loader.forceLoad();
 
 		return loader;
 	}
 
 	@Override
-	public void onLoadFinished(Loader<ArrayList<PostsData>> loader,
-			ArrayList<PostsData> data) {
+	public void onLoadFinished(Loader<List<PostEntry>> loader, List<PostEntry> data) {
+		// TODO: переделать. Возможно просто произошёл обрыв соединения
 		if (data.isEmpty())
 			noMoreData = true;
 
 		posts.addAll(data);
+
 		adapter.notifyDataSetChanged();
-
-		firstLoading = false;
-
-		if (getSherlockActivity() != null)
-			getSherlockActivity().setSupportProgressBarIndeterminateVisibility(
-					false);
 
 		isLoadData = false;
 
-		if (getSherlockActivity() != null) {
-			setListShown(true);
-			getSherlockActivity().invalidateOptionsMenu();
-		}
+		if (getSherlockActivity() != null)
+			getSherlockActivity().supportInvalidateOptionsMenu();
 	}
 
 	@Override
-	public void onLoaderReset(Loader<ArrayList<PostsData>> loader) {
+	public void onLoaderReset(Loader<List<PostEntry>> loader) {
 
 	}
 

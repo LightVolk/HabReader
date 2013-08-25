@@ -20,6 +20,7 @@ import net.meiolania.apps.habrahabr.R;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.actionbarsherlock.view.ActionProvider;
@@ -39,9 +40,9 @@ public class PageActionProvider extends ActionProvider {
 		LayoutInflater layoutInflater = LayoutInflater.from(context);
 		View view = layoutInflater.inflate(R.layout.page_action_provider, null);
 
-		pageView = (TextView) view.findViewById(R.id.page);
+		pageView = (Button) view.findViewById(R.id.page);
 		pageView.setText(String.valueOf(page));
-
+		
 		return view;
 	}
 

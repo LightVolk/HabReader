@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@drawable/list_row_background"
+        android:background="@drawable/list_row_background_normal"
         android:orientation="vertical"
         android:padding="10dp" >
 
@@ -57,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_toRightOf="@id/post_date"
+                android:layout_toRightOf="@id/qa_date"
                 android:drawablePadding="3dp"
                 android:drawableRight="@drawable/user"
                 android:gravity="right"

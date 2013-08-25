@@ -25,19 +25,12 @@ import android.support.v4.app.FragmentTransaction;
 import com.actionbarsherlock.app.ActionBar;
 
 public class PostsSearchActivity extends AbstractionFragmentActivity {
-	public final static String EXTRA_QUERY = "query";
-	private String query;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		loadExtras();
 		showActionBar();
 		loadSearchedPosts();
-	}
-
-	private void loadExtras() {
-		query = getIntent().getStringExtra(EXTRA_QUERY);
 	}
 
 	private void showActionBar() {
@@ -47,10 +40,10 @@ public class PostsSearchActivity extends AbstractionFragmentActivity {
 	}
 
 	private void loadSearchedPosts() {
-		PostsSearchFragment fragment = new PostsSearchFragment(query);
+		PostsSearchFragment fragment = new PostsSearchFragment();
+		fragment.setArguments(getIntent().getExtras());
 
-		FragmentTransaction fragmentTransaction = getSupportFragmentManager()
-				.beginTransaction();
+		FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 		fragmentTransaction.replace(android.R.id.content, fragment);
 		fragmentTransaction.commit();
 	}

@@ -50,10 +50,10 @@ public class HubsShowActivity extends AbstractionFragmentActivity {
 	}
 
 	private void loadHubsPosts() {
-		HubsPostsFragment fragment = new HubsPostsFragment(url);
+		HubsPostsFragment fragment = new HubsPostsFragment();
+		fragment.setArguments(getIntent().getExtras());
 
-		FragmentTransaction fragmentTransaction = getSupportFragmentManager()
-				.beginTransaction();
+		FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 		fragmentTransaction.replace(android.R.id.content, fragment);
 		fragmentTransaction.commit();
 	}

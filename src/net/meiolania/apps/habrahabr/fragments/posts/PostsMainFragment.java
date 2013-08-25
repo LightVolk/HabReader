@@ -18,20 +18,33 @@ package net.meiolania.apps.habrahabr.fragments.posts;
 
 import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.R;
-import net.meiolania.apps.habrahabr.ui.TabListener;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.ActionBar.Tab;
+import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
-public class PostsMainFragment extends SherlockFragment {
-
+public class PostsMainFragment extends SherlockFragment implements OnNavigationListener {
+	public final static int POSTS_TOP = 0;
+	public final static int POSTS_COLLECTIVE = 1;
+	public final static int POSTS_CORPORATIVE = 2;
+	
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
 		showActionBar();
+	}
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.fr_posts_main, container, false);
 	}
 
 	private void showActionBar() {
@@ -40,34 +53,38 @@ public class PostsMainFragment extends SherlockFragment {
 		ActionBar actionBar = activity.getSupportActionBar();
 		actionBar.removeAllTabs();
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setTitle(R.string.posts);
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		actionBar.setTitle("");
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
-		int selectedTab = Preferences.getInstance(activity)
-				.getPostsDefaultTab();
+		int selectedTab = Preferences.getInstance(activity).getPostsDefaultTab();
+		
+		ArrayAdapter<CharSequence> listAdapter = ArrayAdapter.createFromResource(activity, R.array.posts_list, R.layout.sherlock_spinner_item);
+		listAdapter.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
+		actionBar.setListNavigationCallbacks(listAdapter, this);
+	}
 
-		/* Best tab */
-		Tab tab = actionBar.newTab();
-		tab.setText(R.string.best);
-		tab.setTag("best");
-		tab.setTabListener(new TabListener<PostsBestFragment>(activity, "best",
-				PostsBestFragment.class));
-		actionBar.addTab(tab, selectedTab == 0 ? true : false);
-
-		/* Thematic tab */
-		tab = actionBar.newTab();
-		tab.setText(R.string.thematic);
-		tab.setTag("thematic");
-		tab.setTabListener(new TabListener<PostsThematicFragment>(activity,
-				"thematic", PostsThematicFragment.class));
-		actionBar.addTab(tab, selectedTab == 1 ? true : false);
-
-		/* Corporate tab */
-		tab = actionBar.newTab();
-		tab.setText(R.string.corporate);
-		tab.setTag("corporate");
-		tab.setTabListener(new TabListener<PostsCorporateFragment>(activity,
-				"corporate", PostsCorporateFragment.class));
-		actionBar.addTab(tab, selectedTab == 2 ? true : false);
+	@Override
+	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+		PostsFragment fragment = null;
+		
+		switch ((int) itemId) {
+			case POSTS_COLLECTIVE:
+				fragment = new PostsCollectiveFragment();
+				break;
+			case POSTS_CORPORATIVE:
+				fragment = new PostsCorporativeFragment();
+				break;
+			case POSTS_TOP:
+			default:
+				fragment = new PostsTopFragment();
+				break;
+		}
+		
+		FragmentManager fragmentManager = getSherlockActivity().getSupportFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+		fragmentTransaction.replace(R.id.postsContainer, fragment);
+		fragmentTransaction.commit();
+		
+		return true;
 	}
 }

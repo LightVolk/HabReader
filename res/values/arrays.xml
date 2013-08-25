@@ -19,13 +19,13 @@
         <item>Разное</item>
     </string-array>
     
-    <string-array name="posts_tabs">
+    <string-array name="posts_list">
         <item>@string/best</item>
         <item>@string/thematic</item>
         <item>@string/corporate</item>
     </string-array>
     
-    <string-array name="posts_tabs_values">
+    <string-array name="posts_list_values">
         <item>0</item>
         <item>1</item>
         <item>2</item>

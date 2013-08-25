@@ -16,27 +16,29 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.fragments.hubs;
 
-import net.meiolania.apps.habrahabr.fragments.posts.AbstractionPostsFragment;
+import java.util.List;
 
-public class HubsPostsFragment extends AbstractionPostsFragment {
-	private String url;
+import net.meiolania.apps.habrahabr.api.HabrAuthApi;
+import net.meiolania.apps.habrahabr.api.posts.PostEntry;
+import net.meiolania.apps.habrahabr.api.posts.PostsApi;
+import net.meiolania.apps.habrahabr.fragments.posts.PostsFragment;
+import android.os.Bundle;
 
-	public HubsPostsFragment(String url) {
-		this.url = url;
-	}
+public class HubsPostsFragment extends PostsFragment {
+	public final static String EXTRA_HUB = "hub";
+	private String hub;
 
-	public void setUrl(String url) {
-		this.url = url;
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		hub = getArguments().getString(EXTRA_HUB);
 	}
 
 	@Override
-	protected String getUrl() {
-		return url + "posts/page%page%/";
-	}
-
-	@Override
-	protected int getLoaderId() {
-		return 0;
+	public List<PostEntry> getPosts(int page) {
+		PostsApi postsApi = new PostsApi(HabrAuthApi.getInstance());
+		return postsApi.getPosts(page, hub);
 	}
 
 }

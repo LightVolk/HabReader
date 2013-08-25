@@ -133,15 +133,20 @@ public class MainActivity extends AbstractionFragmentActivity {
 		drawerLayout = (DrawerLayout) findViewById(R.id.navigation_drawer);
 		
 		actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer, R.string.app_name, R.string.app_name){
+			private CharSequence actionBarTitle;
+			
 			@Override
 			public void onDrawerClosed(View drawerView) {
 				super.onDrawerClosed(drawerView);
+				
+				getSupportActionBar().setTitle(actionBarTitle);
 			}
 			
 			@Override
 			public void onDrawerOpened(View drawerView) {
 				super.onDrawerOpened(drawerView);
 				
+				actionBarTitle = getSupportActionBar().getTitle();
 				getSupportActionBar().setTitle(R.string.app_name);
 			}
 		};

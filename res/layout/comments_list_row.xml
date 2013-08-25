@@ -7,7 +7,7 @@
         android:id="@+id/comment_box"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@drawable/list_row_background"
+        android:background="@drawable/list_row_background_normal"
         android:orientation="vertical"
         android:padding="10dp" >
 
