@@ -42,7 +42,7 @@ public class PageActionProvider extends ActionProvider {
 
 		pageView = (Button) view.findViewById(R.id.page);
 		pageView.setText(String.valueOf(page));
-
+		
 		return view;
 	}
 

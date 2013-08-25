@@ -18,44 +18,33 @@ package net.meiolania.apps.habrahabr.adapters;
 
 import java.util.List;
 
-import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.R;
+import net.meiolania.apps.habrahabr.api.AuthApi;
 import net.meiolania.apps.habrahabr.api.posts.PostEntry;
+import net.meiolania.apps.habrahabr.utils.ImageUtils;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 public class PostsAdapter extends BaseAdapter {
+	private AuthApi authApi;
 	private List<PostEntry> posts;
 	private Context context;
-	private boolean additionalLayout = false;
-	private boolean postsFullInfo = false;
 	private ImageLoader imageLoader = ImageLoader.getInstance();
 
-	public PostsAdapter(Context context, List<PostEntry> posts) {
+	public PostsAdapter(Context context, AuthApi authApi, List<PostEntry> posts) {
 		this.context = context;
+		this.authApi = authApi;
 		this.posts = posts;
 
-		Preferences preferences = Preferences.getInstance(context);
-		additionalLayout = preferences.getAdditionalPosts();
-		postsFullInfo = preferences.getPostsFullInfo();
-
-		DisplayImageOptions options = new DisplayImageOptions.Builder()
-				.cacheInMemory().cacheOnDisc().build();
-		ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(
-				context).memoryCacheSize(3000000)
-				.maxImageWidthForMemoryCache(200).discCacheSize(50000000)
-				.httpReadTimeout(5000).defaultDisplayImageOptions(options)
-				.build();
-		imageLoader.init(configuration);
+		imageLoader.init(ImageUtils.createConfiguration(context));
 	}
 
 	@Override
@@ -75,59 +64,50 @@ public class PostsAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View view, ViewGroup parent) {
-		PostEntry data = getItem(position);
+		PostEntry entry = getItem(position);
 
-		if (additionalLayout) {
-			ViewHolder viewHolder;
-			if (view == null) {
-				LayoutInflater layoutInflater = (LayoutInflater) context
-						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				view = layoutInflater.inflate(R.layout.posts_list_row, null);
+		ViewHolder viewHolder;
+		if (view == null) {
+			LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			view = layoutInflater.inflate(R.layout.posts_list_row, null);
 
-				viewHolder = new ViewHolder();
-				viewHolder.title = (TextView) view
-						.findViewById(R.id.post_title);
-				viewHolder.hubs = (TextView) view.findViewById(R.id.post_hubs);
-				viewHolder.author = (TextView) view
-						.findViewById(R.id.post_author);
-				viewHolder.date = (TextView) view.findViewById(R.id.post_date);
-				viewHolder.score = (TextView) view
-						.findViewById(R.id.post_score);
-				viewHolder.image = (ImageView) view
-						.findViewById(R.id.post_image);
-				viewHolder.text = (TextView) view.findViewById(R.id.post_text);
+			viewHolder = new ViewHolder();
+			viewHolder.title = (TextView) view.findViewById(R.id.title);
+			viewHolder.hubs = (TextView) view.findViewById(R.id.hubs);
+			viewHolder.author = (TextView) view.findViewById(R.id.author);
+			viewHolder.date = (TextView) view.findViewById(R.id.date);
+			viewHolder.rating = (TextView) view.findViewById(R.id.rating);
+			viewHolder.text = (TextView) view.findViewById(R.id.text);
+			viewHolder.comments = (Button) view.findViewById(R.id.comments);
+			viewHolder.voteUp = (ImageButton) view.findViewById(R.id.voteUp);
+			viewHolder.voteDown = (ImageButton) view.findViewById(R.id.voteDown);
+			
+			view.setTag(viewHolder);
+		} else
+			viewHolder = (ViewHolder) view.getTag();
 
-				view.setTag(viewHolder);
-			} else
-				viewHolder = (ViewHolder) view.getTag();
-
-			viewHolder.title.setText(data.getTitle());
-
-			viewHolder.author.setText(data.getAuthor());
-			viewHolder.date.setText(data.getDate());
-
-			return view;
-		} else {
-			ViewHolder viewHolder;
-			if (view == null) {
-				LayoutInflater layoutInflater = (LayoutInflater) context
-						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				view = layoutInflater.inflate(R.layout.posts_list_row_simple,
-						null);
-
-				viewHolder = new ViewHolder();
-
-				viewHolder.title = (TextView) view
-						.findViewById(R.id.post_title);
-
-				view.setTag(viewHolder);
-			} else
-				viewHolder = (ViewHolder) view.getTag();
-
-			viewHolder.title.setText(data.getTitle());
-
-			return view;
+		viewHolder.title.setText(entry.getTitle());
+		viewHolder.author.setText(entry.getAuthor());
+		viewHolder.date.setText(entry.getDate());
+		viewHolder.hubs.setText(entry.getHubs().get(0).getTitle());
+		viewHolder.comments.setText(String.valueOf(entry.getCommentsCount()));
+		
+		String text = entry.getShortText();
+		if (text.length() > 200)
+			text = text.substring(0, 199) + "...";
+		viewHolder.text.setText(text);
+		
+		if (entry.getRating() != null)
+			viewHolder.rating.setText(String.valueOf(entry.getRating()));
+		else
+			viewHolder.rating.setText("—");
+		
+		if (!authApi.isAuth()) {
+			viewHolder.voteUp.setEnabled(false);
+			viewHolder.voteDown.setEnabled(false);
 		}
+		
+		return view;
 	}
 
 	static class ViewHolder {
@@ -135,9 +115,11 @@ public class PostsAdapter extends BaseAdapter {
 		TextView hubs;
 		TextView author;
 		TextView date;
-		TextView score;
-		ImageView image;
+		TextView rating;
 		TextView text;
+		Button comments;
+		ImageButton voteUp;
+		ImageButton voteDown;
 	}
 
 }

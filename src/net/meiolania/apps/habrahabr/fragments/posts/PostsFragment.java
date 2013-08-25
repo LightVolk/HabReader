@@ -23,6 +23,7 @@ import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.activities.PostsSearchActivity;
 import net.meiolania.apps.habrahabr.activities.PostsShowActivity;
 import net.meiolania.apps.habrahabr.adapters.PostsAdapter;
+import net.meiolania.apps.habrahabr.api.HabrAuthApi;
 import net.meiolania.apps.habrahabr.api.posts.PostEntry;
 import net.meiolania.apps.habrahabr.fragments.posts.loader.PostsLoader;
 import net.meiolania.apps.habrahabr.ui.PageActionProvider;
@@ -85,7 +86,7 @@ public abstract class PostsFragment extends SherlockFragment implements OnScroll
 
 		if (adapter == null) {
 			posts = new ArrayList<PostEntry>();
-			adapter = new PostsAdapter(getActivity(), posts);
+			adapter = new PostsAdapter(getActivity(), HabrAuthApi.getInstance(), posts);
 		}
 
 		if (VERSION.SDK_INT >= VERSION_CODES.HONEYCOMB)
