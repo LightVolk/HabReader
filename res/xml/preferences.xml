@@ -19,8 +19,8 @@
     <PreferenceCategory android:title="@string/posts" >
         <ListPreference
             android:defaultValue="1"
-            android:entries="@array/posts_tabs"
-            android:entryValues="@array/posts_tabs_values"
+            android:entries="@array/posts_list"
+            android:entryValues="@array/posts_list_values"
             android:key="posts_default_tab"
             android:title="@string/default_tab_preferences" />
 
