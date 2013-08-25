@@ -91,7 +91,7 @@ public class PostsApi {
 			Element author = post.select("div.author > a").first();
 			Element viewCount = post.select("div.pageviews").first();
 			Element favoritesCount = post.select("div.favs_count").first();
-			Element commentsCount = post.select("div.comments > span.all").first();
+			Element commentsCount = post.select("div.comments > a > span.all").first();
 
 			Element rating = post.select("a.score").first();
 			if (rating == null)
@@ -118,9 +118,7 @@ public class PostsApi {
 			entry.setAuthorUrl(author.attr("abs:href"));
 			entry.setViewCount(Integer.parseInt(viewCount.text()));
 			entry.setFavoritesCount(Integer.parseInt(favoritesCount.text()));
-
-			if (commentsCount != null)
-				entry.setCommentsCount(Integer.parseInt(commentsCount.text()));
+			entry.setCommentsCount(Integer.parseInt(commentsCount.text()));
 
 			entry.setShortText(shortText.text());
 
