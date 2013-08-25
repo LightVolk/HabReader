@@ -3,7 +3,7 @@ package net.meiolania.apps.habrahabr.api;
 public class UrlUtils {
 	public final static String TAG = UrlUtils.class.getSimpleName();
 
-	public static String CreateUrl(String... paths) {
+	public static String createUrl(String... paths) {
 		StringBuilder url = new StringBuilder();
 
 		url.append("http://habrahabr.ru/");

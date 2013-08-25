@@ -17,8 +17,6 @@ limitations under the License.
 package net.meiolania.apps.habrahabr.fragments.posts;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import net.meiolania.apps.habrahabr.R;
@@ -34,6 +32,7 @@ import android.content.Intent;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.view.KeyEvent;
@@ -55,31 +54,27 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 
-public abstract class AbstractionPostsFragment extends SherlockFragment
-		implements OnScrollListener, OnItemClickListener, LoaderCallbacks<List<PostEntry>> {
-	protected boolean isLoadData;
-	protected int page;
-	protected List<PostEntry> posts;
-	protected PostsAdapter adapter;
-	protected boolean noMoreData;
-	protected boolean firstLoading = true;
-	
+public abstract class PostsFragment extends SherlockFragment implements OnScrollListener, OnItemClickListener,
+		LoaderCallbacks<List<PostEntry>> {
+	public final static int LOADER_ID = 0;
+	private boolean isLoadData;
+	private boolean noMoreData;
+	private List<PostEntry> posts;
+	private PostsAdapter adapter;
 	private AbsListView listView;
+	private int page = 1;
 	
-	protected abstract String getUrl();
+	public abstract List<PostEntry> getPosts(int page);
 
-	protected abstract int getLoaderId();
-	
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View view =  inflater.inflate(R.layout.fr_posts, container, false);
-		
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fr_posts, container, false);
+
 		listView = (AbsListView) view.findViewById(R.id.postsList);
-		
+
 		return view;
 	}
-	
+
 	@SuppressLint("NewApi")
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -92,11 +87,10 @@ public abstract class AbstractionPostsFragment extends SherlockFragment
 			posts = new ArrayList<PostEntry>();
 			adapter = new PostsAdapter(getActivity(), posts);
 		}
-		
+
 		if (VERSION.SDK_INT >= VERSION_CODES.HONEYCOMB)
 			listView.setAdapter(adapter);
-		else
-		{
+		else {
 			if (listView instanceof ListView)
 				((ListView) listView).setAdapter(adapter);
 			else if (listView instanceof GridView)
@@ -104,7 +98,7 @@ public abstract class AbstractionPostsFragment extends SherlockFragment
 			else
 				throw new IllegalArgumentException("listView should be GridView or ListView");
 		}
-		
+
 		listView.setOnScrollListener(this);
 		listView.setOnItemClickListener(this);
 	}
@@ -115,16 +109,12 @@ public abstract class AbstractionPostsFragment extends SherlockFragment
 
 		inflater.inflate(R.menu.posts_fragment, menu);
 
-		final EditText searchQuery = (EditText) menu.findItem(R.id.search)
-				.getActionView().findViewById(R.id.search_query);
+		final EditText searchQuery = (EditText) menu.findItem(R.id.search).getActionView().findViewById(R.id.search_query);
 		searchQuery.setOnEditorActionListener(new OnEditorActionListener() {
-			public boolean onEditorAction(TextView v, int actionId,
-					KeyEvent event) {
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 				if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-					Intent intent = new Intent(getSherlockActivity(),
-							PostsSearchActivity.class);
-					intent.putExtra(PostsSearchActivity.EXTRA_QUERY,
-							searchQuery.getText().toString());
+					Intent intent = new Intent(getSherlockActivity(), PostsSearchActivity.class);
+					intent.putExtra(PostsSearchFragment.EXTRA_QUERY, searchQuery.getText().toString());
 					startActivity(intent);
 					return true;
 				}
@@ -132,8 +122,7 @@ public abstract class AbstractionPostsFragment extends SherlockFragment
 			}
 		});
 
-		PageActionProvider pageActionProvider = (PageActionProvider) menu
-				.findItem(R.id.page).getActionProvider();
+		PageActionProvider pageActionProvider = (PageActionProvider) menu.findItem(R.id.page).getActionProvider();
 		pageActionProvider.setPage(page);
 	}
 
@@ -145,8 +134,7 @@ public abstract class AbstractionPostsFragment extends SherlockFragment
 	protected void showPost(int position) {
 		PostEntry data = posts.get(position);
 
-		Intent intent = new Intent(getSherlockActivity(),
-				PostsShowActivity.class);
+		Intent intent = new Intent(getSherlockActivity(), PostsShowActivity.class);
 		intent.putExtra(PostsShowActivity.EXTRA_URL, data.getUrl());
 		intent.putExtra(PostsShowActivity.EXTRA_TITLE, data.getTitle());
 
@@ -155,23 +143,15 @@ public abstract class AbstractionPostsFragment extends SherlockFragment
 
 	protected void restartLoading() {
 		if (ConnectionUtils.isConnected(getSherlockActivity())) {
-			if (!firstLoading)
-				getSherlockActivity()
-						.setSupportProgressBarIndeterminateVisibility(true);
-
-			PostsLoader.setPage(++page);
-
-			getSherlockActivity().getSupportLoaderManager().restartLoader(
-					getLoaderId(), null, this);
+			LoaderManager loaderManager = getSherlockActivity().getSupportLoaderManager();
+			loaderManager.restartLoader(LOADER_ID, null, this);
 
 			isLoadData = true;
 		}
 	}
 
-	public void onScroll(AbsListView view, int firstVisibleItem,
-			int visibleItemCount, int totalItemCount) {
-		if ((firstVisibleItem + visibleItemCount) == totalItemCount
-				&& !isLoadData && !noMoreData)
+	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+		if ((firstVisibleItem + visibleItemCount) == totalItemCount && !isLoadData && !noMoreData)
 			restartLoading();
 	}
 
@@ -180,28 +160,21 @@ public abstract class AbstractionPostsFragment extends SherlockFragment
 
 	@Override
 	public Loader<List<PostEntry>> onCreateLoader(int id, Bundle args) {
-		PostsLoader loader = new PostsLoader(getSherlockActivity(), getUrl());
+		PostsLoader loader = new PostsLoader(getSherlockActivity(), this, page);
 		loader.forceLoad();
-		
+
 		return loader;
 	}
 
 	@Override
-	public void onLoadFinished(Loader<List<PostEntry>> loader,
-			List<PostEntry> data) {
+	public void onLoadFinished(Loader<List<PostEntry>> loader, List<PostEntry> data) {
 		// TODO: переделать. Возможно просто произошёл обрыв соединения
 		if (data.isEmpty())
 			noMoreData = true;
-		
+
 		posts.addAll(data);
-		
+
 		adapter.notifyDataSetChanged();
-
-		firstLoading = false;
-
-		if (getSherlockActivity() != null)
-			getSherlockActivity().setSupportProgressBarIndeterminateVisibility(
-					false);
 
 		isLoadData = false;
 

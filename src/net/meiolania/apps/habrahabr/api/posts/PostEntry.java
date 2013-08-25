@@ -1,6 +1,5 @@
 package net.meiolania.apps.habrahabr.api.posts;
 
-import java.util.Calendar;
 import java.util.List;
 
 import net.meiolania.apps.habrahabr.api.hubs.HubsEntry;

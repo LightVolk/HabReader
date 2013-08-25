@@ -50,24 +50,24 @@ public class PostsMainFragment extends SherlockFragment {
 		Tab tab = actionBar.newTab();
 		tab.setText(R.string.best);
 		tab.setTag("best");
-		tab.setTabListener(new TabListener<PostsBestFragment>(activity, "best",
-				PostsBestFragment.class));
+		tab.setTabListener(new TabListener<PostsTopFragment>(activity, "best",
+				PostsTopFragment.class));
 		actionBar.addTab(tab, selectedTab == 0 ? true : false);
 
 		/* Thematic tab */
 		tab = actionBar.newTab();
 		tab.setText(R.string.thematic);
 		tab.setTag("thematic");
-		tab.setTabListener(new TabListener<PostsThematicFragment>(activity,
-				"thematic", PostsThematicFragment.class));
+		tab.setTabListener(new TabListener<PostsCollectiveFragment>(activity,
+				"thematic", PostsCollectiveFragment.class));
 		actionBar.addTab(tab, selectedTab == 1 ? true : false);
 
 		/* Corporate tab */
 		tab = actionBar.newTab();
 		tab.setText(R.string.corporate);
 		tab.setTag("corporate");
-		tab.setTabListener(new TabListener<PostsCorporateFragment>(activity,
-				"corporate", PostsCorporateFragment.class));
+		tab.setTabListener(new TabListener<PostsCorporativeFragment>(activity,
+				"corporate", PostsCorporativeFragment.class));
 		actionBar.addTab(tab, selectedTab == 2 ? true : false);
 	}
 }

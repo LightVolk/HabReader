@@ -17,6 +17,7 @@ limitations under the License.
 package net.meiolania.apps.habrahabr;
 
 import net.meiolania.apps.habrahabr.activities.PreferencesActivity;
+import net.meiolania.apps.habrahabr.api.HabrAuthApi;
 import net.meiolania.apps.habrahabr.auth.User;
 import android.content.Intent;
 import android.net.Uri;
@@ -44,6 +45,7 @@ public abstract class AbstractionFragmentActivity extends
 
 		// Auth
 		User.getInstance().init(this);
+		HabrAuthApi.getInstance().init(this);
 
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);

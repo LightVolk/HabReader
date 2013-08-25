@@ -16,29 +16,28 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.fragments.posts;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import java.util.List;
 
-public class PostsSearchFragment extends AbstractionPostsFragment {
-	public final static String URL = "http://habrahabr.ru/search/page%page%/?target_type=posts&order_by=relevance&q=%query%";
+import net.meiolania.apps.habrahabr.api.HabrAuthApi;
+import net.meiolania.apps.habrahabr.api.posts.PostEntry;
+import net.meiolania.apps.habrahabr.api.posts.PostsApi;
+import android.os.Bundle;
+
+public class PostsSearchFragment extends PostsFragment {
+	public final static String EXTRA_QUERY = "query";
 	private String query;
 
-	public PostsSearchFragment(String query) {
-		this.query = query;
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		query = getArguments().getString(EXTRA_QUERY);
 	}
 
 	@Override
-	protected String getUrl() {
-		try {
-			return URL.replace("%query%", URLEncoder.encode(query, "UTF-8"));
-		} catch (UnsupportedEncodingException e) {
-			return URL.replace("%query%", query);
-		}
-	}
-
-	@Override
-	protected int getLoaderId() {
-		return 0;
+	public List<PostEntry> getPosts(int page) {
+		PostsApi postsApi = new PostsApi(HabrAuthApi.getInstance());
+		return postsApi.searchPosts(page, query);
 	}
 
 }

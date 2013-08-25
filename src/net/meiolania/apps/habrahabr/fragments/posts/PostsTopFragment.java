@@ -16,17 +16,20 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.fragments.posts;
 
-public class PostsBestFragment extends AbstractionPostsFragment {
-	public final static String URL = "http://habrahabr.ru/posts/top/daily/page%page%/";
+import java.util.List;
+
+import net.meiolania.apps.habrahabr.api.HabrAuthApi;
+import net.meiolania.apps.habrahabr.api.posts.PostEntry;
+import net.meiolania.apps.habrahabr.api.posts.PostsApi;
+import net.meiolania.apps.habrahabr.api.posts.PostsApi.Category;
+import net.meiolania.apps.habrahabr.api.posts.PostsApi.Section;
+
+public class PostsTopFragment extends PostsFragment {
 
 	@Override
-	protected String getUrl() {
-		return URL;
+	public List<PostEntry> getPosts(int page) {
+		PostsApi postsApi = new PostsApi(HabrAuthApi.getInstance());
+		return postsApi.getPosts(page, Section.Posts, Category.Top);
 	}
-
-	@Override
-	protected int getLoaderId() {
-		return 0;
-	}
-
+	
 }

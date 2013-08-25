@@ -16,20 +16,19 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.fragments.favorites;
 
-import net.meiolania.apps.habrahabr.auth.User;
-import net.meiolania.apps.habrahabr.fragments.posts.AbstractionPostsFragment;
+import java.util.List;
 
-public class FavoritesPostsFragment extends AbstractionPostsFragment {
-	public static final String URL = "http://habrahabr.ru/users/%user%/favorites/page%page%/";
+import net.meiolania.apps.habrahabr.api.HabrAuthApi;
+import net.meiolania.apps.habrahabr.api.posts.PostEntry;
+import net.meiolania.apps.habrahabr.api.posts.PostsApi;
+import net.meiolania.apps.habrahabr.fragments.posts.PostsFragment;
 
-	@Override
-	protected String getUrl() {
-		return URL.replace("%user%", User.getInstance().getLogin());
-	}
+public class FavoritesPostsFragment extends PostsFragment {
 
 	@Override
-	protected int getLoaderId() {
-		return 0;
+	public List<PostEntry> getPosts(int page) {
+		PostsApi postsApi = new PostsApi(HabrAuthApi.getInstance());
+		return postsApi.getFavoritesPosts(page);
 	}
 
 }
