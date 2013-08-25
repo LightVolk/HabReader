@@ -30,8 +30,6 @@ import net.meiolania.apps.habrahabr.ui.PageActionProvider;
 import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Build.VERSION;
-import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
@@ -46,7 +44,6 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
@@ -62,7 +59,7 @@ public abstract class PostsFragment extends SherlockFragment implements OnScroll
 	private boolean noMoreData;
 	private List<PostEntry> posts;
 	private PostsAdapter adapter;
-	private AbsListView listView;
+	private ListView listView;
 	private int page = 1;
 	
 	public abstract List<PostEntry> getPosts(int page);
@@ -71,7 +68,7 @@ public abstract class PostsFragment extends SherlockFragment implements OnScroll
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fr_posts, container, false);
 
-		listView = (AbsListView) view.findViewById(R.id.postsList);
+		listView = (ListView) view.findViewById(R.id.postsList);
 
 		return view;
 	}
@@ -89,17 +86,7 @@ public abstract class PostsFragment extends SherlockFragment implements OnScroll
 			adapter = new PostsAdapter(getActivity(), HabrAuthApi.getInstance(), posts);
 		}
 
-		if (VERSION.SDK_INT >= VERSION_CODES.HONEYCOMB)
-			listView.setAdapter(adapter);
-		else {
-			if (listView instanceof ListView)
-				((ListView) listView).setAdapter(adapter);
-			else if (listView instanceof GridView)
-				((ListView) listView).setAdapter(adapter);
-			else
-				throw new IllegalArgumentException("listView should be GridView or ListView");
-		}
-
+		listView.setAdapter(adapter);
 		listView.setOnScrollListener(this);
 		listView.setOnItemClickListener(this);
 	}
