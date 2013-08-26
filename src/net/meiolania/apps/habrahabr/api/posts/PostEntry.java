@@ -6,6 +6,7 @@ import net.meiolania.apps.habrahabr.api.hubs.HubsEntry;
 
 public class PostEntry {
 	private String title;
+	private int id;
 	private String url;
 	private String author;
 	private String authorUrl;
@@ -24,6 +25,10 @@ public class PostEntry {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	
+	public int getId() {
+		return id;
 	}
 
 	public String getUrl() {
