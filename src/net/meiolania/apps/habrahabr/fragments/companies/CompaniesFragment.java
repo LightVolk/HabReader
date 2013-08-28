@@ -23,7 +23,6 @@ import net.meiolania.apps.habrahabr.activities.CompaniesShowActivity;
 import net.meiolania.apps.habrahabr.adapters.CompaniesAdapter;
 import net.meiolania.apps.habrahabr.data.CompaniesData;
 import net.meiolania.apps.habrahabr.fragments.companies.loader.CompaniesLoader;
-import net.meiolania.apps.habrahabr.ui.PageActionProvider;
 import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
 import android.content.Intent;
 import android.os.Bundle;
@@ -76,10 +75,6 @@ public class CompaniesFragment extends SherlockListFragment implements
 		super.onCreateOptionsMenu(menu, inflater);
 
 		inflater.inflate(R.menu.companies_fragment, menu);
-
-		PageActionProvider pageActionProvider = (PageActionProvider) menu
-				.findItem(R.id.page).getActionProvider();
-		pageActionProvider.setPage(page);
 	}
 
 	@Override
@@ -160,7 +155,7 @@ public class CompaniesFragment extends SherlockListFragment implements
 		if (getSherlockActivity() != null) {
 			setListShown(true);
 
-			getSherlockActivity().invalidateOptionsMenu();
+			getSherlockActivity().supportInvalidateOptionsMenu();
 		}
 	}
 

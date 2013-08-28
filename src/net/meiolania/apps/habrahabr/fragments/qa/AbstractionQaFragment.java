@@ -25,7 +25,6 @@ import net.meiolania.apps.habrahabr.activities.QaShowActivity;
 import net.meiolania.apps.habrahabr.adapters.QaAdapter;
 import net.meiolania.apps.habrahabr.data.QaData;
 import net.meiolania.apps.habrahabr.fragments.qa.loader.QaLoader;
-import net.meiolania.apps.habrahabr.ui.PageActionProvider;
 import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
 import android.content.Intent;
 import android.os.Bundle;
@@ -45,8 +44,7 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 
-public abstract class AbstractionQaFragment extends SherlockListFragment
-		implements OnScrollListener, LoaderCallbacks<ArrayList<QaData>> {
+public abstract class AbstractionQaFragment extends SherlockListFragment implements OnScrollListener, LoaderCallbacks<ArrayList<QaData>> {
 	protected int page;
 	protected boolean isLoadData;
 	protected ArrayList<QaData> questions;
@@ -91,26 +89,18 @@ public abstract class AbstractionQaFragment extends SherlockListFragment
 
 		inflater.inflate(R.menu.qa_fragment, menu);
 
-		final EditText searchQuery = (EditText) menu.findItem(R.id.search)
-				.getActionView().findViewById(R.id.search_query);
+		final EditText searchQuery = (EditText) menu.findItem(R.id.search).getActionView().findViewById(R.id.search_query);
 		searchQuery.setOnEditorActionListener(new OnEditorActionListener() {
-			public boolean onEditorAction(TextView v, int actionId,
-					KeyEvent event) {
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 				if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-					Intent intent = new Intent(getSherlockActivity(),
-							QaSearchActivity.class);
-					intent.putExtra(QaSearchActivity.EXTRA_QUERY, searchQuery
-							.getText().toString());
+					Intent intent = new Intent(getSherlockActivity(), QaSearchActivity.class);
+					intent.putExtra(QaSearchActivity.EXTRA_QUERY, searchQuery.getText().toString());
 					startActivity(intent);
 					return true;
 				}
 				return false;
 			}
 		});
-
-		PageActionProvider pageActionProvider = (PageActionProvider) menu
-				.findItem(R.id.page).getActionProvider();
-		pageActionProvider.setPage(page);
 	}
 
 	@Override
@@ -131,22 +121,18 @@ public abstract class AbstractionQaFragment extends SherlockListFragment
 	protected void restartLoading() {
 		if (ConnectionUtils.isConnected(getSherlockActivity())) {
 			if (!firstLoading)
-				getSherlockActivity()
-						.setSupportProgressBarIndeterminateVisibility(true);
+				getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
 
 			QaLoader.setPage(++page);
 
-			getSherlockActivity().getSupportLoaderManager().restartLoader(
-					getLoaderId(), null, this);
+			getSherlockActivity().getSupportLoaderManager().restartLoader(getLoaderId(), null, this);
 
 			isLoadData = true;
 		}
 	}
 
-	public void onScroll(AbsListView view, int firstVisibleItem,
-			int visibleItemCount, int totalItemCount) {
-		if ((firstVisibleItem + visibleItemCount) == totalItemCount
-				&& !isLoadData && !noMoreData)
+	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+		if ((firstVisibleItem + visibleItemCount) == totalItemCount && !isLoadData && !noMoreData)
 			restartLoading();
 	}
 
@@ -163,8 +149,7 @@ public abstract class AbstractionQaFragment extends SherlockListFragment
 	}
 
 	@Override
-	public void onLoadFinished(Loader<ArrayList<QaData>> loader,
-			ArrayList<QaData> data) {
+	public void onLoadFinished(Loader<ArrayList<QaData>> loader, ArrayList<QaData> data) {
 		if (data.isEmpty())
 			noMoreData = true;
 
@@ -174,14 +159,13 @@ public abstract class AbstractionQaFragment extends SherlockListFragment
 		firstLoading = false;
 
 		if (getSherlockActivity() != null)
-			getSherlockActivity().setSupportProgressBarIndeterminateVisibility(
-					false);
+			getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
 
 		isLoadData = false;
 
 		if (getSherlockActivity() != null) {
 			setListShown(true);
-			getSherlockActivity().invalidateOptionsMenu();
+			getSherlockActivity().supportInvalidateOptionsMenu();
 		}
 	}
 

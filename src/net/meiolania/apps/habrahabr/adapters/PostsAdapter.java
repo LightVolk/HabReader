@@ -116,7 +116,7 @@ public class PostsAdapter extends BaseAdapter {
 		if (entry.getRating() != null)
 			viewHolder.rating.setText(String.valueOf(entry.getRating()));
 		else
-			viewHolder.rating.setText("�");
+			viewHolder.rating.setText("-");
 		viewHolder.rating.setTypeface(Fonts.ROBOTO_LIGHT);
 
 		if (!authApi.isAuth()) {

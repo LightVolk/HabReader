@@ -26,7 +26,6 @@ import net.meiolania.apps.habrahabr.adapters.PostsAdapter;
 import net.meiolania.apps.habrahabr.api.HabrAuthApi;
 import net.meiolania.apps.habrahabr.api.posts.PostEntry;
 import net.meiolania.apps.habrahabr.fragments.posts.loader.PostsLoader;
-import net.meiolania.apps.habrahabr.ui.PageActionProvider;
 import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -109,9 +108,6 @@ public abstract class PostsFragment extends SherlockFragment implements OnScroll
 				return false;
 			}
 		});
-
-		PageActionProvider pageActionProvider = (PageActionProvider) menu.findItem(R.id.page).getActionProvider();
-		pageActionProvider.setPage(page);
 	}
 
 	@Override
@@ -165,7 +161,8 @@ public abstract class PostsFragment extends SherlockFragment implements OnScroll
 		adapter.notifyDataSetChanged();
 
 		isLoadData = false;
-
+		page++;
+		
 		if (getSherlockActivity() != null)
 			getSherlockActivity().supportInvalidateOptionsMenu();
 	}
