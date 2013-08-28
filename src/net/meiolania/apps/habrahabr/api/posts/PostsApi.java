@@ -22,28 +22,27 @@ public class PostsApi {
 	public PostsApi(AuthApi authApi) {
 		this.authApi = authApi;
 	}
-	
+
 	public PostEntry getPost(int id) {
 		String url = UrlUtils.createUrl("post/", String.valueOf(id));
 		return getPost(url);
 	}
-	
+
 	public PostEntry getPost(String url) {
 		try {
 			Log.i(TAG, "Loading a page: " + url);
-			
+
 			Document document = null;
 			if (authApi.isAuth()) {
-				document = Jsoup.connect(url)
-								.cookie(AuthApi.SESSION_ID, authApi.getSessionId())
-								.cookie(AuthApi.AUTH_ID, authApi.getAuthId())
-								.get();
-			} else {
+				document = Jsoup.connect(url).cookie(AuthApi.SESSION_ID, authApi.getSessionId())
+						.cookie(AuthApi.AUTH_ID, authApi.getAuthId()).get();
+			}
+			else {
 				document = Jsoup.connect(url).get();
 			}
-			
+
 			Element content = document.select("div.content_left").first();
-			
+
 			Element title = content.select("span.post_title").first();
 			Element date = content.select("div.published").first();
 			Elements hubs = content.select("div.hubs > a");
@@ -53,37 +52,38 @@ public class PostsApi {
 			Element favoritesCount = content.select("div.favs_count").first();
 			Element author = content.select("div.author > a").first();
 			Element commentsCount = document.select("div.comments_list > h2.title > span.comments_count").first();
-			
+
 			PostEntry entry = new PostEntry();
-			
+
 			entry.setTitle(title.text());
 			entry.setUrl(url);
 			entry.setDate(date.text());
 			entry.setAuthor(author.text());
 			entry.setAuthorUrl(author.attr("abs:href"));
-			
+
 			List<HubsEntry> hubsEntries = new ArrayList<HubsEntry>();
 			for (Element hub : hubs) {
 				HubsEntry hubsEntry = new HubsEntry();
-				
+
 				hubsEntry.setTitle(hub.text());
 				hubsEntry.setUrl(hub.attr("abs:href"));
-				
+
 				hubsEntries.add(hubsEntry);
 			}
 			entry.setHubs(hubsEntries);
-			
+
 			entry.setFullText(text.html());
 			entry.setRating(Integer.parseInt(rating.text()));
 			entry.setViewCount(Integer.parseInt(viewsCount.text()));
 			entry.setFavoritesCount(Integer.parseInt(favoritesCount.text()));
 			entry.setCommentsCount(Integer.parseInt(commentsCount.text()));
-			
+
 			return entry;
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			Log.e(TAG, "Can't load a page: " + url + ". Error: " + e.getMessage());
 		}
-		
+
 		return null;
 	}
 
@@ -129,12 +129,14 @@ public class PostsApi {
 			if (authApi.isAuth()) {
 				document = Jsoup.connect(url).cookie(AuthApi.SESSION_ID, authApi.getSessionId())
 						.cookie(AuthApi.AUTH_ID, authApi.getAuthId()).get();
-			} else {
+			}
+			else {
 				document = Jsoup.connect(url).get();
 			}
 
 			return parseDocument(document);
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			Log.e(TAG, "Can't load a page: " + url + ". Error: " + e.getMessage());
 		}
 
@@ -177,9 +179,15 @@ public class PostsApi {
 			}
 			entry.setHubs(hubsEntries);
 
+			Log.d("Test", title.text());
+
 			entry.setDate(date.text());
-			entry.setAuthor(author.text());
-			entry.setAuthorUrl(author.attr("abs:href"));
+
+			if (author != null) {
+				entry.setAuthor(author.text());
+				entry.setAuthorUrl(author.attr("abs:href"));
+			}
+
 			entry.setViewCount(Integer.parseInt(viewCount.text()));
 			entry.setFavoritesCount(Integer.parseInt(favoritesCount.text()));
 			entry.setCommentsCount(Integer.parseInt(commentsCount.text()));
