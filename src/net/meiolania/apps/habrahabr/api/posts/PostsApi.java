@@ -179,8 +179,6 @@ public class PostsApi {
 			}
 			entry.setHubs(hubsEntries);
 
-			Log.d("Test", title.text());
-
 			entry.setDate(date.text());
 
 			if (author != null) {

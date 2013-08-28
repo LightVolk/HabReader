@@ -60,7 +60,7 @@ public abstract class PostsFragment extends SherlockFragment implements OnScroll
 	private PostsAdapter adapter;
 	private ListView listView;
 	private int page = 1;
-	
+
 	public abstract List<PostEntry> getPosts(int page);
 
 	@Override
@@ -162,7 +162,7 @@ public abstract class PostsFragment extends SherlockFragment implements OnScroll
 
 		isLoadData = false;
 		page++;
-		
+
 		if (getSherlockActivity() != null)
 			getSherlockActivity().supportInvalidateOptionsMenu();
 	}

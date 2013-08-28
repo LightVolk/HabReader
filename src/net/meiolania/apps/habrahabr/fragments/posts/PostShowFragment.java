@@ -42,8 +42,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public class PostShowFragment extends SherlockFragment implements
-		LoaderCallbacks<PostsFullData> {
+public class PostShowFragment extends SherlockFragment implements LoaderCallbacks<PostsFullData> {
 	public final static String URL_ARGUMENT = "url";
 	private final static int LOADER_POST = 0;
 	private String url;
@@ -63,19 +62,15 @@ public class PostShowFragment extends SherlockFragment implements
 
 		url = getArguments().getString(URL_ARGUMENT);
 
-		content = (WebView) getSherlockActivity().findViewById(
-				R.id.post_content);
-		webviewContainer = (FrameLayout) getSherlockActivity().findViewById(
-				R.id.webview_container);
+		content = (WebView) getSherlockActivity().findViewById(R.id.post_content);
+		webviewContainer = (FrameLayout) getSherlockActivity().findViewById(R.id.webview_container);
 
 		if (ConnectionUtils.isConnected(getSherlockActivity()))
-			getSherlockActivity().getSupportLoaderManager().initLoader(
-					LOADER_POST, null, this);
+			getSherlockActivity().getSupportLoaderManager().initLoader(LOADER_POST, null, this);
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.posts_show_activity, container, false);
 	}
 
@@ -90,8 +85,7 @@ public class PostShowFragment extends SherlockFragment implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.share:
-				IntentUtils
-						.createShareIntent(getSherlockActivity(), title, url);
+				IntentUtils.createShareIntent(getSherlockActivity(), title, url);
 				break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -123,8 +117,7 @@ public class PostShowFragment extends SherlockFragment implements
 			content.getSettings().setDefaultZoom(ZoomDensity.FAR);
 			content.setInitialScale(prefs.getViewScale(getSherlockActivity()));
 
-			content.loadDataWithBaseURL("", STYLESHEET + data.getContent(),
-					"text/html", "UTF-8", null);
+			content.loadDataWithBaseURL("", STYLESHEET + data.getContent(), "text/html", "UTF-8", null);
 		}
 
 		title = data.getTitle();
@@ -153,14 +146,14 @@ public class PostShowFragment extends SherlockFragment implements
 	public void onResume() {
 		super.onResume();
 
-		content = (WebView) getSherlockActivity().findViewById(
-				R.id.post_content);
+		content = (WebView) getSherlockActivity().findViewById(R.id.post_content);
 		prefs = Preferences.getInstance(getSherlockActivity());
 
 		if (UIUtils.isHoneycombOrHigher()) {
 			content.getSettings().setBuiltInZoomControls(true);
 			content.getSettings().setDisplayZoomControls(prefs.getPostsZoom());
-		} else
+		}
+		else
 			content.getSettings().setBuiltInZoomControls(prefs.getPostsZoom());
 	}
 

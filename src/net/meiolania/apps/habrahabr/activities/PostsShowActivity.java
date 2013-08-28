@@ -37,7 +37,9 @@ public class PostsShowActivity extends AbstractionFragmentActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
+		setContentView(R.layout.content_frame);
+		
 		if (savedInstanceState != null)
 			currentTab = savedInstanceState.getInt("currentTab");
 
@@ -49,8 +51,7 @@ public class PostsShowActivity extends AbstractionFragmentActivity {
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 
-		outState.putInt("currentTab", getSupportActionBar().getSelectedTab()
-				.getPosition());
+		outState.putInt("currentTab", getSupportActionBar().getSelectedTab().getPosition());
 	}
 
 	private void loadExtras() {
@@ -74,13 +75,8 @@ public class PostsShowActivity extends AbstractionFragmentActivity {
 		Bundle arguments = new Bundle();
 		arguments.putString(PostShowFragment.URL_ARGUMENT, url);
 
-		Tab tab = actionBar
-				.newTab()
-				.setText(R.string.post)
-				.setTag("post")
-				.setTabListener(
-						new TabListener<PostShowFragment>(this, "post",
-								PostShowFragment.class, arguments));
+		Tab tab = actionBar.newTab().setText(R.string.post).setTag("post")
+				.setTabListener(new TabListener<PostShowFragment>(this, "post", PostShowFragment.class, arguments));
 		actionBar.addTab(tab, (currentTab == 0) ? true : false);
 
 		/*
@@ -89,14 +85,8 @@ public class PostsShowActivity extends AbstractionFragmentActivity {
 		arguments = new Bundle();
 		arguments.putString(PostsCommentsFragment.URL_ARGUMENT, url);
 
-		tab = actionBar
-				.newTab()
-				.setText(R.string.comments)
-				.setTag("comments")
-				.setTabListener(
-						new TabListener<PostsCommentsFragment>(this,
-								"comments", PostsCommentsFragment.class,
-								arguments));
+		tab = actionBar.newTab().setText(R.string.comments).setTag("comments")
+				.setTabListener(new TabListener<PostsCommentsFragment>(this, "comments", PostsCommentsFragment.class, arguments));
 		actionBar.addTab(tab, (currentTab == 1) ? true : false);
 	}
 
