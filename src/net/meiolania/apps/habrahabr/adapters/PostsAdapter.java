@@ -84,8 +84,7 @@ public class PostsAdapter extends BaseAdapter {
 			viewHolder.voteDown = (ImageButton) view.findViewById(R.id.voteDown);
 
 			view.setTag(viewHolder);
-		}
-		else
+		} else
 			viewHolder = (ViewHolder) view.getTag();
 
 		viewHolder.title.setText(entry.getTitle());
@@ -94,8 +93,7 @@ public class PostsAdapter extends BaseAdapter {
 		if (entry.getAuthor() != null) {
 			viewHolder.author.setText(entry.getAuthor());
 			viewHolder.author.setTypeface(Fonts.ROBOTO_LIGHT);
-		}
-		else
+		} else
 			viewHolder.author.setVisibility(View.GONE);
 
 		viewHolder.date.setText(entry.getDate());
@@ -107,7 +105,7 @@ public class PostsAdapter extends BaseAdapter {
 		viewHolder.comments.setText(String.valueOf(entry.getCommentsCount()));
 		viewHolder.comments.setTypeface(Fonts.ROBOTO_LIGHT);
 
-		String text = entry.getShortText();
+		String text = entry.getText();
 		if (text.length() > 200)
 			text = text.substring(0, 199) + "...";
 		viewHolder.text.setText(text);

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.meiolania.apps.habrahabr.api.AuthApi;
+import net.meiolania.apps.habrahabr.api.NumberUtils;
 import net.meiolania.apps.habrahabr.api.UrlUtils;
 import net.meiolania.apps.habrahabr.api.hubs.HubsEntry;
 
@@ -36,8 +37,7 @@ public class PostsApi {
 			if (authApi.isAuth()) {
 				document = Jsoup.connect(url).cookie(AuthApi.SESSION_ID, authApi.getSessionId())
 						.cookie(AuthApi.AUTH_ID, authApi.getAuthId()).get();
-			}
-			else {
+			} else {
 				document = Jsoup.connect(url).get();
 			}
 
@@ -48,7 +48,7 @@ public class PostsApi {
 			Elements hubs = content.select("div.hubs > a");
 			Element text = content.select("div.content").first();
 			Element rating = content.select("div.mark > a.score").first();
-			Element viewsCount = content.select("div.pageviews").first();
+			Element viewCount = content.select("div.pageviews").first();
 			Element favoritesCount = content.select("div.favs_count").first();
 			Element author = content.select("div.author > a").first();
 			Element commentsCount = document.select("div.comments_list > h2.title > span.comments_count").first();
@@ -72,15 +72,15 @@ public class PostsApi {
 			}
 			entry.setHubs(hubsEntries);
 
-			entry.setFullText(text.html());
-			entry.setRating(Integer.parseInt(rating.text()));
-			entry.setViewCount(Integer.parseInt(viewsCount.text()));
-			entry.setFavoritesCount(Integer.parseInt(favoritesCount.text()));
-			entry.setCommentsCount(Integer.parseInt(commentsCount.text()));
+			entry.setText(text.html());
 
+			entry.setRating(NumberUtils.Parse(rating));
+			entry.setViewCount(NumberUtils.Parse(viewCount));
+			entry.setFavoritesCount(NumberUtils.Parse(favoritesCount));
+			entry.setCommentsCount(NumberUtils.Parse(commentsCount));
+			
 			return entry;
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			Log.e(TAG, "Can't load a page: " + url + ". Error: " + e.getMessage());
 		}
 
@@ -129,14 +129,12 @@ public class PostsApi {
 			if (authApi.isAuth()) {
 				document = Jsoup.connect(url).cookie(AuthApi.SESSION_ID, authApi.getSessionId())
 						.cookie(AuthApi.AUTH_ID, authApi.getAuthId()).get();
-			}
-			else {
+			} else {
 				document = Jsoup.connect(url).get();
 			}
 
 			return parseDocument(document);
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			Log.e(TAG, "Can't load a page: " + url + ". Error: " + e.getMessage());
 		}
 
@@ -190,12 +188,11 @@ public class PostsApi {
 				entry.setViewCount(Integer.parseInt(viewCount.text()));
 				entry.setFavoritesCount(Integer.parseInt(favoritesCount.text()));
 				entry.setCommentsCount(Integer.parseInt(commentsCount.text()));
-			}
-			catch (NumberFormatException e) {
+			} catch (NumberFormatException e) {
 
 			}
 
-			entry.setShortText(shortText.text());
+			entry.setText(shortText.text());
 
 			postsEntries.add(entry);
 		}

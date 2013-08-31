@@ -16,7 +16,6 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.activities;
 
-import net.meiolania.apps.habrahabr.AbstractionFragmentActivity;
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.fragments.qa.QaCommentsFragment;
 import net.meiolania.apps.habrahabr.fragments.qa.QaShowFragment;
@@ -27,7 +26,7 @@ import android.os.Bundle;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
 
-public class QaShowActivity extends AbstractionFragmentActivity {
+public class QaShowActivity extends BaseActivity {
 	public final static String EXTRA_URL = "url";
 	public final static String EXTRA_TITLE = "title";
 	private String title;

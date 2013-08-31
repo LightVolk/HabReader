@@ -16,7 +16,6 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.activities;
 
-import net.meiolania.apps.habrahabr.AbstractionFragmentActivity;
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.auth.AuthFragment;
 import net.meiolania.apps.habrahabr.auth.SignOutFragment;
@@ -44,7 +43,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public class MainActivity extends AbstractionFragmentActivity {
+public class MainActivity extends BaseActivity {
 	private Fragment content;
 	private MenuFragment.ItemType contentType;
 	private ActionBarDrawerToggle actionBarDrawerToggle;

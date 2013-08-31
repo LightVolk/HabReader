@@ -16,7 +16,6 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.activities;
 
-import net.meiolania.apps.habrahabr.AbstractionFragmentActivity;
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.fragments.posts.PostsSearchFragment;
 import android.os.Bundle;
@@ -24,7 +23,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.actionbarsherlock.app.ActionBar;
 
-public class PostsSearchActivity extends AbstractionFragmentActivity {
+public class PostsSearchActivity extends BaseActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

@@ -18,14 +18,11 @@ package net.meiolania.apps.habrahabr.fragments.posts;
 
 import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.R;
-import net.meiolania.apps.habrahabr.data.PostsFullData;
+import net.meiolania.apps.habrahabr.api.posts.PostEntry;
 import net.meiolania.apps.habrahabr.fragments.posts.loader.PostShowLoader;
+import net.meiolania.apps.habrahabr.ui.HabrWebClient;
 import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
-import net.meiolania.apps.habrahabr.utils.HabrWebClient;
 import net.meiolania.apps.habrahabr.utils.IntentUtils;
-import net.meiolania.apps.habrahabr.utils.UIUtils;
-import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
@@ -36,21 +33,19 @@ import android.webkit.WebSettings.ZoomDensity;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public class PostShowFragment extends SherlockFragment implements LoaderCallbacks<PostsFullData> {
+public class PostShowFragment extends SherlockFragment implements LoaderCallbacks<PostEntry> {
 	public final static String URL_ARGUMENT = "url";
-	private final static int LOADER_POST = 0;
+	public final static int LOADER_POST = 0;
 	private String url;
 	private String title;
-	private ProgressDialog progressDialog;
 	private Preferences prefs;
-	private WebView content;
-	private FrameLayout webviewContainer;
+	private WebView webViewContent;
+	private FrameLayout webViewContainer;
 	private static final String STYLESHEET = "<link rel=\"stylesheet\" type=\"text/css\" href=\"file:///android_asset/style.css\" />";
 
 	@Override
@@ -59,11 +54,10 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
 
 		setHasOptionsMenu(true);
 		setRetainInstance(true);
-
+		
+		prefs = Preferences.getInstance(getSherlockActivity());
+		
 		url = getArguments().getString(URL_ARGUMENT);
-
-		content = (WebView) getSherlockActivity().findViewById(R.id.post_content);
-		webviewContainer = (FrameLayout) getSherlockActivity().findViewById(R.id.webview_container);
 
 		if (ConnectionUtils.isConnected(getSherlockActivity()))
 			getSherlockActivity().getSupportLoaderManager().initLoader(LOADER_POST, null, this);
@@ -71,7 +65,12 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.posts_show_activity, container, false);
+		View view = inflater.inflate(R.layout.posts_show_activity, container, false);
+		
+		webViewContent = (WebView) view.findViewById(R.id.post_content);
+		webViewContainer = (FrameLayout) view.findViewById(R.id.webview_container);
+		
+		return view;
 	}
 
 	@Override
@@ -92,69 +91,29 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
 	}
 
 	@Override
-	public Loader<PostsFullData> onCreateLoader(int id, Bundle args) {
-		showProgressDialog();
-
+	public Loader<PostEntry> onCreateLoader(int id, Bundle args) {
 		PostShowLoader loader = new PostShowLoader(getSherlockActivity(), url);
 		loader.forceLoad();
 
 		return loader;
 	}
 
-	@SuppressLint("NewApi")
 	@Override
-	public void onLoadFinished(Loader<PostsFullData> loader, PostsFullData data) {
-		if (getSherlockActivity() != null && data != null) {
-			ActionBar actionBar = getSherlockActivity().getSupportActionBar();
-			actionBar.setTitle(data.getTitle());
+	public void onLoadFinished(Loader<PostEntry> loader, PostEntry data) {
+		if (data != null) {
+			webViewContent.setWebViewClient(new HabrWebClient(getSherlockActivity()));
+			webViewContent.getSettings().setSupportZoom(true);
 
-			prefs = Preferences.getInstance(getSherlockActivity());
+			webViewContent.getSettings().setJavaScriptEnabled(true);
+			webViewContent.getSettings().setDefaultZoom(ZoomDensity.FAR);
+			webViewContent.setInitialScale(prefs.getViewScale(getSherlockActivity()));
 
-			content.setWebViewClient(new HabrWebClient(getSherlockActivity()));
-			content.getSettings().setSupportZoom(true);
-
-			content.getSettings().setJavaScriptEnabled(true);
-			content.getSettings().setDefaultZoom(ZoomDensity.FAR);
-			content.setInitialScale(prefs.getViewScale(getSherlockActivity()));
-
-			content.loadDataWithBaseURL("", STYLESHEET + data.getContent(), "text/html", "UTF-8", null);
+			webViewContent.loadDataWithBaseURL("", STYLESHEET + data.getText(), "text/html", "UTF-8", null);
 		}
-
-		title = data.getTitle();
-
-		hideProgressDialog();
 	}
 
 	@Override
-	public void onLoaderReset(Loader<PostsFullData> loader) {
-	}
-
-	private void showProgressDialog() {
-		progressDialog = new ProgressDialog(getSherlockActivity());
-		progressDialog.setMessage(getString(R.string.loading_post));
-		progressDialog.setCancelable(true);
-		progressDialog.show();
-	}
-
-	private void hideProgressDialog() {
-		if (progressDialog != null)
-			progressDialog.dismiss();
-	}
-
-	@SuppressLint("NewApi")
-	@Override
-	public void onResume() {
-		super.onResume();
-
-		content = (WebView) getSherlockActivity().findViewById(R.id.post_content);
-		prefs = Preferences.getInstance(getSherlockActivity());
-
-		if (UIUtils.isHoneycombOrHigher()) {
-			content.getSettings().setBuiltInZoomControls(true);
-			content.getSettings().setDisplayZoomControls(prefs.getPostsZoom());
-		}
-		else
-			content.getSettings().setBuiltInZoomControls(prefs.getPostsZoom());
+	public void onLoaderReset(Loader<PostEntry> loader) {
 	}
 
 	@Override
@@ -162,8 +121,8 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
 		super.onDestroy();
 
 		// http://stackoverflow.com/a/8011027/921834
-		webviewContainer.removeAllViews();
-		content.destroy();
+		webViewContainer.removeAllViews();
+		webViewContent.destroy();
 	}
 
 }

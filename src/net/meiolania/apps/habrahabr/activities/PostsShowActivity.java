@@ -16,7 +16,6 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.activities;
 
-import net.meiolania.apps.habrahabr.AbstractionFragmentActivity;
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.fragments.posts.PostShowFragment;
 import net.meiolania.apps.habrahabr.fragments.posts.PostsCommentsFragment;
@@ -27,7 +26,7 @@ import android.os.Bundle;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
 
-public class PostsShowActivity extends AbstractionFragmentActivity {
+public class PostsShowActivity extends BaseActivity {
 	public final static String EXTRA_URL = "url";
 	public final static String EXTRA_TITLE = "title";
 	private String url;
