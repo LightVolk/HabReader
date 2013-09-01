@@ -10,6 +10,14 @@
     <dimen name="slidingmenu_offset">60dp</dimen>
     <dimen name="comment_text">15sp</dimen>
     
+    <dimen name="hubs_title">18sp</dimen>
+    <dimen name="hubs_index">18sp</dimen>
+    <dimen name="hubs_info">12sp</dimen>
+    <dimen name="hubs_left_padding">12dp</dimen>
+    <dimen name="hubs_top_padding">10dp</dimen>
+    <dimen name="hubs_right_padding">12dp</dimen>
+    <dimen name="hubs_bottom_padding">10dp</dimen>
+    
     <dimen name="comment_level_margin">17dp</dimen>
 	<dimen name="comment_left_margin">12dp</dimen>
 	<dimen name="comment_top_margin">10dp</dimen>

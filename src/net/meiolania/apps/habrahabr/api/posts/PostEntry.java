@@ -2,7 +2,7 @@ package net.meiolania.apps.habrahabr.api.posts;
 
 import java.util.List;
 
-import net.meiolania.apps.habrahabr.api.hubs.HubsEntry;
+import net.meiolania.apps.habrahabr.api.hubs.HubEntry;
 
 public class PostEntry {
 	private String title;
@@ -11,7 +11,7 @@ public class PostEntry {
 	private String author;
 	private String authorUrl;
 	private String date;
-	private List<HubsEntry> hubs;
+	private List<HubEntry> hubs;
 	private String text;
 	private Integer rating;
 	private Integer viewCount;
@@ -62,11 +62,11 @@ public class PostEntry {
 		this.date = date;
 	}
 
-	public List<HubsEntry> getHubs() {
+	public List<HubEntry> getHubs() {
 		return hubs;
 	}
 
-	public void setHubs(List<HubsEntry> hubs) {
+	public void setHubs(List<HubEntry> hubs) {
 		this.hubs = hubs;
 	}
 

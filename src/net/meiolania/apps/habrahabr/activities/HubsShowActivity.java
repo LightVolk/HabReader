@@ -16,6 +16,7 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.activities;
 
+import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.fragments.hubs.HubsPostsFragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -23,29 +24,20 @@ import android.support.v4.app.FragmentTransaction;
 import com.actionbarsherlock.app.ActionBar;
 
 public class HubsShowActivity extends BaseActivity {
-	public final static String EXTRA_URL = "url";
-	public final static String EXTRA_TITLE = "title";
-	protected String url;
-	protected String title;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		loadExtras();
+		setContentView(R.layout.ac_show_content);
+
 		showActionBar();
 		loadHubsPosts();
-	}
-
-	private void loadExtras() {
-		url = getIntent().getStringExtra(EXTRA_URL);
-		title = getIntent().getStringExtra(EXTRA_TITLE);
 	}
 
 	private void showActionBar() {
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setTitle(title);
 	}
 
 	private void loadHubsPosts() {
@@ -53,7 +45,7 @@ public class HubsShowActivity extends BaseActivity {
 		fragment.setArguments(getIntent().getExtras());
 
 		FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-		fragmentTransaction.replace(android.R.id.content, fragment);
+		fragmentTransaction.replace(R.id.content_frame, fragment);
 		fragmentTransaction.commit();
 	}
 

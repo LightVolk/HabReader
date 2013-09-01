@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.meiolania.apps.habrahabr.api.AuthApi;
-import net.meiolania.apps.habrahabr.api.hubs.HubsEntry;
+import net.meiolania.apps.habrahabr.api.hubs.HubEntry;
 import net.meiolania.apps.habrahabr.api.utils.NumberUtils;
 import net.meiolania.apps.habrahabr.api.utils.UrlUtils;
 
@@ -61,9 +61,9 @@ public class PostsApi {
 			entry.setAuthor(author.text());
 			entry.setAuthorUrl(author.attr("abs:href"));
 
-			List<HubsEntry> hubsEntries = new ArrayList<HubsEntry>();
+			List<HubEntry> hubsEntries = new ArrayList<HubEntry>();
 			for (Element hub : hubs) {
-				HubsEntry hubsEntry = new HubsEntry();
+				HubEntry hubsEntry = new HubEntry();
 
 				hubsEntry.setTitle(hub.text());
 				hubsEntry.setUrl(hub.attr("abs:href"));
@@ -100,9 +100,13 @@ public class PostsApi {
 		return getFavoritesPosts(page, authApi.getLogin());
 	}
 
-	public List<PostEntry> getPosts(int page, String hub) {
+	public List<PostEntry> getHubsPosts(int page, String hub) {
 		String url = UrlUtils.createUrl("hub/", hub, "posts/page", String.valueOf(page));
 		return parseUrl(url);
+	}
+	
+	public List<PostEntry> getPosts(int page, String url) {
+		return parseUrl(url.replace("%page%", String.valueOf(page)));
 	}
 
 	public List<PostEntry> getPosts(int page, Section section) {
@@ -166,9 +170,9 @@ public class PostsApi {
 			entry.setTitle(title.text());
 			entry.setUrl(title.attr("abs:href"));
 
-			List<HubsEntry> hubsEntries = new ArrayList<HubsEntry>();
+			List<HubEntry> hubsEntries = new ArrayList<HubEntry>();
 			for (Element hub : hubs) {
-				HubsEntry hubsEntry = new HubsEntry();
+				HubEntry hubsEntry = new HubEntry();
 
 				hubsEntry.setTitle(hub.text());
 				hubsEntry.setUrl(hub.attr("abs:href"));

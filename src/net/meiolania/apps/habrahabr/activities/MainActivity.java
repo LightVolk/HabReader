@@ -171,6 +171,8 @@ public class MainActivity extends BaseActivity {
 		transaction.commit();
 
 		drawerLayout.closeDrawer(drawerFrame);
+		
+		supportInvalidateOptionsMenu();
 	}
 
 	@Override

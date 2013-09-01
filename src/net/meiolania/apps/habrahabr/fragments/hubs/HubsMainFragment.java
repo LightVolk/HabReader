@@ -38,8 +38,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 
-public class HubsMainFragment extends SherlockFragment implements
-		OnNavigationListener {
+public class HubsMainFragment extends SherlockFragment implements OnNavigationListener {
 	public final static int LIST_ALL_HUBS = 0;
 	public final static int LIST_API = 1;
 	public final static int LIST_ADMIN = 2;
@@ -71,9 +70,8 @@ public class HubsMainFragment extends SherlockFragment implements
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.hubs_fragment, container, false);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.fr_hubs, container, false);
 	}
 
 	@Override
@@ -82,16 +80,12 @@ public class HubsMainFragment extends SherlockFragment implements
 
 		inflater.inflate(R.menu.hubs_fragment, menu);
 
-		final EditText searchQuery = (EditText) menu.findItem(R.id.search)
-				.getActionView().findViewById(R.id.search_query);
+		final EditText searchQuery = (EditText) menu.findItem(R.id.search).getActionView().findViewById(R.id.search_query);
 		searchQuery.setOnEditorActionListener(new OnEditorActionListener() {
-			public boolean onEditorAction(TextView v, int actionId,
-					KeyEvent event) {
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 				if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-					Intent intent = new Intent(getSherlockActivity(),
-							HubsSearchActivity.class);
-					intent.putExtra(HubsSearchActivity.EXTRA_QUERY, searchQuery
-							.getText().toString());
+					Intent intent = new Intent(getSherlockActivity(), HubsSearchActivity.class);
+					intent.putExtra(HubsSearchActivity.EXTRA_QUERY, searchQuery.getText().toString());
 					startActivity(intent);
 					return true;
 				}
@@ -105,12 +99,11 @@ public class HubsMainFragment extends SherlockFragment implements
 
 		ActionBar actionBar = activity.getSupportActionBar();
 		actionBar.removeAllTabs();
-		actionBar.setTitle(R.string.hubs);
+		actionBar.setTitle("");
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
-		ArrayAdapter<CharSequence> list = ArrayAdapter.createFromResource(
-				activity.getSupportActionBar().getThemedContext(),
+		ArrayAdapter<CharSequence> list = ArrayAdapter.createFromResource(activity.getSupportActionBar().getThemedContext(),
 				R.array.hubs_list, R.layout.sherlock_spinner_item);
 		list.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
 		actionBar.setListNavigationCallbacks(list, this);
@@ -124,67 +117,49 @@ public class HubsMainFragment extends SherlockFragment implements
 		switch ((int) itemId) {
 			default:
 			case LIST_ALL_HUBS:
-				arguments.putString(HubsFragment.URL_ARGUMENT,
-						"http://habrahabr.ru/hubs/page%page%/");
+				arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/page%page%/");
 				break;
 			case LIST_API:
-				arguments.putString(HubsFragment.URL_ARGUMENT,
-						"http://habrahabr.ru/hubs/api/page%page%/");
+				arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/api/page%page%/");
 				break;
 			case LIST_ADMIN:
-				arguments.putString(HubsFragment.URL_ARGUMENT,
-						"http://habrahabr.ru/hubs/administration/page%page%/");
+				arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/administration/page%page%/");
 				break;
 			case LIST_DB:
-				arguments.putString(HubsFragment.URL_ARGUMENT,
-						"http://habrahabr.ru/hubs/databases/page%page%/");
+				arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/databases/page%page%/");
 				break;
 			case LIST_SECURITY:
-				arguments.putString(HubsFragment.URL_ARGUMENT,
-						"http://habrahabr.ru/hubs/security/page%page%/");
+				arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/security/page%page%/");
 				break;
 			case LIST_DESIGN:
-				arguments
-						.putString(HubsFragment.URL_ARGUMENT,
-								"http://habrahabr.ru/hubs/design-and-media/page%page%/");
+				arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/design-and-media/page%page%/");
 				break;
 			case LIST_GADGETS:
-				arguments.putString(HubsFragment.URL_ARGUMENT,
-						"http://habrahabr.ru/hubs/hardware/page%page%/");
+				arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/hardware/page%page%/");
 				break;
 			case LIST_COMPANIES:
-				arguments
-						.putString(HubsFragment.URL_ARGUMENT,
-								"http://habrahabr.ru/hubs/companies-and-services/page%page%/");
+				arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/companies-and-services/page%page%/");
 				break;
 			case LIST_MANAGEMENT:
-				arguments.putString(HubsFragment.URL_ARGUMENT,
-						"http://habrahabr.ru/hubs/management/page%page%/");
+				arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/management/page%page%/");
 				break;
 			case LIST_PROGRAMMING:
-				arguments.putString(HubsFragment.URL_ARGUMENT,
-						"http://habrahabr.ru/hubs/programming/page%page%/");
+				arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/programming/page%page%/");
 				break;
 			case LIST_SOFTWARE:
-				arguments.putString(HubsFragment.URL_ARGUMENT,
-						"http://habrahabr.ru/hubs/software/page%page%/");
+				arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/software/page%page%/");
 				break;
 			case LIST_TELECOMMUNICATIONS:
-				arguments
-						.putString(HubsFragment.URL_ARGUMENT,
-								"http://habrahabr.ru/hubs/telecommunications/page%page%/");
+				arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/telecommunications/page%page%/");
 				break;
 			case LIST_FRAMEWORKS:
-				arguments.putString(HubsFragment.URL_ARGUMENT,
-						"http://habrahabr.ru/hubs/fw-and-cms/page%page%/");
+				arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/fw-and-cms/page%page%/");
 				break;
 			case LIST_FRONTEND:
-				arguments.putString(HubsFragment.URL_ARGUMENT,
-						"http://habrahabr.ru/hubs/frontend/page%page%/");
+				arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/frontend/page%page%/");
 				break;
 			case LIST_OTHERS:
-				arguments.putString(HubsFragment.URL_ARGUMENT,
-						"http://habrahabr.ru/hubs/others/page%page%/");
+				arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/others/page%page%/");
 				break;
 		}
 

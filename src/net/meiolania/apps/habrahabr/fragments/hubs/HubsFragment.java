@@ -17,15 +17,16 @@ limitations under the License.
 package net.meiolania.apps.habrahabr.fragments.hubs;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.activities.HubsShowActivity;
 import net.meiolania.apps.habrahabr.adapters.HubsAdapter;
-import net.meiolania.apps.habrahabr.data.HubsData;
+import net.meiolania.apps.habrahabr.api.hubs.HubEntry;
 import net.meiolania.apps.habrahabr.fragments.hubs.loader.HubsLoader;
-import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.view.View;
@@ -35,17 +36,14 @@ import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 
-public class HubsFragment extends SherlockListFragment implements
-		OnScrollListener, LoaderCallbacks<ArrayList<HubsData>> {
+public class HubsFragment extends SherlockListFragment implements OnScrollListener, LoaderCallbacks<List<HubEntry>> {
 	public final static int LOADER_HUBS = 0;
 	public final static String URL_ARGUMENT = "url";
-	private ArrayList<HubsData> hubs;
+	private List<HubEntry> hubs;
 	private HubsAdapter adapter;
-	private int page;
+	private int page = 1;
 	private boolean isLoadData;
 	private String url;
-	private boolean noMoreData;
-	private boolean firstLoading = true;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -57,7 +55,7 @@ public class HubsFragment extends SherlockListFragment implements
 			url = "http://habrahabr.ru/hubs/page%page%/";
 
 		if (adapter == null) {
-			hubs = new ArrayList<HubsData>();
+			hubs = new ArrayList<HubEntry>();
 			adapter = new HubsAdapter(getSherlockActivity(), hubs);
 		}
 
@@ -75,35 +73,22 @@ public class HubsFragment extends SherlockListFragment implements
 	}
 
 	protected void showHub(int position) {
-		HubsData data = hubs.get(position);
+		HubEntry data = hubs.get(position);
 
-		Intent intent = new Intent(getSherlockActivity(),
-				HubsShowActivity.class);
-		intent.putExtra(HubsShowActivity.EXTRA_URL, data.getUrl());
-		intent.putExtra(HubsShowActivity.EXTRA_TITLE, data.getTitle());
+		Intent intent = new Intent(getSherlockActivity(), HubsShowActivity.class);
+		intent.putExtra(HubsPostsFragment.EXTRA_URL, data.getUrl() + "posts/");
+		intent.putExtra(HubsPostsFragment.EXTRA_TITLE, data.getTitle());
 
 		startActivity(intent);
 	}
 
 	protected void restartLoading() {
-		if (ConnectionUtils.isConnected(getSherlockActivity())) {
-			if (!firstLoading)
-				getSherlockActivity()
-						.setSupportProgressBarIndeterminateVisibility(true);
-
-			HubsLoader.setPage(++page);
-
-			getSherlockActivity().getSupportLoaderManager().restartLoader(
-					LOADER_HUBS, null, this);
-
-			isLoadData = true;
-		}
+		LoaderManager loaderManager = getSherlockActivity().getSupportLoaderManager();
+		loaderManager.restartLoader(LOADER_HUBS, null, this);
 	}
 
-	public void onScroll(AbsListView view, int firstVisibleItem,
-			int visibleItemCount, int totalItemCount) {
-		if ((firstVisibleItem + visibleItemCount) == totalItemCount
-				&& !isLoadData && !noMoreData)
+	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+		if ((firstVisibleItem + visibleItemCount) == totalItemCount && !isLoadData)
 			restartLoading();
 	}
 
@@ -112,36 +97,26 @@ public class HubsFragment extends SherlockListFragment implements
 	}
 
 	@Override
-	public Loader<ArrayList<HubsData>> onCreateLoader(int id, Bundle args) {
-		HubsLoader loader = new HubsLoader(getSherlockActivity(), url);
+	public Loader<List<HubEntry>> onCreateLoader(int id, Bundle args) {
+		HubsLoader loader = new HubsLoader(getSherlockActivity(), url, page);
 		loader.forceLoad();
 
 		return loader;
 	}
 
 	@Override
-	public void onLoadFinished(Loader<ArrayList<HubsData>> loader,
-			ArrayList<HubsData> data) {
-		if (data.isEmpty())
-			noMoreData = true;
-
-		hubs.addAll(data);
-		adapter.notifyDataSetChanged();
-
-		firstLoading = false;
-
-		if (getSherlockActivity() != null)
-			getSherlockActivity().setSupportProgressBarIndeterminateVisibility(
-					false);
+	public void onLoadFinished(Loader<List<HubEntry>> loader, List<HubEntry> data) {
+		if (data != null) {
+			hubs.addAll(data);
+			adapter.notifyDataSetChanged();
+		}
 
 		isLoadData = false;
-
-		if (getSherlockActivity() != null)
-			setListShown(true);
+		setListShown(true);
 	}
 
 	@Override
-	public void onLoaderReset(Loader<ArrayList<HubsData>> loader) {
+	public void onLoaderReset(Loader<List<HubEntry>> loader) {
 	}
 
 }

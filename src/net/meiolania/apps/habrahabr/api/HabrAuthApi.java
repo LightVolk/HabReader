@@ -22,9 +22,9 @@ public final class HabrAuthApi implements AuthApi {
 	public void init(Context context) {
 		Preferences preferences = Preferences.getInstance(context);
 		
-		setLogin(preferences.getLogin());
-		setSessionId(preferences.getPHPSessionId());
-		setAuthId(preferences.getHSecId());
+		this.login = preferences.getLogin();
+		this.sessionId = preferences.getPHPSessionId();
+		this.authId = preferences.getHSecId();
 	}
 	
 	@Override
@@ -33,18 +33,8 @@ public final class HabrAuthApi implements AuthApi {
 	}
 
 	@Override
-	public void setLogin(String login) {
-		this.login = login;
-	}
-
-	@Override
 	public String getLogin() {
 		return login;
-	}
-
-	@Override
-	public void setSessionId(String sessionId) {
-		this.sessionId = sessionId;
 	}
 
 	@Override
@@ -53,13 +43,15 @@ public final class HabrAuthApi implements AuthApi {
 	}
 
 	@Override
-	public void setAuthId(String authId) {
-		this.authId = authId;
+	public String getAuthId() {
+		return authId;
 	}
 
 	@Override
-	public String getAuthId() {
-		return authId;
+	public void auth(String login, String sessionId, String authId) {
+		this.login = login;
+		this.sessionId = sessionId;
+		this.authId = authId;
 	}
 
 }
