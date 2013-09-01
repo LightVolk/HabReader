@@ -18,13 +18,11 @@ package net.meiolania.apps.habrahabr.fragments.events;
 
 import java.util.ArrayList;
 
-import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.activities.EventsShowActivity;
 import net.meiolania.apps.habrahabr.adapters.EventsAdapter;
 import net.meiolania.apps.habrahabr.data.EventsData;
 import net.meiolania.apps.habrahabr.fragments.events.loader.EventLoader;
-import net.meiolania.apps.habrahabr.ui.PageActionProvider;
 import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
 import android.content.Intent;
 import android.os.Bundle;
@@ -39,8 +37,8 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 
-public abstract class AbstractionEventsFragment extends SherlockListFragment
-		implements OnScrollListener, LoaderCallbacks<ArrayList<EventsData>> {
+public abstract class AbstractionEventsFragment extends SherlockListFragment implements OnScrollListener,
+		LoaderCallbacks<ArrayList<EventsData>> {
 	protected int page;
 	protected boolean isLoadData;
 	protected ArrayList<EventsData> events;
@@ -69,11 +67,8 @@ public abstract class AbstractionEventsFragment extends SherlockListFragment
 		if (firstLoading)
 			setListShown(false);
 
-		if (Preferences.getInstance(getSherlockActivity())
-				.getAdditionalEvents()) {
-			getListView().setDivider(null);
-			getListView().setDividerHeight(0);
-		}
+		getListView().setDivider(null);
+		getListView().setDividerHeight(0);
 
 		getListView().setOnScrollListener(this);
 
@@ -85,10 +80,6 @@ public abstract class AbstractionEventsFragment extends SherlockListFragment
 		super.onCreateOptionsMenu(menu, inflater);
 
 		inflater.inflate(R.menu.events_fragment, menu);
-
-		PageActionProvider pageActionProvider = (PageActionProvider) menu
-				.findItem(R.id.page).getActionProvider();
-		pageActionProvider.setPage(page);
 	}
 
 	@Override
@@ -99,8 +90,7 @@ public abstract class AbstractionEventsFragment extends SherlockListFragment
 	protected void showEvent(int position) {
 		EventsData data = events.get(position);
 
-		Intent intent = new Intent(getSherlockActivity(),
-				EventsShowActivity.class);
+		Intent intent = new Intent(getSherlockActivity(), EventsShowActivity.class);
 		intent.putExtra(EventsShowActivity.EXTRA_TITLE, data.getTitle());
 		intent.putExtra(EventsShowActivity.EXTRA_URL, data.getUrl());
 
@@ -110,22 +100,18 @@ public abstract class AbstractionEventsFragment extends SherlockListFragment
 	protected void restartLoading() {
 		if (ConnectionUtils.isConnected(getSherlockActivity())) {
 			if (!firstLoading)
-				getSherlockActivity()
-						.setSupportProgressBarIndeterminateVisibility(true);
+				getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
 
 			EventLoader.setPage(++page);
 
-			getSherlockActivity().getSupportLoaderManager().restartLoader(
-					getLoaderId(), null, this);
+			getSherlockActivity().getSupportLoaderManager().restartLoader(getLoaderId(), null, this);
 
 			isLoadData = true;
 		}
 	}
 
-	public void onScroll(AbsListView view, int firstVisibleItem,
-			int visibleItemCount, int totalItemCount) {
-		if ((firstVisibleItem + visibleItemCount) == totalItemCount
-				&& !isLoadData && !noMoreData)
+	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+		if ((firstVisibleItem + visibleItemCount) == totalItemCount && !isLoadData && !noMoreData)
 			restartLoading();
 	}
 
@@ -142,8 +128,7 @@ public abstract class AbstractionEventsFragment extends SherlockListFragment
 	}
 
 	@Override
-	public void onLoadFinished(Loader<ArrayList<EventsData>> loader,
-			ArrayList<EventsData> data) {
+	public void onLoadFinished(Loader<ArrayList<EventsData>> loader, ArrayList<EventsData> data) {
 		if (data.isEmpty())
 			noMoreData = true;
 
@@ -153,14 +138,13 @@ public abstract class AbstractionEventsFragment extends SherlockListFragment
 		firstLoading = false;
 
 		if (getSherlockActivity() != null)
-			getSherlockActivity().setSupportProgressBarIndeterminateVisibility(
-					false);
+			getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
 
 		isLoadData = false;
 
 		if (getSherlockActivity() != null) {
 			setListShown(true);
-			getSherlockActivity().invalidateOptionsMenu();
+			getSherlockActivity().supportInvalidateOptionsMenu();
 		}
 	}
 

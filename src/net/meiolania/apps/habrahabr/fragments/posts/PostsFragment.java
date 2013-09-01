@@ -26,9 +26,7 @@ import net.meiolania.apps.habrahabr.adapters.PostsAdapter;
 import net.meiolania.apps.habrahabr.api.HabrAuthApi;
 import net.meiolania.apps.habrahabr.api.posts.PostEntry;
 import net.meiolania.apps.habrahabr.fragments.posts.loader.PostsLoader;
-import net.meiolania.apps.habrahabr.ui.PageActionProvider;
 import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
@@ -61,7 +59,7 @@ public abstract class PostsFragment extends SherlockFragment implements OnScroll
 	private PostsAdapter adapter;
 	private ListView listView;
 	private int page = 1;
-	
+
 	public abstract List<PostEntry> getPosts(int page);
 
 	@Override
@@ -73,7 +71,6 @@ public abstract class PostsFragment extends SherlockFragment implements OnScroll
 		return view;
 	}
 
-	@SuppressLint("NewApi")
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -109,9 +106,6 @@ public abstract class PostsFragment extends SherlockFragment implements OnScroll
 				return false;
 			}
 		});
-
-		PageActionProvider pageActionProvider = (PageActionProvider) menu.findItem(R.id.page).getActionProvider();
-		pageActionProvider.setPage(page);
 	}
 
 	@Override
@@ -123,8 +117,7 @@ public abstract class PostsFragment extends SherlockFragment implements OnScroll
 		PostEntry data = posts.get(position);
 
 		Intent intent = new Intent(getSherlockActivity(), PostsShowActivity.class);
-		intent.putExtra(PostsShowActivity.EXTRA_URL, data.getUrl());
-		intent.putExtra(PostsShowActivity.EXTRA_TITLE, data.getTitle());
+		intent.putExtra(PostShowFragment.URL_ARGUMENT, data.getUrl());
 
 		startActivity(intent);
 	}
@@ -165,6 +158,7 @@ public abstract class PostsFragment extends SherlockFragment implements OnScroll
 		adapter.notifyDataSetChanged();
 
 		isLoadData = false;
+		page++;
 
 		if (getSherlockActivity() != null)
 			getSherlockActivity().supportInvalidateOptionsMenu();

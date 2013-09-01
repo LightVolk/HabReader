@@ -37,7 +37,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +49,7 @@ import com.actionbarsherlock.app.SherlockListFragment;
 public class MenuFragment extends SherlockListFragment {
 	private ArrayList<MenuData> menu;
 	private MenuAdapter menuAdapter;
-	
+
 	public enum ItemType {
 		AUTH, PROFILE, FEED, FAVORITES, POSTS, HUBS, QA, EVENTS, COMPANIES, USERS
 	};
@@ -62,35 +61,26 @@ public class MenuFragment extends SherlockListFragment {
 		menu = new ArrayList<MenuData>();
 
 		if (!User.getInstance().isLogged())
-			menu.add(new MenuData(R.string.auth, R.drawable.ic_users,
-					ItemType.AUTH, false));
+			menu.add(new MenuData(R.string.auth, R.drawable.ic_users, ItemType.AUTH, false));
 		else {
 			menu.add(new MenuData(R.string.account, 0, null, true));
 			// TODO: set user avatar
-			menu.add(new MenuData(User.getInstance().getLogin(),
-					R.drawable.ic_users, ItemType.PROFILE, false));
-			menu.add(new MenuData(R.string.feed, R.drawable.ic_feed,
-					ItemType.FEED, false));
-			menu.add(new MenuData(R.string.favorites, R.drawable.ic_favorites,
-					ItemType.FAVORITES, false));
+			menu.add(new MenuData(User.getInstance().getLogin(), R.drawable.ic_users, ItemType.PROFILE, false));
+			menu.add(new MenuData(R.string.feed, R.drawable.ic_feed, ItemType.FEED, false));
+			menu.add(new MenuData(R.string.favorites, R.drawable.ic_favorites, ItemType.FAVORITES, false));
 		}
 
 		menu.add(new MenuData(R.string.sections, 0, null, true));
-		menu.add(new MenuData(R.string.posts, R.drawable.ic_posts,
-				ItemType.POSTS, false));
-		menu.add(new MenuData(R.string.hubs, R.drawable.ic_hubs, ItemType.HUBS,
-				false));
+		menu.add(new MenuData(R.string.posts, R.drawable.ic_posts, ItemType.POSTS, false));
+		menu.add(new MenuData(R.string.hubs, R.drawable.ic_hubs, ItemType.HUBS, false));
 		menu.add(new MenuData(R.string.qa, R.drawable.ic_qa, ItemType.QA, false));
-		menu.add(new MenuData(R.string.events, R.drawable.ic_events,
-				ItemType.EVENTS, false));
-		menu.add(new MenuData(R.string.companies, R.drawable.ic_companies,
-				ItemType.COMPANIES, false));
-		menu.add(new MenuData(R.string.people, R.drawable.ic_users,
-				ItemType.USERS, false));
+		menu.add(new MenuData(R.string.events, R.drawable.ic_events, ItemType.EVENTS, false));
+		menu.add(new MenuData(R.string.companies, R.drawable.ic_companies, ItemType.COMPANIES, false));
+		menu.add(new MenuData(R.string.people, R.drawable.ic_users, ItemType.USERS, false));
 
 		menuAdapter = new MenuAdapter(getSherlockActivity(), menu);
 		setListAdapter(menuAdapter);
-		
+
 		getListView().setBackgroundColor(Color.WHITE);
 	}
 
@@ -107,11 +97,8 @@ public class MenuFragment extends SherlockListFragment {
 				newContent = new AuthFragment();
 				break;
 			case PROFILE:
-				Intent intent = new Intent(getSherlockActivity(),
-						UsersShowActivity.class);
-				intent.putExtra(UsersShowActivity.EXTRA_URL,
-						"http://habrahabr.ru/users/"
-								+ User.getInstance().getLogin());
+				Intent intent = new Intent(getSherlockActivity(), UsersShowActivity.class);
+				intent.putExtra(UsersShowActivity.EXTRA_URL, "http://habrahabr.ru/users/" + User.getInstance().getLogin());
 				getSherlockActivity().startActivity(intent);
 				break;
 			case FEED:
@@ -159,13 +146,11 @@ public class MenuFragment extends SherlockListFragment {
 		public ItemType itemType;
 		public boolean isSection;
 
-		public MenuData(int title, int icon, ItemType itemType,
-				boolean isSection) {
+		public MenuData(int title, int icon, ItemType itemType, boolean isSection) {
 			this(getString(title), icon, itemType, isSection);
 		}
 
-		public MenuData(String title, int icon, ItemType itemType,
-				boolean isSection) {
+		public MenuData(String title, int icon, ItemType itemType, boolean isSection) {
 			this.title = title;
 			this.icon = icon;
 			this.itemType = itemType;
@@ -181,8 +166,7 @@ public class MenuFragment extends SherlockListFragment {
 		public MenuAdapter(Context context, ArrayList<MenuData> data) {
 			this.data = data;
 			this.context = context;
-			layoutInflater = (LayoutInflater) context
-					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}
 
 		@Override
@@ -206,25 +190,20 @@ public class MenuFragment extends SherlockListFragment {
 
 			if (!data.isSection) {
 
-				View view = layoutInflater.inflate(R.layout.slide_menu_row,
-						null);
+				View view = layoutInflater.inflate(R.layout.slide_menu_row, null);
 
-				TextView title = (TextView) view
-						.findViewById(R.id.slide_menu_title);
+				TextView title = (TextView) view.findViewById(R.id.slide_menu_title);
 
 				Drawable img = context.getResources().getDrawable(data.icon);
-				title.setCompoundDrawablesWithIntrinsicBounds(img, null, null,
-						null);
+				title.setCompoundDrawablesWithIntrinsicBounds(img, null, null, null);
 
 				title.setText(data.title);
 
 				return view;
 			} else {
-				View view = layoutInflater.inflate(
-						R.layout.slide_menu_section_row, null);
+				View view = layoutInflater.inflate(R.layout.slide_menu_section_row, null);
 
-				TextView title = (TextView) view
-						.findViewById(R.id.slide_menu_title);
+				TextView title = (TextView) view.findViewById(R.id.slide_menu_title);
 
 				title.setText(data.title);
 

@@ -16,14 +16,13 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.activities;
 
-import net.meiolania.apps.habrahabr.AbstractionFragmentActivity;
 import net.meiolania.apps.habrahabr.fragments.hubs.HubsPostsFragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
 import com.actionbarsherlock.app.ActionBar;
 
-public class HubsShowActivity extends AbstractionFragmentActivity {
+public class HubsShowActivity extends BaseActivity {
 	public final static String EXTRA_URL = "url";
 	public final static String EXTRA_TITLE = "title";
 	protected String url;

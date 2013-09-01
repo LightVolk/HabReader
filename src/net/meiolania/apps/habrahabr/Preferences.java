@@ -33,29 +33,13 @@ public final class Preferences {
 	public final static String EVENTS_DEFAULT_TAB_KEY = "events_default_tab";
 	public final static String EVENTS_DEFAULT_TAB_DEFAULT = "0";
 
-	// Additional layout for posts
-	public final static String ADDITIONAL_LAYOUT_POSTS_KEY = "posts_additional_layout";
-	public final static boolean ADDITIONAL_LAYOUT_POSTS_DEFAULT = true;
-
-	// Additional layout for Q&A
-	public final static String ADDITIONAL_LAYOUT_QA_KEY = "qa_additional_layout";
-	public final static boolean ADDITIONAL_LAYOUT_QA_DEFAULT = true;
-
-	// Additional layout for events
-	public final static String ADDITIONAL_LAYOUT_EVENTS_KEY = "events_additional_layout";
-	public final static boolean ADDITIONAL_LAYOUT_EVENTS_DEFAULT = true;
-
-	// Fullscreen
-	public final static String FULLSCREEN_KEY = "fullscreen";
-	public final static boolean FULLSCREEN_DEFAULT = false;
-
 	// Keepscreen
 	public final static String KEEPSCREEN_KEY = "keepscreen";
 	public final static boolean KEEPSCREEN_DEFAULT = false;
 
 	// Share text
 	public final static String SHARE_TEXT_KEY = "share_text";
-	public final static String SHARE_TEXT_DEFAULT = "$link$ - $title$ #HabReader";
+	public final static String SHARE_TEXT_DEFAULT = "$link$ - $title$";
 
 	// Auth
 	public final static String LOGIN_KEY = "login";
@@ -81,21 +65,15 @@ public final class Preferences {
 	private static SharedPreferences sharedPreferences;
 
 	private Preferences(Context context) {
-		sharedPreferences = PreferenceManager
-				.getDefaultSharedPreferences(context);
+		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 	}
 
 	public static Preferences getInstance(Context context) {
-		return preferences != null ? preferences
-				: (preferences = new Preferences(context));
+		return preferences != null ? preferences : (preferences = new Preferences(context));
 	}
 
 	public SharedPreferences getSharedPreferences() {
 		return sharedPreferences;
-	}
-
-	public boolean getFullScreen() {
-		return sharedPreferences.getBoolean(FULLSCREEN_KEY, FULLSCREEN_DEFAULT);
 	}
 
 	public boolean getKeepScreen() {
@@ -103,33 +81,15 @@ public final class Preferences {
 	}
 
 	public int getPostsDefaultTab() {
-		return Integer.parseInt(sharedPreferences.getString(
-				POSTS_DEFAULT_TAB_KEY, POSTS_DEFAULT_TAB_DEFAULT));
+		return Integer.parseInt(sharedPreferences.getString(POSTS_DEFAULT_TAB_KEY, POSTS_DEFAULT_TAB_DEFAULT));
 	}
 
 	public int getEventsDefaultTab() {
-		return Integer.parseInt(sharedPreferences.getString(
-				EVENTS_DEFAULT_TAB_KEY, EVENTS_DEFAULT_TAB_DEFAULT));
+		return Integer.parseInt(sharedPreferences.getString(EVENTS_DEFAULT_TAB_KEY, EVENTS_DEFAULT_TAB_DEFAULT));
 	}
 
 	public int getQaDefaultTab() {
-		return Integer.parseInt(sharedPreferences.getString(QA_DEFAULT_TAB_KEY,
-				QA_DEFAULT_TAB_DEFAULT));
-	}
-
-	public boolean getAdditionalEvents() {
-		return sharedPreferences.getBoolean(ADDITIONAL_LAYOUT_EVENTS_KEY,
-				ADDITIONAL_LAYOUT_EVENTS_DEFAULT);
-	}
-
-	public boolean getAdditionalPosts() {
-		return sharedPreferences.getBoolean(ADDITIONAL_LAYOUT_POSTS_KEY,
-				ADDITIONAL_LAYOUT_POSTS_DEFAULT);
-	}
-
-	public boolean getAdditionalQa() {
-		return sharedPreferences.getBoolean(ADDITIONAL_LAYOUT_QA_KEY,
-				ADDITIONAL_LAYOUT_QA_DEFAULT);
+		return Integer.parseInt(sharedPreferences.getString(QA_DEFAULT_TAB_KEY, QA_DEFAULT_TAB_DEFAULT));
 	}
 
 	public String getShareText() {
@@ -137,8 +97,7 @@ public final class Preferences {
 	}
 
 	public boolean getPostsFullInfo() {
-		return sharedPreferences.getBoolean(POSTS_FULL_INFO,
-				POSTS_FULL_INFO_DEFAULT);
+		return sharedPreferences.getBoolean(POSTS_FULL_INFO, POSTS_FULL_INFO_DEFAULT);
 	}
 
 	public boolean getPostsZoom() {
@@ -152,14 +111,9 @@ public final class Preferences {
 	}
 
 	public int getViewScale(Context context) {
-		float userScale = sharedPreferences.getFloat(USER_SCALE,
-				USER_SCALE_DEFAULT);
+		float userScale = sharedPreferences.getFloat(USER_SCALE, USER_SCALE_DEFAULT);
 		return (int) (100 * userScale);
 	}
-
-	/*
-	 * TODO: need to think about security
-	 */
 
 	public String getLogin() {
 		return sharedPreferences.getString(LOGIN_KEY, LOGIN_DEFAULT);

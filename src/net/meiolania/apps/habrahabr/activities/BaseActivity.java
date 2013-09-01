@@ -14,24 +14,23 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-package net.meiolania.apps.habrahabr;
+package net.meiolania.apps.habrahabr.activities;
 
-import net.meiolania.apps.habrahabr.activities.PreferencesActivity;
+import net.meiolania.apps.habrahabr.Fonts;
+import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.api.HabrAuthApi;
 import net.meiolania.apps.habrahabr.auth.User;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public abstract class AbstractionFragmentActivity extends
-		SherlockFragmentActivity {
+public abstract class BaseActivity extends SherlockFragmentActivity {
 	public final static String DEVELOPER_PLAY_LINK = "https://play.google.com/store/apps/developer?id=Andrey+Zaytsev";
 
 	@Override
@@ -40,16 +39,15 @@ public abstract class AbstractionFragmentActivity extends
 
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
-		initFullscreen();
 		initKeepScreenOn();
 
 		// Auth
 		User.getInstance().init(this);
 		HabrAuthApi.getInstance().init(this);
-		
+
 		// UI
 		Fonts.init(this);
-		
+
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		setSupportProgressBarIndeterminateVisibility(false);
@@ -57,7 +55,6 @@ public abstract class AbstractionFragmentActivity extends
 
 	@Override
 	protected void onResume() {
-		initFullscreen();
 		initKeepScreenOn();
 
 		super.onResume();
@@ -65,49 +62,29 @@ public abstract class AbstractionFragmentActivity extends
 
 	private void initKeepScreenOn() {
 		if (Preferences.getInstance(this).getKeepScreen())
-			getWindow()
-					.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+			getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		else
-			getWindow().clearFlags(
-					WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-	}
-
-	private void initFullscreen() {
-		if (Preferences.getInstance(this).getFullScreen())
-			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-					WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		else
-			getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater menuInflater = getSupportMenuInflater();
-		menuInflater.inflate(R.menu.global_activity, menu);
-		return super.onCreateOptionsMenu(menu);
+			getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.preferences:
-				showPreferences();
-				return true;
-			case R.id.more_applications:
-				showApplications();
+			case android.R.id.home:
+				onHomeClick();
 				return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 	
-	private void showPreferences() {
-		startActivity(new Intent(this, PreferencesActivity.class));
-	}
-	
-	private void showApplications() {
-		Uri uri = Uri.parse(DEVELOPER_PLAY_LINK);
-		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-		startActivity(intent);
+	private void onHomeClick() {
+		Intent intent = NavUtils.getParentActivityIntent(this);
+		if (NavUtils.shouldUpRecreateTask(this, intent)) {
+			TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(this);
+			taskStackBuilder.addNextIntentWithParentStack(intent);
+			taskStackBuilder.startActivities();
+		} else
+			NavUtils.navigateUpTo(this, intent);
 	}
 
 }

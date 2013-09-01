@@ -19,7 +19,6 @@ package net.meiolania.apps.habrahabr.activities;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import net.meiolania.apps.habrahabr.AbstractionFragmentActivity;
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.fragments.users.UsersFragment;
 import android.os.Bundle;
@@ -27,7 +26,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.actionbarsherlock.app.ActionBar;
 
-public class UsersSearchActivity extends AbstractionFragmentActivity {
+public class UsersSearchActivity extends BaseActivity {
 	public final static String URL = "http://habrahabr.ru/search/?target_type=users&order_by=relevance&q=%query%";
 	public final static String EXTRA_QUERY = "query";
 	private String query;

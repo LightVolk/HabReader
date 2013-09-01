@@ -19,7 +19,6 @@ package net.meiolania.apps.habrahabr.fragments.events.loader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.auth.User;
 import net.meiolania.apps.habrahabr.data.EventsData;
 
@@ -35,16 +34,12 @@ import android.util.Log;
 public class EventLoader extends AsyncTaskLoader<ArrayList<EventsData>> {
 	public final static String TAG = EventLoader.class.getName();
 	private String url;
-	private boolean additionalLayout = false;
 	private static int page;
 
 	public EventLoader(Context context, String url) {
 		super(context);
 
 		this.url = url;
-
-		additionalLayout = Preferences.getInstance(context)
-				.getAdditionalEvents();
 	}
 
 	public static void setPage(int page) {
@@ -64,12 +59,8 @@ public class EventLoader extends AsyncTaskLoader<ArrayList<EventsData>> {
 			if (!User.getInstance().isLogged())
 				document = Jsoup.connect(readyUrl).get();
 			else
-				document = Jsoup
-						.connect(readyUrl)
-						.cookie(User.PHPSESSION_ID,
-								User.getInstance().getPhpsessid())
-						.cookie(User.HSEC_ID, User.getInstance().getHsecid())
-						.get();
+				document = Jsoup.connect(readyUrl).cookie(User.PHPSESSION_ID, User.getInstance().getPhpsessid())
+						.cookie(User.HSEC_ID, User.getInstance().getHsecid()).get();
 
 			Elements events = document.select("div.event");
 
@@ -80,17 +71,14 @@ public class EventLoader extends AsyncTaskLoader<ArrayList<EventsData>> {
 				eventsData.setTitle(title.text());
 				eventsData.setUrl(title.attr("abs:href"));
 
-				if (additionalLayout) {
-					Element text = event.select("div.text").first();
-					Element month = event.select("div.date > div.month")
-							.first();
-					Element day = event.select("div.date > div.day").first();
-					Element hubs = event.select("div.hubs").first();
+				Element text = event.select("div.text").first();
+				Element month = event.select("div.date > div.month").first();
+				Element day = event.select("div.date > div.day").first();
+				Element hubs = event.select("div.hubs").first();
 
-					eventsData.setText(text.text());
-					eventsData.setDate(day.text() + " " + month.text());
-					eventsData.setHubs(hubs.text());
-				}
+				eventsData.setText(text.text());
+				eventsData.setDate(day.text() + " " + month.text());
+				eventsData.setHubs(hubs.text());
 
 				data.add(eventsData);
 			}

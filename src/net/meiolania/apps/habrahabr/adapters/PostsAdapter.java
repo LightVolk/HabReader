@@ -82,43 +82,46 @@ public class PostsAdapter extends BaseAdapter {
 			viewHolder.comments = (Button) view.findViewById(R.id.comments);
 			viewHolder.voteUp = (ImageButton) view.findViewById(R.id.voteUp);
 			viewHolder.voteDown = (ImageButton) view.findViewById(R.id.voteDown);
-			
+
 			view.setTag(viewHolder);
 		} else
 			viewHolder = (ViewHolder) view.getTag();
 
 		viewHolder.title.setText(entry.getTitle());
 		viewHolder.title.setTypeface(Fonts.ROBOTO_BOLD);
-		
-		viewHolder.author.setText(entry.getAuthor());
-		viewHolder.author.setTypeface(Fonts.ROBOTO_LIGHT);
-		
+
+		if (entry.getAuthor() != null) {
+			viewHolder.author.setText(entry.getAuthor());
+			viewHolder.author.setTypeface(Fonts.ROBOTO_LIGHT);
+		} else
+			viewHolder.author.setVisibility(View.GONE);
+
 		viewHolder.date.setText(entry.getDate());
 		viewHolder.date.setTypeface(Fonts.ROBOTO_LIGHT);
-		
+
 		viewHolder.hubs.setText(entry.getHubs().get(0).getTitle());
 		viewHolder.hubs.setTypeface(Fonts.ROBOTO_LIGHT);
-		
+
 		viewHolder.comments.setText(String.valueOf(entry.getCommentsCount()));
 		viewHolder.comments.setTypeface(Fonts.ROBOTO_LIGHT);
-		
-		String text = entry.getShortText();
+
+		String text = entry.getText();
 		if (text.length() > 200)
 			text = text.substring(0, 199) + "...";
 		viewHolder.text.setText(text);
 		viewHolder.text.setTypeface(Fonts.ROBOTO_REGULAR);
-		
+
 		if (entry.getRating() != null)
 			viewHolder.rating.setText(String.valueOf(entry.getRating()));
 		else
-			viewHolder.rating.setText("—");
+			viewHolder.rating.setText("-");
 		viewHolder.rating.setTypeface(Fonts.ROBOTO_LIGHT);
-		
+
 		if (!authApi.isAuth()) {
 			viewHolder.voteUp.setEnabled(false);
 			viewHolder.voteDown.setEnabled(false);
 		}
-		
+
 		return view;
 	}
 

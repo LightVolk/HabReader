@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.meiolania.apps.habrahabr.api.AuthApi;
+import net.meiolania.apps.habrahabr.api.NumberUtils;
 import net.meiolania.apps.habrahabr.api.UrlUtils;
 import net.meiolania.apps.habrahabr.api.hubs.HubsEntry;
 
@@ -21,6 +22,69 @@ public class PostsApi {
 
 	public PostsApi(AuthApi authApi) {
 		this.authApi = authApi;
+	}
+
+	public PostEntry getPost(int id) {
+		String url = UrlUtils.createUrl("post/", String.valueOf(id));
+		return getPost(url);
+	}
+
+	public PostEntry getPost(String url) {
+		try {
+			Log.i(TAG, "Loading a page: " + url);
+
+			Document document = null;
+			if (authApi.isAuth()) {
+				document = Jsoup.connect(url).cookie(AuthApi.SESSION_ID, authApi.getSessionId())
+						.cookie(AuthApi.AUTH_ID, authApi.getAuthId()).get();
+			} else {
+				document = Jsoup.connect(url).get();
+			}
+
+			Element content = document.select("div.content_left").first();
+
+			Element title = content.select("span.post_title").first();
+			Element date = content.select("div.published").first();
+			Elements hubs = content.select("div.hubs > a");
+			Element text = content.select("div.content").first();
+			Element rating = content.select("div.mark > a.score").first();
+			Element viewCount = content.select("div.pageviews").first();
+			Element favoritesCount = content.select("div.favs_count").first();
+			Element author = content.select("div.author > a").first();
+			Element commentsCount = document.select("div.comments_list > h2.title > span.comments_count").first();
+
+			PostEntry entry = new PostEntry();
+
+			entry.setTitle(title.text());
+			entry.setUrl(url);
+			entry.setDate(date.text());
+			entry.setAuthor(author.text());
+			entry.setAuthorUrl(author.attr("abs:href"));
+
+			List<HubsEntry> hubsEntries = new ArrayList<HubsEntry>();
+			for (Element hub : hubs) {
+				HubsEntry hubsEntry = new HubsEntry();
+
+				hubsEntry.setTitle(hub.text());
+				hubsEntry.setUrl(hub.attr("abs:href"));
+
+				hubsEntries.add(hubsEntry);
+			}
+			entry.setHubs(hubsEntries);
+
+			entry.setText(text.html());
+
+			entry.setRating(NumberUtils.Parse(rating));
+			entry.setViewCount(NumberUtils.Parse(viewCount));
+			entry.setFavoritesCount(NumberUtils.Parse(favoritesCount));
+			entry.setCommentsCount(NumberUtils.Parse(commentsCount));
+			
+			return entry;
+		} catch (IOException e) {
+			Log.e(TAG, "Can't load a page: " + url + ". Error: " + e.getMessage());
+		}
+
+		return null;
 	}
 
 	public List<PostEntry> getPosts(int page) {
@@ -114,13 +178,21 @@ public class PostsApi {
 			entry.setHubs(hubsEntries);
 
 			entry.setDate(date.text());
-			entry.setAuthor(author.text());
-			entry.setAuthorUrl(author.attr("abs:href"));
-			entry.setViewCount(Integer.parseInt(viewCount.text()));
-			entry.setFavoritesCount(Integer.parseInt(favoritesCount.text()));
-			entry.setCommentsCount(Integer.parseInt(commentsCount.text()));
 
-			entry.setShortText(shortText.text());
+			if (author != null) {
+				entry.setAuthor(author.text());
+				entry.setAuthorUrl(author.attr("abs:href"));
+			}
+
+			try {
+				entry.setViewCount(Integer.parseInt(viewCount.text()));
+				entry.setFavoritesCount(Integer.parseInt(favoritesCount.text()));
+				entry.setCommentsCount(Integer.parseInt(commentsCount.text()));
+			} catch (NumberFormatException e) {
+
+			}
+
+			entry.setText(shortText.text());
 
 			postsEntries.add(entry);
 		}

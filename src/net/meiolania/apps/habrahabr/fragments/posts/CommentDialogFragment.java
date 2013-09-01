@@ -5,7 +5,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.R;
-import net.meiolania.apps.habrahabr.utils.HabrWebClient;
+import net.meiolania.apps.habrahabr.ui.HabrWebClient;
 import net.meiolania.apps.habrahabr.utils.UIUtils;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;

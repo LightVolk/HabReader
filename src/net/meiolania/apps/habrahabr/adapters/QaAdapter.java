@@ -18,7 +18,6 @@ package net.meiolania.apps.habrahabr.adapters;
 
 import java.util.ArrayList;
 
-import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.data.QaData;
 import android.content.Context;
@@ -29,83 +28,63 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 public class QaAdapter extends BaseAdapter {
-    private ArrayList<QaData> questions;
-    private Context context;
-    private boolean additionalLayout = false;
+	private ArrayList<QaData> questions;
+	private Context context;
+	private LayoutInflater layoutInflater;
 
-    public QaAdapter(Context context, ArrayList<QaData> questions) {
-	this.context = context;
-	this.questions = questions;
-
-	this.additionalLayout = Preferences.getInstance(context).getAdditionalQa();
-    }
-
-    public int getCount() {
-	return questions.size();
-    }
-
-    public QaData getItem(int position) {
-	return questions.get(position);
-    }
-
-    public long getItemId(int position) {
-	return position;
-    }
-
-    public View getView(int position, View view, ViewGroup parent) {
-	QaData data = getItem(position);
-
-	if (additionalLayout) {
-	    ViewHolder viewHolder;
-	    if (view == null) {
-		LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		view = layoutInflater.inflate(R.layout.qa_list_row, null);
+	public QaAdapter(Context context, ArrayList<QaData> questions) {
+		this.context = context;
+		this.questions = questions;
 		
-		viewHolder = new ViewHolder();
-		
-		viewHolder.title = (TextView) view.findViewById(R.id.qa_title);
-		viewHolder.hubs = (TextView) view.findViewById(R.id.qa_hubs);
-		viewHolder.author = (TextView) view.findViewById(R.id.qa_author);
-		viewHolder.date = (TextView) view.findViewById(R.id.qa_date);
-		viewHolder.answers = (TextView) view.findViewById(R.id.qa_answers);
-		
-		view.setTag(viewHolder);
-	    } else
-		viewHolder = (ViewHolder) view.getTag();
-
-	    viewHolder.title.setText(data.getTitle());
-	    viewHolder.hubs.setText(data.getHubs());
-	    viewHolder.author.setText(data.getAuthor());
-	    viewHolder.date.setText(data.getDate());
-	    viewHolder.answers.setText(data.getAnswers());
-
-	    return view;
-	} else {
-	    ViewHolder viewHolder;
-	    if (view == null) {
-		LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		view = layoutInflater.inflate(R.layout.qa_list_row_simple, null);
-		
-		viewHolder = new ViewHolder();
-		
-		viewHolder.title = (TextView) view.findViewById(R.id.qa_title);
-		
-		view.setTag(viewHolder);
-	    } else
-		viewHolder = (ViewHolder) view.getTag();
-	    
-	    viewHolder.title.setText(data.getTitle());
-	    
-	    return view;
+		layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
-    }
-    
-    static class ViewHolder {
-	TextView title;
-	TextView hubs;
-	TextView author;
-	TextView date;
-	TextView answers;
-    }
+
+	public int getCount() {
+		return questions.size();
+	}
+
+	public QaData getItem(int position) {
+		return questions.get(position);
+	}
+
+	public long getItemId(int position) {
+		return position;
+	}
+
+	public View getView(int position, View view, ViewGroup parent) {
+		QaData data = getItem(position);
+
+		ViewHolder viewHolder;
+		if (view == null) {
+			view = layoutInflater.inflate(R.layout.qa_list_row, null);
+
+			viewHolder = new ViewHolder();
+
+			viewHolder.title = (TextView) view.findViewById(R.id.qa_title);
+			viewHolder.hubs = (TextView) view.findViewById(R.id.qa_hubs);
+			viewHolder.author = (TextView) view.findViewById(R.id.qa_author);
+			viewHolder.date = (TextView) view.findViewById(R.id.qa_date);
+			viewHolder.answers = (TextView) view.findViewById(R.id.qa_answers);
+
+			view.setTag(viewHolder);
+		} else
+			viewHolder = (ViewHolder) view.getTag();
+
+		viewHolder.title.setText(data.getTitle());
+		viewHolder.hubs.setText(data.getHubs());
+		viewHolder.author.setText(data.getAuthor());
+		viewHolder.date.setText(data.getDate());
+		viewHolder.answers.setText(data.getAnswers());
+
+		return view;
+	}
+
+	static class ViewHolder {
+		TextView title;
+		TextView hubs;
+		TextView author;
+		TextView date;
+		TextView answers;
+	}
 
 }

@@ -6,17 +6,17 @@ import net.meiolania.apps.habrahabr.api.hubs.HubsEntry;
 
 public class PostEntry {
 	private String title;
+	private int id;
 	private String url;
 	private String author;
 	private String authorUrl;
 	private String date;
 	private List<HubsEntry> hubs;
-	private String shortText;
-	private String fullText;
+	private String text;
 	private Integer rating;
-	private int viewCount;
-	private int favoritesCount;
-	private int commentsCount;
+	private Integer viewCount;
+	private Integer favoritesCount;
+	private Integer commentsCount;
 
 	public String getTitle() {
 		return title;
@@ -24,6 +24,10 @@ public class PostEntry {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	
+	public int getId() {
+		return id;
 	}
 
 	public String getUrl() {
@@ -66,20 +70,12 @@ public class PostEntry {
 		this.hubs = hubs;
 	}
 
-	public String getShortText() {
-		return shortText;
+	public String getText() {
+		return text;
 	}
 
-	public void setShortText(String shortText) {
-		this.shortText = shortText;
-	}
-
-	public String getFullText() {
-		return fullText;
-	}
-
-	public void setFullText(String fullText) {
-		this.fullText = fullText;
+	public void setText(String text) {
+		this.text = text;
 	}
 
 	public Integer getRating() {
@@ -90,27 +86,27 @@ public class PostEntry {
 		this.rating = rating;
 	}
 
-	public int getViewCount() {
+	public Integer getViewCount() {
 		return viewCount;
 	}
 
-	public void setViewCount(int viewCount) {
+	public void setViewCount(Integer viewCount) {
 		this.viewCount = viewCount;
 	}
 
-	public int getFavoritesCount() {
+	public Integer getFavoritesCount() {
 		return favoritesCount;
 	}
 
-	public void setFavoritesCount(int favoritesCount) {
+	public void setFavoritesCount(Integer favoritesCount) {
 		this.favoritesCount = favoritesCount;
 	}
 
-	public int getCommentsCount() {
+	public Integer getCommentsCount() {
 		return commentsCount;
 	}
 
-	public void setCommentsCount(int commentsCount) {
+	public void setCommentsCount(Integer commentsCount) {
 		this.commentsCount = commentsCount;
 	}
 

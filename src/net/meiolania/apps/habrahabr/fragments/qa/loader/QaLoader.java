@@ -19,7 +19,6 @@ package net.meiolania.apps.habrahabr.fragments.qa.loader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.auth.User;
 import net.meiolania.apps.habrahabr.data.QaData;
 
@@ -35,15 +34,12 @@ import android.util.Log;
 public class QaLoader extends AsyncTaskLoader<ArrayList<QaData>> {
 	public final static String TAG = QaLoader.class.getName();
 	private String url;
-	private boolean additionalLayout = false;
 	private static int page;
 
 	public QaLoader(Context context, String url) {
 		super(context);
 
 		this.url = url;
-
-		additionalLayout = Preferences.getInstance(context).getAdditionalQa();
 	}
 
 	public static void setPage(int page) {
@@ -63,12 +59,8 @@ public class QaLoader extends AsyncTaskLoader<ArrayList<QaData>> {
 			if (!User.getInstance().isLogged())
 				document = Jsoup.connect(readyUrl).get();
 			else
-				document = Jsoup
-						.connect(readyUrl)
-						.cookie(User.PHPSESSION_ID,
-								User.getInstance().getPhpsessid())
-						.cookie(User.HSEC_ID, User.getInstance().getHsecid())
-						.get();
+				document = Jsoup.connect(readyUrl).cookie(User.PHPSESSION_ID, User.getInstance().getPhpsessid())
+						.cookie(User.HSEC_ID, User.getInstance().getHsecid()).get();
 
 			Elements qaList = document.select("div.post");
 
@@ -79,22 +71,20 @@ public class QaLoader extends AsyncTaskLoader<ArrayList<QaData>> {
 				qaData.setTitle(title.text());
 				qaData.setUrl(title.attr("abs:href"));
 
-				if (additionalLayout) {
-					Element hubs = qa.select("div.hubs").first();
-					Element answers = qa.select("div.informative").first();
-					Element date = qa.select("div.published").first();
-					Element author = qa.select("div.author > a").first();
+				Element hubs = qa.select("div.hubs").first();
+				Element answers = qa.select("div.informative").first();
+				Element date = qa.select("div.published").first();
+				Element author = qa.select("div.author > a").first();
 
-					Element score = qa.select("a.score").first();
-					if (score == null)
-						score = qa.select("span.score").first();
+				Element score = qa.select("a.score").first();
+				if (score == null)
+					score = qa.select("span.score").first();
 
-					qaData.setHubs(hubs.text());
-					qaData.setAnswers(answers.text());
-					qaData.setDate(date.text());
-					qaData.setAuthor(author.text());
-					qaData.setScore(score.text());
-				}
+				qaData.setHubs(hubs.text());
+				qaData.setAnswers(answers.text());
+				qaData.setDate(date.text());
+				qaData.setAuthor(author.text());
+				qaData.setScore(score.text());
 
 				data.add(qaData);
 			}
