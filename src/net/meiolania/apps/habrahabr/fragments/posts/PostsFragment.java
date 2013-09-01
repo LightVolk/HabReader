@@ -27,7 +27,6 @@ import net.meiolania.apps.habrahabr.api.HabrAuthApi;
 import net.meiolania.apps.habrahabr.api.posts.PostEntry;
 import net.meiolania.apps.habrahabr.fragments.posts.loader.PostsLoader;
 import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
@@ -72,7 +71,6 @@ public abstract class PostsFragment extends SherlockFragment implements OnScroll
 		return view;
 	}
 
-	@SuppressLint("NewApi")
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -119,8 +117,7 @@ public abstract class PostsFragment extends SherlockFragment implements OnScroll
 		PostEntry data = posts.get(position);
 
 		Intent intent = new Intent(getSherlockActivity(), PostsShowActivity.class);
-		intent.putExtra(PostsShowActivity.EXTRA_URL, data.getUrl());
-		intent.putExtra(PostsShowActivity.EXTRA_TITLE, data.getTitle());
+		intent.putExtra(PostShowFragment.URL_ARGUMENT, data.getUrl());
 
 		startActivity(intent);
 	}

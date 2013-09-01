@@ -19,6 +19,7 @@ package net.meiolania.apps.habrahabr.ui;
 import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.activities.PostsShowActivity;
 import net.meiolania.apps.habrahabr.activities.UsersShowActivity;
+import net.meiolania.apps.habrahabr.fragments.posts.PostShowFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.net.MailTo;
@@ -45,12 +46,11 @@ public class HabrWebClient extends WebViewClient {
 		// Allow the OS to handle links
 		if (url.startsWith("mailto:")) {
 			MailTo mt = MailTo.parse(url);
-			Intent i = newEmailIntent(context, mt.getTo(), mt.getSubject(),
-					mt.getBody(), mt.getCc());
+			Intent i = newEmailIntent(context, mt.getTo(), mt.getSubject(), mt.getBody(), mt.getCc());
 			context.startActivity(i);
 		} else if (url.startsWith("http://habrahabr.ru/post/")) {
 			Intent intent = new Intent(context, PostsShowActivity.class);
-			intent.putExtra(PostsShowActivity.EXTRA_URL, url);
+			intent.putExtra(PostShowFragment.URL_ARGUMENT, url);
 			context.startActivity(intent);
 		} else if (url.startsWith("http://habrahabr.ru/users/")) {
 			Intent intent = new Intent(context, UsersShowActivity.class);
@@ -63,8 +63,7 @@ public class HabrWebClient extends WebViewClient {
 		return true;
 	}
 
-	public static Intent newEmailIntent(Context context, String address,
-			String subject, String body, String cc) {
+	public static Intent newEmailIntent(Context context, String address, String subject, String body, String cc) {
 		Intent intent = new Intent(Intent.ACTION_SEND);
 		intent.putExtra(Intent.EXTRA_EMAIL, new String[] { address });
 		intent.putExtra(Intent.EXTRA_TEXT, body);

@@ -33,6 +33,7 @@ import android.webkit.WebSettings.ZoomDensity;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -43,7 +44,6 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
 	public final static int LOADER_POST = 0;
 	private String url;
 	private String title;
-	private Preferences prefs;
 	private WebView webViewContent;
 	private FrameLayout webViewContainer;
 	private static final String STYLESHEET = "<link rel=\"stylesheet\" type=\"text/css\" href=\"file:///android_asset/style.css\" />";
@@ -54,9 +54,7 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
 
 		setHasOptionsMenu(true);
 		setRetainInstance(true);
-		
-		prefs = Preferences.getInstance(getSherlockActivity());
-		
+
 		url = getArguments().getString(URL_ARGUMENT);
 
 		if (ConnectionUtils.isConnected(getSherlockActivity()))
@@ -66,10 +64,10 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.posts_show_activity, container, false);
-		
+
 		webViewContent = (WebView) view.findViewById(R.id.post_content);
 		webViewContainer = (FrameLayout) view.findViewById(R.id.webview_container);
-		
+
 		return view;
 	}
 
@@ -101,12 +99,13 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
 	@Override
 	public void onLoadFinished(Loader<PostEntry> loader, PostEntry data) {
 		if (data != null) {
+			ActionBar actionBar = getSherlockActivity().getSupportActionBar();
+			actionBar.setTitle(data.getTitle());
+			
 			webViewContent.setWebViewClient(new HabrWebClient(getSherlockActivity()));
 			webViewContent.getSettings().setSupportZoom(true);
-
-			webViewContent.getSettings().setJavaScriptEnabled(true);
-			webViewContent.getSettings().setDefaultZoom(ZoomDensity.FAR);
-			webViewContent.setInitialScale(prefs.getViewScale(getSherlockActivity()));
+			webViewContent.getSettings().setDefaultZoom(ZoomDensity.MEDIUM);
+			webViewContent.setInitialScale(Preferences.getInstance(getSherlockActivity()).getViewScale(getSherlockActivity()));
 
 			webViewContent.loadDataWithBaseURL("", STYLESHEET + data.getText(), "text/html", "UTF-8", null);
 		}
