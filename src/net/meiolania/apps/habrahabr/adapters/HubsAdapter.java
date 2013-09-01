@@ -16,10 +16,11 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.adapters;
 
-import java.util.ArrayList;
+import java.util.List;
 
+import net.meiolania.apps.habrahabr.Fonts;
 import net.meiolania.apps.habrahabr.R;
-import net.meiolania.apps.habrahabr.data.HubsData;
+import net.meiolania.apps.habrahabr.api.hubs.HubEntry;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,55 +29,77 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 public class HubsAdapter extends BaseAdapter {
-    private ArrayList<HubsData> hubs;
-    private Context context;
+	private List<HubEntry> hubs;
+	private Context context;
+	private LayoutInflater layoutInflater;
 
-    public HubsAdapter(Context context, ArrayList<HubsData> hubs) {
-	this.context = context;
-	this.hubs = hubs;
-    }
+	public HubsAdapter(Context context, List<HubEntry> hubs) {
+		this.context = context;
+		this.hubs = hubs;
 
-    public int getCount() {
-	return hubs.size();
-    }
+		layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	}
 
-    public HubsData getItem(int position) {
-	return hubs.get(position);
-    }
+	public int getCount() {
+		return hubs.size();
+	}
 
-    public long getItemId(int position) {
-	return position;
-    }
+	public HubEntry getItem(int position) {
+		return hubs.get(position);
+	}
 
-    public View getView(int position, View view, ViewGroup parent) {
-	HubsData data = getItem(position);
+	public long getItemId(int position) {
+		return position;
+	}
 
-	ViewHolder viewHolder;
-	if (view == null) {
-	    LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	    view = layoutInflater.inflate(R.layout.hubs_list_row, null);
-	    
-	    viewHolder = new ViewHolder();
-	    
-	    viewHolder.title = (TextView) view.findViewById(R.id.hub_title);
-	    viewHolder.stat = (TextView) view.findViewById(R.id.hub_stat);
-	    viewHolder.index = (TextView) view.findViewById(R.id.hub_index);
-	    
-	    view.setTag(viewHolder);
-	} else
-	    viewHolder = (ViewHolder) view.getTag();
+	public View getView(int position, View view, ViewGroup parent) {
+		HubEntry data = getItem(position);
 
-	viewHolder.title.setText(data.getTitle());
-	viewHolder.stat.setText(data.getStat());
-	viewHolder.index.setText(data.getIndex());
+		ViewHolder viewHolder;
+		if (view == null) {
+			view = layoutInflater.inflate(R.layout.hubs_list_row, null);
 
-	return view;
-    }
-    
-    static class ViewHolder {
-	TextView title;
-	TextView stat;
-	TextView index;
-    }
+			viewHolder = new ViewHolder();
+
+			viewHolder.title = (TextView) view.findViewById(R.id.title);
+			viewHolder.info = (TextView) view.findViewById(R.id.info);
+			viewHolder.index = (TextView) view.findViewById(R.id.index);
+
+			view.setTag(viewHolder);
+		} else
+			viewHolder = (ViewHolder) view.getTag();
+
+		viewHolder.title.setText(data.getTitle());
+		viewHolder.title.setTypeface(Fonts.ROBOTO_BOLD);
+
+		viewHolder.index.setText(String.valueOf(data.getIndex()));
+		viewHolder.index.setTypeface(Fonts.ROBOTO_BOLD);
+
+		StringBuilder index = new StringBuilder();
+
+		if (data.getMembersCount() != null)
+			index.append(data.getMembersCount());
+
+		if (data.getPostsCount() != null) {
+			index.append(", ");
+			index.append(data.getPostsCount());
+		}
+
+		if (data.getQaCounts() != null) {
+			index.append(", ");
+			index.append(data.getQaCounts());
+		}
+
+		viewHolder.info.setText(index.toString());
+		viewHolder.info.setTypeface(Fonts.ROBOTO_LIGHT);
+
+		return view;
+	}
+
+	static class ViewHolder {
+		TextView title;
+		TextView info;
+		TextView index;
+	}
 
 }

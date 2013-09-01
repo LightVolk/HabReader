@@ -16,66 +16,28 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.fragments.hubs.loader;
 
-import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
-import net.meiolania.apps.habrahabr.data.HubsData;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
+import net.meiolania.apps.habrahabr.api.HabrAuthApi;
+import net.meiolania.apps.habrahabr.api.hubs.HubsApi;
+import net.meiolania.apps.habrahabr.api.hubs.HubEntry;
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
-import android.util.Log;
 
-public class HubsLoader extends AsyncTaskLoader<ArrayList<HubsData>> {
-	public final static String TAG = HubsLoader.class.getName();
+public class HubsLoader extends AsyncTaskLoader<List<HubEntry>> {
 	private String url;
-	private static int page;
+	private int page;
 
-	public HubsLoader(Context context, String url) {
+	public HubsLoader(Context context, String url, int page) {
 		super(context);
-
 		this.url = url;
-	}
-
-	public static void setPage(int page) {
-		HubsLoader.page = page;
+		this.page = page;
 	}
 
 	@Override
-	public ArrayList<HubsData> loadInBackground() {
-		ArrayList<HubsData> data = new ArrayList<HubsData>();
-
-		try {
-			String readyUrl = url.replace("%page%", String.valueOf(page));
-
-			Log.i(TAG, "Loading a page: " + readyUrl);
-
-			Document document = Jsoup.connect(readyUrl).get();
-
-			Elements hubs = document.select("div.hub");
-
-			for (Element hub : hubs) {
-				HubsData hubsData = new HubsData();
-
-				Element index = hub.select("div.habraindex").first();
-				Element title = hub.select("div.title > a").first();
-				Element stat = hub.select("div.stat").first();
-
-				hubsData.setTitle(title.text());
-				hubsData.setUrl(title.attr("abs:href"));
-				hubsData.setStat(stat.text());
-				hubsData.setIndex(index.text());
-
-				data.add(hubsData);
-			}
-		} catch (IOException e) {
-		}
-
-		return data;
+	public List<HubEntry> loadInBackground() {
+		HubsApi hubsApi = new HubsApi(HabrAuthApi.getInstance());
+		return hubsApi.getHubs(url, page);
 	}
 
 }
