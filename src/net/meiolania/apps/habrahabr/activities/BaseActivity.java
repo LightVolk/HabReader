@@ -24,12 +24,13 @@ import net.meiolania.apps.habrahabr.auth.User;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 public abstract class BaseActivity extends SherlockFragmentActivity {
@@ -71,29 +72,41 @@ public abstract class BaseActivity extends SherlockFragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater menuInflater = getSupportMenuInflater();
-		menuInflater.inflate(R.menu.global_activity, menu);
+		getSupportMenuInflater().inflate(R.menu.global_activity, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+			case android.R.id.home:
+				onHomeClick();
+				return true;
 			case R.id.preferences:
-				showPreferences();
+				onPreferencesClick();
 				return true;
 			case R.id.more_applications:
-				showApplications();
+				onApplicationsClick();
 				return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	private void onHomeClick() {
+		Intent intent = NavUtils.getParentActivityIntent(this);
+		if (NavUtils.shouldUpRecreateTask(this, intent)) {
+			TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(this);
+			taskStackBuilder.addNextIntentWithParentStack(intent);
+			taskStackBuilder.startActivities();
+		} else
+			NavUtils.navigateUpTo(this, intent);
+	}
 
-	private void showPreferences() {
+	private void onPreferencesClick() {
 		startActivity(new Intent(this, PreferencesActivity.class));
 	}
 
-	private void showApplications() {
+	private void onApplicationsClick() {
 		Uri uri = Uri.parse(DEVELOPER_PLAY_LINK);
 		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 		startActivity(intent);
