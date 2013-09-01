@@ -17,4 +17,7 @@
     <color name="simple_list_row_focused">#33B5E5</color>
     <color name="simple_list_row">#ffffff</color>
     
+    <color name="comment_background">#ffffffff</color>
+    <color name="comment_background_pressed">#ff33b5e5</color>
+    
 </resources>

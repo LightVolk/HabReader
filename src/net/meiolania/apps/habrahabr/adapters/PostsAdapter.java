@@ -39,12 +39,14 @@ public class PostsAdapter extends BaseAdapter {
 	private List<PostEntry> posts;
 	private Context context;
 	private ImageLoader imageLoader = ImageLoader.getInstance();
+	private LayoutInflater layoutInflater;
 
 	public PostsAdapter(Context context, AuthApi authApi, List<PostEntry> posts) {
 		this.context = context;
 		this.authApi = authApi;
 		this.posts = posts;
 
+		layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		imageLoader.init(ImageUtils.createConfiguration(context));
 	}
 
@@ -69,7 +71,6 @@ public class PostsAdapter extends BaseAdapter {
 
 		ViewHolder viewHolder;
 		if (view == null) {
-			LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = layoutInflater.inflate(R.layout.posts_list_row, null);
 
 			viewHolder = new ViewHolder();

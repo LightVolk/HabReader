@@ -1,4 +1,4 @@
-package net.meiolania.apps.habrahabr.api;
+package net.meiolania.apps.habrahabr.api.utils;
 
 import org.jsoup.nodes.Element;
 

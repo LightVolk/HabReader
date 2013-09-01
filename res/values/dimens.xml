@@ -9,5 +9,11 @@
     <dimen name="dashboard_buttons">16sp</dimen>
     <dimen name="slidingmenu_offset">60dp</dimen>
     <dimen name="comment_text">15sp</dimen>
-
+    
+    <dimen name="comment_level_margin">17dp</dimen>
+	<dimen name="comment_left_margin">12dp</dimen>
+	<dimen name="comment_top_margin">10dp</dimen>
+	<dimen name="comment_right_margin">12dp</dimen>
+	<dimen name="comment_bottom_margin">10dp</dimen>
+    
 </resources>

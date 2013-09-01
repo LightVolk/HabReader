@@ -16,106 +16,116 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.adapters;
 
-import java.util.ArrayList;
+import java.util.List;
 
+import net.meiolania.apps.habrahabr.Fonts;
 import net.meiolania.apps.habrahabr.R;
-import net.meiolania.apps.habrahabr.data.CommentsData;
-import net.meiolania.apps.habrahabr.utils.UIUtils;
+import net.meiolania.apps.habrahabr.api.comments.CommentEntry;
+import net.meiolania.apps.habrahabr.utils.ImageUtils;
 import android.content.Context;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 public class CommentsAdapter extends BaseAdapter {
-    public final static int MARGIN = 15;
-    private ArrayList<CommentsData> comments;
-    private Context context;
+	private List<CommentEntry> comments;
+	private Context context;
+	private ImageLoader imageLoader = ImageLoader.getInstance();
+	private LayoutInflater layoutInflater;
+	private int commentLevelMargin;
+	private int commentLeftMargin;
+	private int commentTopMargin;
+	private int commentRightMargin;
+	private int commentBottomMargin;
 
-    public CommentsAdapter(Context context, ArrayList<CommentsData> comments) {
-	this.comments = comments;
-	this.context = context;
-    }
+	public CommentsAdapter(Context context, List<CommentEntry> comments) {
+		this.comments = comments;
+		this.context = context;
 
-    public int getCount() {
-	return comments.size();
-    }
-
-    public CommentsData getItem(int position) {
-	return comments.get(position);
-    }
-
-    public long getItemId(int position) {
-	return position;
-    }
-
-    public View getView(int position, View view, ViewGroup parent) {
-	CommentsData data = getItem(position);
-
-	ViewHolder viewHolder;
-	if (view == null) {
-	    LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	    view = layoutInflater.inflate(R.layout.comments_list_row, null);
-
-	    viewHolder = new ViewHolder();
-
-	    viewHolder.commentBox = (LinearLayout) view.findViewById(R.id.comment_box);
-	    viewHolder.comment = (TextView) view.findViewById(R.id.comment_text);
-	    viewHolder.author = (TextView) view.findViewById(R.id.comment_author);
-	    viewHolder.score = (TextView) view.findViewById(R.id.comment_score);
-	    viewHolder.time = (TextView) view.findViewById(R.id.comment_time);
-
-	    view.setTag(viewHolder);
-	} else
-	    viewHolder = (ViewHolder) view.getTag();
-
-	// TODO: Handle images; Html.fromHtml(source, imageGetter, tagHandler)
-	viewHolder.comment.setText(Html.fromHtml(data.getComment()));
-	viewHolder.author.setText(data.getAuthor());
-	viewHolder.time.setText(data.getTime());
-
-	Integer rating = UIUtils.parseRating(data.getScore());
-
-	// Temporary fix
-	/*
-	 * TODO: think more about that. Create a separate method in UIUtils
-	 * 'cause it's used in more than one class
-	 */
-	if (rating != null) {
-	    if (rating > 0)
-		viewHolder.score.setTextColor(context.getResources().getColor(R.color.rating_positive));
-	    else if (rating < 0)
-		viewHolder.score.setTextColor(context.getResources().getColor(R.color.rating_negative));
-	    else
-		viewHolder.score.setTextColor(context.getResources().getColor(R.color.black));
-	    viewHolder.score.setText(data.getScore());
-	}// else
-	//    viewHolder.score.setVisibility(View.GONE);
-
-	if (data.getLevel() > 0) {
-	    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,
-		    LinearLayout.LayoutParams.FILL_PARENT);
-	    layoutParams.setMargins(7 + data.getLevel() * MARGIN, 4, 7, 4);
-	    viewHolder.commentBox.setLayoutParams(layoutParams);
-	} else {
-	    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,
-		    LinearLayout.LayoutParams.FILL_PARENT);
-	    layoutParams.setMargins(7, 4, 7, 4);
-	    viewHolder.commentBox.setLayoutParams(layoutParams);
+		layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		
+		commentLevelMargin = context.getResources().getDimensionPixelOffset(R.dimen.comment_level_margin);
+		commentLeftMargin = context.getResources().getDimensionPixelOffset(R.dimen.comment_left_margin);
+		commentTopMargin = context.getResources().getDimensionPixelOffset(R.dimen.comment_top_margin);
+		commentRightMargin = context.getResources().getDimensionPixelOffset(R.dimen.comment_right_margin);
+		commentBottomMargin = context.getResources().getDimensionPixelOffset(R.dimen.comment_bottom_margin);
+		
+		imageLoader.init(ImageUtils.createConfiguration(context));
 	}
 
-	return view;
-    }
+	public int getCount() {
+		return comments.size();
+	}
 
-    static class ViewHolder {
-	LinearLayout commentBox;
-	TextView comment;
-	TextView author;
-	TextView score;
-	TextView time;
-    }
+	public CommentEntry getItem(int position) {
+		return comments.get(position);
+	}
+
+	public long getItemId(int position) {
+		return position;
+	}
+
+	public View getView(int position, View view, ViewGroup parent) {
+		CommentEntry data = getItem(position);
+
+		ViewHolder viewHolder;
+		if (view == null) {
+			view = layoutInflater.inflate(R.layout.comments_list_row, null);
+
+			viewHolder = new ViewHolder();
+			
+			viewHolder.container = (RelativeLayout) view.findViewById(R.id.container);
+			viewHolder.infoContainer = (RelativeLayout) view.findViewById(R.id.info_container);
+			viewHolder.avatar = (ImageView) view.findViewById(R.id.avatar);
+			viewHolder.author = (TextView) view.findViewById(R.id.author);
+			viewHolder.date = (TextView) view.findViewById(R.id.date);
+			viewHolder.rating = (TextView) view.findViewById(R.id.rating);
+			viewHolder.text = (TextView) view.findViewById(R.id.text);
+
+			view.setTag(viewHolder);
+		} else
+			viewHolder = (ViewHolder) view.getTag();
+
+		int leftPadding = commentLeftMargin + data.getLevel() * commentLevelMargin;
+		viewHolder.container.setPadding(leftPadding,
+										viewHolder.container.getPaddingTop(),
+										viewHolder.container.getPaddingRight(),
+										viewHolder.container.getPaddingBottom());
+
+		viewHolder.author.setText(data.getAuthor());
+		viewHolder.author.setTypeface(Fonts.ROBOTO_BOLD);
+		
+		viewHolder.date.setText(data.getDate());
+		viewHolder.date.setTypeface(Fonts.ROBOTO_LIGHT);
+
+		if (data.getRating() != null)
+			viewHolder.rating.setText(String.valueOf(data.getRating()));
+		else
+			viewHolder.rating.setText("-");
+		viewHolder.rating.setTypeface(Fonts.ROBOTO_LIGHT);
+
+		viewHolder.text.setText(data.getText());
+		viewHolder.text.setTypeface(Fonts.ROBOTO_REGULAR);
+
+		imageLoader.displayImage(data.getAvatarUrl(), viewHolder.avatar);
+
+		return view;
+	}
+
+	static class ViewHolder {
+		RelativeLayout container;
+		RelativeLayout infoContainer;
+		ImageView avatar;
+		TextView author;
+		TextView date;
+		TextView rating;
+		TextView text;
+	}
 
 }

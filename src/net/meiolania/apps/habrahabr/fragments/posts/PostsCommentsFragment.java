@@ -17,37 +17,31 @@ limitations under the License.
 package net.meiolania.apps.habrahabr.fragments.posts;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.adapters.CommentsAdapter;
-import net.meiolania.apps.habrahabr.data.CommentsData;
+import net.meiolania.apps.habrahabr.api.comments.CommentEntry;
 import net.meiolania.apps.habrahabr.fragments.posts.loader.PostCommentsLoader;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 
-public class PostsCommentsFragment extends SherlockListFragment implements
-		LoaderCallbacks<ArrayList<CommentsData>> {
+public class PostsCommentsFragment extends SherlockListFragment implements LoaderCallbacks<List<CommentEntry>> {
 	public final static int LOADER_COMMENTS = 1;
-	public final static int MENU_OPEN_COMMENT_IN_BROWSER = 0;
-	public final static int MENU_OPEN_AUTHOR_PROFILE = 1;
+	public final static int MENU_OPEN_AUTHOR_PROFILE = 0;
 	public final static String URL_ARGUMENT = "url";
-	public final static String EXTRA_COMMENT_AUTHOR = "author";
-	public final static String EXTRA_COMMENT_BODY = "comment";
-	public final static String EXTRA_COMMENT_SCORE = "score";
-	public final static String EXTRA_COMMENT_TIME = "time";
-	private ArrayList<CommentsData> comments;
+	private List<CommentEntry> comments;
 	private CommentsAdapter adapter;
 	private String url;
 
@@ -60,49 +54,35 @@ public class PostsCommentsFragment extends SherlockListFragment implements
 		setRetainInstance(true);
 
 		if (adapter == null) {
-			comments = new ArrayList<CommentsData>();
+			comments = new ArrayList<CommentEntry>();
 			adapter = new CommentsAdapter(getSherlockActivity(), comments);
 		}
 
 		setListAdapter(adapter);
 		setListShown(false);
-
-		getListView().setDivider(null);
-		getListView().setDividerHeight(0);
-
-		registerForContextMenu(getListView());
-
-		getSherlockActivity().getSupportLoaderManager().initLoader(
-				LOADER_COMMENTS, null, this);
-
 		setEmptyText(getString(R.string.no_items_comments));
+		
+		registerForContextMenu(getListView());
+		
+		LoaderManager loaderManager = getSherlockActivity().getSupportLoaderManager();
+		loaderManager.initLoader(LOADER_COMMENTS, null, this);
 	}
 
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View view,
-			ContextMenuInfo menuInfo) {
+	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, view, menuInfo);
 
-		menu.add(0, MENU_OPEN_COMMENT_IN_BROWSER, 0,
-				R.string.open_comment_in_browser);
 		menu.add(0, MENU_OPEN_AUTHOR_PROFILE, 0, R.string.open_author_profile);
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		AdapterContextMenuInfo adapterContextMenuInfo = (AdapterContextMenuInfo) item
-				.getMenuInfo();
-		CommentsData commentsData = (CommentsData) getListAdapter().getItem(
-				adapterContextMenuInfo.position);
+		AdapterContextMenuInfo adapterContextMenuInfo = (AdapterContextMenuInfo) item.getMenuInfo();
+		CommentEntry data = (CommentEntry) getListAdapter().getItem(adapterContextMenuInfo.position);
 
 		switch (item.getItemId()) {
-			case MENU_OPEN_COMMENT_IN_BROWSER:
-				startActivity(new Intent(Intent.ACTION_VIEW,
-						Uri.parse(commentsData.getUrl())));
-				break;
 			case MENU_OPEN_AUTHOR_PROFILE:
-				startActivity(new Intent(Intent.ACTION_VIEW,
-						Uri.parse(commentsData.getAuthorUrl())));
+				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(data.getAuthorUrl())));
 				break;
 		}
 
@@ -110,35 +90,16 @@ public class PostsCommentsFragment extends SherlockListFragment implements
 	}
 
 	@Override
-	public void onListItemClick(ListView list, View view, int position, long id) {
-		CommentsData data = (CommentsData) getListAdapter().getItem(position);
-
-		CommentDialogFragment dFragment = new CommentDialogFragment();
-		FragmentTransaction ft = getFragmentManager().beginTransaction();
-
-		Bundle arguments = new Bundle();
-		arguments.putString(EXTRA_COMMENT_AUTHOR, data.getAuthor());
-		arguments.putString(EXTRA_COMMENT_BODY, data.getComment());
-		arguments.putString(EXTRA_COMMENT_SCORE, data.getScore());
-		arguments.putString(EXTRA_COMMENT_TIME, data.getTime());
-
-		dFragment.setArguments(arguments);
-		dFragment.show(ft, "dialog");
-	}
-
-	@Override
-	public Loader<ArrayList<CommentsData>> onCreateLoader(int id, Bundle args) {
-		PostCommentsLoader loader = new PostCommentsLoader(
-				getSherlockActivity(), url);
+	public Loader<List<CommentEntry>> onCreateLoader(int id, Bundle args) {
+		PostCommentsLoader loader = new PostCommentsLoader(getSherlockActivity(), url);
 		loader.forceLoad();
 
 		return loader;
 	}
 
 	@Override
-	public void onLoadFinished(Loader<ArrayList<CommentsData>> loader,
-			ArrayList<CommentsData> data) {
-		if (comments.isEmpty()) {
+	public void onLoadFinished(Loader<List<CommentEntry>> loader, List<CommentEntry> data) {
+		if (comments.isEmpty() && data != null) {
 			comments.addAll(data);
 			adapter.notifyDataSetChanged();
 		}
@@ -147,7 +108,7 @@ public class PostsCommentsFragment extends SherlockListFragment implements
 	}
 
 	@Override
-	public void onLoaderReset(Loader<ArrayList<CommentsData>> loader) {
+	public void onLoaderReset(Loader<List<CommentEntry>> loader) {
 
 	}
 

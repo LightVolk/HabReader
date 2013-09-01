@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <style name="HabReader.Theme.Light" parent="Theme.Sherlock.Light">
+        <item name="android:actionBarTabTextStyle">@style/Widget.HabReader.ActionBar.TabText</item>
+    </style>
+    
+</resources>
