@@ -65,7 +65,13 @@
         <activity android:name=".activities.PostsSearchActivity" />
 
         <!-- Hubs -->
-        <activity android:name=".activities.HubsShowActivity" />
+        <activity
+            android:name=".activities.HubsShowActivity"
+            android:parentActivityName=".activities.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity" />
+        </activity>
         <activity android:name=".activities.HubsSearchActivity" />
 
         <!-- Q&A -->

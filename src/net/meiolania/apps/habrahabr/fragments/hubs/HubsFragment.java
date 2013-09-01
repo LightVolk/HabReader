@@ -76,8 +76,8 @@ public class HubsFragment extends SherlockListFragment implements OnScrollListen
 		HubEntry data = hubs.get(position);
 
 		Intent intent = new Intent(getSherlockActivity(), HubsShowActivity.class);
-		intent.putExtra(HubsShowActivity.EXTRA_URL, data.getUrl());
-		intent.putExtra(HubsShowActivity.EXTRA_TITLE, data.getTitle());
+		intent.putExtra(HubsPostsFragment.EXTRA_URL, data.getUrl() + "posts/");
+		intent.putExtra(HubsPostsFragment.EXTRA_TITLE, data.getTitle());
 
 		startActivity(intent);
 	}

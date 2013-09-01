@@ -100,9 +100,13 @@ public class PostsApi {
 		return getFavoritesPosts(page, authApi.getLogin());
 	}
 
-	public List<PostEntry> getPosts(int page, String hub) {
+	public List<PostEntry> getHubsPosts(int page, String hub) {
 		String url = UrlUtils.createUrl("hub/", hub, "posts/page", String.valueOf(page));
 		return parseUrl(url);
+	}
+	
+	public List<PostEntry> getPosts(int page, String url) {
+		return parseUrl(url.replace("%page%", String.valueOf(page)));
 	}
 
 	public List<PostEntry> getPosts(int page, Section section) {
