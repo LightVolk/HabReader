@@ -18,7 +18,6 @@ package net.meiolania.apps.habrahabr.fragments.events;
 
 import java.util.ArrayList;
 
-import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.activities.EventsShowActivity;
 import net.meiolania.apps.habrahabr.adapters.EventsAdapter;
@@ -68,10 +67,8 @@ public abstract class AbstractionEventsFragment extends SherlockListFragment imp
 		if (firstLoading)
 			setListShown(false);
 
-		if (Preferences.getInstance(getSherlockActivity()).getAdditionalEvents()) {
-			getListView().setDivider(null);
-			getListView().setDividerHeight(0);
-		}
+		getListView().setDivider(null);
+		getListView().setDividerHeight(0);
 
 		getListView().setOnScrollListener(this);
 

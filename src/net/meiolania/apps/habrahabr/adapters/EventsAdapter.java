@@ -18,7 +18,6 @@ package net.meiolania.apps.habrahabr.adapters;
 
 import java.util.ArrayList;
 
-import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.data.EventsData;
 import android.content.Context;
@@ -29,80 +28,61 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 public class EventsAdapter extends BaseAdapter {
-    private ArrayList<EventsData> events;
-    private Context context;
-    private boolean additionalLayout = false;
+	private ArrayList<EventsData> events;
+	private Context context;
+	private LayoutInflater layoutInflater;
 
-    public EventsAdapter(Context context, ArrayList<EventsData> events) {
-	this.context = context;
-	this.events = events;
-
-	additionalLayout = Preferences.getInstance(context).getAdditionalEvents();
-    }
-
-    public int getCount() {
-	return events.size();
-    }
-
-    public EventsData getItem(int position) {
-	return events.get(position);
-    }
-
-    public long getItemId(int position) {
-	return position;
-    }
-
-    public View getView(int position, View view, ViewGroup parent) {
-	EventsData data = getItem(position);
-
-	if (additionalLayout) {
-	    ViewHolder viewHolder;
-	    if (view == null) {
-		LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		view = layoutInflater.inflate(R.layout.events_list_row, null);
-
-		viewHolder = new ViewHolder();
-
-		viewHolder.title = (TextView) view.findViewById(R.id.event_title);
-		viewHolder.text = (TextView) view.findViewById(R.id.event_text);
-		viewHolder.date = (TextView) view.findViewById(R.id.event_date);
-		viewHolder.hubs = (TextView) view.findViewById(R.id.event_hubs);
-
-		view.setTag(viewHolder);
-	    } else
-		viewHolder = (ViewHolder) view.getTag();
-
-	    viewHolder.title.setText(data.getTitle());
-	    viewHolder.text.setText(data.getText());
-	    viewHolder.date.setText(data.getDate());
-	    viewHolder.hubs.setText(data.getHubs());
-
-	    return view;
-	} else {
-	    ViewHolder viewHolder;
-	    if (view == null) {
-		LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		view = layoutInflater.inflate(R.layout.events_list_row_simple, null);
-
-		viewHolder = new ViewHolder();
-
-		viewHolder.title = (TextView) view.findViewById(R.id.event_title);
-
-		view.setTag(viewHolder);
-	    } else
-		viewHolder = (ViewHolder) view.getTag();
-
-	    viewHolder.title.setText(data.getTitle());
-
-	    return view;
+	public EventsAdapter(Context context, ArrayList<EventsData> events) {
+		this.context = context;
+		this.events = events;
+	
+		layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
-    }
 
-    static class ViewHolder {
-	TextView title;
-	TextView text;
-	TextView date;
-	TextView hubs;
-    }
+	public int getCount() {
+		return events.size();
+	}
+
+	public EventsData getItem(int position) {
+		return events.get(position);
+	}
+
+	public long getItemId(int position) {
+		return position;
+	}
+
+	public View getView(int position, View view, ViewGroup parent) {
+		EventsData data = getItem(position);
+
+		ViewHolder viewHolder;
+		if (view == null) {
+			
+			view = layoutInflater.inflate(R.layout.events_list_row, null);
+
+			viewHolder = new ViewHolder();
+
+			viewHolder.title = (TextView) view.findViewById(R.id.event_title);
+			viewHolder.text = (TextView) view.findViewById(R.id.event_text);
+			viewHolder.date = (TextView) view.findViewById(R.id.event_date);
+			viewHolder.hubs = (TextView) view.findViewById(R.id.event_hubs);
+
+			view.setTag(viewHolder);
+		} else
+			viewHolder = (ViewHolder) view.getTag();
+
+		viewHolder.title.setText(data.getTitle());
+		viewHolder.text.setText(data.getText());
+		viewHolder.date.setText(data.getDate());
+		viewHolder.hubs.setText(data.getHubs());
+
+		return view;
+	}
+
+	static class ViewHolder {
+		TextView title;
+		TextView text;
+		TextView date;
+		TextView hubs;
+	}
 
 }

@@ -32,8 +32,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public abstract class BaseActivity extends
-		SherlockFragmentActivity {
+public abstract class BaseActivity extends SherlockFragmentActivity {
 	public final static String DEVELOPER_PLAY_LINK = "https://play.google.com/store/apps/developer?id=Andrey+Zaytsev";
 
 	@Override
@@ -42,16 +41,15 @@ public abstract class BaseActivity extends
 
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
-		initFullscreen();
 		initKeepScreenOn();
 
 		// Auth
 		User.getInstance().init(this);
 		HabrAuthApi.getInstance().init(this);
-		
+
 		// UI
 		Fonts.init(this);
-		
+
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		setSupportProgressBarIndeterminateVisibility(false);
@@ -59,7 +57,6 @@ public abstract class BaseActivity extends
 
 	@Override
 	protected void onResume() {
-		initFullscreen();
 		initKeepScreenOn();
 
 		super.onResume();
@@ -67,19 +64,9 @@ public abstract class BaseActivity extends
 
 	private void initKeepScreenOn() {
 		if (Preferences.getInstance(this).getKeepScreen())
-			getWindow()
-					.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+			getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		else
-			getWindow().clearFlags(
-					WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-	}
-
-	private void initFullscreen() {
-		if (Preferences.getInstance(this).getFullScreen())
-			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-					WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		else
-			getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+			getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 	}
 
 	@Override
@@ -101,11 +88,11 @@ public abstract class BaseActivity extends
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	private void showPreferences() {
 		startActivity(new Intent(this, PreferencesActivity.class));
 	}
-	
+
 	private void showApplications() {
 		Uri uri = Uri.parse(DEVELOPER_PLAY_LINK);
 		Intent intent = new Intent(Intent.ACTION_VIEW, uri);

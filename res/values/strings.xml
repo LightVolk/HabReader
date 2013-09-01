@@ -2,7 +2,10 @@
 <resources>
 
     <string name="app_name">HabReader</string>
-
+	
+    <!-- Errors -->
+    <string name="undefined_value">Неопределённое значение</string>
+    
     <!-- Base -->
     <string name="loading">Загрузка</string>
     <string name="share">Поделиться с друзьями</string>

@@ -18,7 +18,6 @@ package net.meiolania.apps.habrahabr.fragments.qa;
 
 import java.util.ArrayList;
 
-import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.activities.QaSearchActivity;
 import net.meiolania.apps.habrahabr.activities.QaShowActivity;
@@ -73,10 +72,8 @@ public abstract class AbstractionQaFragment extends SherlockListFragment impleme
 		if (firstLoading)
 			setListShown(false);
 
-		if (Preferences.getInstance(getSherlockActivity()).getAdditionalQa()) {
-			getListView().setDivider(null);
-			getListView().setDividerHeight(0);
-		}
+		getListView().setDivider(null);
+		getListView().setDividerHeight(0);
 
 		getListView().setOnScrollListener(this);
 

@@ -4,10 +4,6 @@
     <PreferenceCategory android:title="@string/base_preferences" >
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="fullscreen"
-            android:title="@string/fullscreen_preferences" />
-        <CheckBoxPreference
-            android:defaultValue="false"
             android:key="keepscreen"
             android:title="@string/keepscreen_preferences" />
 
@@ -23,18 +19,11 @@
             android:entryValues="@array/posts_list_values"
             android:key="posts_default_tab"
             android:title="@string/default_tab_preferences" />
-
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="posts_additional_layout"
-            android:summary="@string/posts_additional_layout_summary_preferences"
-            android:title="@string/additional_layout_preferences" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="posts_full_info"
             android:summary="@string/posts_full_info_summary_preferences"
-            android:title="@string/posts_full_info_preferences"
-            android:dependency="posts_additional_layout" />
+            android:title="@string/posts_full_info_preferences" />
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="posts_zoom"
@@ -48,12 +37,6 @@
             android:entryValues="@array/qa_tabs_values"
             android:key="qa_default_tab"
             android:title="@string/default_tab_preferences" />
-
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="qa_additional_layout"
-            android:summary="@string/qa_additional_layout_summary_preferences"
-            android:title="@string/additional_layout_preferences" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/events" >
         <ListPreference
@@ -62,17 +45,8 @@
             android:entryValues="@array/events_tabs_values"
             android:key="events_default_tab"
             android:title="@string/default_tab_preferences" />
-
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="events_additional_layout"
-            android:summary="@string/events_additional_layout_summary_preferences"
-            android:title="@string/additional_layout_preferences" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/additional_preferences" >
-        <Preference
-            android:key="donate"
-            android:title="@string/donate_preferences" />
         <Preference android:title="@string/review_preferences" >
             <intent
                 android:action="android.intent.action.VIEW"
@@ -84,7 +58,7 @@
                 android:data="https://github.com/AEinsam/HabReader" />
         </Preference>
         <Preference
-            android:summary="2.1"
+            android:key="version"
             android:title="@string/version_preferences" />
     </PreferenceCategory>
 
