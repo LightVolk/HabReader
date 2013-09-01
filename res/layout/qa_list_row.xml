@@ -40,7 +40,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:drawableLeft="@drawable/qa"
                 android:drawablePadding="3dp"
                 android:textSize="@dimen/text_size_small" />
 
@@ -59,7 +58,6 @@
                 android:layout_alignParentRight="true"
                 android:layout_toRightOf="@id/qa_date"
                 android:drawablePadding="3dp"
-                android:drawableRight="@drawable/user"
                 android:gravity="right"
                 android:textColor="@color/list_author_name"
                 android:textSize="@dimen/text_size_small" />

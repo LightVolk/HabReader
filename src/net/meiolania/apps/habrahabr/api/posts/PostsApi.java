@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.meiolania.apps.habrahabr.api.AuthApi;
-import net.meiolania.apps.habrahabr.api.NumberUtils;
-import net.meiolania.apps.habrahabr.api.UrlUtils;
 import net.meiolania.apps.habrahabr.api.hubs.HubsEntry;
+import net.meiolania.apps.habrahabr.api.utils.NumberUtils;
+import net.meiolania.apps.habrahabr.api.utils.UrlUtils;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

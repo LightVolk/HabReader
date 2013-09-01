@@ -1,51 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/comment_bottom_margin"
+    android:paddingLeft="@dimen/comment_left_margin"
+    android:paddingRight="@dimen/comment_right_margin"
+    android:paddingTop="@dimen/comment_top_margin"
+    android:background="@drawable/comment_background">
 
-    <LinearLayout
-        android:id="@+id/comment_box"
+    <RelativeLayout
+        android:id="@+id/info_container"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@drawable/list_row_background_normal"
-        android:orientation="vertical"
-        android:padding="10dp" >
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/ic_launcher" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/avatar"
+            android:gravity="center_vertical"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="AEinsam"
+                android:textSize="@dimen/text_size_medium" />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1 сентября 2013 в 13:40"
+                android:textSize="@dimen/text_size_medium" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/comment_text"
-            android:layout_width="fill_parent"
+            android:id="@+id/rating"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:textSize="@dimen/comment_text" />
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="10"
+            android:textSize="@dimen/text_size_medium" />
+    </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/comment_info"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/info_container"
+        android:layout_marginTop="@dimen/comment_top_margin"
+        android:text="Текст комментария"
+        android:textSize="@dimen/text_size_medium" />
 
-            <TextView
-                android:id="@+id/comment_author"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:textColor="@color/comment_author"
-                android:textSize="@dimen/text_size_small" />
-
-            <TextView
-                android:id="@+id/comment_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textColor="@color/date"
-                android:textSize="@dimen/text_size_smaller" />
-
-            <TextView
-                android:id="@+id/comment_score"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:textSize="@dimen/text_size_small" />
-        </RelativeLayout>
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

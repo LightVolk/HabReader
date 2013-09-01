@@ -7,6 +7,7 @@
     <string name="undefined_value">Неопределённое значение</string>
     
     <!-- Base -->
+    <string name="send">Отправить</string>
     <string name="loading">Загрузка</string>
     <string name="share">Поделиться с друзьями</string>
     <string name="inbox">Входящие</string>
@@ -57,6 +58,7 @@
     <string name="loading_post">Загрузка поста</string>
     <string name="post_search">Поиск постов</string>
     <string name="no_items_post">Не удалось загрузить список постов</string>
+    <string name="comments_hint">Добавить комментарий</string>
 
     <!-- Hubs -->
     <string name="hubs_search">Поиск хабов</string>
