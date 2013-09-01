@@ -15,5 +15,9 @@
 	<dimen name="comment_top_margin">10dp</dimen>
 	<dimen name="comment_right_margin">12dp</dimen>
 	<dimen name="comment_bottom_margin">10dp</dimen>
+	<dimen name="comment_send_form_left_padding">10dp</dimen>
+	<dimen name="comment_send_form_top_padding">5dp</dimen>
+	<dimen name="comment_send_form_right_padding">10dp</dimen>
+	<dimen name="comment_send_form_bottom_padding">5dp</dimen>
     
 </resources>

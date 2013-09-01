@@ -31,19 +31,28 @@ import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ListView;
 
-import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.app.SherlockFragment;
 
-public class PostsCommentsFragment extends SherlockListFragment implements LoaderCallbacks<List<CommentEntry>> {
+public class PostsCommentsFragment extends SherlockFragment implements LoaderCallbacks<List<CommentEntry>> {
 	public final static int LOADER_COMMENTS = 1;
 	public final static int MENU_OPEN_AUTHOR_PROFILE = 0;
 	public final static String URL_ARGUMENT = "url";
 	private List<CommentEntry> comments;
 	private CommentsAdapter adapter;
 	private String url;
+	
+	private ListView commentsList;
+	private EditText commentText;
+	private ImageButton sendButton;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -58,14 +67,22 @@ public class PostsCommentsFragment extends SherlockListFragment implements Loade
 			adapter = new CommentsAdapter(getSherlockActivity(), comments);
 		}
 
-		setListAdapter(adapter);
-		setListShown(false);
-		setEmptyText(getString(R.string.no_items_comments));
-		
-		registerForContextMenu(getListView());
+		commentsList.setAdapter(adapter);
+		registerForContextMenu(commentsList);
 		
 		LoaderManager loaderManager = getSherlockActivity().getSupportLoaderManager();
 		loaderManager.initLoader(LOADER_COMMENTS, null, this);
+	}
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fr_post_comments, container, false);
+		
+		commentsList = (ListView) view.findViewById(R.id.comments_list);
+		commentText = (EditText) view.findViewById(R.id.comment);
+		sendButton = (ImageButton) view.findViewById(R.id.send_comment);
+		
+		return view;
 	}
 
 	@Override
@@ -78,7 +95,7 @@ public class PostsCommentsFragment extends SherlockListFragment implements Loade
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterContextMenuInfo adapterContextMenuInfo = (AdapterContextMenuInfo) item.getMenuInfo();
-		CommentEntry data = (CommentEntry) getListAdapter().getItem(adapterContextMenuInfo.position);
+		CommentEntry data = adapter.getItem(adapterContextMenuInfo.position);
 
 		switch (item.getItemId()) {
 			case MENU_OPEN_AUTHOR_PROFILE:
@@ -103,8 +120,6 @@ public class PostsCommentsFragment extends SherlockListFragment implements Loade
 			comments.addAll(data);
 			adapter.notifyDataSetChanged();
 		}
-
-		setListShown(true);
 	}
 
 	@Override
