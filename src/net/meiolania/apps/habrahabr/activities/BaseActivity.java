@@ -18,11 +18,9 @@ package net.meiolania.apps.habrahabr.activities;
 
 import net.meiolania.apps.habrahabr.Fonts;
 import net.meiolania.apps.habrahabr.Preferences;
-import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.api.HabrAuthApi;
 import net.meiolania.apps.habrahabr.auth.User;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
@@ -30,7 +28,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
 public abstract class BaseActivity extends SherlockFragmentActivity {
@@ -71,22 +68,10 @@ public abstract class BaseActivity extends SherlockFragmentActivity {
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.global_activity, menu);
-		return super.onCreateOptionsMenu(menu);
-	}
-
-	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home:
 				onHomeClick();
-				return true;
-			case R.id.preferences:
-				onPreferencesClick();
-				return true;
-			case R.id.more_applications:
-				onApplicationsClick();
 				return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -100,16 +85,6 @@ public abstract class BaseActivity extends SherlockFragmentActivity {
 			taskStackBuilder.startActivities();
 		} else
 			NavUtils.navigateUpTo(this, intent);
-	}
-
-	private void onPreferencesClick() {
-		startActivity(new Intent(this, PreferencesActivity.class));
-	}
-
-	private void onApplicationsClick() {
-		Uri uri = Uri.parse(DEVELOPER_PLAY_LINK);
-		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-		startActivity(intent);
 	}
 
 }

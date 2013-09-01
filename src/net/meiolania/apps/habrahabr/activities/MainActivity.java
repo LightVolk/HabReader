@@ -17,8 +17,8 @@ limitations under the License.
 package net.meiolania.apps.habrahabr.activities;
 
 import net.meiolania.apps.habrahabr.R;
+import net.meiolania.apps.habrahabr.api.HabrAuthApi;
 import net.meiolania.apps.habrahabr.auth.AuthFragment;
-import net.meiolania.apps.habrahabr.auth.SignOutFragment;
 import net.meiolania.apps.habrahabr.auth.User;
 import net.meiolania.apps.habrahabr.fragments.companies.CompaniesFragment;
 import net.meiolania.apps.habrahabr.fragments.events.EventsMainFragment;
@@ -30,7 +30,9 @@ import net.meiolania.apps.habrahabr.fragments.qa.QaMainFragment;
 import net.meiolania.apps.habrahabr.fragments.users.UsersFragment;
 import net.meiolania.apps.habrahabr.slidemenu.MenuFragment;
 import net.meiolania.apps.habrahabr.slidemenu.MenuFragment.ItemType;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -44,7 +46,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 public class MainActivity extends BaseActivity {
-	private Fragment content;
+	private Fragment fragment;
 	private MenuFragment.ItemType contentType;
 	private ActionBarDrawerToggle actionBarDrawerToggle;
 	private DrawerLayout drawerLayout;
@@ -54,12 +56,12 @@ public class MainActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		setContentView(R.layout.ac_main);
-		
+
 		initNavigationDrawer();
 		initNavigationDrawerFrame();
-		
+
 		int currentSection = -1;
 		if (savedInstanceState != null)
 			currentSection = savedInstanceState.getInt("currentSection");
@@ -67,7 +69,7 @@ public class MainActivity extends BaseActivity {
 		// @TODO: think of something new.
 		switch (currentSection) {
 			case 0:
-				content = new AuthFragment();
+				fragment = new AuthFragment();
 				contentType = ItemType.AUTH;
 				break;
 			case 1:
@@ -75,50 +77,50 @@ public class MainActivity extends BaseActivity {
 				contentType = ItemType.PROFILE;
 				break;
 			case 2:
-				content = new FeedMainFragment();
+				fragment = new FeedMainFragment();
 				contentType = ItemType.FEED;
 				break;
 			case 3:
-				content = new FavoritesMainFragment();
+				fragment = new FavoritesMainFragment();
 				contentType = ItemType.FAVORITES;
 				break;
 			case 4:
-				content = new PostsMainFragment();
+				fragment = new PostsMainFragment();
 				contentType = ItemType.POSTS;
 				break;
 			case 5:
-				content = new HubsMainFragment();
+				fragment = new HubsMainFragment();
 				contentType = ItemType.HUBS;
 				break;
 			case 6:
-				content = new QaMainFragment();
+				fragment = new QaMainFragment();
 				contentType = ItemType.QA;
 				break;
 			case 7:
-				content = new EventsMainFragment();
+				fragment = new EventsMainFragment();
 				contentType = ItemType.EVENTS;
 				break;
 			case 8:
-				content = new CompaniesFragment();
+				fragment = new CompaniesFragment();
 				contentType = ItemType.COMPANIES;
 				break;
 			case 9:
-				content = new UsersFragment();
+				fragment = new UsersFragment();
 				contentType = ItemType.USERS;
 				break;
 		}
 
-		if (content == null) {
+		if (fragment == null) {
 			if (!User.getInstance().isLogged()) {
-				content = new PostsMainFragment();
+				fragment = new PostsMainFragment();
 				contentType = ItemType.POSTS;
 			} else {
-				content = new FeedMainFragment();
+				fragment = new FeedMainFragment();
 				contentType = ItemType.FEED;
 			}
 		}
-		
-		switchContent(content, contentType);
+
+		switchContent(fragment, contentType);
 	}
 
 	@Override
@@ -127,97 +129,109 @@ public class MainActivity extends BaseActivity {
 
 		outState.putInt("currentSection", contentType.ordinal());
 	}
-	
+
 	private void initNavigationDrawer() {
 		drawerLayout = (DrawerLayout) findViewById(R.id.navigation_drawer);
-		
-		actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer, R.string.app_name, R.string.app_name){
-			private CharSequence actionBarTitle;
-			
+
+		actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer, R.string.app_name, R.string.app_name) {
+
 			@Override
 			public void onDrawerClosed(View drawerView) {
 				super.onDrawerClosed(drawerView);
-				
-				getSupportActionBar().setTitle(actionBarTitle);
+
+				supportInvalidateOptionsMenu();
 			}
-			
+
 			@Override
 			public void onDrawerOpened(View drawerView) {
 				super.onDrawerOpened(drawerView);
-				
-				actionBarTitle = getSupportActionBar().getTitle();
-				getSupportActionBar().setTitle(R.string.app_name);
+
+				supportInvalidateOptionsMenu();
 			}
 		};
-		
+
 		drawerLayout.setDrawerListener(actionBarDrawerToggle);
 	}
-	
+
 	private void initNavigationDrawerFrame() {
 		drawerFrame = (FrameLayout) findViewById(R.id.navigation_drawer_frame);
 		menuFragment = new MenuFragment();
-		
+
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		transaction.replace(R.id.navigation_drawer_frame, menuFragment);
 		transaction.commit();
 	}
 
-	public void switchContent(Fragment fragment,
-			MenuFragment.ItemType contentType) {
-		content = fragment;
+	public void switchContent(Fragment fragment, MenuFragment.ItemType contentType) {
+		this.fragment = fragment;
 		this.contentType = contentType;
 
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		transaction.replace(R.id.content_frame, fragment);
 		transaction.commit();
-		
+
 		drawerLayout.closeDrawer(drawerFrame);
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-
-		if (User.getInstance().isLogged()) {
-			MenuInflater menuInflater = getSupportMenuInflater();
-			menuInflater.inflate(R.menu.main_activity, menu);
-		}
-
-		return true;
-	}
-	
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
 		actionBarDrawerToggle.syncState();
 	}
-	
+
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		
+
 		actionBarDrawerToggle.onConfigurationChanged(newConfig);
 	}
 	
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+
+		MenuInflater menuInflater = getSupportMenuInflater();
+
+		if (drawerLayout.isDrawerOpen(drawerFrame))
+			menuInflater.inflate(R.menu.ac_main, menu);
+
+		if (HabrAuthApi.getInstance().isAuth())
+			menuInflater.inflate(R.menu.main_activity, menu);
+
+		return true;
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == android.R.id.home) {
-			if (drawerLayout.isDrawerOpen(drawerFrame))
-				drawerLayout.closeDrawer(drawerFrame);
-			else
-				drawerLayout.openDrawer(drawerFrame);
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				onHomeClick();
+				return true;
+			case R.id.preferences:
+				onPreferencesClick();
+				return true;
+			case R.id.more_applications:
+				onApplicationsClick();
+				return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
-	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.sign_out:
-				switchContent(new SignOutFragment(), null);
-				return true;
-		}
-		return super.onMenuItemSelected(featureId, item);
+	private void onHomeClick() {
+		if (drawerLayout.isDrawerOpen(drawerFrame))
+			drawerLayout.closeDrawer(drawerFrame);
+		else
+			drawerLayout.openDrawer(drawerFrame);
+	}
+	
+	private void onPreferencesClick() {
+		startActivity(new Intent(this, PreferencesActivity.class));
+	}
+
+	private void onApplicationsClick() {
+		Uri uri = Uri.parse(DEVELOPER_PLAY_LINK);
+		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+		startActivity(intent);
 	}
 
 }

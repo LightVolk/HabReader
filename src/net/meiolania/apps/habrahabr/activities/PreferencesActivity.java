@@ -17,11 +17,14 @@ limitations under the License.
 package net.meiolania.apps.habrahabr.activities;
 
 import net.meiolania.apps.habrahabr.R;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.preference.Preference;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
@@ -62,10 +65,20 @@ public class PreferencesActivity extends SherlockPreferenceActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home:
-				finish();
-				break;
+				onHomeClick();
+				return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	private void onHomeClick() {
+		Intent intent = NavUtils.getParentActivityIntent(this);
+		if (NavUtils.shouldUpRecreateTask(this, intent)) {
+			TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(this);
+			taskStackBuilder.addNextIntentWithParentStack(intent);
+			taskStackBuilder.startActivities();
+		} else
+			NavUtils.navigateUpTo(this, intent);
 	}
 
 }
