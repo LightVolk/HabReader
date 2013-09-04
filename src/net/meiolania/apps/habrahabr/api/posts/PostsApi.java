@@ -1,6 +1,8 @@
 package net.meiolania.apps.habrahabr.api.posts;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,7 +77,7 @@ public class PostsApi {
 			entry.setText(text.html());
 
 			entry.setRating(NumberUtils.Parse(rating));
-			entry.setViewCount(NumberUtils.Parse(viewCount));
+			entry.setViewsCount(NumberUtils.Parse(viewCount));
 			entry.setFavoritesCount(NumberUtils.Parse(favoritesCount));
 			entry.setCommentsCount(NumberUtils.Parse(commentsCount));
 			
@@ -120,6 +122,11 @@ public class PostsApi {
 	}
 
 	public List<PostEntry> searchPosts(int page, String query) {
+		try {
+			query = URLEncoder.encode(query, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+		}
+		
 		String url = UrlUtils.createUrl("search/page", String.valueOf(page), "/", "?target_type=posts&order_by=relevance&q=", query);
 		return parseUrl(url);
 	}
@@ -189,7 +196,7 @@ public class PostsApi {
 			}
 
 			try {
-				entry.setViewCount(Integer.parseInt(viewCount.text()));
+				entry.setViewsCount(Integer.parseInt(viewCount.text()));
 				entry.setFavoritesCount(Integer.parseInt(favoritesCount.text()));
 				entry.setCommentsCount(Integer.parseInt(commentsCount.text()));
 			} catch (NumberFormatException e) {

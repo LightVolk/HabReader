@@ -14,7 +14,7 @@ public class PostEntry {
 	private List<HubEntry> hubs;
 	private String text;
 	private Integer rating;
-	private Integer viewCount;
+	private Integer viewsCount;
 	private Integer favoritesCount;
 	private Integer commentsCount;
 
@@ -86,12 +86,12 @@ public class PostEntry {
 		this.rating = rating;
 	}
 
-	public Integer getViewCount() {
-		return viewCount;
+	public Integer getViewsCount() {
+		return viewsCount;
 	}
 
-	public void setViewCount(Integer viewCount) {
-		this.viewCount = viewCount;
+	public void setViewsCount(Integer viewsCount) {
+		this.viewsCount = viewsCount;
 	}
 
 	public Integer getFavoritesCount() {

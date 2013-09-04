@@ -52,8 +52,8 @@ public class FavoritesMainFragment extends SherlockFragment {
 		tab = actionBar.newTab();
 		tab.setText(R.string.qa);
 		tab.setTag("qa");
-		tab.setTabListener(new TabListener<FavoritesQAFragment>(
-				getSherlockActivity(), "posts", FavoritesQAFragment.class));
+		tab.setTabListener(new TabListener<FavoritesQaFragment>(
+				getSherlockActivity(), "posts", FavoritesQaFragment.class));
 		actionBar.addTab(tab);
 	}
 

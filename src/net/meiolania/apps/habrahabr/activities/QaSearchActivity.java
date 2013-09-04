@@ -47,10 +47,10 @@ public class QaSearchActivity extends BaseActivity {
 	}
 
 	private void loadSearchedQuestions() {
-		QaSearchFragment fragment = new QaSearchFragment(query);
+		QaSearchFragment fragment = new QaSearchFragment();
+		fragment.setArguments(getIntent().getExtras());
 
-		FragmentTransaction fragmentTransaction = getSupportFragmentManager()
-				.beginTransaction();
+		FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 		fragmentTransaction.replace(android.R.id.content, fragment);
 		fragmentTransaction.commit();
 	}

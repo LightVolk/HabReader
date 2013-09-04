@@ -16,29 +16,28 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.fragments.qa;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import java.util.List;
 
-public class QaSearchFragment extends AbstractionQaFragment {
-	public final static String URL = "http://habrahabr.ru/search/page%page%/?target_type=qa&order_by=relevance&q=%query%";
-	protected String query;
+import net.meiolania.apps.habrahabr.api.HabrAuthApi;
+import net.meiolania.apps.habrahabr.api.qa.QaApi;
+import net.meiolania.apps.habrahabr.api.qa.QaEntry;
+import android.os.Bundle;
 
-	public QaSearchFragment(String query) {
-		this.query = query;
+public class QaSearchFragment extends QaFragment {
+	public final static String EXTRA_QUERY = "query";
+	private String query;
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		query = getArguments().getString(EXTRA_QUERY);
 	}
 
 	@Override
-	protected String getUrl() {
-		try {
-			return URL.replace("%query%", URLEncoder.encode(query, "UTF-8"));
-		} catch (UnsupportedEncodingException e) {
-			return URL.replace("%query%", query);
-		}
-	}
-
-	@Override
-	protected int getLoaderId() {
-		return 0;
+	public List<QaEntry> getQuestion(int page) {
+		QaApi qaApi = new QaApi(HabrAuthApi.getInstance());
+		return qaApi.searchQuestions(page, query);
 	}
 
 }

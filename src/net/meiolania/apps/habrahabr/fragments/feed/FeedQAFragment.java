@@ -16,19 +16,19 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.fragments.feed;
 
-import net.meiolania.apps.habrahabr.fragments.qa.AbstractionQaFragment;
+import java.util.List;
 
-public class FeedQAFragment extends AbstractionQaFragment {
-	public static final String URL = "http://habrahabr.ru/feed/qa/page%page%/";
+import net.meiolania.apps.habrahabr.api.HabrAuthApi;
+import net.meiolania.apps.habrahabr.api.qa.QaApi;
+import net.meiolania.apps.habrahabr.api.qa.QaEntry;
+import net.meiolania.apps.habrahabr.fragments.qa.QaFragment;
+
+public class FeedQaFragment extends QaFragment {
 
 	@Override
-	protected String getUrl() {
-		return URL;
-	}
-
-	@Override
-	protected int getLoaderId() {
-		return 1;
+	public List<QaEntry> getQuestion(int page) {
+		QaApi qaApi = new QaApi(HabrAuthApi.getInstance());
+		return qaApi.getFeedQuestions(page);
 	}
 
 }

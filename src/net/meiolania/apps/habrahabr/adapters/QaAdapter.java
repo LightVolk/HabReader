@@ -17,8 +17,10 @@ limitations under the License.
 package net.meiolania.apps.habrahabr.adapters;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import net.meiolania.apps.habrahabr.R;
+import net.meiolania.apps.habrahabr.api.qa.QaEntry;
 import net.meiolania.apps.habrahabr.data.QaData;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -28,11 +30,11 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 public class QaAdapter extends BaseAdapter {
-	private ArrayList<QaData> questions;
+	private List<QaEntry> questions;
 	private Context context;
 	private LayoutInflater layoutInflater;
 
-	public QaAdapter(Context context, ArrayList<QaData> questions) {
+	public QaAdapter(Context context, List<QaEntry> questions) {
 		this.context = context;
 		this.questions = questions;
 		
@@ -43,7 +45,7 @@ public class QaAdapter extends BaseAdapter {
 		return questions.size();
 	}
 
-	public QaData getItem(int position) {
+	public QaEntry getItem(int position) {
 		return questions.get(position);
 	}
 
@@ -52,7 +54,7 @@ public class QaAdapter extends BaseAdapter {
 	}
 
 	public View getView(int position, View view, ViewGroup parent) {
-		QaData data = getItem(position);
+		QaEntry data = getItem(position);
 
 		ViewHolder viewHolder;
 		if (view == null) {
@@ -60,31 +62,19 @@ public class QaAdapter extends BaseAdapter {
 
 			viewHolder = new ViewHolder();
 
-			viewHolder.title = (TextView) view.findViewById(R.id.qa_title);
-			viewHolder.hubs = (TextView) view.findViewById(R.id.qa_hubs);
-			viewHolder.author = (TextView) view.findViewById(R.id.qa_author);
-			viewHolder.date = (TextView) view.findViewById(R.id.qa_date);
-			viewHolder.answers = (TextView) view.findViewById(R.id.qa_answers);
+
 
 			view.setTag(viewHolder);
 		} else
 			viewHolder = (ViewHolder) view.getTag();
-
-		viewHolder.title.setText(data.getTitle());
-		viewHolder.hubs.setText(data.getHubs());
-		viewHolder.author.setText(data.getAuthor());
-		viewHolder.date.setText(data.getDate());
-		viewHolder.answers.setText(data.getAnswers());
+		
+		
 
 		return view;
 	}
 
 	static class ViewHolder {
-		TextView title;
-		TextView hubs;
-		TextView author;
-		TextView date;
-		TextView answers;
+		
 	}
 
 }

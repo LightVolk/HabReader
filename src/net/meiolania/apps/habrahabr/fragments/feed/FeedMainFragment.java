@@ -52,8 +52,8 @@ public class FeedMainFragment extends SherlockFragment {
 		tab = actionBar.newTab();
 		tab.setText(R.string.qa);
 		tab.setTag("qa");
-		tab.setTabListener(new TabListener<FeedQAFragment>(
-				getSherlockActivity(), "qa", FeedQAFragment.class));
+		tab.setTabListener(new TabListener<FeedQaFragment>(
+				getSherlockActivity(), "qa", FeedQaFragment.class));
 		actionBar.addTab(tab);
 
 		/* Events tab */
