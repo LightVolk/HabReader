@@ -1,67 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:paddingBottom="2dp"
-    android:paddingLeft="5dp"
-    android:paddingRight="5dp"
-    android:paddingTop="2dp" >
+    android:layout_height="wrap_content"
+    android:paddingBottom="10dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingTop="10dp" >
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@drawable/posts_list_row_background_normal"
-        android:orientation="vertical"
-        android:padding="10dp" >
+        android:background="@drawable/qa_list_row_background"
+        android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/qa_title"
+            android:id="@+id/title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:textSize="@dimen/title_in_list" />
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:text="Тестовый заголовок"
+            android:textSize="@dimen/qa_title" />
 
-        <TextView
-            android:id="@+id/qa_hubs"
+        <View
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:textColor="@color/list_hubs"
-            android:textSize="@dimen/text_size_small" />
-
-        <RelativeLayout
-            android:id="@+id/qa_info"
+            android:layout_height="1dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="#aaa" />
+        
+        <RelativeLayout 
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="fill_horizontal" >
-
+            android:layout_height="wrap_content">
+            
             <TextView
-                android:id="@+id/qa_answers"
+                android:id="@+id/author"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:drawablePadding="3dp"
-                android:textSize="@dimen/text_size_small" />
-
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:text="AEinsam"
+                android:textSize="@dimen/qa_author" />
+            
             <TextView
-                android:id="@+id/qa_date"
+                android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textColor="@color/date"
-                android:textSize="@dimen/text_size_small" />
-
+                android:layout_below="@id/author"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="5dp"
+                android:text="Сегодня в 23:36"
+                android:textSize="@dimen/qa_date" />
+            
             <TextView
-                android:id="@+id/qa_author"
+                android:id="@+id/hubs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_toRightOf="@id/qa_date"
-                android:drawablePadding="3dp"
-                android:gravity="right"
-                android:textColor="@color/list_author_name"
-                android:textSize="@dimen/text_size_small" />
+                android:layout_centerVertical="true"
+                android:text="Android"
+                android:textSize="@dimen/qa_hubs" />
+            
+        </RelativeLayout>
+        
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp">
+
+            <LinearLayout
+                android:id="@+id/ratingContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <ImageButton
+                    android:id="@+id/voteUp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:background="@drawable/rating_background"
+                    android:src="@drawable/ic_vote_up" />
+
+                <TextView
+                    android:id="@+id/rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:background="@drawable/btn_default_normal_holo_light"
+                    android:gravity="center"
+                    android:minWidth="60dp"
+                    android:text="10" />
+
+                <ImageButton
+                    android:id="@+id/voteDown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:background="@drawable/rating_background"
+                    android:src="@drawable/ic_vote_down" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/answers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:drawableLeft="@drawable/ic_comments"
+                android:text="14" />
         </RelativeLayout>
     </LinearLayout>
-
 </LinearLayout>

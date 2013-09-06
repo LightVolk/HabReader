@@ -10,6 +10,11 @@
     <dimen name="slidingmenu_offset">60dp</dimen>
     <dimen name="comment_text">15sp</dimen>
     
+    <dimen name="qa_title">18sp</dimen>
+    <dimen name="qa_author">14sp</dimen>
+    <dimen name="qa_date">14sp</dimen>
+    <dimen name="qa_hubs">14sp</dimen>
+    
     <dimen name="hubs_title">18sp</dimen>
     <dimen name="hubs_index">18sp</dimen>
     <dimen name="hubs_info">12sp</dimen>

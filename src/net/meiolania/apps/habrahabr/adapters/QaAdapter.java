@@ -16,17 +16,18 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.adapters;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import net.meiolania.apps.habrahabr.Fonts;
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.api.qa.QaEntry;
-import net.meiolania.apps.habrahabr.data.QaData;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class QaAdapter extends BaseAdapter {
@@ -62,19 +63,49 @@ public class QaAdapter extends BaseAdapter {
 
 			viewHolder = new ViewHolder();
 
-
+			viewHolder.title = (TextView) view.findViewById(R.id.title);
+			viewHolder.author = (TextView) view.findViewById(R.id.author);
+			viewHolder.date = (TextView) view.findViewById(R.id.date);
+			viewHolder.hub = (TextView) view.findViewById(R.id.hubs);
+			viewHolder.rating = (TextView) view.findViewById(R.id.rating);
+			viewHolder.voteUp = (ImageButton) view.findViewById(R.id.voteUp);
+			viewHolder.voteDown = (ImageButton) view.findViewById(R.id.voteDown);
+			viewHolder.answers = (Button) view.findViewById(R.id.answers);
 
 			view.setTag(viewHolder);
 		} else
 			viewHolder = (ViewHolder) view.getTag();
 		
+		viewHolder.title.setText(data.getTitle());
+		viewHolder.title.setTypeface(Fonts.ROBOTO_BOLD);
 		
-
+		viewHolder.author.setText(data.getAuthor());
+		viewHolder.author.setTypeface(Fonts.ROBOTO_LIGHT);
+		
+		viewHolder.date.setText(data.getDate());
+		viewHolder.date.setTypeface(Fonts.ROBOTO_LIGHT);
+		
+		viewHolder.hub.setText(data.getHubs().get(0).getTitle());
+		viewHolder.hub.setTypeface(Fonts.ROBOTO_LIGHT);
+		
+		if (data.getRating() != null)
+			viewHolder.rating.setText(String.valueOf(data.getRating()));
+		
+		if (data.getAnswersCount() != null)
+			viewHolder.answers.setText(String.valueOf(data.getAnswersCount()));
+		
 		return view;
 	}
 
 	static class ViewHolder {
-		
+		TextView title;
+		TextView author;
+		TextView date;
+		TextView hub;
+		TextView rating;
+		Button answers;
+		ImageButton voteUp;
+		ImageButton voteDown;
 	}
 
 }
