@@ -58,16 +58,16 @@ public abstract class QaFragment extends SherlockFragment implements OnScrollLis
 	private int page = 1;
 
 	public abstract List<QaEntry> getQuestion(int page);
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fr_qa, container, false);
-		
+
 		qaList = (ListView) view.findViewById(R.id.qaList);
-		
+
 		return view;
 	}
-	
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -79,7 +79,7 @@ public abstract class QaFragment extends SherlockFragment implements OnScrollLis
 			questions = new ArrayList<QaEntry>();
 			adapter = new QaAdapter(getSherlockActivity(), questions);
 		}
-		
+
 		qaList.setAdapter(adapter);
 		qaList.setOnScrollListener(this);
 		qaList.setOnItemClickListener(this);
@@ -104,7 +104,7 @@ public abstract class QaFragment extends SherlockFragment implements OnScrollLis
 			}
 		});
 	}
-	
+
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		showQa(position);
@@ -114,8 +114,7 @@ public abstract class QaFragment extends SherlockFragment implements OnScrollLis
 		QaEntry data = questions.get(position);
 
 		Intent intent = new Intent(getSherlockActivity(), QaShowActivity.class);
-		intent.putExtra(QaShowActivity.EXTRA_URL, data.getUrl());
-		intent.putExtra(QaShowActivity.EXTRA_TITLE, data.getTitle());
+		intent.putExtra(QaShowFragment.URL_ARGUMENT, data.getUrl());
 
 		startActivity(intent);
 	}
@@ -152,7 +151,7 @@ public abstract class QaFragment extends SherlockFragment implements OnScrollLis
 		adapter.notifyDataSetChanged();
 
 		isLoadData = false;
-		
+
 		page++;
 	}
 

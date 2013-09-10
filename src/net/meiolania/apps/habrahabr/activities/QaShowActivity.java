@@ -16,85 +16,78 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.activities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.meiolania.apps.habrahabr.R;
+import net.meiolania.apps.habrahabr.adapters.TabsPagerAdapter;
+import net.meiolania.apps.habrahabr.adapters.TabsPagerAdapter.Item;
 import net.meiolania.apps.habrahabr.fragments.qa.QaCommentsFragment;
 import net.meiolania.apps.habrahabr.fragments.qa.QaShowFragment;
-import net.meiolania.apps.habrahabr.ui.TabListener;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.view.PagerTabStrip;
+import android.support.v4.view.ViewPager;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.ActionBar.Tab;
 
 public class QaShowActivity extends BaseActivity {
-	public final static String EXTRA_URL = "url";
-	public final static String EXTRA_TITLE = "title";
-	private String title;
-	private String url;
+	private final static String CURRENT_TAB_KEY = "currentTab";
+	private ViewPager viewPager;
+	private PagerTabStrip pagerTabStrip;
 	private int currentTab;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (savedInstanceState != null)
-			currentTab = savedInstanceState.getInt("currentTab");
+		setContentView(R.layout.ac_show);
 
-		loadExtras();
 		showActionBar();
+		initContent();
 	}
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 
-		outState.putInt("currentTab", getSupportActionBar().getSelectedTab()
-				.getPosition());
+		outState.putInt(CURRENT_TAB_KEY, viewPager.getCurrentItem());
 	}
 
-	private void loadExtras() {
-		Uri data = getIntent().getData();
-		if (data != null)
-			url = data.toString();
-		else
-			url = getIntent().getStringExtra(EXTRA_URL);
+	@Override
+	protected void onRestoreInstanceState(Bundle inState) {
+		super.onRestoreInstanceState(inState);
+
+		currentTab = inState.getInt(CURRENT_TAB_KEY, 0);
 	}
 
 	private void showActionBar() {
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setTitle(title);
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+	}
 
-		/*
-		 * Question tab
-		 */
-		Bundle arguments = new Bundle();
-		arguments.putString(QaShowFragment.URL_ARGUMENT, url);
+	private void initContent() {
+		viewPager = (ViewPager) findViewById(R.id.view_pager);
+		pagerTabStrip = (PagerTabStrip) findViewById(R.id.tab_strip);
 
-		Tab tab = actionBar
-				.newTab()
-				.setText(R.string.question)
-				.setTag("question")
-				.setTabListener(
-						new TabListener<QaShowFragment>(this, "question",
-								QaShowFragment.class, arguments));
-		actionBar.addTab(tab, (currentTab == 0) ? true : false);
+		TabsPagerAdapter pagerAdapter = new TabsPagerAdapter(getSupportFragmentManager(), createFragments());
+		viewPager.setAdapter(pagerAdapter);
+		viewPager.setCurrentItem(currentTab);
+	}
 
-		/*
-		 * Comments tab
-		 */
-		arguments = new Bundle();
-		arguments.putString(QaCommentsFragment.URL_ARGUMENT, url);
+	private List<TabsPagerAdapter.Item> createFragments() {
+		List<TabsPagerAdapter.Item> fragments = new ArrayList<TabsPagerAdapter.Item>();
 
-		tab = actionBar
-				.newTab()
-				.setText(R.string.comments)
-				.setTag("comments")
-				.setTabListener(
-						new TabListener<QaCommentsFragment>(this, "comments",
-								QaCommentsFragment.class, arguments));
-		actionBar.addTab(tab, (currentTab == 1) ? true : false);
+		QaShowFragment qaShowFragment = new QaShowFragment();
+		qaShowFragment.setArguments(getIntent().getExtras());
+
+		fragments.add(new Item(getString(R.string.question), qaShowFragment));
+
+		QaCommentsFragment qaCommentsFragment = new QaCommentsFragment();
+		qaCommentsFragment.setArguments(getIntent().getExtras());
+
+		fragments.add(new Item(getString(R.string.answers), qaCommentsFragment));
+
+		return fragments;
 	}
 
 }

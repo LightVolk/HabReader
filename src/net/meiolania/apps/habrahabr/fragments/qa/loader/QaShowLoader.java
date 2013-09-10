@@ -16,56 +16,24 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.fragments.qa.loader;
 
-import java.io.IOException;
-
-import net.meiolania.apps.habrahabr.data.QaFullData;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-
+import net.meiolania.apps.habrahabr.api.HabrAuthApi;
+import net.meiolania.apps.habrahabr.api.qa.QaApi;
+import net.meiolania.apps.habrahabr.api.qa.QaEntry;
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
-import android.util.Log;
 
-public class QaShowLoader extends AsyncTaskLoader<QaFullData> {
-	public final static String TAG = QaShowLoader.class.getName();
+public class QaShowLoader extends AsyncTaskLoader<QaEntry> {
 	private String url;
 
 	public QaShowLoader(Context context, String url) {
 		super(context);
-
 		this.url = url;
 	}
 
 	@Override
-	public QaFullData loadInBackground() {
-		QaFullData data = new QaFullData();
-
-		try {
-			Log.i(TAG, "Loading a page: " + url);
-
-			Document document = Jsoup.connect(url).get();
-
-			Element title = document.select("span.post_title").first();
-			Element hubs = document.select("div.hubs").first();
-			Element content = document.select("div.content").first();
-			Element tags = document.select("ul.tags").first();
-			Element date = document.select("div.published").first();
-			Element author = document.select("div.author > a").first();
-			Element answers = document.select("span#comments_count").first();
-
-			data.setTitle(title.text());
-			data.setHubs(hubs.text());
-			data.setContent(content.html());
-			data.setTags(tags.text());
-			data.setDate(date.text());
-			data.setAuthor(author.text());
-			data.setAnswers(answers.text());
-		} catch (IOException e) {
-		}
-
-		return data;
+	public QaEntry loadInBackground() {
+		QaApi qaApi = new QaApi(HabrAuthApi.getInstance());
+		return qaApi.getQuestion(url);
 	}
 
 }

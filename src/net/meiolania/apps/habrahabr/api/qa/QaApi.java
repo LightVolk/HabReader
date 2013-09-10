@@ -11,6 +11,7 @@ import net.meiolania.apps.habrahabr.api.hubs.HubEntry;
 import net.meiolania.apps.habrahabr.api.utils.NumberUtils;
 import net.meiolania.apps.habrahabr.api.utils.UrlUtils;
 
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -24,6 +25,29 @@ public class QaApi {
 
 	public QaApi(AuthApi authApi) {
 		this.authApi = authApi;
+	}
+
+	public QaEntry getQuestion(String url) {
+		try {
+			Log.i(TAG, "Loading a page: " + url);
+
+			Document document = null;
+			if (authApi.isAuth()) {
+				Connection connection = Jsoup.connect(url);
+				connection.cookie(AuthApi.AUTH_ID, authApi.getAuthId());
+				connection.cookie(AuthApi.SESSION_ID, authApi.getSessionId());
+
+				document = connection.get();
+			} else {
+				document = Jsoup.connect(url).get();
+			}
+			
+			
+		} catch (IOException e) {
+			Log.e(TAG, "Can't load a page: " + url + ". Error: " + e.getMessage());
+		}
+
+		return null;
 	}
 
 	public List<QaEntry> getQuestions(int page, Section section) {
@@ -61,8 +85,11 @@ public class QaApi {
 
 			Document document = null;
 			if (authApi.isAuth()) {
-				document = Jsoup.connect(url).cookie(AuthApi.AUTH_ID, authApi.getAuthId())
-						.cookie(AuthApi.SESSION_ID, authApi.getSessionId()).get();
+				Connection connection = Jsoup.connect(url);
+				connection.cookie(AuthApi.AUTH_ID, authApi.getAuthId());
+				connection.cookie(AuthApi.SESSION_ID, authApi.getSessionId());
+
+				document = connection.get();
 			} else {
 				document = Jsoup.connect(url).get();
 			}

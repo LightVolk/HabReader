@@ -18,13 +18,12 @@ package net.meiolania.apps.habrahabr.fragments.qa;
 
 import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.R;
-import net.meiolania.apps.habrahabr.data.QaFullData;
+import net.meiolania.apps.habrahabr.api.qa.QaEntry;
 import net.meiolania.apps.habrahabr.fragments.qa.loader.QaShowLoader;
 import net.meiolania.apps.habrahabr.ui.HabrWebClient;
-import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
 import net.meiolania.apps.habrahabr.utils.IntentUtils;
-import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
@@ -40,17 +39,15 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public class QaShowFragment extends SherlockFragment implements
-		LoaderCallbacks<QaFullData> {
+public class QaShowFragment extends SherlockFragment implements LoaderCallbacks<QaEntry> {
 	public final static String URL_ARGUMENT = "url";
 	public final static int LOADER_QA = 0;
 	private String url;
 	private String title;
-	private ProgressDialog progressDialog;
-	private WebView content;
+	private WebView webViewContent;
 	private FrameLayout webviewContainer;
 	private static final String STYLESHEET = "<link rel=\"stylesheet\" type=\"text/css\" href=\"file:///android_asset/style.css\" />";
-
+	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -60,19 +57,18 @@ public class QaShowFragment extends SherlockFragment implements
 
 		url = getArguments().getString(URL_ARGUMENT);
 
-		content = (WebView) getSherlockActivity().findViewById(R.id.qa_content);
-		webviewContainer = (FrameLayout) getSherlockActivity().findViewById(
-				R.id.webview_container);
-
-		if (ConnectionUtils.isConnected(getSherlockActivity()))
-			getSherlockActivity().getSupportLoaderManager().initLoader(
-					LOADER_QA, null, this);
+		LoaderManager loaderManager = getSherlockActivity().getSupportLoaderManager();
+		loaderManager.initLoader(LOADER_QA, null, this);
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.qa_show_activity, container, false);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.qa_show_activity, container, false);
+		
+		webViewContent = (WebView) view.findViewById(R.id.qa_content);
+		webviewContainer = (FrameLayout) view.findViewById(R.id.webview_container);
+		
+		return view;
 	}
 
 	@Override
@@ -86,17 +82,14 @@ public class QaShowFragment extends SherlockFragment implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.share:
-				IntentUtils
-						.createShareIntent(getSherlockActivity(), title, url);
+				IntentUtils.createShareIntent(getSherlockActivity(), title, url);
 				break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
-	public Loader<QaFullData> onCreateLoader(int id, Bundle args) {
-		showProgressDialog();
-
+	public Loader<QaEntry> onCreateLoader(int id, Bundle args) {
 		QaShowLoader loader = new QaShowLoader(getSherlockActivity(), url);
 		loader.forceLoad();
 
@@ -104,43 +97,23 @@ public class QaShowFragment extends SherlockFragment implements
 	}
 
 	@Override
-	public void onLoadFinished(Loader<QaFullData> loader, QaFullData data) {
-		if (getSherlockActivity() != null && data != null) {
+	public void onLoadFinished(Loader<QaEntry> loader, QaEntry data) {
+		if (data != null) {
 			ActionBar actionBar = getSherlockActivity().getSupportActionBar();
 			actionBar.setTitle(data.getTitle());
 
-			content.setWebViewClient(new HabrWebClient(getSherlockActivity()));
-			content.getSettings().setSupportZoom(true);
-			content.getSettings().setBuiltInZoomControls(true);
-			content.getSettings().setJavaScriptEnabled(true);
-			content.setInitialScale(Preferences.getInstance(
-					getSherlockActivity()).getViewScale(getSherlockActivity()));
-			content.getSettings().setDefaultZoom(ZoomDensity.FAR);
+			webViewContent.setWebViewClient(new HabrWebClient(getSherlockActivity()));
+			webViewContent.getSettings().setSupportZoom(true);
+			webViewContent.getSettings().setDefaultZoom(ZoomDensity.MEDIUM);
+			webViewContent.setInitialScale(Preferences.getInstance(getSherlockActivity()).getViewScale(getSherlockActivity()));
 
-			content.loadDataWithBaseURL("", STYLESHEET + data.getContent(),
-					"text/html", "UTF-8", null);
+			webViewContent.loadDataWithBaseURL("", STYLESHEET + data.getText(), "text/html", "UTF-8", null);
 		}
-
-		title = data.getTitle();
-
-		hideProgressDialog();
 	}
 
 	@Override
-	public void onLoaderReset(Loader<QaFullData> loader) {
+	public void onLoaderReset(Loader<QaEntry> loader) {
 
-	}
-
-	private void showProgressDialog() {
-		progressDialog = new ProgressDialog(getSherlockActivity());
-		progressDialog.setMessage(getString(R.string.loading_question));
-		progressDialog.setCancelable(true);
-		progressDialog.show();
-	}
-
-	private void hideProgressDialog() {
-		if (progressDialog != null)
-			progressDialog.dismiss();
 	}
 
 	@Override
@@ -149,7 +122,7 @@ public class QaShowFragment extends SherlockFragment implements
 
 		// http://stackoverflow.com/a/8011027/921834
 		webviewContainer.removeAllViews();
-		content.destroy();
+		webViewContent.destroy();
 	}
 
 }

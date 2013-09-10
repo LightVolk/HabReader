@@ -10,11 +10,20 @@ public class QaEntry {
 	private String author;
 	private String authorUrl;
 	private String date;
+	private String text;
 	private List<HubEntry> hubs;
 	private Integer rating;
 	private Integer viewsCount;
 	private Integer favoritesCount;
 	private Integer answersCount;
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
 
 	public String getTitle() {
 		return title;

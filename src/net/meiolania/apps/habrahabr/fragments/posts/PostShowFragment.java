@@ -21,7 +21,6 @@ import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.api.posts.PostEntry;
 import net.meiolania.apps.habrahabr.fragments.posts.loader.PostShowLoader;
 import net.meiolania.apps.habrahabr.ui.HabrWebClient;
-import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
 import net.meiolania.apps.habrahabr.utils.IntentUtils;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
@@ -75,7 +74,7 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
-		
+
 		inflater.inflate(R.menu.posts_show_activity, menu);
 	}
 
@@ -102,7 +101,7 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
 		if (data != null) {
 			ActionBar actionBar = getSherlockActivity().getSupportActionBar();
 			actionBar.setTitle(data.getTitle());
-			
+
 			webViewContent.setWebViewClient(new HabrWebClient(getSherlockActivity()));
 			webViewContent.getSettings().setSupportZoom(true);
 			webViewContent.getSettings().setDefaultZoom(ZoomDensity.MEDIUM);

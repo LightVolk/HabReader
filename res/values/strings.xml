@@ -69,6 +69,7 @@
     <string name="unanswered">Без ответа</string>
     <string name="loading_question">Загрузка вопроса</string>
     <string name="qa_search">Поиск вопросов</string>
+    <string name="answers">Ответы</string>
     <string name="no_items_qa">Не удалось загрузить список вопросов</string>
 
     <!-- Events -->
