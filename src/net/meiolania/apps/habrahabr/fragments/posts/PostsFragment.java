@@ -149,7 +149,6 @@ public abstract class PostsFragment extends SherlockFragment implements OnScroll
 
 	@Override
 	public void onLoadFinished(Loader<List<PostEntry>> loader, List<PostEntry> data) {
-		// TODO: переделать. Возможно просто произошёл обрыв соединения
 		if (data.isEmpty())
 			noMoreData = true;
 
@@ -159,9 +158,6 @@ public abstract class PostsFragment extends SherlockFragment implements OnScroll
 
 		isLoadData = false;
 		page++;
-
-		if (getSherlockActivity() != null)
-			getSherlockActivity().supportInvalidateOptionsMenu();
 	}
 
 	@Override

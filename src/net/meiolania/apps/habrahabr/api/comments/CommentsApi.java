@@ -63,7 +63,7 @@ public class CommentsApi {
 			answerEntry.setAuthorUrl(authorAnswer.attr("abs:href"));
 			answerEntry.setAvatarUrl(avatarUrlAnswer.attr("src"));
 			answerEntry.setDate(dateAnswer.text());
-			answerEntry.setRating(NumberUtils.Parse(ratingAnswer));
+			answerEntry.setRating(NumberUtils.parse(ratingAnswer));
 			answerEntry.setText(textAnswer.text());
 			answerEntry.setHtmlText(textAnswer.html());
 
@@ -146,7 +146,7 @@ public class CommentsApi {
 				entry.setAvatarUrl(avatarUrl.attr("src"));
 
 			entry.setDate(date.text());
-			entry.setRating(NumberUtils.Parse(rating));
+			entry.setRating(NumberUtils.parse(rating));
 			entry.setText(text.text());
 			entry.setHtmlText(text.html());
 			entry.setLevel(level);

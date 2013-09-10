@@ -24,7 +24,6 @@ import net.meiolania.apps.habrahabr.activities.QaSearchActivity;
 import net.meiolania.apps.habrahabr.activities.QaShowActivity;
 import net.meiolania.apps.habrahabr.adapters.QaAdapter;
 import net.meiolania.apps.habrahabr.api.qa.QaEntry;
-import net.meiolania.apps.habrahabr.data.QaData;
 import net.meiolania.apps.habrahabr.fragments.qa.loader.QaLoader;
 import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
 import android.content.Intent;
@@ -33,28 +32,42 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 
-public abstract class QaFragment extends SherlockListFragment implements OnScrollListener, LoaderCallbacks<List<QaEntry>> {
+public abstract class QaFragment extends SherlockFragment implements OnScrollListener, OnItemClickListener, LoaderCallbacks<List<QaEntry>> {
 	public final static int LOADER_ID = 0;
-	protected int page = 1;
 	private boolean isLoadData;
 	private List<QaEntry> questions;
 	private QaAdapter adapter;
+	private ListView qaList;
+	private int page = 1;
 
 	public abstract List<QaEntry> getQuestion(int page);
-
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fr_qa, container, false);
+		
+		qaList = (ListView) view.findViewById(R.id.qaList);
+		
+		return view;
+	}
+	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -66,15 +79,10 @@ public abstract class QaFragment extends SherlockListFragment implements OnScrol
 			questions = new ArrayList<QaEntry>();
 			adapter = new QaAdapter(getSherlockActivity(), questions);
 		}
-
-		setListAdapter(adapter);
-
-		getListView().setDivider(null);
-		getListView().setDividerHeight(0);
-
-		getListView().setOnScrollListener(this);
-
-		setEmptyText(getString(R.string.no_items_qa));
+		
+		qaList.setAdapter(adapter);
+		qaList.setOnScrollListener(this);
+		qaList.setOnItemClickListener(this);
 	}
 
 	@Override
@@ -96,9 +104,9 @@ public abstract class QaFragment extends SherlockListFragment implements OnScrol
 			}
 		});
 	}
-
+	
 	@Override
-	public void onListItemClick(ListView list, View view, int position, long id) {
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		showQa(position);
 	}
 
@@ -144,8 +152,8 @@ public abstract class QaFragment extends SherlockListFragment implements OnScrol
 		adapter.notifyDataSetChanged();
 
 		isLoadData = false;
-
-		setListShown(true);
+		
+		page++;
 	}
 
 	@Override

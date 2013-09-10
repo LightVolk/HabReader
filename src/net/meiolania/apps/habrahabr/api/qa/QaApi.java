@@ -7,10 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.meiolania.apps.habrahabr.api.AuthApi;
+import net.meiolania.apps.habrahabr.api.hubs.HubEntry;
+import net.meiolania.apps.habrahabr.api.utils.NumberUtils;
 import net.meiolania.apps.habrahabr.api.utils.UrlUtils;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import android.util.Log;
 
@@ -72,9 +76,45 @@ public class QaApi {
 	}
 
 	private List<QaEntry> parseDocument(Document document) {
-		List<QaEntry> questions = new ArrayList<QaEntry>();
+		List<QaEntry> questionsEntries = new ArrayList<QaEntry>();
 
-		return questions;
+		Elements questions = document.select("div.post");
+		for (Element question : questions) {
+			Element title = question.select("h1.title > a").first();
+			Element author = question.select("div.author > a").first();
+			Element date = question.select("div.published").first();
+			Elements hubs = question.select("div.hubs > a");
+			Element rating = question.select("div.voting > div.mark").first();
+			Element viewsCount = question.select("div.pageviews").first();
+			Element favoritesCount = question.select("div.favs_count").first();
+			Element answersCount = question.select("div.informative > a").first();
+
+			QaEntry entry = new QaEntry();
+			entry.setTitle(title.text());
+			entry.setUrl(title.attr("abs:href"));
+			entry.setAuthor(author.text());
+			entry.setAuthorUrl(author.attr("abs:href"));
+			entry.setDate(date.text());
+			entry.setRating(NumberUtils.parse(rating));
+			entry.setViewsCount(NumberUtils.parse(viewsCount));
+			entry.setFavoritesCount(NumberUtils.parse(favoritesCount));
+			entry.setAnswersCount(NumberUtils.parse(answersCount));
+
+			List<HubEntry> hubsEntries = new ArrayList<HubEntry>();
+			for (Element hub : hubs) {
+				HubEntry hubEntry = new HubEntry();
+
+				hubEntry.setTitle(hub.text());
+				hubEntry.setUrl(hub.attr("abs:href"));
+
+				hubsEntries.add(hubEntry);
+			}
+			entry.setHubs(hubsEntries);
+
+			questionsEntries.add(entry);
+		}
+
+		return questionsEntries;
 	}
 
 	public enum Section {

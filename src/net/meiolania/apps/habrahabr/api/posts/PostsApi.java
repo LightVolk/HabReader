@@ -65,22 +65,22 @@ public class PostsApi {
 
 			List<HubEntry> hubsEntries = new ArrayList<HubEntry>();
 			for (Element hub : hubs) {
-				HubEntry hubsEntry = new HubEntry();
+				HubEntry hubEntry = new HubEntry();
 
-				hubsEntry.setTitle(hub.text());
-				hubsEntry.setUrl(hub.attr("abs:href"));
+				hubEntry.setTitle(hub.text());
+				hubEntry.setUrl(hub.attr("abs:href"));
 
-				hubsEntries.add(hubsEntry);
+				hubsEntries.add(hubEntry);
 			}
 			entry.setHubs(hubsEntries);
 
 			entry.setText(text.html());
 
-			entry.setRating(NumberUtils.Parse(rating));
-			entry.setViewsCount(NumberUtils.Parse(viewCount));
-			entry.setFavoritesCount(NumberUtils.Parse(favoritesCount));
-			entry.setCommentsCount(NumberUtils.Parse(commentsCount));
-			
+			entry.setRating(NumberUtils.parse(rating));
+			entry.setViewsCount(NumberUtils.parse(viewCount));
+			entry.setFavoritesCount(NumberUtils.parse(favoritesCount));
+			entry.setCommentsCount(NumberUtils.parse(commentsCount));
+
 			return entry;
 		} catch (IOException e) {
 			Log.e(TAG, "Can't load a page: " + url + ". Error: " + e.getMessage());
@@ -106,7 +106,7 @@ public class PostsApi {
 		String url = UrlUtils.createUrl("hub/", hub, "posts/page", String.valueOf(page));
 		return parseUrl(url);
 	}
-	
+
 	public List<PostEntry> getPosts(int page, String url) {
 		return parseUrl(url.replace("%page%", String.valueOf(page)));
 	}
@@ -126,7 +126,7 @@ public class PostsApi {
 			query = URLEncoder.encode(query, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 		}
-		
+
 		String url = UrlUtils.createUrl("search/page", String.valueOf(page), "/", "?target_type=posts&order_by=relevance&q=", query);
 		return parseUrl(url);
 	}

@@ -4,7 +4,7 @@ import org.jsoup.nodes.Element;
 
 public class NumberUtils {
 	
-	public static Integer Parse(Element text) {
+	public static Integer parse(Element text) {
 		if (text == null)
 			return null;
 		
