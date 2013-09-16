@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/send_comment"
-            android:hint="@string/post_comments_hint"
+            android:hint="@string/qa_comments_hint"
             android:singleLine="true" />
     </RelativeLayout>
 

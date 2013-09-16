@@ -2,10 +2,10 @@
 <resources>
 
     <string name="app_name">HabReader</string>
-	
+
     <!-- Errors -->
     <string name="undefined_value">Неопределённое значение</string>
-    
+
     <!-- Base -->
     <string name="send">Отправить</string>
     <string name="loading">Загрузка</string>
@@ -58,7 +58,7 @@
     <string name="loading_post">Загрузка поста</string>
     <string name="post_search">Поиск постов</string>
     <string name="no_items_post">Не удалось загрузить список постов</string>
-    <string name="comments_hint">Добавить комментарий</string>
+    <string name="post_comments_hint">Добавить комментарий</string>
 
     <!-- Hubs -->
     <string name="hubs_search">Поиск хабов</string>
@@ -71,6 +71,7 @@
     <string name="qa_search">Поиск вопросов</string>
     <string name="answers">Ответы</string>
     <string name="no_items_qa">Не удалось загрузить список вопросов</string>
+    <string name="qa_comments_hint">Добавить ответ</string>
 
     <!-- Events -->
     <string name="coming">Предстоящие</string>

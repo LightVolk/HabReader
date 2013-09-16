@@ -35,26 +35,18 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class CommentsAdapter extends BaseAdapter {
 	private List<CommentEntry> comments;
-	private Context context;
 	private ImageLoader imageLoader = ImageLoader.getInstance();
 	private LayoutInflater layoutInflater;
 	private int commentLevelMargin;
 	private int commentLeftMargin;
-	private int commentTopMargin;
-	private int commentRightMargin;
-	private int commentBottomMargin;
 
 	public CommentsAdapter(Context context, List<CommentEntry> comments) {
 		this.comments = comments;
-		this.context = context;
 
 		layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
 		commentLevelMargin = context.getResources().getDimensionPixelOffset(R.dimen.comment_level_margin);
 		commentLeftMargin = context.getResources().getDimensionPixelOffset(R.dimen.comment_left_margin);
-		commentTopMargin = context.getResources().getDimensionPixelOffset(R.dimen.comment_top_margin);
-		commentRightMargin = context.getResources().getDimensionPixelOffset(R.dimen.comment_right_margin);
-		commentBottomMargin = context.getResources().getDimensionPixelOffset(R.dimen.comment_bottom_margin);
 		
 		imageLoader.init(ImageUtils.createConfiguration(context));
 	}
@@ -112,8 +104,11 @@ public class CommentsAdapter extends BaseAdapter {
 
 		viewHolder.text.setText(data.getText());
 		viewHolder.text.setTypeface(Fonts.ROBOTO_REGULAR);
-
-		imageLoader.displayImage(data.getAvatarUrl(), viewHolder.avatar);
+		
+		if (data.getAvatarUrl() != null)
+			imageLoader.displayImage(data.getAvatarUrl(), viewHolder.avatar);
+		else
+			viewHolder.avatar.setVisibility(View.GONE);
 
 		return view;
 	}

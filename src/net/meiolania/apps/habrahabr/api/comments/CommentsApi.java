@@ -61,7 +61,12 @@ public class CommentsApi {
 			answerEntry.setLevel((byte) 0);
 			answerEntry.setAuthor(authorAnswer.text());
 			answerEntry.setAuthorUrl(authorAnswer.attr("abs:href"));
-			answerEntry.setAvatarUrl(avatarUrlAnswer.attr("src"));
+			
+			if (!avatarUrlAnswer.attr("src").startsWith("http:"))
+				answerEntry.setAvatarUrl("http:" + avatarUrlAnswer.attr("src"));
+			else
+				answerEntry.setAvatarUrl(avatarUrlAnswer.attr("src"));
+			
 			answerEntry.setDate(dateAnswer.text());
 			answerEntry.setRating(NumberUtils.parse(ratingAnswer));
 			answerEntry.setText(textAnswer.text());
