@@ -42,7 +42,41 @@ public class QaApi {
 				document = Jsoup.connect(url).get();
 			}
 			
+			Element content = document.select("div.post").first();
 			
+			Element title = content.select("h1.title > span.post_title").first();
+			Element author = content.select("div.author > a").first();
+			Element date = content.select("div.published").first();
+			Elements hubs = content.select("div.hubs > a");
+			Element text = content.select("div.content").first();
+			Element rating = content.select("div.mark > a.score").first();
+			Element pageViews = content.select("div.pageviews").first();
+			Element favoritesCount = content.select("div.favs_count").first();
+			
+			QaEntry qaEntry = new QaEntry();
+			
+			qaEntry.setTitle(title.text());
+			qaEntry.setAuthor(author.text());
+			qaEntry.setAuthorUrl(author.attr("abs:href"));
+			qaEntry.setDate(date.text());
+			qaEntry.setText(text.text());
+			qaEntry.setHtmlText(text.html());
+			qaEntry.setRating(NumberUtils.parse(rating));
+			qaEntry.setViewsCount(NumberUtils.parse(pageViews));
+			qaEntry.setFavoritesCount(NumberUtils.parse(favoritesCount));
+			
+			List<HubEntry> hubsEntries = new ArrayList<HubEntry>();
+			for (Element hub : hubs) {
+				HubEntry hubEntry = new HubEntry();
+				
+				hubEntry.setTitle(hub.text());
+				hubEntry.setUrl(hub.attr("abs:href"));
+				
+				hubsEntries.add(hubEntry);
+			}
+			qaEntry.setHubs(hubsEntries);
+			
+			return qaEntry;
 		} catch (IOException e) {
 			Log.e(TAG, "Can't load a page: " + url + ". Error: " + e.getMessage());
 		}
