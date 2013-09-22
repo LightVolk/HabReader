@@ -18,6 +18,7 @@ package net.meiolania.apps.habrahabr.auth;
 
 import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.activities.MainActivity;
+import net.meiolania.apps.habrahabr.api.HabrAuthApi;
 import android.content.Intent;
 import android.os.Bundle;
 import android.webkit.CookieManager;
@@ -31,8 +32,7 @@ public class SignOutFragment extends SherlockFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		Preferences preferences = Preferences
-				.getInstance(getSherlockActivity());
+		Preferences preferences = Preferences.getInstance(getSherlockActivity());
 		preferences.setPHPSessionId(null);
 		preferences.setLogin(null);
 		preferences.setHSecId(null);
@@ -40,11 +40,10 @@ public class SignOutFragment extends SherlockFragment {
 		CookieSyncManager.createInstance(getSherlockActivity());
 		CookieManager.getInstance().removeAllCookie();
 
-		User.getInstance().init(getSherlockActivity());
+		HabrAuthApi.getInstance().logout();
 
 		Intent intent = new Intent(getSherlockActivity(), MainActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-				| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 		startActivity(intent);
 	}
 

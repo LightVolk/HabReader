@@ -19,7 +19,6 @@ package net.meiolania.apps.habrahabr.activities;
 import net.meiolania.apps.habrahabr.Fonts;
 import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.api.HabrAuthApi;
-import net.meiolania.apps.habrahabr.auth.User;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -31,7 +30,6 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 
 public abstract class BaseActivity extends SherlockFragmentActivity {
-	public final static String DEVELOPER_PLAY_LINK = "https://play.google.com/store/apps/developer?id=Andrey+Zaytsev";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -42,7 +40,6 @@ public abstract class BaseActivity extends SherlockFragmentActivity {
 		initKeepScreenOn();
 
 		// Auth
-		User.getInstance().init(this);
 		HabrAuthApi.getInstance().init(this);
 
 		// UI
@@ -76,7 +73,7 @@ public abstract class BaseActivity extends SherlockFragmentActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	private void onHomeClick() {
 		Intent intent = NavUtils.getParentActivityIntent(this);
 		if (NavUtils.shouldUpRecreateTask(this, intent)) {

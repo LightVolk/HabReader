@@ -19,7 +19,6 @@ package net.meiolania.apps.habrahabr.activities;
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.api.HabrAuthApi;
 import net.meiolania.apps.habrahabr.auth.AuthFragment;
-import net.meiolania.apps.habrahabr.auth.User;
 import net.meiolania.apps.habrahabr.fragments.companies.CompaniesFragment;
 import net.meiolania.apps.habrahabr.fragments.events.EventsMainFragment;
 import net.meiolania.apps.habrahabr.fragments.favorites.FavoritesMainFragment;
@@ -46,6 +45,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 public class MainActivity extends BaseActivity {
+	public final static String DEVELOPER_PLAY_LINK = "https://play.google.com/store/apps/developer?id=Andrey+Zaytsev";
 	private Fragment fragment;
 	private MenuFragment.ItemType contentType;
 	private ActionBarDrawerToggle actionBarDrawerToggle;
@@ -111,7 +111,7 @@ public class MainActivity extends BaseActivity {
 		}
 
 		if (fragment == null) {
-			if (!User.getInstance().isLogged()) {
+			if (!HabrAuthApi.getInstance().isAuth()) {
 				fragment = new PostsMainFragment();
 				contentType = ItemType.POSTS;
 			} else {

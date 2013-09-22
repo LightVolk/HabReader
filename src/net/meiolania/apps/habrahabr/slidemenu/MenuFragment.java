@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.activities.MainActivity;
 import net.meiolania.apps.habrahabr.activities.UsersShowActivity;
+import net.meiolania.apps.habrahabr.api.HabrAuthApi;
 import net.meiolania.apps.habrahabr.auth.AuthFragment;
-import net.meiolania.apps.habrahabr.auth.User;
 import net.meiolania.apps.habrahabr.fragments.companies.CompaniesFragment;
 import net.meiolania.apps.habrahabr.fragments.events.EventsMainFragment;
 import net.meiolania.apps.habrahabr.fragments.favorites.FavoritesMainFragment;
@@ -58,14 +58,22 @@ public class MenuFragment extends SherlockListFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
+		addMenu();
+		
+		setListAdapter(menuAdapter);
+		
+		getListView().setBackgroundColor(Color.WHITE);
+	}
+	
+	private void addMenu() {
 		menu = new ArrayList<MenuData>();
 
-		if (!User.getInstance().isLogged())
+		if (!HabrAuthApi.getInstance().isAuth())
 			menu.add(new MenuData(R.string.auth, R.drawable.ic_users, ItemType.AUTH, false));
 		else {
 			menu.add(new MenuData(R.string.account, 0, null, true));
 			// TODO: set user avatar
-			menu.add(new MenuData(User.getInstance().getLogin(), R.drawable.ic_users, ItemType.PROFILE, false));
+			menu.add(new MenuData(HabrAuthApi.getInstance().getLogin(), R.drawable.ic_users, ItemType.PROFILE, false));
 			menu.add(new MenuData(R.string.feed, R.drawable.ic_feed, ItemType.FEED, false));
 			menu.add(new MenuData(R.string.favorites, R.drawable.ic_favorites, ItemType.FAVORITES, false));
 		}
@@ -79,9 +87,6 @@ public class MenuFragment extends SherlockListFragment {
 		menu.add(new MenuData(R.string.people, R.drawable.ic_users, ItemType.USERS, false));
 
 		menuAdapter = new MenuAdapter(getSherlockActivity(), menu);
-		setListAdapter(menuAdapter);
-
-		getListView().setBackgroundColor(Color.WHITE);
 	}
 
 	@Override
@@ -98,7 +103,7 @@ public class MenuFragment extends SherlockListFragment {
 				break;
 			case PROFILE:
 				Intent intent = new Intent(getSherlockActivity(), UsersShowActivity.class);
-				intent.putExtra(UsersShowActivity.EXTRA_URL, "http://habrahabr.ru/users/" + User.getInstance().getLogin());
+				intent.putExtra(UsersShowActivity.EXTRA_URL, "http://habrahabr.ru/users/" + HabrAuthApi.getInstance().getLogin());
 				getSherlockActivity().startActivity(intent);
 				break;
 			case FEED:

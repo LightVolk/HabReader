@@ -54,4 +54,9 @@ public final class HabrAuthApi implements AuthApi {
 		this.authId = authId;
 	}
 
+	@Override
+	public void logout() {
+		
+	}
+
 }

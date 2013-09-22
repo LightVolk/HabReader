@@ -7,6 +7,8 @@ public interface AuthApi {
 	public boolean isAuth();
 
 	public void auth(String login, String sessionId, String authId);
+	
+	public void logout();
 
 	public String getLogin();
 

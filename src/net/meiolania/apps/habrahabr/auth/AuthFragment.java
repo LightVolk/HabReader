@@ -21,8 +21,11 @@ import java.io.IOException;
 import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.activities.MainActivity;
+import net.meiolania.apps.habrahabr.api.AuthApi;
+import net.meiolania.apps.habrahabr.api.HabrAuthApi;
 import net.meiolania.apps.habrahabr.utils.ToastUtils;
 
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -55,8 +58,7 @@ public class AuthFragment extends SherlockFragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.auth_fragment, container, false);
 	}
 
@@ -65,13 +67,11 @@ public class AuthFragment extends SherlockFragment {
 		actionBar.setTitle(R.string.auth);
 		actionBar.removeAllTabs();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-		getSherlockActivity().setSupportProgressBarIndeterminateVisibility(
-				false);
+		getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
 	}
 
 	private void showAuthPage() {
-		WebView content = (WebView) getSherlockActivity().findViewById(
-				R.id.auth_content);
+		WebView content = (WebView) getSherlockActivity().findViewById(R.id.auth_content);
 
 		content.setWebViewClient(new WebViewClient() {
 
@@ -81,20 +81,18 @@ public class AuthFragment extends SherlockFragment {
 
 				// We handle redirect to main page after auth
 				if (url.equals(MAIN_URL)) {
-					String cookies[] = CookieManager.getInstance()
-							.getCookie(MAIN_URL).split(";");
+					String cookies[] = CookieManager.getInstance().getCookie(MAIN_URL).split(";");
 
-					Preferences preferences = Preferences
-							.getInstance(getSherlockActivity());
+					Preferences preferences = Preferences.getInstance(getSherlockActivity());
 
 					for (String cookie : cookies) {
 						String cookieNameAndValue[] = cookie.split("=");
 						String cookieName = cookieNameAndValue[0].trim();
 						String cookieValue = cookieNameAndValue[1].trim();
 
-						if (cookieName.equals(User.PHPSESSION_ID))
+						if (cookieName.equals(AuthApi.SESSION_ID))
 							preferences.setPHPSessionId(cookieValue);
-						if (cookieName.equals(User.HSEC_ID))
+						if (cookieName.equals(AuthApi.AUTH_ID))
 							preferences.setHSecId(cookieValue);
 					}
 
@@ -117,14 +115,12 @@ public class AuthFragment extends SherlockFragment {
 		protected Void doInBackground(Void... params) {
 			// TODO: handle html from webview?
 			try {
-				Preferences preferences = Preferences
-						.getInstance(getSherlockActivity());
-
-				Document document = Jsoup
-						.connect(MAIN_URL)
-						.cookie(User.PHPSESSION_ID,
-								preferences.getPHPSessionId())
-						.cookie(User.HSEC_ID, preferences.getHSecId()).get();
+				Preferences preferences = Preferences.getInstance(getSherlockActivity());
+				
+				Connection connection = Jsoup.connect(MAIN_URL);
+				connection.cookie(AuthApi.AUTH_ID, HabrAuthApi.getInstance().getAuthId());
+				connection.cookie(AuthApi.SESSION_ID, HabrAuthApi.getInstance().getSessionId());
+				Document document = connection.get();
 
 				Element usernameElement = document.select("a.username").first();
 				preferences.setLogin(usernameElement.text());
@@ -148,10 +144,8 @@ public class AuthFragment extends SherlockFragment {
 
 			ToastUtils.show(getSherlockActivity(), R.string.auth_success);
 
-			Intent intent = new Intent(getSherlockActivity(),
-					MainActivity.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-					| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+			Intent intent = new Intent(getSherlockActivity(), MainActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			startActivity(intent);
 		}
 
