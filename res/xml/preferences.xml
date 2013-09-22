@@ -19,7 +19,7 @@
             android:entryValues="@array/posts_list_values"
             android:key="posts_default_tab"
             android:title="@string/default_tab_preferences" />
-        <CheckBoxPreference
+        <CheckBoxPreference
             android:defaultValue="false"
             android:key="posts_full_info"
             android:summary="@string/posts_full_info_summary_preferences"
@@ -50,12 +50,17 @@
         <Preference android:title="@string/review_preferences" >
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://play.google.com/store/apps/details?id=net.meiolania.apps.habrahabr" />
+                android:data="@string/play_store_link" />
         </Preference>
         <Preference android:title="@string/source_code_preferences" >
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://github.com/AEinsam/HabReader" />
+                android:data="@string/github_link" />
+        </Preference>
+        <Preference android:title="@string/beta_test_preferences" >
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/google_plus_link" />
         </Preference>
         <Preference
             android:key="version"

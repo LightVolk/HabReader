@@ -38,7 +38,7 @@ public class PreferencesActivity extends SherlockPreferenceActivity {
 		super.onCreate(savedInstanceState);
 
 		addPreferencesFromResource(R.xml.preferences);
-		
+
 		showActionBar();
 		initPreferences();
 	}
@@ -48,11 +48,11 @@ public class PreferencesActivity extends SherlockPreferenceActivity {
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setTitle(R.string.preferences);
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	private void initPreferences() {
 		Preference version = (Preference) findPreference("version");
-		
+
 		try {
 			PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_META_DATA);
 			version.setSummary(packageInfo.versionName);
@@ -70,7 +70,7 @@ public class PreferencesActivity extends SherlockPreferenceActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	private void onHomeClick() {
 		Intent intent = NavUtils.getParentActivityIntent(this);
 		if (NavUtils.shouldUpRecreateTask(this, intent)) {

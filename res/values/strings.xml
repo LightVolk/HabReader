@@ -2,7 +2,12 @@
 <resources>
 
     <string name="app_name">HabReader</string>
-
+	
+    <!-- Links -->
+    <string name="play_store_link">https://play.google.com/store/apps/details?id=net.meiolania.apps.habrahabr</string>
+    <string name="github_link">https://github.com/AEinsam/HabReader</string>
+    <string name="google_plus_link">https://plus.google.com/communities/100278135694062744823</string>
+    
     <!-- Errors -->
     <string name="undefined_value">Неопределённое значение</string>
 
@@ -113,7 +118,6 @@
     <string name="donate_preferences">Помочь разработке</string>
     <string name="review_preferences">Оценить приложение</string>
     <string name="donate_thanks_preferences">Спасибо за поддержку приложения!</string>
-    <string name="fullscreen_preferences">Полноэкранный режим</string>
     <string name="version_preferences">Версия</string>
     <string name="keepscreen_preferences">Не выключать экран</string>
     <string name="source_code_preferences">Исходный код</string>
@@ -123,10 +127,11 @@
     <string name="posts_additional_layout_summary_preferences">Отображать дополнительную информацию при просмотре списка постов</string>
     <string name="qa_additional_layout_summary_preferences">Отображать дополнительную информацию при просмотре списка вопросов</string>
     <string name="share_text_preferences">Шаблон для кнопки \"share\"</string>
-    <string name="share_text_default_preferences">$link$ - $title$ \#HabReader</string>
+    <string name="share_text_default_preferences">$link$ - $title$</string>
     <string name="posts_full_info_preferences">Отображать краткий текст поста</string>
     <string name="posts_full_info_summary_preferences">Отображать краткий текст поста при просмотре списка постов</string>
     <string name="posts_zoom_summary_preferences">Кнопки масштаба при просмотре поста</string>
     <string name="posts_zoom_preferences">Масштабирование</string>
+    <string name="beta_test_preferences">Тестовые версии</string>
 
 </resources>
