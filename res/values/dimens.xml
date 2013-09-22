@@ -37,5 +37,10 @@
 	<dimen name="event_hubs">12sp</dimen>
 	<dimen name="event_date_day">26sp</dimen>
 	<dimen name="event_date_month">16sp</dimen>
+	
+	<dimen name="company_title">18sp</dimen>
+	<dimen name="company_last_post">12sp</dimen>
+	<dimen name="company_index">16sp</dimen>
+	<dimen name="company_subscribers">16sp</dimen>
     
 </resources>

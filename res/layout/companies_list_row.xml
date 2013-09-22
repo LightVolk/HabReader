@@ -1,38 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/simple_list_row"
     android:orientation="horizontal"
     android:padding="10dp" >
 
     <ImageView
-        android:id="@+id/company_icon"
+        android:id="@+id/logo"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_gravity="left|center_vertical"
-        android:layout_marginRight="10dp"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop" />
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/ic_launcher" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginBottom="5dp"
-        android:orientation="vertical" >
+        android:layout_marginLeft="5dp" >
 
         <TextView
-            android:id="@+id/company_title"
-            android:layout_width="fill_parent"
+            android:id="@+id/index"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/title_in_list" />
+            android:layout_alignParentRight="true"
+            android:text="1681,90"
+            android:textSize="@dimen/company_index" />
 
         <TextView
-            android:id="@+id/company_index"
-            android:layout_width="fill_parent"
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_small" />
-    </LinearLayout>
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@id/index"
+            android:text="Mail.Ru Group"
+            android:textSize="@dimen/company_title" />
+
+        <TextView
+            android:id="@+id/last_post"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/name"
+            android:text="Последний пост: Возраст нашей галактики"
+            android:textSize="@dimen/company_last_post" />
+    </RelativeLayout>
 
 </LinearLayout>

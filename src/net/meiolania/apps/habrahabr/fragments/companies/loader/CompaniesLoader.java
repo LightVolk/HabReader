@@ -16,71 +16,26 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.fragments.companies.loader;
 
-import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
-import net.meiolania.apps.habrahabr.data.CompaniesData;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
+import net.meiolania.apps.habrahabr.api.HabrAuthApi;
+import net.meiolania.apps.habrahabr.api.companies.CompaniesApi;
+import net.meiolania.apps.habrahabr.api.companies.CompanyEntry;
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
-import android.util.Log;
 
-public class CompaniesLoader extends AsyncTaskLoader<ArrayList<CompaniesData>> {
-	public final static String TAG = CompaniesLoader.class.getName();
-	public final static String URL = "http://habrahabr.ru/companies/page%d/";
-	private static int page;
+public class CompaniesLoader extends AsyncTaskLoader<List<CompanyEntry>> {
+	private int page;
 
-	public CompaniesLoader(Context context) {
+	public CompaniesLoader(Context context, int page) {
 		super(context);
-	}
-
-	public static void setPage(int page) {
-		CompaniesLoader.page = page;
+		this.page = page;
 	}
 
 	@Override
-	public ArrayList<CompaniesData> loadInBackground() {
-		ArrayList<CompaniesData> data = new ArrayList<CompaniesData>();
-
-		try {
-			String readyUrl = String.format(URL, page);
-
-			Log.i(TAG, "Loading a page: " + readyUrl);
-
-			Document document = Jsoup.connect(readyUrl).get();
-
-			Elements companies = document.select("div.company");
-
-			for (Element company : companies) {
-				CompaniesData companiesData = new CompaniesData();
-
-				Element icon = company.select("div.icon > img").first();
-				Element index = company.select("div.habraindex").first();
-				Element title = company
-						.select("div.description > div.name > a").first();
-				Element description = company.select("div.description > p")
-						.first();
-
-				companiesData.setTitle(title.text());
-				companiesData.setUrl(title.attr("abs:href"));
-				// Habr stop changing html code :3
-				// companiesData.setIcon("http://habrahabr.ru" +
-				// icon.attr("src"));
-				companiesData.setIcon(icon.attr("src"));
-				companiesData.setIndex(index.text());
-				companiesData.setDescription(description.text());
-
-				data.add(companiesData);
-			}
-		} catch (IOException e) {
-		}
-
-		return data;
+	public List<CompanyEntry> loadInBackground() {
+		CompaniesApi companiesApi = new CompaniesApi(HabrAuthApi.getInstance());
+		return companiesApi.getCompanies(page);
 	}
 
 }

@@ -17,15 +17,17 @@ limitations under the License.
 package net.meiolania.apps.habrahabr.fragments.companies;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.activities.CompaniesShowActivity;
 import net.meiolania.apps.habrahabr.adapters.CompaniesAdapter;
-import net.meiolania.apps.habrahabr.data.CompaniesData;
+import net.meiolania.apps.habrahabr.api.companies.CompanyEntry;
 import net.meiolania.apps.habrahabr.fragments.companies.loader.CompaniesLoader;
 import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.view.View;
@@ -35,18 +37,14 @@ import android.widget.ListView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockListFragment;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 
-public class CompaniesFragment extends SherlockListFragment implements
-		OnScrollListener, LoaderCallbacks<ArrayList<CompaniesData>> {
+public class CompaniesFragment extends SherlockListFragment implements OnScrollListener, LoaderCallbacks<List<CompanyEntry>> {
 	public final static int LOADER_COMPANIES = 0;
-	private ArrayList<CompaniesData> companies;
+	private List<CompanyEntry> companies;
 	private CompaniesAdapter adapter;
-	private int page;
+	private int page = 1;
 	private boolean isLoadData;
 	private boolean noMoreData;
-	private boolean firstLoading = true;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -58,7 +56,7 @@ public class CompaniesFragment extends SherlockListFragment implements
 		setRetainInstance(true);
 
 		if (adapter == null) {
-			companies = new ArrayList<CompaniesData>();
+			companies = new ArrayList<CompanyEntry>();
 			adapter = new CompaniesAdapter(getSherlockActivity(), companies);
 		}
 
@@ -68,13 +66,6 @@ public class CompaniesFragment extends SherlockListFragment implements
 		getListView().setOnScrollListener(this);
 
 		setEmptyText(getString(R.string.no_items_companies));
-	}
-
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		super.onCreateOptionsMenu(menu, inflater);
-
-		inflater.inflate(R.menu.companies_fragment, menu);
 	}
 
 	@Override
@@ -91,35 +82,25 @@ public class CompaniesFragment extends SherlockListFragment implements
 	}
 
 	protected void showCompany(int position) {
-		CompaniesData data = companies.get(position);
+		CompanyEntry data = companies.get(position);
 
-		Intent intent = new Intent(getSherlockActivity(),
-				CompaniesShowActivity.class);
-		intent.putExtra(CompaniesShowActivity.EXTRA_TITLE, data.getTitle());
-		intent.putExtra(CompaniesShowActivity.EXTRA_URL, data.getProfileUrl());
+		Intent intent = new Intent(getSherlockActivity(), CompaniesShowActivity.class);
+		intent.putExtra(CompaniesShowActivity.EXTRA_URL, data.getUrl());
 
 		startActivity(intent);
 	}
 
 	protected void restartLoading() {
 		if (ConnectionUtils.isConnected(getSherlockActivity())) {
-			if (!firstLoading)
-				getSherlockActivity()
-						.setSupportProgressBarIndeterminateVisibility(true);
-
-			CompaniesLoader.setPage(++page);
-
-			getSherlockActivity().getSupportLoaderManager().restartLoader(
-					LOADER_COMPANIES, null, this);
+			LoaderManager loaderManager = getSherlockActivity().getSupportLoaderManager();
+			loaderManager.restartLoader(LOADER_COMPANIES, null, this);
 
 			isLoadData = true;
 		}
 	}
 
-	public void onScroll(AbsListView view, int firstVisibleItem,
-			int visibleItemCount, int totalItemCount) {
-		if ((firstVisibleItem + visibleItemCount) == totalItemCount
-				&& !isLoadData && !noMoreData)
+	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+		if ((firstVisibleItem + visibleItemCount) == totalItemCount && !isLoadData && !noMoreData)
 			restartLoading();
 	}
 
@@ -128,27 +109,20 @@ public class CompaniesFragment extends SherlockListFragment implements
 	}
 
 	@Override
-	public Loader<ArrayList<CompaniesData>> onCreateLoader(int id, Bundle args) {
-		CompaniesLoader loader = new CompaniesLoader(getSherlockActivity());
+	public Loader<List<CompanyEntry>> onCreateLoader(int id, Bundle args) {
+		CompaniesLoader loader = new CompaniesLoader(getSherlockActivity(), page);
 		loader.forceLoad();
 
 		return loader;
 	}
 
 	@Override
-	public void onLoadFinished(Loader<ArrayList<CompaniesData>> loader,
-			ArrayList<CompaniesData> data) {
+	public void onLoadFinished(Loader<List<CompanyEntry>> loader, List<CompanyEntry> data) {
 		if (data.isEmpty())
 			noMoreData = true;
 
 		companies.addAll(data);
 		adapter.notifyDataSetChanged();
-
-		firstLoading = false;
-
-		if (getSherlockActivity() != null)
-			getSherlockActivity().setSupportProgressBarIndeterminateVisibility(
-					false);
 
 		isLoadData = false;
 
@@ -160,7 +134,7 @@ public class CompaniesFragment extends SherlockListFragment implements
 	}
 
 	@Override
-	public void onLoaderReset(Loader<ArrayList<CompaniesData>> loader) {
+	public void onLoaderReset(Loader<List<CompanyEntry>> loader) {
 
 	}
 

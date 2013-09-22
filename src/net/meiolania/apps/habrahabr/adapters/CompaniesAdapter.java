@@ -16,10 +16,12 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.adapters;
 
-import java.util.ArrayList;
+import java.util.List;
 
+import net.meiolania.apps.habrahabr.Fonts;
 import net.meiolania.apps.habrahabr.R;
-import net.meiolania.apps.habrahabr.data.CompaniesData;
+import net.meiolania.apps.habrahabr.api.companies.CompanyEntry;
+import net.meiolania.apps.habrahabr.utils.ImageUtils;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,66 +30,71 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 public class CompaniesAdapter extends BaseAdapter {
-    private ArrayList<CompaniesData> companies;
-    private Context context;
-    private ImageLoader imageLoader = ImageLoader.getInstance();
+	private List<CompanyEntry> companies;
+	private LayoutInflater layoutInflater;
+	private ImageLoader imageLoader = ImageLoader.getInstance();
 
-    public CompaniesAdapter(Context context, ArrayList<CompaniesData> companies) {
-	this.context = context;
-	this.companies = companies;
+	public CompaniesAdapter(Context context, List<CompanyEntry> companies) {
+		this.companies = companies;
+		this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-	DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory().cacheOnDisc().build();
-	ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(context).memoryCacheSize(3000000)
-		.discCacheSize(50000000).httpReadTimeout(5000).defaultDisplayImageOptions(options).build();
-	this.imageLoader.init(configuration);
-    }
+		this.imageLoader.init(ImageUtils.createConfiguration(context));
+	}
 
-    public int getCount() {
-	return companies.size();
-    }
+	public int getCount() {
+		return companies.size();
+	}
 
-    public CompaniesData getItem(int position) {
-	return companies.get(position);
-    }
+	public CompanyEntry getItem(int position) {
+		return companies.get(position);
+	}
 
-    public long getItemId(int position) {
-	return position;
-    }
+	public long getItemId(int position) {
+		return position;
+	}
 
-    public View getView(int position, View view, ViewGroup parent) {
-	CompaniesData data = getItem(position);
+	public View getView(int position, View view, ViewGroup parent) {
+		CompanyEntry data = getItem(position);
 
-	ViewHolder viewHolder;
-	if (view == null) {
-	    LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	    view = layoutInflater.inflate(R.layout.companies_list_row, null);
-	    
-	    viewHolder = new ViewHolder();
-	    
-	    viewHolder.title = (TextView) view.findViewById(R.id.company_title);
-	    viewHolder.icon = (ImageView) view.findViewById(R.id.company_icon);
-	    viewHolder.index = (TextView) view.findViewById(R.id.company_index);
-	    
-	    view.setTag(viewHolder);
-	} else
-	    viewHolder = (ViewHolder) view.getTag();
+		ViewHolder viewHolder;
+		if (view == null) {
+			view = layoutInflater.inflate(R.layout.companies_list_row, null);
 
-	viewHolder.title.setText(data.getTitle());
-	imageLoader.displayImage(data.getIcon(), viewHolder.icon);
-	viewHolder.index.setText(String.format(context.getString(R.string.habraindex), data.getIndex()));
+			viewHolder = new ViewHolder();
+			
+			viewHolder.logo = (ImageView) view.findViewById(R.id.logo);
+			viewHolder.name = (TextView) view.findViewById(R.id.name);
+			viewHolder.index = (TextView) view.findViewById(R.id.index);
+			viewHolder.lastPost = (TextView) view.findViewById(R.id.last_post);
 
-	return view;
-    }
-    
-    static class ViewHolder {
-	TextView title;
-	ImageView icon;
-	TextView index;
-    }
+			view.setTag(viewHolder);
+		} else
+			viewHolder = (ViewHolder) view.getTag();
+		
+		imageLoader.displayImage(data.getLogo(), viewHolder.logo);
+		
+		viewHolder.name.setText(data.getName());
+		viewHolder.name.setTypeface(Fonts.ROBOTO_BOLD);
+		
+		viewHolder.index.setText(String.valueOf(data.getIndex()));
+		viewHolder.index.setTypeface(Fonts.ROBOTO_LIGHT);
+		
+		if (data.getLastPost() != null) {
+			viewHolder.lastPost.setText(data.getLastPost().getTitle());
+			viewHolder.lastPost.setTypeface(Fonts.ROBOTO_LIGHT);
+		}
+		
+		return view;
+	}
+
+	static class ViewHolder {
+		ImageView logo;
+		TextView name;
+		TextView index;
+		TextView lastPost;
+	}
 
 }

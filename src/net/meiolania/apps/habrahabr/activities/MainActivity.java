@@ -195,8 +195,7 @@ public class MainActivity extends BaseActivity {
 
 		MenuInflater menuInflater = getSupportMenuInflater();
 
-		if (drawerLayout.isDrawerOpen(drawerFrame))
-			menuInflater.inflate(R.menu.ac_main, menu);
+		menuInflater.inflate(R.menu.ac_main, menu);
 
 		if (HabrAuthApi.getInstance().isAuth())
 			menuInflater.inflate(R.menu.user, menu);
