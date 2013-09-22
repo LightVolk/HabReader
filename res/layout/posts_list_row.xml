@@ -3,10 +3,10 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingBottom="10dp"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
-    android:paddingTop="10dp" >
+    android:paddingBottom="@dimen/post_padding_bottom"
+    android:paddingLeft="@dimen/post_padding_left"
+    android:paddingRight="@dimen/post_padding_right"
+    android:paddingTop="@dimen/post_padding_top" >
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -23,7 +23,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
             android:text="Тестовый заголовок"
-            android:textSize="@dimen/title_in_list" />
+            android:textSize="@dimen/post_title" />
 
         <View
             android:layout_width="fill_parent"
@@ -44,7 +44,8 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
-                android:text="AEinsam" />
+                android:text="AEinsam"
+                android:textSize="@dimen/post_author" />
 
             <TextView
                 android:id="@+id/date"
@@ -54,7 +55,7 @@
                 android:layout_below="@id/author"
                 android:layout_marginLeft="5dp"
                 android:text="Вчера в 23:01"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="@dimen/post_date" />
 
             <TextView
                 android:id="@+id/hubs"
@@ -63,7 +64,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:text="Разработка под Android"
-                android:textSize="@dimen/text_size_smaller" />
+                android:textSize="@dimen/post_hub" />
         </RelativeLayout>
 
         <TextView
@@ -74,7 +75,8 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginTop="10dp"
-            android:text="Текст поста" />
+            android:text="Текст поста"
+            android:textSize="@dimen/post_text" />
 
         <RelativeLayout
             android:layout_width="fill_parent"

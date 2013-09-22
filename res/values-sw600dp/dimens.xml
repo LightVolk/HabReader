@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <dimen name="post_padding_bottom">10dp</dimen>
+    <dimen name="post_padding_top">10dp</dimen>
+    <dimen name="post_padding_left">20dp</dimen>
+    <dimen name="post_padding_right">20dp</dimen>
+    
+    <dimen name="qa_padding_bottom">10dp</dimen>
+    <dimen name="qa_padding_top">10dp</dimen>
+    <dimen name="qa_padding_left">20dp</dimen>
+    <dimen name="qa_padding_right">20dp</dimen>
+    
+    <dimen name="event_padding_bottom">10dp</dimen>
+    <dimen name="event_padding_top">10dp</dimen>
+    <dimen name="event_padding_left">20dp</dimen>
+    <dimen name="event_padding_right">20dp</dimen>
+    
+</resources>

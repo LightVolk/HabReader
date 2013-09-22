@@ -6,14 +6,25 @@
     <dimen name="text_size_medium">18sp</dimen>
     <dimen name="text_size_large">22sp</dimen>
     <dimen name="title_in_list">16sp</dimen>
-    <dimen name="dashboard_buttons">16sp</dimen>
-    <dimen name="slidingmenu_offset">60dp</dimen>
-    <dimen name="comment_text">15sp</dimen>
     
+    <dimen name="post_padding_bottom">5dp</dimen>
+    <dimen name="post_padding_top">5dp</dimen>
+    <dimen name="post_padding_left">5dp</dimen>
+    <dimen name="post_padding_right">5dp</dimen>
+    <dimen name="post_title">18sp</dimen>
+    <dimen name="post_author">14sp</dimen>
+    <dimen name="post_date">14sp</dimen>
+    <dimen name="post_hub">14sp</dimen>
+    <dimen name="post_text">16sp</dimen>
+    
+    <dimen name="qa_padding_bottom">5dp</dimen>
+    <dimen name="qa_padding_top">5dp</dimen>
+    <dimen name="qa_padding_left">5dp</dimen>
+    <dimen name="qa_padding_right">5dp</dimen>
     <dimen name="qa_title">18sp</dimen>
     <dimen name="qa_author">14sp</dimen>
     <dimen name="qa_date">14sp</dimen>
-    <dimen name="qa_hubs">14sp</dimen>
+    <dimen name="qa_hub">14sp</dimen>
     
     <dimen name="hubs_title">18sp</dimen>
     <dimen name="hubs_index">18sp</dimen>
@@ -33,8 +44,12 @@
 	<dimen name="comment_send_form_right_padding">10dp</dimen>
 	<dimen name="comment_send_form_bottom_padding">5dp</dimen>
 	
+	<dimen name="event_padding_bottom">5dp</dimen>
+    <dimen name="event_padding_top">5dp</dimen>
+    <dimen name="event_padding_left">5dp</dimen>
+    <dimen name="event_padding_right">5dp</dimen>
 	<dimen name="event_title">18sp</dimen>
-	<dimen name="event_hubs">12sp</dimen>
+	<dimen name="event_hub">12sp</dimen>
 	<dimen name="event_date_day">26sp</dimen>
 	<dimen name="event_date_month">16sp</dimen>
 	
