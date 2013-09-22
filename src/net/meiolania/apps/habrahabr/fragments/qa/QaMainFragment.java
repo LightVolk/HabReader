@@ -18,15 +18,23 @@ package net.meiolania.apps.habrahabr.fragments.qa;
 
 import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.R;
-import net.meiolania.apps.habrahabr.ui.TabListener;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.ActionBar.Tab;
+import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
-public class QaMainFragment extends SherlockFragment {
+public class QaMainFragment extends SherlockFragment implements OnNavigationListener {
+	public final static int QA_INBOX = 0;
+	public final static int QA_HOT = 1;
+	public final static int QA_UNANSWERED = 2;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -35,39 +43,49 @@ public class QaMainFragment extends SherlockFragment {
 		showActionBar();
 	}
 
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.fr_main, container, false);
+	}
+
 	private void showActionBar() {
 		SherlockFragmentActivity activity = getSherlockActivity();
 
 		ActionBar actionBar = activity.getSupportActionBar();
 		actionBar.removeAllTabs();
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setTitle(R.string.qa);
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		actionBar.setTitle("");
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
 		int selectedTab = Preferences.getInstance(activity).getQaDefaultTab();
 
-		/* Inbox tab */
-		Tab tab = actionBar.newTab();
-		tab.setText(R.string.inbox);
-		tab.setTag("inbox");
-		tab.setTabListener(new TabListener<QaInboxFragment>(activity, "inbox",
-				QaInboxFragment.class));
-		actionBar.addTab(tab, selectedTab == 0 ? true : false);
+		ArrayAdapter<CharSequence> listAdapter = ArrayAdapter.createFromResource(activity, R.array.qa_list, R.layout.sherlock_spinner_item);
+		listAdapter.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
+		actionBar.setListNavigationCallbacks(listAdapter, this);
+	}
 
-		/* Hot tab */
-		tab = actionBar.newTab();
-		tab.setText(R.string.hot);
-		tab.setTag("hot");
-		tab.setTabListener(new TabListener<QaHotFragment>(activity, "hot",
-				QaHotFragment.class));
-		actionBar.addTab(tab, selectedTab == 1 ? true : false);
+	@Override
+	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+		QaFragment fragment = null;
 
-		/* Unanswered tab */
-		tab = actionBar.newTab();
-		tab.setText(R.string.unanswered);
-		tab.setTag("unanswered");
-		tab.setTabListener(new TabListener<QaUnansweredFragment>(activity,
-				"unanswered", QaUnansweredFragment.class));
-		actionBar.addTab(tab, selectedTab == 2 ? true : false);
+		switch ((int) itemId) {
+			default:
+			case QA_INBOX:
+				fragment = new QaInboxFragment();
+				break;
+			case QA_HOT:
+				fragment = new QaHotFragment();
+				break;
+			case QA_UNANSWERED:
+				fragment = new QaUnansweredFragment();
+				break;
+		}
+
+		FragmentManager fragmentManager = getSherlockActivity().getSupportFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+		fragmentTransaction.replace(R.id.fragment_container, fragment);
+		fragmentTransaction.commit();
+
+		return true;
 	}
 }

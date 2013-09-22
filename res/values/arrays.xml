@@ -43,17 +43,16 @@
         <item>2</item>
     </string-array>
     
-    <string-array name="qa_tabs">
+    <string-array name="qa_list">
         <item>@string/inbox</item>
         <item>@string/hot</item>
         <item>@string/unanswered</item>
     </string-array>
     
-    <string-array name="qa_tabs_values">
+    <string-array name="qa_list_values">
         <item>0</item>
         <item>1</item>
         <item>2</item>
-        <item>3</item>
     </string-array>
     
 </resources>
