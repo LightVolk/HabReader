@@ -1,57 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:paddingBottom="2dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="5dp"
     android:paddingLeft="5dp"
     android:paddingRight="5dp"
-    android:paddingTop="2dp" >
+    android:paddingTop="5dp" >
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@drawable/posts_list_row_background_normal"
-        android:orientation="vertical"
-        android:padding="10dp" >
+        android:background="@drawable/events_list_row_background"
+        android:descendantFocusability="blocksDescendants"
+        android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/event_title"
+        <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:textSize="@dimen/title_in_list" />
-
-        <TextView
-            android:id="@+id/event_text"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:maxLines="3"
-            android:textSize="@dimen/text_size_small" />
-
-        <LinearLayout
-            android:id="@+id/event_info"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="4" >
-
-            <TextView
-                android:id="@+id/event_date"
-                android:layout_width="0dp"
+            android:layout_height="wrap_content" >
+            
+            <LinearLayout
+                android:id="@+id/date_info"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_small" />
+                android:gravity="center_horizontal"
+                android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/event_hubs"
-                android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Сен"
+                    android:textSize="@dimen/event_date_month" />
+
+                <TextView
+                    android:id="@+id/day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="23"
+                    android:textSize="@dimen/event_date_day" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/info"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:textColor="@color/list_hubs"
-                android:textSize="@dimen/text_size_small" />
-        </LinearLayout>
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toLeftOf="@id/date_info">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:text="Russian Code Cup 2013"
+                    android:textSize="@dimen/event_title" />
+
+                <TextView
+                    android:id="@+id/hub"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/title"
+                    android:text="Блог компании Mail.Ru Group"
+                    android:textSize="@dimen/event_hubs" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp"
+            android:text="Текст поста" />
     </LinearLayout>
 
 </LinearLayout>

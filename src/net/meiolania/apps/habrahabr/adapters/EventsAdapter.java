@@ -16,10 +16,11 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.adapters;
 
-import java.util.ArrayList;
+import java.util.List;
 
+import net.meiolania.apps.habrahabr.Fonts;
 import net.meiolania.apps.habrahabr.R;
-import net.meiolania.apps.habrahabr.data.EventsData;
+import net.meiolania.apps.habrahabr.api.events.EventEntry;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,14 +29,12 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 public class EventsAdapter extends BaseAdapter {
-	private ArrayList<EventsData> events;
-	private Context context;
+	private List<EventEntry> events;
 	private LayoutInflater layoutInflater;
 
-	public EventsAdapter(Context context, ArrayList<EventsData> events) {
-		this.context = context;
+	public EventsAdapter(Context context, List<EventEntry> events) {
 		this.events = events;
-	
+
 		layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
@@ -43,7 +42,7 @@ public class EventsAdapter extends BaseAdapter {
 		return events.size();
 	}
 
-	public EventsData getItem(int position) {
+	public EventEntry getItem(int position) {
 		return events.get(position);
 	}
 
@@ -52,37 +51,49 @@ public class EventsAdapter extends BaseAdapter {
 	}
 
 	public View getView(int position, View view, ViewGroup parent) {
-		EventsData data = getItem(position);
+		EventEntry data = getItem(position);
 
 		ViewHolder viewHolder;
 		if (view == null) {
-			
+
 			view = layoutInflater.inflate(R.layout.events_list_row, null);
 
 			viewHolder = new ViewHolder();
 
-			viewHolder.title = (TextView) view.findViewById(R.id.event_title);
-			viewHolder.text = (TextView) view.findViewById(R.id.event_text);
-			viewHolder.date = (TextView) view.findViewById(R.id.event_date);
-			viewHolder.hubs = (TextView) view.findViewById(R.id.event_hubs);
+			viewHolder.title = (TextView) view.findViewById(R.id.title);
+			viewHolder.hub = (TextView) view.findViewById(R.id.hub);
+			viewHolder.day = (TextView) view.findViewById(R.id.day);
+			viewHolder.month = (TextView) view.findViewById(R.id.month);
+			viewHolder.text = (TextView) view.findViewById(R.id.text);
 
 			view.setTag(viewHolder);
 		} else
 			viewHolder = (ViewHolder) view.getTag();
 
 		viewHolder.title.setText(data.getTitle());
+		viewHolder.title.setTypeface(Fonts.ROBOTO_BOLD);
+
+		viewHolder.hub.setText(data.getHubs().get(0).getTitle());
+		viewHolder.hub.setTypeface(Fonts.ROBOTO_LIGHT);
+
+		viewHolder.day.setText(String.valueOf(data.getDay()));
+		viewHolder.day.setTypeface(Fonts.ROBOTO_LIGHT);
+
+		viewHolder.month.setText(data.getMonth());
+		viewHolder.month.setTypeface(Fonts.ROBOTO_LIGHT);
+
 		viewHolder.text.setText(data.getText());
-		viewHolder.date.setText(data.getDate());
-		viewHolder.hubs.setText(data.getHubs());
+		viewHolder.text.setTypeface(Fonts.ROBOTO_REGULAR);
 
 		return view;
 	}
 
 	static class ViewHolder {
 		TextView title;
+		TextView hub;
+		TextView day;
+		TextView month;
 		TextView text;
-		TextView date;
-		TextView hubs;
 	}
 
 }

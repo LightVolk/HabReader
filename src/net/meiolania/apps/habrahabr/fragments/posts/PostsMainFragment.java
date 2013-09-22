@@ -44,7 +44,7 @@ public class PostsMainFragment extends SherlockFragment implements OnNavigationL
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fr_posts_main, container, false);
+		return inflater.inflate(R.layout.fr_main, container, false);
 	}
 
 	private void showActionBar() {
@@ -82,7 +82,7 @@ public class PostsMainFragment extends SherlockFragment implements OnNavigationL
 		
 		FragmentManager fragmentManager = getSherlockActivity().getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		fragmentTransaction.replace(R.id.postsContainer, fragment);
+		fragmentTransaction.replace(R.id.fragment_container, fragment);
 		fragmentTransaction.commit();
 		
 		return true;

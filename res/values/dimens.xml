@@ -32,5 +32,10 @@
 	<dimen name="comment_send_form_top_padding">5dp</dimen>
 	<dimen name="comment_send_form_right_padding">10dp</dimen>
 	<dimen name="comment_send_form_bottom_padding">5dp</dimen>
+	
+	<dimen name="event_title">18sp</dimen>
+	<dimen name="event_hubs">12sp</dimen>
+	<dimen name="event_date_day">26sp</dimen>
+	<dimen name="event_date_month">16sp</dimen>
     
 </resources>

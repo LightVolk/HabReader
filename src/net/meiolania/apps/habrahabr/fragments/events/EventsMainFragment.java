@@ -16,17 +16,24 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.fragments.events;
 
-import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.R;
-import net.meiolania.apps.habrahabr.ui.TabListener;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.ActionBar.Tab;
+import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
-public class EventsMainFragment extends SherlockFragment {
+public class EventsMainFragment extends SherlockFragment implements OnNavigationListener {
+	public final static int EVENTS_COMING = 0;
+	public final static int EVENTS_CURRENT = 1;
+	public final static int EVENTS_PAST = 2;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -35,40 +42,48 @@ public class EventsMainFragment extends SherlockFragment {
 		showActionBar();
 	}
 
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.fr_main, container, false);
+	}
+
 	private void showActionBar() {
 		SherlockFragmentActivity activity = getSherlockActivity();
 
 		ActionBar actionBar = activity.getSupportActionBar();
 		actionBar.removeAllTabs();
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setTitle(R.string.events);
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		actionBar.setTitle("");
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
-		Preferences preferences = Preferences.getInstance(activity);
-		int selectedTab = preferences.getEventsDefaultTab();
+		ArrayAdapter<CharSequence> listAdapter = ArrayAdapter.createFromResource(activity, R.array.events_list,
+				R.layout.sherlock_spinner_item);
+		listAdapter.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
+		actionBar.setListNavigationCallbacks(listAdapter, this);
+	}
 
-		/* Coming tab */
-		Tab tab = actionBar.newTab();
-		tab.setText(R.string.coming);
-		tab.setTag("coming");
-		tab.setTabListener(new TabListener<EventComingFragment>(activity,
-				"coming", EventComingFragment.class));
-		actionBar.addTab(tab, selectedTab == 0 ? true : false);
+	@Override
+	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+		EventsFragment fragment = null;
 
-		/* Current tab */
-		tab = actionBar.newTab();
-		tab.setText(R.string.current);
-		tab.setTag("current");
-		tab.setTabListener(new TabListener<EventCurrentFragment>(activity,
-				"current", EventCurrentFragment.class));
-		actionBar.addTab(tab, selectedTab == 1 ? true : false);
+		switch ((int) itemId) {
+			case EVENTS_CURRENT:
+				fragment = new EventCurrentFragment();
+				break;
+			case EVENTS_PAST:
+				fragment = new EventPastFragment();
+				break;
+			default:
+			case EVENTS_COMING:
+				fragment = new EventComingFragment();
+				break;
+		}
 
-		/* Past tab */
-		tab = actionBar.newTab();
-		tab.setText(R.string.past);
-		tab.setTag("past");
-		tab.setTabListener(new TabListener<EventPastFragment>(activity, "past",
-				EventPastFragment.class));
-		actionBar.addTab(tab, selectedTab == 2 ? true : false);
+		FragmentManager fragmentManager = getSherlockActivity().getSupportFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+		fragmentTransaction.replace(R.id.fragment_container, fragment);
+		fragmentTransaction.commit();
+
+		return true;
 	}
 }

@@ -16,76 +16,27 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.fragments.events.loader;
 
-import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
-import net.meiolania.apps.habrahabr.auth.User;
-import net.meiolania.apps.habrahabr.data.EventsData;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
+import net.meiolania.apps.habrahabr.api.events.EventEntry;
+import net.meiolania.apps.habrahabr.fragments.events.EventsFragment;
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
-import android.util.Log;
 
-public class EventLoader extends AsyncTaskLoader<ArrayList<EventsData>> {
-	public final static String TAG = EventLoader.class.getName();
-	private String url;
-	private static int page;
+public class EventLoader extends AsyncTaskLoader<List<EventEntry>> {
+	private EventsFragment fragment;
+	private int page;
 
-	public EventLoader(Context context, String url) {
+	public EventLoader(Context context, EventsFragment eventsFragment, int page) {
 		super(context);
 
-		this.url = url;
-	}
-
-	public static void setPage(int page) {
-		EventLoader.page = page;
+		this.fragment = eventsFragment;
+		this.page = page;
 	}
 
 	@Override
-	public ArrayList<EventsData> loadInBackground() {
-		ArrayList<EventsData> data = new ArrayList<EventsData>();
-
-		try {
-			String readyUrl = url.replace("%page%", String.valueOf(page));
-
-			Log.i(TAG, "Loading a page: " + readyUrl);
-
-			Document document;
-			if (!User.getInstance().isLogged())
-				document = Jsoup.connect(readyUrl).get();
-			else
-				document = Jsoup.connect(readyUrl).cookie(User.PHPSESSION_ID, User.getInstance().getPhpsessid())
-						.cookie(User.HSEC_ID, User.getInstance().getHsecid()).get();
-
-			Elements events = document.select("div.event");
-
-			for (Element event : events) {
-				EventsData eventsData = new EventsData();
-
-				Element title = event.select("h1.title > a").first();
-				eventsData.setTitle(title.text());
-				eventsData.setUrl(title.attr("abs:href"));
-
-				Element text = event.select("div.text").first();
-				Element month = event.select("div.date > div.month").first();
-				Element day = event.select("div.date > div.day").first();
-				Element hubs = event.select("div.hubs").first();
-
-				eventsData.setText(text.text());
-				eventsData.setDate(day.text() + " " + month.text());
-				eventsData.setHubs(hubs.text());
-
-				data.add(eventsData);
-			}
-		} catch (IOException e) {
-		}
-
-		return data;
+	public List<EventEntry> loadInBackground() {
+		return fragment.getEvents(page);
 	}
 
 }
