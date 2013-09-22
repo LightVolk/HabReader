@@ -18,6 +18,7 @@ package net.meiolania.apps.habrahabr.activities;
 
 import net.meiolania.apps.habrahabr.Fonts;
 import net.meiolania.apps.habrahabr.Preferences;
+import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.api.HabrAuthApi;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,6 +39,9 @@ public abstract class BaseActivity extends SherlockFragmentActivity {
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
 		initKeepScreenOn();
+		
+		getSupportActionBar().setIcon(R.drawable.ic_navigation_drawer);
+		getSupportActionBar().setLogo(R.drawable.ic_navigation_drawer);
 
 		// Auth
 		HabrAuthApi.getInstance().init(this);
