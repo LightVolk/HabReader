@@ -16,17 +16,19 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.fragments.events;
 
-public class EventPastFragment extends AbstractionEventsFragment {
-	public final static String URL = "http://habrahabr.ru/events/past/page%page%/";
+import java.util.List;
+
+import net.meiolania.apps.habrahabr.api.HabrAuthApi;
+import net.meiolania.apps.habrahabr.api.events.EventEntry;
+import net.meiolania.apps.habrahabr.api.events.EventsApi;
+import net.meiolania.apps.habrahabr.api.events.EventsApi.Section;
+
+public class EventPastFragment extends EventsFragment {
 
 	@Override
-	protected String getUrl() {
-		return URL;
-	}
-
-	@Override
-	protected int getLoaderId() {
-		return 2;
+	public List<EventEntry> getEvents(int page) {
+		EventsApi eventsApi = new EventsApi(HabrAuthApi.getInstance());
+		return eventsApi.getEvents(page, Section.Past);
 	}
 
 }

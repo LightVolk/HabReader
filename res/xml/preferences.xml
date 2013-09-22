@@ -41,8 +41,8 @@
     <PreferenceCategory android:title="@string/events" >
         <ListPreference
             android:defaultValue="0"
-            android:entries="@array/events_tabs"
-            android:entryValues="@array/events_tabs_values"
+            android:entries="@array/events_list"
+            android:entryValues="@array/events_list_values"
             android:key="events_default_tab"
             android:title="@string/default_tab_preferences" />
     </PreferenceCategory>

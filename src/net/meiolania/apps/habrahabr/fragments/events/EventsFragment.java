@@ -17,38 +17,41 @@ limitations under the License.
 package net.meiolania.apps.habrahabr.fragments.events;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.activities.EventsShowActivity;
 import net.meiolania.apps.habrahabr.adapters.EventsAdapter;
-import net.meiolania.apps.habrahabr.data.EventsData;
+import net.meiolania.apps.habrahabr.api.events.EventEntry;
 import net.meiolania.apps.habrahabr.fragments.events.loader.EventLoader;
 import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-import com.actionbarsherlock.app.SherlockListFragment;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.app.SherlockFragment;
 
-public abstract class AbstractionEventsFragment extends SherlockListFragment implements OnScrollListener,
-		LoaderCallbacks<ArrayList<EventsData>> {
-	protected int page;
-	protected boolean isLoadData;
-	protected ArrayList<EventsData> events;
-	protected EventsAdapter adapter;
-	protected boolean noMoreData;
-	protected boolean firstLoading = true;
+public abstract class EventsFragment extends SherlockFragment implements OnScrollListener, OnItemClickListener,
+		LoaderCallbacks<List<EventEntry>> {
+	public final static int LOADER_ID = 0;
+	private boolean isLoadData;
+	private ArrayList<EventEntry> events;
+	private EventsAdapter adapter;
+	private boolean noMoreData;
+	private ListView listView;
+	private int page = 1;
 
-	protected abstract String getUrl();
-
-	protected abstract int getLoaderId();
+	public abstract List<EventEntry> getEvents(int page);
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -58,37 +61,31 @@ public abstract class AbstractionEventsFragment extends SherlockListFragment imp
 		setRetainInstance(true);
 
 		if (adapter == null) {
-			events = new ArrayList<EventsData>();
+			events = new ArrayList<EventEntry>();
 			adapter = new EventsAdapter(getSherlockActivity(), events);
 		}
 
-		setListAdapter(adapter);
-
-		if (firstLoading)
-			setListShown(false);
-
-		getListView().setDivider(null);
-		getListView().setDividerHeight(0);
-
-		getListView().setOnScrollListener(this);
-
-		setEmptyText(getString(R.string.no_items_events));
+		listView.setAdapter(adapter);
+		listView.setOnItemClickListener(this);
+		listView.setOnScrollListener(this);
 	}
 
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		super.onCreateOptionsMenu(menu, inflater);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fr_events, container, false);
 
-		inflater.inflate(R.menu.events_fragment, menu);
+		listView = (ListView) view.findViewById(R.id.eventsList);
+
+		return view;
 	}
 
 	@Override
-	public void onListItemClick(ListView list, View view, int position, long id) {
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		showEvent(position);
 	}
 
 	protected void showEvent(int position) {
-		EventsData data = events.get(position);
+		EventEntry data = events.get(position);
 
 		Intent intent = new Intent(getSherlockActivity(), EventsShowActivity.class);
 		intent.putExtra(EventsShowActivity.EXTRA_TITLE, data.getTitle());
@@ -99,12 +96,8 @@ public abstract class AbstractionEventsFragment extends SherlockListFragment imp
 
 	protected void restartLoading() {
 		if (ConnectionUtils.isConnected(getSherlockActivity())) {
-			if (!firstLoading)
-				getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
-
-			EventLoader.setPage(++page);
-
-			getSherlockActivity().getSupportLoaderManager().restartLoader(getLoaderId(), null, this);
+			LoaderManager loaderManager = getSherlockActivity().getSupportLoaderManager();
+			loaderManager.restartLoader(LOADER_ID, null, this);
 
 			isLoadData = true;
 		}
@@ -120,36 +113,26 @@ public abstract class AbstractionEventsFragment extends SherlockListFragment imp
 	}
 
 	@Override
-	public Loader<ArrayList<EventsData>> onCreateLoader(int id, Bundle args) {
-		EventLoader loader = new EventLoader(getSherlockActivity(), getUrl());
+	public Loader<List<EventEntry>> onCreateLoader(int id, Bundle args) {
+		EventLoader loader = new EventLoader(getSherlockActivity(), this, page);
 		loader.forceLoad();
 
 		return loader;
 	}
 
 	@Override
-	public void onLoadFinished(Loader<ArrayList<EventsData>> loader, ArrayList<EventsData> data) {
+	public void onLoadFinished(Loader<List<EventEntry>> loader, List<EventEntry> data) {
 		if (data.isEmpty())
 			noMoreData = true;
 
 		events.addAll(data);
 		adapter.notifyDataSetChanged();
 
-		firstLoading = false;
-
-		if (getSherlockActivity() != null)
-			getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
-
 		isLoadData = false;
-
-		if (getSherlockActivity() != null) {
-			setListShown(true);
-			getSherlockActivity().supportInvalidateOptionsMenu();
-		}
 	}
 
 	@Override
-	public void onLoaderReset(Loader<ArrayList<EventsData>> loader) {
+	public void onLoaderReset(Loader<List<EventEntry>> loader) {
 
 	}
 

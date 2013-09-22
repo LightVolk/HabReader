@@ -158,8 +158,6 @@ public class PostsApi {
 		Elements posts = document.select("div.post");
 
 		for (Element post : posts) {
-			PostEntry entry = new PostEntry();
-
 			Element title = post.select("a.post_title").first();
 			Elements hubs = post.select("div.hubs > a");
 			Element date = post.select("div.published").first();
@@ -173,7 +171,9 @@ public class PostsApi {
 				rating = post.select("span.score").first();
 
 			Element shortText = post.select("div.content").first();
-
+			
+			PostEntry entry = new PostEntry();
+			
 			entry.setTitle(title.text());
 			entry.setUrl(title.attr("abs:href"));
 
