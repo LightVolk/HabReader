@@ -11,6 +11,7 @@ import net.meiolania.apps.habrahabr.api.hubs.HubEntry;
 import net.meiolania.apps.habrahabr.api.utils.NumberUtils;
 import net.meiolania.apps.habrahabr.api.utils.UrlUtils;
 
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -37,8 +38,11 @@ public class PostsApi {
 
 			Document document = null;
 			if (authApi.isAuth()) {
-				document = Jsoup.connect(url).cookie(AuthApi.SESSION_ID, authApi.getSessionId())
-						.cookie(AuthApi.AUTH_ID, authApi.getAuthId()).get();
+				Connection connection = Jsoup.connect(url);
+				connection.cookie(AuthApi.SESSION_ID, authApi.getSessionId());
+				connection.cookie(AuthApi.AUTH_ID, authApi.getAuthId());
+
+				document = connection.get();
 			} else {
 				document = Jsoup.connect(url).get();
 			}
@@ -136,10 +140,13 @@ public class PostsApi {
 			Log.i(TAG, "Loading a page: " + url);
 
 			Document document = null;
-
 			if (authApi.isAuth()) {
-				document = Jsoup.connect(url).cookie(AuthApi.SESSION_ID, authApi.getSessionId())
-						.cookie(AuthApi.AUTH_ID, authApi.getAuthId()).get();
+				Connection connection = Jsoup.connect(url);
+				connection.timeout(10 * 1000);
+				connection.cookie(AuthApi.SESSION_ID, authApi.getSessionId());
+				connection.cookie(AuthApi.AUTH_ID, authApi.getAuthId());
+
+				document = connection.get();
 			} else {
 				document = Jsoup.connect(url).get();
 			}
@@ -171,9 +178,9 @@ public class PostsApi {
 				rating = post.select("span.score").first();
 
 			Element shortText = post.select("div.content").first();
-			
+
 			PostEntry entry = new PostEntry();
-			
+
 			entry.setTitle(title.text());
 			entry.setUrl(title.attr("abs:href"));
 

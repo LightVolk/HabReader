@@ -56,16 +56,11 @@ public class HubsMainFragment extends SherlockFragment implements OnNavigationLi
 	public final static int LIST_OTHERS = 14;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		setHasOptionsMenu(true);
-	}
-
-	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
+		
+		setHasOptionsMenu(true);
+		
 		showActionBar();
 	}
 

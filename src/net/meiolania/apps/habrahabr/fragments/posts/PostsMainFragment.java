@@ -19,6 +19,7 @@ package net.meiolania.apps.habrahabr.fragments.posts;
 import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.R;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -35,13 +36,20 @@ public class PostsMainFragment extends SherlockFragment implements OnNavigationL
 	public final static int POSTS_TOP = 0;
 	public final static int POSTS_COLLECTIVE = 1;
 	public final static int POSTS_CORPORATIVE = 2;
-	
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		setRetainInstance(true);
+	}
+
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
 		showActionBar();
 	}
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fr_main, container, false);
@@ -57,16 +65,19 @@ public class PostsMainFragment extends SherlockFragment implements OnNavigationL
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
 		int selectedTab = Preferences.getInstance(activity).getPostsDefaultTab();
-		
-		ArrayAdapter<CharSequence> listAdapter = ArrayAdapter.createFromResource(activity, R.array.posts_list, R.layout.sherlock_spinner_item);
+
+		ArrayAdapter<CharSequence> listAdapter = ArrayAdapter.createFromResource(activity, R.array.posts_list,
+				R.layout.sherlock_spinner_item);
 		listAdapter.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
 		actionBar.setListNavigationCallbacks(listAdapter, this);
+
+		actionBar.setSelectedNavigationItem(selectedTab);
 	}
 
 	@Override
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
 		PostsFragment fragment = null;
-		
+
 		switch ((int) itemId) {
 			case POSTS_COLLECTIVE:
 				fragment = new PostsCollectiveFragment();
@@ -79,12 +90,18 @@ public class PostsMainFragment extends SherlockFragment implements OnNavigationL
 				fragment = new PostsTopFragment();
 				break;
 		}
-		
+
 		FragmentManager fragmentManager = getSherlockActivity().getSupportFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		fragmentTransaction.replace(R.id.fragment_container, fragment);
-		fragmentTransaction.commit();
-		
+
+		String tag = "posts_" + itemId;
+		Fragment foundFragment = fragmentManager.findFragmentByTag(tag);
+
+		if (foundFragment == null) {
+			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+			fragmentTransaction.replace(R.id.fragment_container, fragment, tag);
+			fragmentTransaction.commit();
+		}
+
 		return true;
 	}
 }

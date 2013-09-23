@@ -37,12 +37,10 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 public class PostsAdapter extends BaseAdapter {
 	private AuthApi authApi;
 	private List<PostEntry> posts;
-	private Context context;
 	private ImageLoader imageLoader = ImageLoader.getInstance();
 	private LayoutInflater layoutInflater;
 
 	public PostsAdapter(Context context, AuthApi authApi, List<PostEntry> posts) {
-		this.context = context;
 		this.authApi = authApi;
 		this.posts = posts;
 
@@ -117,11 +115,6 @@ public class PostsAdapter extends BaseAdapter {
 		else
 			viewHolder.rating.setText("-");
 		viewHolder.rating.setTypeface(Fonts.ROBOTO_LIGHT);
-
-		if (!authApi.isAuth()) {
-			viewHolder.voteUp.setEnabled(false);
-			viewHolder.voteDown.setEnabled(false);
-		}
 
 		return view;
 	}

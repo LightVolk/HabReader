@@ -36,6 +36,9 @@ public class PreferencesActivity extends SherlockPreferenceActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		getSupportActionBar().setIcon(R.drawable.ic_navigation_drawer);
+		getSupportActionBar().setLogo(R.drawable.ic_navigation_drawer);
 
 		addPreferencesFromResource(R.xml.preferences);
 

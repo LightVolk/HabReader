@@ -7,6 +7,12 @@
     <dimen name="text_size_large">22sp</dimen>
     <dimen name="title_in_list">16sp</dimen>
     
+    <dimen name="side_menu_padding_bottom">12dp</dimen>
+    <dimen name="side_menu_padding_left">10dp</dimen>
+    <dimen name="side_menu_padding_top">12dp</dimen>
+    <dimen name="side_menu_padding_right">10dp</dimen>
+    <dimen name="side_menu_title">18sp</dimen>
+    
     <dimen name="post_padding_bottom">5dp</dimen>
     <dimen name="post_padding_top">5dp</dimen>
     <dimen name="post_padding_left">5dp</dimen>
@@ -26,13 +32,13 @@
     <dimen name="qa_date">14sp</dimen>
     <dimen name="qa_hub">14sp</dimen>
     
-    <dimen name="hubs_title">18sp</dimen>
-    <dimen name="hubs_index">18sp</dimen>
-    <dimen name="hubs_info">12sp</dimen>
     <dimen name="hubs_left_padding">12dp</dimen>
     <dimen name="hubs_top_padding">10dp</dimen>
     <dimen name="hubs_right_padding">12dp</dimen>
     <dimen name="hubs_bottom_padding">10dp</dimen>
+    <dimen name="hubs_title">18sp</dimen>
+    <dimen name="hubs_index">18sp</dimen>
+    <dimen name="hubs_info">12sp</dimen>
     
     <dimen name="comment_level_margin">17dp</dimen>
 	<dimen name="comment_left_margin">12dp</dimen>
