@@ -61,7 +61,7 @@ public abstract class PostsFragment extends SherlockFragment implements OnScroll
 	private int page = 1;
 
 	public abstract List<PostEntry> getPosts(int page);
-
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fr_posts, container, false);
@@ -77,12 +77,12 @@ public abstract class PostsFragment extends SherlockFragment implements OnScroll
 
 		setRetainInstance(true);
 		setHasOptionsMenu(true);
-
+		
 		if (adapter == null) {
 			posts = new ArrayList<PostEntry>();
 			adapter = new PostsAdapter(getActivity(), HabrAuthApi.getInstance(), posts);
 		}
-
+		
 		listView.setAdapter(adapter);
 		listView.setOnScrollListener(this);
 		listView.setOnItemClickListener(this);
