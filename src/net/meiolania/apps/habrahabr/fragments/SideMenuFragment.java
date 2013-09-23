@@ -31,7 +31,7 @@ import android.widget.ListView;
 import com.actionbarsherlock.app.SherlockListFragment;
 
 public class SideMenuFragment extends SherlockListFragment {
-	private ArrayList<MenuData> menu;
+	private ArrayList<SideMenuData> menu;
 	private BaseAdapter menuAdapter;
 
 	@Override
@@ -43,34 +43,36 @@ public class SideMenuFragment extends SherlockListFragment {
 		setListAdapter(menuAdapter);
 
 		getListView().setBackgroundColor(Color.WHITE);
+		getListView().setDivider(null);
+		getListView().setDividerHeight(0);
 	}
 
 	private void addMenu() {
-		menu = new ArrayList<MenuData>();
+		menu = new ArrayList<SideMenuData>();
 
 		if (!HabrAuthApi.getInstance().isAuth())
-			menu.add(new MenuData(R.string.auth, R.drawable.ic_users, ItemType.AUTH, false));
+			menu.add(new SideMenuData(R.string.auth, R.drawable.ic_users, ItemType.AUTH, false));
 		else {
-			menu.add(new MenuData(R.string.account, 0, null, true));
-			menu.add(new MenuData(HabrAuthApi.getInstance().getLogin(), R.drawable.ic_users, ItemType.PROFILE, false));
-			menu.add(new MenuData(R.string.feed, R.drawable.ic_feed, ItemType.FEED, false));
-			menu.add(new MenuData(R.string.favorites, R.drawable.ic_favorites, ItemType.FAVORITES, false));
+			menu.add(new SideMenuData(R.string.account, 0, null, true));
+			menu.add(new SideMenuData(HabrAuthApi.getInstance().getLogin(), R.drawable.ic_users, ItemType.PROFILE, false));
+			menu.add(new SideMenuData(R.string.feed, R.drawable.ic_feed, ItemType.FEED, false));
+			menu.add(new SideMenuData(R.string.favorites, R.drawable.ic_favorites, ItemType.FAVORITES, false));
 		}
 
-		menu.add(new MenuData(R.string.sections, 0, null, true));
-		menu.add(new MenuData(R.string.posts, R.drawable.ic_posts, ItemType.POSTS, false));
-		menu.add(new MenuData(R.string.hubs, R.drawable.ic_hubs, ItemType.HUBS, false));
-		menu.add(new MenuData(R.string.qa, R.drawable.ic_qa, ItemType.QA, false));
-		menu.add(new MenuData(R.string.events, R.drawable.ic_events, ItemType.EVENTS, false));
-		menu.add(new MenuData(R.string.companies, R.drawable.ic_companies, ItemType.COMPANIES, false));
-		menu.add(new MenuData(R.string.people, R.drawable.ic_users, ItemType.USERS, false));
+		menu.add(new SideMenuData(R.string.sections, 0, null, true));
+		menu.add(new SideMenuData(R.string.posts, R.drawable.ic_posts, ItemType.POSTS, false));
+		menu.add(new SideMenuData(R.string.hubs, R.drawable.ic_hubs, ItemType.HUBS, false));
+		menu.add(new SideMenuData(R.string.qa, R.drawable.ic_qa, ItemType.QA, false));
+		menu.add(new SideMenuData(R.string.events, R.drawable.ic_events, ItemType.EVENTS, false));
+		menu.add(new SideMenuData(R.string.companies, R.drawable.ic_companies, ItemType.COMPANIES, false));
+		menu.add(new SideMenuData(R.string.people, R.drawable.ic_users, ItemType.USERS, false));
 
 		menuAdapter = new SideMenuAdapter(getSherlockActivity(), menu);
 	}
 
 	@Override
 	public void onListItemClick(ListView lv, View v, int position, long id) {
-		MenuData data = menu.get(position);
+		SideMenuData data = menu.get(position);
 
 		if (data.isSection && data.itemType == null)
 			return;
@@ -89,17 +91,17 @@ public class SideMenuFragment extends SherlockListFragment {
 		AUTH, PROFILE, FEED, FAVORITES, POSTS, HUBS, QA, EVENTS, COMPANIES, USERS
 	};
 
-	public class MenuData {
+	public class SideMenuData {
 		public String title;
 		public int icon;
 		public ItemType itemType;
 		public boolean isSection;
 
-		public MenuData(int title, int icon, ItemType itemType, boolean isSection) {
+		public SideMenuData(int title, int icon, ItemType itemType, boolean isSection) {
 			this(getString(title), icon, itemType, isSection);
 		}
 
-		public MenuData(String title, int icon, ItemType itemType, boolean isSection) {
+		public SideMenuData(String title, int icon, ItemType itemType, boolean isSection) {
 			this.title = title;
 			this.icon = icon;
 			this.itemType = itemType;
