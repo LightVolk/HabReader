@@ -63,7 +63,7 @@ public class MainActivity extends BaseActivity {
 		initNavigationDrawer();
 		initNavigationDrawerFrame();
 
-		initContent();
+		initContent(savedInstanceState);
 	}
 
 	@Override
@@ -110,12 +110,11 @@ public class MainActivity extends BaseActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void initContent() {
-		Bundle extras = getIntent().getExtras();
-
+	private void initContent(Bundle savedInstanceState) {
 		ItemType itemType = ItemType.POSTS;
-		if (extras != null)
-			itemType = (ItemType) extras.getSerializable(CURRENT_SECTION_KEY);
+
+		if (savedInstanceState != null)
+			itemType = (ItemType) savedInstanceState.getSerializable(CURRENT_SECTION_KEY);
 		else if (HabrAuthApi.getInstance().isAuth())
 			itemType = ItemType.FEED;
 
@@ -130,15 +129,11 @@ public class MainActivity extends BaseActivity {
 			@Override
 			public void onDrawerClosed(View drawerView) {
 				super.onDrawerClosed(drawerView);
-
-				supportInvalidateOptionsMenu();
 			}
 
 			@Override
 			public void onDrawerOpened(View drawerView) {
 				super.onDrawerOpened(drawerView);
-
-				supportInvalidateOptionsMenu();
 			}
 		};
 
@@ -172,6 +167,7 @@ public class MainActivity extends BaseActivity {
 		switchContent(getFragment(itemType), itemType);
 	}
 
+	@SuppressWarnings("incomplete-switch")
 	private Fragment getFragment(ItemType itemType) {
 		Fragment fragment = null;
 
@@ -203,11 +199,6 @@ public class MainActivity extends BaseActivity {
 					break;
 				case USERS:
 					fragment = new UsersFragment();
-					break;
-				case PROFILE:
-					Intent intent = new Intent(this, UsersShowActivity.class);
-					intent.putExtra(UsersShowActivity.EXTRA_URL, "http://habrahabr.ru/users/" + HabrAuthApi.getInstance().getLogin());
-					startActivity(intent);
 					break;
 			}
 		}

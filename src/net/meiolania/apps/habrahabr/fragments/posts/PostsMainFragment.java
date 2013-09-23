@@ -76,7 +76,22 @@ public class PostsMainFragment extends SherlockFragment implements OnNavigationL
 
 	@Override
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-		PostsFragment fragment = null;
+		FragmentManager fragmentManager = getSherlockActivity().getSupportFragmentManager();
+
+		String tag = "posts_" + itemId;
+		Fragment foundFragment = fragmentManager.findFragmentByTag(tag);
+
+		if (foundFragment == null) {
+			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+			fragmentTransaction.replace(R.id.fragment_container, getFragment((int) itemId), tag);
+			fragmentTransaction.commit();
+		}
+
+		return true;
+	}
+	
+	private Fragment getFragment(int itemId) {
+		Fragment fragment = null;
 
 		switch ((int) itemId) {
 			case POSTS_COLLECTIVE:
@@ -90,18 +105,8 @@ public class PostsMainFragment extends SherlockFragment implements OnNavigationL
 				fragment = new PostsTopFragment();
 				break;
 		}
-
-		FragmentManager fragmentManager = getSherlockActivity().getSupportFragmentManager();
-
-		String tag = "posts_" + itemId;
-		Fragment foundFragment = fragmentManager.findFragmentByTag(tag);
-
-		if (foundFragment == null) {
-			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-			fragmentTransaction.replace(R.id.fragment_container, fragment, tag);
-			fragmentTransaction.commit();
-		}
-
-		return true;
+		
+		return fragment;
 	}
+	
 }

@@ -60,20 +60,16 @@ public abstract class QaFragment extends SherlockFragment implements OnScrollLis
 	public abstract List<QaEntry> getQuestion(int page);
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fr_qa, container, false);
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-		qaList = (ListView) view.findViewById(R.id.qaList);
-
-		return view;
+		setRetainInstance(true);
+		setHasOptionsMenu(true);
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
-		setRetainInstance(true);
-		setHasOptionsMenu(true);
 
 		if (adapter == null) {
 			questions = new ArrayList<QaEntry>();
@@ -83,6 +79,15 @@ public abstract class QaFragment extends SherlockFragment implements OnScrollLis
 		qaList.setAdapter(adapter);
 		qaList.setOnScrollListener(this);
 		qaList.setOnItemClickListener(this);
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fr_qa, container, false);
+
+		qaList = (ListView) view.findViewById(R.id.qaList);
+
+		return view;
 	}
 
 	@Override

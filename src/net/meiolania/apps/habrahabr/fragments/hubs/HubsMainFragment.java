@@ -20,6 +20,7 @@ import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.activities.HubsSearchActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -56,11 +57,17 @@ public class HubsMainFragment extends SherlockFragment implements OnNavigationLi
 	public final static int LIST_OTHERS = 14;
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		setRetainInstance(true);
+		setHasOptionsMenu(true);
+	}
+	
+	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
-		setHasOptionsMenu(true);
-		
+
 		showActionBar();
 	}
 
@@ -105,11 +112,23 @@ public class HubsMainFragment extends SherlockFragment implements OnNavigationLi
 	}
 
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+		String tag = "hubs_" + itemId;
+		Fragment foundFragment = getFragmentManager().findFragmentByTag(tag);
+
+		if (foundFragment == null) {
+			FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+			fragmentTransaction.replace(R.id.hubs_fragment, getFragment((int) itemId), tag);
+			fragmentTransaction.commit();
+		}
+
+		return false;
+	}
+
+	private Fragment getFragment(int itemId) {
 		HubsFragment fragment = new HubsFragment();
-		FragmentTransaction ft = getFragmentManager().beginTransaction();
 
 		Bundle arguments = new Bundle();
-		switch ((int) itemId) {
+		switch (itemId) {
 			default:
 			case LIST_ALL_HUBS:
 				arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/page%page%/");
@@ -157,12 +176,9 @@ public class HubsMainFragment extends SherlockFragment implements OnNavigationLi
 				arguments.putString(HubsFragment.URL_ARGUMENT, "http://habrahabr.ru/hubs/others/page%page%/");
 				break;
 		}
-
 		fragment.setArguments(arguments);
 
-		ft.replace(R.id.hubs_fragment, fragment);
-		ft.commit();
-
-		return false;
+		return fragment;
 	}
+
 }

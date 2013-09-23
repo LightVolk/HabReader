@@ -63,20 +63,16 @@ public abstract class PostsFragment extends SherlockFragment implements OnScroll
 	public abstract List<PostEntry> getPosts(int page);
 	
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fr_posts, container, false);
-
-		listView = (ListView) view.findViewById(R.id.postsList);
-
-		return view;
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		setRetainInstance(true);
+		setHasOptionsMenu(true);
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
-		setRetainInstance(true);
-		setHasOptionsMenu(true);
 		
 		if (adapter == null) {
 			posts = new ArrayList<PostEntry>();
@@ -86,6 +82,15 @@ public abstract class PostsFragment extends SherlockFragment implements OnScroll
 		listView.setAdapter(adapter);
 		listView.setOnScrollListener(this);
 		listView.setOnItemClickListener(this);
+	}
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fr_posts, container, false);
+
+		listView = (ListView) view.findViewById(R.id.postsList);
+
+		return view;
 	}
 
 	@Override

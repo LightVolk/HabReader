@@ -46,9 +46,16 @@ public class HubsFragment extends SherlockListFragment implements OnScrollListen
 	private String url;
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		setRetainInstance(true);
+	}
+	
+	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
+		
 		if (getArguments() != null)
 			url = getArguments().getString(URL_ARGUMENT);
 		else

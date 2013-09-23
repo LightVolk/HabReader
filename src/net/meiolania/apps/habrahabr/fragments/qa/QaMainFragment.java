@@ -19,6 +19,7 @@ package net.meiolania.apps.habrahabr.fragments.qa;
 import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.R;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -35,7 +36,14 @@ public class QaMainFragment extends SherlockFragment implements OnNavigationList
 	public final static int QA_INBOX = 0;
 	public final static int QA_HOT = 1;
 	public final static int QA_UNANSWERED = 2;
-
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		setRetainInstance(true);
+	}
+	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -62,11 +70,28 @@ public class QaMainFragment extends SherlockFragment implements OnNavigationList
 		ArrayAdapter<CharSequence> listAdapter = ArrayAdapter.createFromResource(activity, R.array.qa_list, R.layout.sherlock_spinner_item);
 		listAdapter.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
 		actionBar.setListNavigationCallbacks(listAdapter, this);
+
+		actionBar.setSelectedNavigationItem(selectedTab);
 	}
 
 	@Override
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-		QaFragment fragment = null;
+		FragmentManager fragmentManager = getSherlockActivity().getSupportFragmentManager();
+
+		String tag = "qa_" + itemId;
+		Fragment foundFragment = fragmentManager.findFragmentByTag(tag);
+
+		if (foundFragment == null) {
+			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+			fragmentTransaction.replace(R.id.fragment_container, getFragment((int) itemId));
+			fragmentTransaction.commit();
+		}
+
+		return true;
+	}
+	
+	private Fragment getFragment(int itemId) {
+		Fragment fragment = null;
 
 		switch ((int) itemId) {
 			default:
@@ -80,12 +105,8 @@ public class QaMainFragment extends SherlockFragment implements OnNavigationList
 				fragment = new QaUnansweredFragment();
 				break;
 		}
-
-		FragmentManager fragmentManager = getSherlockActivity().getSupportFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		fragmentTransaction.replace(R.id.fragment_container, fragment);
-		fragmentTransaction.commit();
-
-		return true;
+		
+		return fragment;
 	}
+	
 }
