@@ -47,13 +47,18 @@ public class CompaniesFragment extends SherlockListFragment implements OnScrollL
 	private boolean noMoreData;
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		setHasOptionsMenu(true);
+		setRetainInstance(true);
+	}
+	
+	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
 		showActionBar();
-
-		setHasOptionsMenu(true);
-		setRetainInstance(true);
 
 		if (adapter == null) {
 			companies = new ArrayList<CompanyEntry>();

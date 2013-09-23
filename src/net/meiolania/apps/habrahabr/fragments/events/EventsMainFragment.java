@@ -18,6 +18,7 @@ package net.meiolania.apps.habrahabr.fragments.events;
 
 import net.meiolania.apps.habrahabr.R;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -34,6 +35,13 @@ public class EventsMainFragment extends SherlockFragment implements OnNavigation
 	public final static int EVENTS_COMING = 0;
 	public final static int EVENTS_CURRENT = 1;
 	public final static int EVENTS_PAST = 2;
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		setRetainInstance(true);
+	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -64,9 +72,24 @@ public class EventsMainFragment extends SherlockFragment implements OnNavigation
 
 	@Override
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-		EventsFragment fragment = null;
+		FragmentManager fragmentManager = getSherlockActivity().getSupportFragmentManager();
 
-		switch ((int) itemId) {
+		String tag = "events_" + itemId;
+		Fragment foundFragment = fragmentManager.findFragmentByTag(tag);
+
+		if (foundFragment == null) {
+			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+			fragmentTransaction.replace(R.id.fragment_container, getFragment((int) itemId));
+			fragmentTransaction.commit();
+		}
+
+		return true;
+	}
+
+	private Fragment getFragment(int itemId) {
+		Fragment fragment = null;
+
+		switch (itemId) {
 			case EVENTS_CURRENT:
 				fragment = new EventCurrentFragment();
 				break;
@@ -79,11 +102,7 @@ public class EventsMainFragment extends SherlockFragment implements OnNavigation
 				break;
 		}
 
-		FragmentManager fragmentManager = getSherlockActivity().getSupportFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		fragmentTransaction.replace(R.id.fragment_container, fragment);
-		fragmentTransaction.commit();
-
-		return true;
+		return fragment;
 	}
+
 }

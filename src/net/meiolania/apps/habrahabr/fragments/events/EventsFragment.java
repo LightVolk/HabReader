@@ -54,11 +54,16 @@ public abstract class EventsFragment extends SherlockFragment implements OnScrol
 	public abstract List<EventEntry> getEvents(int page);
 
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
 		setHasOptionsMenu(true);
 		setRetainInstance(true);
+	}
+	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 
 		if (adapter == null) {
 			events = new ArrayList<EventEntry>();
