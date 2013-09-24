@@ -83,7 +83,7 @@ public class PostsMainFragment extends SherlockFragment implements OnNavigationL
 
 		if (foundFragment == null) {
 			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-			fragmentTransaction.replace(R.id.fragment_container, getFragment((int) itemId), tag);
+			fragmentTransaction.replace(R.id.fragment_container, getFragment(itemPosition), tag);
 			fragmentTransaction.commit();
 		}
 

@@ -19,13 +19,6 @@ package net.meiolania.apps.habrahabr.utils;
 
 public class UIUtils {
 
-	public static Integer parseRating(String rating) {
-		if (rating.trim().equals("—"))
-			return null;
-		else
-			return Integer.parseInt(rating.replace("+", "").replace("–", "-"));
-	}
-
 	public static boolean isHoneycombOrHigher() {
 		// TODO
 		return true;
