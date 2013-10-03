@@ -16,10 +16,11 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.adapters;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import net.meiolania.apps.habrahabr.R;
-import net.meiolania.apps.habrahabr.data.UsersData;
+import net.meiolania.apps.habrahabr.api.users.UserEntry;
+import net.meiolania.apps.habrahabr.utils.ImageUtils;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,69 +29,64 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 public class UserAdapter extends BaseAdapter {
-    private ArrayList<UsersData> people;
-    private Context context;
-    private ImageLoader imageLoader = ImageLoader.getInstance();
+	private List<UserEntry> users;
+	private LayoutInflater layoutInflater;
+	private ImageLoader imageLoader = ImageLoader.getInstance();
 
-    public UserAdapter(Context context, ArrayList<UsersData> people) {
-	this.context = context;
-	this.people = people;
+	public UserAdapter(Context context, List<UserEntry> users) {
+		this.users = users;
 
-	DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory().cacheOnDisc().build();
-	ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(context).memoryCacheSize(3000000)
-		.discCacheSize(50000000).httpReadTimeout(5000).defaultDisplayImageOptions(options).build();
-	this.imageLoader.init(configuration);
-    }
+		layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		this.imageLoader.init(ImageUtils.createConfiguration(context));
+	}
 
-    public int getCount() {
-	return people.size();
-    }
+	public int getCount() {
+		return users.size();
+	}
 
-    public UsersData getItem(int position) {
-	return people.get(position);
-    }
+	public UserEntry getItem(int position) {
+		return users.get(position);
+	}
 
-    public long getItemId(int position) {
-	return position;
-    }
+	public long getItemId(int position) {
+		return position;
+	}
 
-    public View getView(int position, View view, ViewGroup parent) {
-	UsersData data = getItem(position);
+	public View getView(int position, View view, ViewGroup parent) {
+		UserEntry data = getItem(position);
 
-	ViewHolder viewHolder;
-	if (view == null) {
-	    LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	    view = layoutInflater.inflate(R.layout.users_list_row, null);
-	    
-	    viewHolder = new ViewHolder();
-	    
-	    viewHolder.title = (TextView) view.findViewById(R.id.people_title);
-	    viewHolder.avatar = (ImageView) view.findViewById(R.id.people_avatar);
-	    viewHolder.karma = (TextView) view.findViewById(R.id.people_karma);
-	    viewHolder.rating = (TextView) view.findViewById(R.id.people_rating);
-	    
-	    view.setTag(viewHolder);
-	} else
-	    viewHolder = (ViewHolder) view.getTag();
+		ViewHolder viewHolder;
+		if (view == null) {
+			view = layoutInflater.inflate(R.layout.users_list_row, null);
 
-	viewHolder.title.setText(data.getName());
-	imageLoader.displayImage(data.getAvatar(), viewHolder.avatar);
-	viewHolder.karma.setText(context.getString(R.string.karma_count).replace("%d", data.getKarma()));
-	viewHolder.rating.setText(context.getString(R.string.rating_count).replace("%d", data.getRating()));
+			viewHolder = new ViewHolder();
 
-	return view;
-    }
-    
-    static class ViewHolder {
-	TextView title;
-	ImageView avatar;
-	TextView karma;
-	TextView rating;
-    }
+			viewHolder.avatar = (ImageView) view.findViewById(R.id.avatar);
+			viewHolder.login = (TextView) view.findViewById(R.id.login);
+			viewHolder.karma = (TextView) view.findViewById(R.id.karma);
+			viewHolder.rating = (TextView) view.findViewById(R.id.rating);
+
+			view.setTag(viewHolder);
+		} else
+			viewHolder = (ViewHolder) view.getTag();
+
+		viewHolder.login.setText(data.getLogin());
+		viewHolder.karma.setText(data.getKarma());
+		viewHolder.rating.setText(data.getRating());
+
+		imageLoader.displayImage(data.getAvatar(), viewHolder.avatar);
+
+		return view;
+	}
+
+	static class ViewHolder {
+		ImageView avatar;
+		TextView login;
+		TextView karma;
+		TextView rating;
+	}
 
 }
