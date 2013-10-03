@@ -35,15 +35,13 @@
                 android:id="@+id/author"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="AEinsam"
-                android:textSize="@dimen/text_size_medium" />
+                android:text="AEinsam" />
 
             <TextView
                 android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1 сентября 2013 в 13:40"
-                android:textSize="@dimen/text_size_medium" />
+                android:text="1 сентября 2013 в 13:40" />
         </LinearLayout>
 
         <TextView
@@ -52,8 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="10"
-            android:textSize="@dimen/text_size_medium" />
+            android:text="10" />
     </RelativeLayout>
 
     <TextView
@@ -62,7 +59,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/info_container"
         android:layout_marginTop="@dimen/comment_top_margin"
-        android:text="Текст комментария"
-        android:textSize="@dimen/text_size_medium" />
+        android:text="Текст комментария" />
 
 </RelativeLayout>

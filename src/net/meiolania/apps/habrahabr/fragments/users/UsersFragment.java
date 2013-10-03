@@ -17,16 +17,18 @@ limitations under the License.
 package net.meiolania.apps.habrahabr.fragments.users;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.activities.UsersSearchActivity;
 import net.meiolania.apps.habrahabr.activities.UsersShowActivity;
 import net.meiolania.apps.habrahabr.adapters.UserAdapter;
-import net.meiolania.apps.habrahabr.data.UsersData;
+import net.meiolania.apps.habrahabr.api.users.UserEntry;
 import net.meiolania.apps.habrahabr.fragments.users.loader.UsersLoader;
 import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.view.KeyEvent;
@@ -42,11 +44,10 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 
-public class UsersFragment extends SherlockListFragment implements
-		LoaderCallbacks<ArrayList<UsersData>> {
+public class UsersFragment extends SherlockListFragment implements LoaderCallbacks<List<UserEntry>> {
 	public final static String URL_ARGUMENT = "url";
-	public final static int LOADER_USER = 25;
-	private ArrayList<UsersData> users;
+	public final static int LOADER_USER = 0;
+	private List<UserEntry> users;
 	private UserAdapter adapter;
 	private String url;
 
@@ -63,16 +64,17 @@ public class UsersFragment extends SherlockListFragment implements
 		setHasOptionsMenu(true);
 
 		if (adapter == null) {
-			users = new ArrayList<UsersData>();
+			users = new ArrayList<UserEntry>();
 			adapter = new UserAdapter(getSherlockActivity(), users);
 		}
 
 		setListAdapter(adapter);
 		setListShown(false);
 
-		if (ConnectionUtils.isConnected(getSherlockActivity()))
-			getSherlockActivity().getSupportLoaderManager().initLoader(
-					LOADER_USER, null, this);
+		if (ConnectionUtils.isConnected(getSherlockActivity())) {
+			LoaderManager loaderManager = getSherlockActivity().getSupportLoaderManager();
+			loaderManager.restartLoader(LOADER_USER, null, this);
+		}
 
 		setEmptyText(getString(R.string.no_items_users));
 	}
@@ -89,16 +91,12 @@ public class UsersFragment extends SherlockListFragment implements
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.users_fragment, menu);
 
-		final EditText searchQuery = (EditText) menu.findItem(R.id.search)
-				.getActionView().findViewById(R.id.search_query);
+		final EditText searchQuery = (EditText) menu.findItem(R.id.search).getActionView().findViewById(R.id.search_query);
 		searchQuery.setOnEditorActionListener(new OnEditorActionListener() {
-			public boolean onEditorAction(TextView v, int actionId,
-					KeyEvent event) {
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 				if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-					Intent intent = new Intent(getSherlockActivity(),
-							UsersSearchActivity.class);
-					intent.putExtra(UsersSearchActivity.EXTRA_QUERY,
-							searchQuery.getText().toString());
+					Intent intent = new Intent(getSherlockActivity(), UsersSearchActivity.class);
+					intent.putExtra(UsersSearchActivity.EXTRA_QUERY, searchQuery.getText().toString());
 					startActivity(intent);
 					return true;
 				}
@@ -115,42 +113,33 @@ public class UsersFragment extends SherlockListFragment implements
 	}
 
 	protected void showUser(int position) {
-		UsersData data = users.get(position);
+		UserEntry data = users.get(position);
 
-		Intent intent = new Intent(getSherlockActivity(),
-				UsersShowActivity.class);
-		intent.putExtra(UsersShowActivity.EXTRA_NAME, data.getName());
+		Intent intent = new Intent(getSherlockActivity(), UsersShowActivity.class);
+		intent.putExtra(UsersShowActivity.EXTRA_NAME, data.getLogin());
 		intent.putExtra(UsersShowActivity.EXTRA_URL, data.getUrl());
 
 		startActivity(intent);
 	}
 
 	@Override
-	public Loader<ArrayList<UsersData>> onCreateLoader(int id, Bundle args) {
-		UsersLoader loader = null;
-
-		if (url == null)
-			loader = new UsersLoader(getSherlockActivity());
-		else
-			loader = new UsersLoader(getSherlockActivity(), url);
-
+	public Loader<List<UserEntry>> onCreateLoader(int id, Bundle args) {
+		UsersLoader loader = new UsersLoader(getSherlockActivity(), url);
 		loader.forceLoad();
 
 		return loader;
 	}
 
 	@Override
-	public void onLoadFinished(Loader<ArrayList<UsersData>> loader,
-			ArrayList<UsersData> data) {
+	public void onLoadFinished(Loader<List<UserEntry>> loader, List<UserEntry> data) {
 		users.addAll(data);
 		adapter.notifyDataSetChanged();
 
-		if (getSherlockActivity() != null)
-			setListShown(true);
+		setListShown(true);
 	}
 
 	@Override
-	public void onLoaderReset(Loader<ArrayList<UsersData>> loader) {
+	public void onLoaderReset(Loader<List<UserEntry>> loader) {
 
 	}
 
