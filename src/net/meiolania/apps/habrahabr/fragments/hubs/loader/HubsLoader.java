@@ -18,7 +18,7 @@ package net.meiolania.apps.habrahabr.fragments.hubs.loader;
 
 import java.util.List;
 
-import net.meiolania.apps.habrahabr.api.HabrAuthApi;
+import net.meiolania.apps.habrahabr.HabrAuthApi;
 import net.meiolania.apps.habrahabr.api.hubs.HubsApi;
 import net.meiolania.apps.habrahabr.api.hubs.HubEntry;
 import android.content.Context;

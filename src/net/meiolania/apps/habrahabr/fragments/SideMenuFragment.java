@@ -18,10 +18,10 @@ package net.meiolania.apps.habrahabr.fragments;
 
 import java.util.ArrayList;
 
+import net.meiolania.apps.habrahabr.HabrAuthApi;
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.activities.MainActivity;
 import net.meiolania.apps.habrahabr.adapters.SideMenuAdapter;
-import net.meiolania.apps.habrahabr.api.HabrAuthApi;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -57,6 +57,7 @@ public class SideMenuFragment extends SherlockListFragment {
 			menu.add(new SideMenuData(HabrAuthApi.getInstance().getLogin(), R.drawable.ic_users, ItemType.PROFILE, false));
 			menu.add(new SideMenuData(R.string.feed, R.drawable.ic_feed, ItemType.FEED, false));
 			menu.add(new SideMenuData(R.string.favorites, R.drawable.ic_favorites, ItemType.FAVORITES, false));
+			menu.add(new SideMenuData(R.string.conversations, R.drawable.ic_conversations, ItemType.CONVERSATIONS, false));
 		}
 
 		menu.add(new SideMenuData(R.string.sections, 0, null, true));
@@ -88,7 +89,7 @@ public class SideMenuFragment extends SherlockListFragment {
 	}
 
 	public enum ItemType {
-		AUTH, PROFILE, FEED, FAVORITES, POSTS, HUBS, QA, EVENTS, COMPANIES, USERS
+		AUTH, PROFILE, FEED, FAVORITES, POSTS, HUBS, QA, EVENTS, COMPANIES, USERS, CONVERSATIONS
 	};
 
 	public class SideMenuData {

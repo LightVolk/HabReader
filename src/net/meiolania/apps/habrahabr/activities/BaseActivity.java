@@ -17,9 +17,9 @@ limitations under the License.
 package net.meiolania.apps.habrahabr.activities;
 
 import net.meiolania.apps.habrahabr.Fonts;
+import net.meiolania.apps.habrahabr.HabrAuthApi;
 import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.R;
-import net.meiolania.apps.habrahabr.api.HabrAuthApi;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;

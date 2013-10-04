@@ -20,7 +20,7 @@ import java.util.List;
 
 import com.actionbarsherlock.app.ActionBar;
 
-import net.meiolania.apps.habrahabr.api.HabrAuthApi;
+import net.meiolania.apps.habrahabr.HabrAuthApi;
 import net.meiolania.apps.habrahabr.api.posts.PostEntry;
 import net.meiolania.apps.habrahabr.api.posts.PostsApi;
 import net.meiolania.apps.habrahabr.fragments.posts.PostsFragment;

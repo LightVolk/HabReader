@@ -18,7 +18,7 @@ package net.meiolania.apps.habrahabr.fragments.companies.loader;
 
 import java.util.List;
 
-import net.meiolania.apps.habrahabr.api.HabrAuthApi;
+import net.meiolania.apps.habrahabr.HabrAuthApi;
 import net.meiolania.apps.habrahabr.api.companies.CompaniesApi;
 import net.meiolania.apps.habrahabr.api.companies.CompanyEntry;
 import android.content.Context;

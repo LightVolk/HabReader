@@ -16,9 +16,9 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.auth;
 
+import net.meiolania.apps.habrahabr.HabrAuthApi;
 import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.activities.MainActivity;
-import net.meiolania.apps.habrahabr.api.HabrAuthApi;
 import android.content.Intent;
 import android.os.Bundle;
 import android.webkit.CookieManager;

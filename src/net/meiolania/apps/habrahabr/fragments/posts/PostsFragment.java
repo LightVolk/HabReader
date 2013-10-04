@@ -19,11 +19,11 @@ package net.meiolania.apps.habrahabr.fragments.posts;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.meiolania.apps.habrahabr.HabrAuthApi;
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.activities.PostsSearchActivity;
 import net.meiolania.apps.habrahabr.activities.PostsShowActivity;
 import net.meiolania.apps.habrahabr.adapters.PostsAdapter;
-import net.meiolania.apps.habrahabr.api.HabrAuthApi;
 import net.meiolania.apps.habrahabr.api.posts.PostEntry;
 import net.meiolania.apps.habrahabr.fragments.posts.loader.PostsLoader;
 import net.meiolania.apps.habrahabr.utils.ConnectionUtils;

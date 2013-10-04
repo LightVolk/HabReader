@@ -18,7 +18,7 @@ package net.meiolania.apps.habrahabr.fragments.favorites;
 
 import java.util.List;
 
-import net.meiolania.apps.habrahabr.api.HabrAuthApi;
+import net.meiolania.apps.habrahabr.HabrAuthApi;
 import net.meiolania.apps.habrahabr.api.qa.QaApi;
 import net.meiolania.apps.habrahabr.api.qa.QaEntry;
 import net.meiolania.apps.habrahabr.fragments.qa.QaFragment;

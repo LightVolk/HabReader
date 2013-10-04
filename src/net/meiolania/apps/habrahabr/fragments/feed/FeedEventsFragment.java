@@ -18,7 +18,7 @@ package net.meiolania.apps.habrahabr.fragments.feed;
 
 import java.util.List;
 
-import net.meiolania.apps.habrahabr.api.HabrAuthApi;
+import net.meiolania.apps.habrahabr.HabrAuthApi;
 import net.meiolania.apps.habrahabr.api.events.EventEntry;
 import net.meiolania.apps.habrahabr.api.events.EventsApi;
 import net.meiolania.apps.habrahabr.fragments.events.EventsFragment;

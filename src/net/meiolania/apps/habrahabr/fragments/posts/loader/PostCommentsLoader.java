@@ -18,7 +18,7 @@ package net.meiolania.apps.habrahabr.fragments.posts.loader;
 
 import java.util.List;
 
-import net.meiolania.apps.habrahabr.api.HabrAuthApi;
+import net.meiolania.apps.habrahabr.HabrAuthApi;
 import net.meiolania.apps.habrahabr.api.comments.CommentEntry;
 import net.meiolania.apps.habrahabr.api.comments.CommentsApi;
 import android.content.Context;

@@ -18,11 +18,11 @@ package net.meiolania.apps.habrahabr.auth;
 
 import java.io.IOException;
 
+import net.meiolania.apps.habrahabr.HabrAuthApi;
 import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.R;
 import net.meiolania.apps.habrahabr.activities.MainActivity;
 import net.meiolania.apps.habrahabr.api.AuthApi;
-import net.meiolania.apps.habrahabr.api.HabrAuthApi;
 import net.meiolania.apps.habrahabr.utils.ToastUtils;
 
 import org.jsoup.Connection;
@@ -94,6 +94,8 @@ public class AuthFragment extends SherlockFragment {
 							preferences.setPHPSessionId(cookieValue);
 						if (cookieName.equals(AuthApi.AUTH_ID))
 							preferences.setHSecId(cookieValue);
+						
+						HabrAuthApi.getInstance().init(getSherlockActivity());
 					}
 
 					new GetUserName().execute();
@@ -120,6 +122,7 @@ public class AuthFragment extends SherlockFragment {
 				Connection connection = Jsoup.connect(MAIN_URL);
 				connection.cookie(AuthApi.AUTH_ID, HabrAuthApi.getInstance().getAuthId());
 				connection.cookie(AuthApi.SESSION_ID, HabrAuthApi.getInstance().getSessionId());
+				
 				Document document = connection.get();
 
 				Element usernameElement = document.select("a.username").first();

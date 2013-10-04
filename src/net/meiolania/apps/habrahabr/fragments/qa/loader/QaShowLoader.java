@@ -16,7 +16,7 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.fragments.qa.loader;
 
-import net.meiolania.apps.habrahabr.api.HabrAuthApi;
+import net.meiolania.apps.habrahabr.HabrAuthApi;
 import net.meiolania.apps.habrahabr.api.qa.QaApi;
 import net.meiolania.apps.habrahabr.api.qa.QaEntry;
 import android.content.Context;

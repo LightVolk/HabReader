@@ -16,12 +16,13 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.activities;
 
+import net.meiolania.apps.habrahabr.HabrAuthApi;
 import net.meiolania.apps.habrahabr.R;
-import net.meiolania.apps.habrahabr.api.HabrAuthApi;
 import net.meiolania.apps.habrahabr.auth.AuthFragment;
 import net.meiolania.apps.habrahabr.fragments.SideMenuFragment;
 import net.meiolania.apps.habrahabr.fragments.SideMenuFragment.ItemType;
 import net.meiolania.apps.habrahabr.fragments.companies.CompaniesFragment;
+import net.meiolania.apps.habrahabr.fragments.conversations.ConversationsFragment;
 import net.meiolania.apps.habrahabr.fragments.events.EventsMainFragment;
 import net.meiolania.apps.habrahabr.fragments.favorites.FavoritesMainFragment;
 import net.meiolania.apps.habrahabr.fragments.feed.FeedMainFragment;
@@ -185,6 +186,9 @@ public class MainActivity extends BaseActivity {
 					break;
 				case FAVORITES:
 					fragment = new FavoritesMainFragment();
+					break;
+				case CONVERSATIONS:
+					fragment = new ConversationsFragment();
 					break;
 				case POSTS:
 					fragment = new PostsMainFragment();
