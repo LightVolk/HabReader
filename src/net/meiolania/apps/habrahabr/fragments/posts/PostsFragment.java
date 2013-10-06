@@ -113,7 +113,7 @@ public abstract class PostsFragment extends SherlockFragment implements OnScroll
 		showPost(position);
 	}
 
-	protected void showPost(int position) {
+	private void showPost(int position) {
 		PostEntry data = posts.get(position);
 
 		Intent intent = new Intent(getSherlockActivity(), PostsShowActivity.class);
@@ -122,7 +122,7 @@ public abstract class PostsFragment extends SherlockFragment implements OnScroll
 		startActivity(intent);
 	}
 
-	protected void restartLoading() {
+	private void restartLoading() {
 		if (ConnectionUtils.isConnected(getSherlockActivity())) {
 			LoaderManager loaderManager = getSherlockActivity().getSupportLoaderManager();
 			loaderManager.restartLoader(LOADER_ID, null, this);
