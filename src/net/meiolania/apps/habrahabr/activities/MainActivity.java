@@ -127,19 +127,14 @@ public class MainActivity extends BaseActivity {
 		drawerLayout = (DrawerLayout) findViewById(R.id.navigation_drawer);
 
 		actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer, R.string.app_name, R.string.app_name) {
-
 			@Override
 			public void onDrawerClosed(View drawerView) {
 				super.onDrawerClosed(drawerView);
-
-				supportInvalidateOptionsMenu();
 			}
 
 			@Override
 			public void onDrawerOpened(View drawerView) {
 				super.onDrawerOpened(drawerView);
-
-				supportInvalidateOptionsMenu();
 			}
 		};
 

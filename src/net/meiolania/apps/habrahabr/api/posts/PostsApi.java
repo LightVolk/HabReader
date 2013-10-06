@@ -202,13 +202,9 @@ public class PostsApi {
 				entry.setAuthorUrl(author.attr("abs:href"));
 			}
 
-			try {
-				entry.setViewsCount(Integer.parseInt(viewCount.text()));
-				entry.setFavoritesCount(Integer.parseInt(favoritesCount.text()));
-				entry.setCommentsCount(Integer.parseInt(commentsCount.text()));
-			} catch (NumberFormatException e) {
-
-			}
+			entry.setViewsCount(NumberUtils.parse(viewCount));
+			entry.setFavoritesCount(NumberUtils.parse(favoritesCount));
+			entry.setCommentsCount(NumberUtils.parse(commentsCount));
 
 			entry.setText(shortText.text());
 

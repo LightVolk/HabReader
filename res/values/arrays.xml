@@ -55,4 +55,10 @@
         <item>2</item>
     </string-array>
     
+    <string-array name="feed_list">
+        <item>@string/posts</item>
+        <item>@string/qa</item>
+        <item>@string/events</item>
+    </string-array>
+    
 </resources>
