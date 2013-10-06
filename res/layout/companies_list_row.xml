@@ -2,9 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/simple_list_row"
     android:orientation="horizontal"
-    android:padding="10dp" >
+    android:paddingBottom="@dimen/company_bottom_padding"
+    android:paddingLeft="@dimen/company_left_padding"
+    android:paddingRight="@dimen/company_right_padding"
+    android:paddingTop="@dimen/company_top_padding" >
 
     <ImageView
         android:id="@+id/logo"

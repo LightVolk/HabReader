@@ -69,7 +69,7 @@ public class PostsShowActivity extends BaseActivity {
 		viewPager = (ViewPager) findViewById(R.id.view_pager);
 		pagerTabStrip = (PagerTabStrip) findViewById(R.id.tab_strip);
 
-		TabsPagerAdapter pagerAdapter = new TabsPagerAdapter(getSupportFragmentManager(), createFragments());
+		TabsPagerAdapter pagerAdapter = new TabsPagerAdapter(this, getSupportFragmentManager(), createFragments());
 		viewPager.setAdapter(pagerAdapter);
 		viewPager.setCurrentItem(currentTab);
 	}

@@ -7,10 +7,12 @@
     <dimen name="side_menu_padding_right">10dp</dimen>
     <dimen name="side_menu_title">18sp</dimen>
     
+    <item name="view_pager_page_width" format="float" type="dimen">1.0</item>
+    
     <dimen name="post_padding_bottom">5dp</dimen>
     <dimen name="post_padding_top">5dp</dimen>
-    <dimen name="post_padding_left">5dp</dimen>
-    <dimen name="post_padding_right">5dp</dimen>
+    <dimen name="post_padding_left">7dp</dimen>
+    <dimen name="post_padding_right">7dp</dimen>
     <dimen name="post_title">18sp</dimen>
     <dimen name="post_author">14sp</dimen>
     <dimen name="post_date">14sp</dimen>
@@ -19,17 +21,17 @@
     
     <dimen name="qa_padding_bottom">5dp</dimen>
     <dimen name="qa_padding_top">5dp</dimen>
-    <dimen name="qa_padding_left">5dp</dimen>
-    <dimen name="qa_padding_right">5dp</dimen>
+    <dimen name="qa_padding_left">7dp</dimen>
+    <dimen name="qa_padding_right">7dp</dimen>
     <dimen name="qa_title">18sp</dimen>
     <dimen name="qa_author">14sp</dimen>
     <dimen name="qa_date">14sp</dimen>
     <dimen name="qa_hub">14sp</dimen>
     
-    <dimen name="hubs_left_padding">12dp</dimen>
-    <dimen name="hubs_top_padding">10dp</dimen>
-    <dimen name="hubs_right_padding">12dp</dimen>
-    <dimen name="hubs_bottom_padding">10dp</dimen>
+    <dimen name="hubs_left_padding">7dp</dimen>
+    <dimen name="hubs_top_padding">5dp</dimen>
+    <dimen name="hubs_right_padding">7dp</dimen>
+    <dimen name="hubs_bottom_padding">5dp</dimen>
     <dimen name="hubs_title">18sp</dimen>
     <dimen name="hubs_index">18sp</dimen>
     <dimen name="hubs_info">12sp</dimen>
@@ -46,26 +48,30 @@
 	
 	<dimen name="event_padding_bottom">5dp</dimen>
     <dimen name="event_padding_top">5dp</dimen>
-    <dimen name="event_padding_left">5dp</dimen>
-    <dimen name="event_padding_right">5dp</dimen>
+    <dimen name="event_padding_left">7dp</dimen>
+    <dimen name="event_padding_right">7dp</dimen>
 	<dimen name="event_title">18sp</dimen>
 	<dimen name="event_hub">12sp</dimen>
 	<dimen name="event_date_day">26sp</dimen>
 	<dimen name="event_date_month">16sp</dimen>
 	
+	<dimen name="company_left_padding">7dp</dimen>
+    <dimen name="company_top_padding">5dp</dimen>
+    <dimen name="company_right_padding">7dp</dimen>
+    <dimen name="company_bottom_padding">5dp</dimen>
 	<dimen name="company_title">18sp</dimen>
 	<dimen name="company_last_post">12sp</dimen>
 	<dimen name="company_index">16sp</dimen>
 	<dimen name="company_subscribers">16sp</dimen>
 	
-	<dimen name="users_left_padding">12dp</dimen>
-    <dimen name="users_top_padding">10dp</dimen>
-    <dimen name="users_right_padding">12dp</dimen>
-    <dimen name="users_bottom_padding">10dp</dimen>
+	<dimen name="users_left_padding">7dp</dimen>
+    <dimen name="users_top_padding">5dp</dimen>
+    <dimen name="users_right_padding">7dp</dimen>
+    <dimen name="users_bottom_padding">5dp</dimen>
     
-    <dimen name="conversations_left_padding">12dp</dimen>
-    <dimen name="conversations_top_padding">10dp</dimen>
-    <dimen name="conversations_right_padding">12dp</dimen>
-    <dimen name="conversations_bottom_padding">10dp</dimen>
+    <dimen name="conversation_left_padding">7dp</dimen>
+    <dimen name="conversation_top_padding">5dp</dimen>
+    <dimen name="conversation_right_padding">7dp</dimen>
+    <dimen name="conversation_bottom_padding">5dp</dimen>
     
 </resources>

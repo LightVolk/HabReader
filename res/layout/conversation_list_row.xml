@@ -3,10 +3,10 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingBottom="@dimen/conversations_bottom_padding"
-    android:paddingLeft="@dimen/conversations_left_padding"
-    android:paddingRight="@dimen/conversations_right_padding"
-    android:paddingTop="@dimen/conversations_top_padding" >
+    android:paddingBottom="@dimen/conversation_bottom_padding"
+    android:paddingLeft="@dimen/conversation_left_padding"
+    android:paddingRight="@dimen/conversation_right_padding"
+    android:paddingTop="@dimen/conversation_top_padding" >
 
     <ImageView
         android:id="@+id/avatar"

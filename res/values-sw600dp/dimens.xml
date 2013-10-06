@@ -11,9 +11,29 @@
     <dimen name="qa_padding_left">20dp</dimen>
     <dimen name="qa_padding_right">20dp</dimen>
     
+    <dimen name="hubs_left_padding">12dp</dimen>
+    <dimen name="hubs_top_padding">10dp</dimen>
+    <dimen name="hubs_right_padding">12dp</dimen>
+    <dimen name="hubs_bottom_padding">10dp</dimen>
+    
     <dimen name="event_padding_bottom">10dp</dimen>
     <dimen name="event_padding_top">10dp</dimen>
     <dimen name="event_padding_left">20dp</dimen>
     <dimen name="event_padding_right">20dp</dimen>
+    
+    <dimen name="users_left_padding">12dp</dimen>
+    <dimen name="users_top_padding">10dp</dimen>
+    <dimen name="users_right_padding">12dp</dimen>
+    <dimen name="users_bottom_padding">10dp</dimen>
+    
+    <dimen name="company_left_padding">12dp</dimen>
+    <dimen name="company_top_padding">10dp</dimen>
+    <dimen name="company_right_padding">12dp</dimen>
+    <dimen name="company_bottom_padding">10dp</dimen>
+    
+    <dimen name="conversation_left_padding">12dp</dimen>
+    <dimen name="conversation_top_padding">10dp</dimen>
+    <dimen name="conversation_right_padding">12dp</dimen>
+    <dimen name="conversation_bottom_padding">10dp</dimen>
     
 </resources>
