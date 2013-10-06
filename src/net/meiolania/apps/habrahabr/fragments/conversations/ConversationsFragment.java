@@ -23,6 +23,7 @@ public class ConversationsFragment extends SherlockListFragment implements Loade
 	private List<ConversationEntry> conversations;
 	private ConversationAdapter adapter;
 	private boolean isLoadData;
+	private boolean noMoreData;
 	private int page = 1;
 
 	@Override
@@ -30,7 +31,6 @@ public class ConversationsFragment extends SherlockListFragment implements Loade
 		super.onActivityCreated(savedInstanceState);
 
 		setRetainInstance(true);
-		setHasOptionsMenu(true);
 
 		showActionBar();
 
@@ -63,7 +63,7 @@ public class ConversationsFragment extends SherlockListFragment implements Loade
 
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-		if ((firstVisibleItem + visibleItemCount) == totalItemCount && !isLoadData)
+		if ((firstVisibleItem + visibleItemCount) == totalItemCount && !isLoadData && !noMoreData)
 			restartLoading();
 	}
 
@@ -82,6 +82,9 @@ public class ConversationsFragment extends SherlockListFragment implements Loade
 
 	@Override
 	public void onLoadFinished(Loader<List<ConversationEntry>> loader, List<ConversationEntry> data) {
+		if (data.isEmpty())
+			noMoreData = true;
+		
 		conversations.addAll(data);
 
 		adapter.notifyDataSetChanged();

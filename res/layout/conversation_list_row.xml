@@ -2,21 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal" >
-    
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/conversations_bottom_padding"
+    android:paddingLeft="@dimen/conversations_left_padding"
+    android:paddingRight="@dimen/conversations_right_padding"
+    android:paddingTop="@dimen/conversations_top_padding" >
+
     <ImageView
         android:id="@+id/avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:src="@drawable/ic_launcher" />
-    
+
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="5dp">
-        
+        android:layout_marginLeft="5dp" >
+
         <TextView
             android:id="@+id/date"
             android:layout_width="wrap_content"
@@ -24,7 +26,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:text="5 июня в 11:33" />
-        
+
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
@@ -33,7 +35,7 @@
             android:layout_alignParentTop="true"
             android:layout_toLeftOf="@id/date"
             android:text="AEinsam" />
-        
+
         <TextView
             android:id="@+id/message"
             android:layout_width="fill_parent"
@@ -41,7 +43,6 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@id/name"
             android:text="Тестовое сообщение" />
-        
     </RelativeLayout>
 
 </LinearLayout>

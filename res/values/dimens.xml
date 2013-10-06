@@ -63,4 +63,9 @@
     <dimen name="users_right_padding">12dp</dimen>
     <dimen name="users_bottom_padding">10dp</dimen>
     
+    <dimen name="conversations_left_padding">12dp</dimen>
+    <dimen name="conversations_top_padding">10dp</dimen>
+    <dimen name="conversations_right_padding">12dp</dimen>
+    <dimen name="conversations_bottom_padding">10dp</dimen>
+    
 </resources>
