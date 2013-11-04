@@ -26,6 +26,7 @@ import net.meiolania.apps.habrahabr.fragments.events.EventsMainFragment;
 import net.meiolania.apps.habrahabr.fragments.favorites.FavoritesMainFragment;
 import net.meiolania.apps.habrahabr.fragments.feed.FeedMainFragment;
 import net.meiolania.apps.habrahabr.fragments.hubs.HubsMainFragment;
+import net.meiolania.apps.habrahabr.fragments.posts.PostSavedFragment;
 import net.meiolania.apps.habrahabr.fragments.posts.PostsMainFragment;
 import net.meiolania.apps.habrahabr.fragments.qa.QaMainFragment;
 import net.meiolania.apps.habrahabr.fragments.users.UsersFragment;
@@ -96,6 +97,10 @@ public class MainActivity extends AbstractionFragmentActivity {
 		content = new UsersFragment();
 		contentType = ItemType.USERS;
 		break;
+        case 10:
+        content = new PostSavedFragment();
+        contentType = ItemType.SAVED;
+        break;
 	}
 
 	if (content == null) {

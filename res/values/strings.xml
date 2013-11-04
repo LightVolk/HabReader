@@ -122,4 +122,12 @@
     <string name="posts_zoom_summary_preferences">Кнопки масштаба при просмотре поста</string>
     <string name="posts_zoom_preferences">Масштабирование</string>
 
+
+
+    <string name="saved">Сохраненные</string>
+    <string name="save_post">Сохранить пост</string>
+    <string name="delete_post">Удалить пост</string>
+    <string name="saving_post">Сохранение поста</string>
+    <string name="deleting_post">Удаление поста</string>
+
 </resources>

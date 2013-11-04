@@ -21,7 +21,7 @@ import android.os.Build;
 public class UIUtils {
 
     public static Integer parseRating(String rating) {
-	if (rating.trim().equals("—"))
+	if (rating == null || rating.trim().equals("—"))
 	    return null;
 	else
 	    return Integer.parseInt(rating.replace("+", "").replace("–", "-"));

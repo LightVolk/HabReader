@@ -16,10 +16,6 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr;
 
-import net.meiolania.apps.habrahabr.activities.PreferencesActivity;
-import net.meiolania.apps.habrahabr.auth.User;
-import net.meiolania.apps.habrahabr.slidemenu.MenuFragment;
-import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
 import android.app.AlertDialog;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -27,12 +23,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
-
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.slidingmenu.lib.SlidingMenu;
-import com.slidingmenu.lib.app.SlidingFragmentActivity;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
+import net.meiolania.apps.habrahabr.activities.PreferencesActivity;
+import net.meiolania.apps.habrahabr.auth.User;
+import net.meiolania.apps.habrahabr.slidemenu.MenuFragment;
+import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
 
 public abstract class AbstractionFragmentActivity extends SlidingFragmentActivity {
     public final static String DEVELOPER_PLAY_LINK = "https://play.google.com/store/apps/developer?id=Andrey+Zaytsev";
@@ -69,15 +68,20 @@ public abstract class AbstractionFragmentActivity extends SlidingFragmentActivit
 
 	// No connection dialog
 	// @TODO: rewrite
-	if (!ConnectionUtils.isConnected(this)) {
-	    AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-	    dialog.setTitle(R.string.error);
-	    dialog.setMessage(getString(R.string.no_connection));
-	    dialog.setPositiveButton(R.string.close, getConnectionDialogListener());
-	    dialog.setCancelable(false);
-	    dialog.show();
-	}
+	checkConnection();
     }
+    protected void checkConnection()
+    {
+        if (!ConnectionUtils.isConnected(this)) {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setTitle(R.string.error);
+            dialog.setMessage(getString(R.string.no_connection));
+            dialog.setPositiveButton(R.string.close, getConnectionDialogListener());
+            dialog.setCancelable(false);
+            dialog.show();
+        }
+    }
+
 
     @Override
     protected void onResume() {
@@ -103,9 +107,12 @@ public abstract class AbstractionFragmentActivity extends SlidingFragmentActivit
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-	MenuInflater menuInflater = getSupportMenuInflater();
-	menuInflater.inflate(R.menu.global_activity, menu);
-	return super.onCreateOptionsMenu(menu);
+
+
+        MenuInflater menuInflater = getSupportMenuInflater();
+        menuInflater.inflate(R.menu.global_activity, menu);
+        return super.onCreateOptionsMenu(menu);
+
     }
 
     @Override
