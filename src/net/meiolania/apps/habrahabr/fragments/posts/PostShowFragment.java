@@ -16,16 +16,9 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.fragments.posts;
 
-import net.meiolania.apps.habrahabr.Preferences;
-import net.meiolania.apps.habrahabr.R;
-import net.meiolania.apps.habrahabr.data.PostsFullData;
-import net.meiolania.apps.habrahabr.fragments.posts.loader.PostShowLoader;
-import net.meiolania.apps.habrahabr.utils.ConnectionUtils;
-import net.meiolania.apps.habrahabr.utils.HabrWebClient;
-import net.meiolania.apps.habrahabr.utils.IntentUtils;
-import net.meiolania.apps.habrahabr.utils.UIUtils;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
@@ -35,12 +28,16 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings.ZoomDensity;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
-
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import net.meiolania.apps.habrahabr.Preferences;
+import net.meiolania.apps.habrahabr.R;
+import net.meiolania.apps.habrahabr.data.PostsFullData;
+import net.meiolania.apps.habrahabr.fragments.posts.loader.PostShowLoader;
+import net.meiolania.apps.habrahabr.utils.*;
 
 public class PostShowFragment extends SherlockFragment implements LoaderCallbacks<PostsFullData> {
     public final static String URL_ARGUMENT = "url";
@@ -52,6 +49,7 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
     private WebView content;
     private FrameLayout webviewContainer;
     private static final String STYLESHEET = "<link rel=\"stylesheet\" type=\"text/css\" href=\"file:///android_asset/style.css\" />";
+    private PostsFullData currentData;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -87,16 +85,43 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
 	    case R.id.share:
 		IntentUtils.createShareIntent(getSherlockActivity(), title, url);
 		break;
+        case R.id.save:
+            if(currentData != null && getSherlockActivity() != null && ConnectionUtils.isConnected(getSherlockActivity()))
+                savePost();
+            break;
 	}
 	return super.onOptionsItemSelected(item);
     }
 
+    private void savePost()
+    {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                showProgressDialog(R.string.saving_post);
+            }
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                PostsSaverUtils.savePost(currentData,getSherlockActivity());
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                hideProgressDialog();
+            }
+        }.execute();
+    }
+
     @Override
     public Loader<PostsFullData> onCreateLoader(int id, Bundle args) {
-	showProgressDialog();
+        showProgressDialog(R.string.loading_post);
 
-	PostShowLoader loader = new PostShowLoader(getSherlockActivity(), url);
-	loader.forceLoad();
+        PostShowLoader loader = new PostShowLoader(getSherlockActivity(), url);
+        loader.forceLoad();
 
 	return loader;
     }
@@ -118,6 +143,8 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
 	    content.setInitialScale(prefs.getViewScale(getSherlockActivity()));
 
 	    content.loadDataWithBaseURL("", STYLESHEET + data.getContent(), "text/html", "UTF-8", null);
+
+        currentData = data;
 	}
 
 	title = data.getTitle();
@@ -129,9 +156,9 @@ public class PostShowFragment extends SherlockFragment implements LoaderCallback
     public void onLoaderReset(Loader<PostsFullData> loader) {
     }
 
-    private void showProgressDialog() {
+    private void showProgressDialog(int resourceMessage) {
 	progressDialog = new ProgressDialog(getSherlockActivity());
-	progressDialog.setMessage(getString(R.string.loading_post));
+	progressDialog.setMessage(getString(resourceMessage));
 	progressDialog.setCancelable(true);
 	progressDialog.show();
     }

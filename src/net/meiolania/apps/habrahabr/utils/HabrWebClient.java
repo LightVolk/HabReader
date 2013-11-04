@@ -16,6 +16,7 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.utils;
 
+import android.content.ActivityNotFoundException;
 import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.activities.PostsShowActivity;
 import net.meiolania.apps.habrahabr.activities.UsersShowActivity;
@@ -42,23 +43,33 @@ public class HabrWebClient extends WebViewClient {
     }
 
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
+
 	// Allow the OS to handle links
-	if (url.startsWith("mailto:")) {
-	    MailTo mt = MailTo.parse(url);
-	    Intent i = newEmailIntent(context, mt.getTo(), mt.getSubject(), mt.getBody(), mt.getCc());
-	    context.startActivity(i);
-	} else if (url.startsWith("http://habrahabr.ru/post/")) {
-	    Intent intent = new Intent(context, PostsShowActivity.class);
-	    intent.putExtra(PostsShowActivity.EXTRA_URL, url);
-	    context.startActivity(intent);
-	} else if (url.startsWith("http://habrahabr.ru/users/")) {
-	    Intent intent = new Intent(context, UsersShowActivity.class);
-	    intent.putExtra(UsersShowActivity.EXTRA_URL, url);
-	    context.startActivity(intent);
-	} else {
-	    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-	    context.startActivity(intent);
-	}
+
+        try{
+            if (url.startsWith("mailto:")) {
+                MailTo mt = MailTo.parse(url);
+                Intent i = newEmailIntent(context, mt.getTo(), mt.getSubject(), mt.getBody(), mt.getCc());
+                context.startActivity(i);
+            } else if (url.startsWith("http://habrahabr.ru/post/")) {
+                Intent intent = new Intent(context, PostsShowActivity.class);
+                intent.putExtra(PostsShowActivity.EXTRA_URL, url);
+                context.startActivity(intent);
+            } else if (url.startsWith("http://habrahabr.ru/users/")) {
+                Intent intent = new Intent(context, UsersShowActivity.class);
+                intent.putExtra(UsersShowActivity.EXTRA_URL, url);
+                context.startActivity(intent);
+            } else {
+                //ActivityNotFoundException
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                context.startActivity(intent);
+            }
+        }
+        catch(ActivityNotFoundException e)
+        {
+             e.printStackTrace();
+        }
+
 	return true;
     }
 

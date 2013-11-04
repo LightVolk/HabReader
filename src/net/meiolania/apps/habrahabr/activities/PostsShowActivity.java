@@ -16,22 +16,28 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.activities;
 
-import net.meiolania.apps.habrahabr.AbstractionFragmentActivity;
-import net.meiolania.apps.habrahabr.R;
-import net.meiolania.apps.habrahabr.fragments.posts.PostShowFragment;
-import net.meiolania.apps.habrahabr.fragments.posts.PostsCommentsFragment;
-import net.meiolania.apps.habrahabr.ui.TabListener;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.net.Uri;
 import android.os.Bundle;
-
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
+import net.meiolania.apps.habrahabr.AbstractionFragmentActivity;
+import net.meiolania.apps.habrahabr.R;
+import net.meiolania.apps.habrahabr.data.PostsFullData;
+import net.meiolania.apps.habrahabr.fragments.posts.PostSavedShowFragment;
+import net.meiolania.apps.habrahabr.fragments.posts.PostShowFragment;
+import net.meiolania.apps.habrahabr.fragments.posts.PostsCommentsFragment;
+import net.meiolania.apps.habrahabr.ui.TabListener;
 
 public class PostsShowActivity extends AbstractionFragmentActivity {
     public final static String EXTRA_URL = "url";
     public final static String EXTRA_TITLE = "title";
+
+    //for saved posts
+    public final static String EXTRA_CONTENT = "content";
+    private PostsFullData content;
+
     private String url;
     private String title;
     private int currentTab;
@@ -55,12 +61,22 @@ public class PostsShowActivity extends AbstractionFragmentActivity {
     }
 
     private void loadExtras() {
-	Uri habraUrl = getIntent().getData();
-	if (habraUrl != null)
-	    url = habraUrl.toString();
-	else
-	    url = getIntent().getStringExtra(EXTRA_URL);
-	title = getIntent().getStringExtra(EXTRA_TITLE);
+        //if content != null then it's from PostSavedFragment
+        content = getIntent().getParcelableExtra(EXTRA_CONTENT);
+        if(content != null)
+        {
+            url = content.getUrl();
+            title = content.getTitle();
+        }
+        else
+        {
+            Uri habraUrl = getIntent().getData();
+            if (habraUrl != null)
+                url = habraUrl.toString();
+            else
+                url = getIntent().getStringExtra(EXTRA_URL);
+            title = getIntent().getStringExtra(EXTRA_TITLE);
+        }
     }
 
     private void showActionBar() {
@@ -72,12 +88,27 @@ public class PostsShowActivity extends AbstractionFragmentActivity {
 	/*
 	 * Post tab
 	 */
-	Bundle arguments = new Bundle();
-	arguments.putString(PostShowFragment.URL_ARGUMENT, url);
+     Bundle arguments;
+     Tab tab;
+        if(content == null)
+        {
+            arguments = new Bundle();
+            arguments.putString(PostShowFragment.URL_ARGUMENT, url);
 
-	Tab tab = actionBar.newTab().setText(R.string.post).setTag("post")
-		.setTabListener(new TabListener<PostShowFragment>(this, "post", PostShowFragment.class, arguments));
-	actionBar.addTab(tab, (currentTab == 0) ? true : false);
+            tab = actionBar.newTab().setText(R.string.post).setTag("post")
+                    .setTabListener(new TabListener<PostShowFragment>(this, "post", PostShowFragment.class, arguments));
+            actionBar.addTab(tab, (currentTab == 0));
+        }
+        else
+        {
+            arguments = new Bundle();
+            arguments.putParcelable(PostSavedShowFragment.DATA_ARGUMENT, content);
+
+            tab = actionBar.newTab().setText(R.string.post).setTag("post")
+                    .setTabListener(new TabListener<PostSavedShowFragment>(this, "post", PostSavedShowFragment.class, arguments));
+            actionBar.addTab(tab, (currentTab == 0));
+        }
+
 
 	/*
 	 * Comments tab
@@ -87,15 +118,18 @@ public class PostsShowActivity extends AbstractionFragmentActivity {
 
 	tab = actionBar.newTab().setText(R.string.comments).setTag("comments")
 		.setTabListener(new TabListener<PostsCommentsFragment>(this, "comments", PostsCommentsFragment.class, arguments));
-	actionBar.addTab(tab, (currentTab == 1) ? true : false);
+	actionBar.addTab(tab, (currentTab == 1));
     }
+
+    @Override
+    protected void checkConnection() {}
 
     @Override
     protected OnClickListener getConnectionDialogListener() {
 	return new OnClickListener() {
 	    @Override
 	    public void onClick(DialogInterface dialog, int which) {
-		finish();
+
 	    }
 	};
     }

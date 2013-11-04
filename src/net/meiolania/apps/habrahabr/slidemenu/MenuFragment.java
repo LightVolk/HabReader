@@ -16,21 +16,6 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.slidemenu;
 
-import java.util.ArrayList;
-
-import net.meiolania.apps.habrahabr.R;
-import net.meiolania.apps.habrahabr.activities.MainActivity;
-import net.meiolania.apps.habrahabr.activities.UsersShowActivity;
-import net.meiolania.apps.habrahabr.auth.AuthFragment;
-import net.meiolania.apps.habrahabr.auth.User;
-import net.meiolania.apps.habrahabr.fragments.companies.CompaniesFragment;
-import net.meiolania.apps.habrahabr.fragments.events.EventsMainFragment;
-import net.meiolania.apps.habrahabr.fragments.favorites.FavoritesMainFragment;
-import net.meiolania.apps.habrahabr.fragments.feed.FeedMainFragment;
-import net.meiolania.apps.habrahabr.fragments.hubs.HubsMainFragment;
-import net.meiolania.apps.habrahabr.fragments.posts.PostsMainFragment;
-import net.meiolania.apps.habrahabr.fragments.qa.QaMainFragment;
-import net.meiolania.apps.habrahabr.fragments.users.UsersFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -42,15 +27,30 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.actionbarsherlock.app.SherlockListFragment;
+import net.meiolania.apps.habrahabr.R;
+import net.meiolania.apps.habrahabr.activities.MainActivity;
+import net.meiolania.apps.habrahabr.activities.UsersShowActivity;
+import net.meiolania.apps.habrahabr.auth.AuthFragment;
+import net.meiolania.apps.habrahabr.auth.User;
+import net.meiolania.apps.habrahabr.fragments.companies.CompaniesFragment;
+import net.meiolania.apps.habrahabr.fragments.events.EventsMainFragment;
+import net.meiolania.apps.habrahabr.fragments.favorites.FavoritesMainFragment;
+import net.meiolania.apps.habrahabr.fragments.feed.FeedMainFragment;
+import net.meiolania.apps.habrahabr.fragments.hubs.HubsMainFragment;
+import net.meiolania.apps.habrahabr.fragments.posts.PostSavedFragment;
+import net.meiolania.apps.habrahabr.fragments.posts.PostsMainFragment;
+import net.meiolania.apps.habrahabr.fragments.qa.QaMainFragment;
+import net.meiolania.apps.habrahabr.fragments.users.UsersFragment;
+
+import java.util.ArrayList;
 
 public class MenuFragment extends SherlockListFragment {
     private ArrayList<MenuData> menu;
     private MenuAdapter menuAdapter;
 
     public enum ItemType {
-	AUTH, PROFILE, FEED, FAVORITES, POSTS, HUBS, QA, EVENTS, COMPANIES, USERS
+	AUTH, PROFILE, FEED, FAVORITES, POSTS, HUBS, QA, EVENTS, COMPANIES, USERS ,SAVED
     };
 
     @Override
@@ -76,6 +76,7 @@ public class MenuFragment extends SherlockListFragment {
 	menu.add(new MenuData(R.string.events, R.drawable.ic_events, ItemType.EVENTS, false));
 	menu.add(new MenuData(R.string.companies, R.drawable.ic_companies, ItemType.COMPANIES, false));
 	menu.add(new MenuData(R.string.people, R.drawable.ic_users, ItemType.USERS, false));
+    menu.add(new MenuData(R.string.saved,R.drawable.ic_saved,ItemType.SAVED,false));
 
 	menuAdapter = new MenuAdapter(getSherlockActivity(), menu);
 	setListAdapter(menuAdapter);
@@ -122,6 +123,8 @@ public class MenuFragment extends SherlockListFragment {
 	case USERS:
 	    newContent = new UsersFragment();
 	    break;
+    case SAVED:
+        newContent = new PostSavedFragment();
 	}
 	if (newContent != null)
 	    switchFragment(newContent, data.itemType);

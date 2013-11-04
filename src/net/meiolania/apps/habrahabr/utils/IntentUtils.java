@@ -16,10 +16,14 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.utils;
 
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import net.meiolania.apps.habrahabr.Preferences;
 import net.meiolania.apps.habrahabr.R;
 import android.content.Context;
 import android.content.Intent;
+
+import java.util.List;
 
 public class IntentUtils {
 
@@ -32,6 +36,12 @@ public class IntentUtils {
 	intent.putExtra(Intent.EXTRA_TEXT, shareText.replace("$link$", url).replace("$title$", title));
 
 	context.startActivity(Intent.createChooser(intent, context.getString(R.string.share)));
+    }
+    public static boolean isIntentAvailable(Context context, Intent intent)
+    {
+        PackageManager packageManager = context.getPackageManager();
+        List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        return list.size() > 0;
     }
 
 }

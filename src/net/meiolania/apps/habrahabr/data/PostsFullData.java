@@ -16,8 +16,16 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.data;
 
-public class PostsFullData extends PostsData {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
+public class PostsFullData extends PostsData implements Serializable,Parcelable{
     protected String content;
+
+    //for Serializable
+    private static final long serialVersionUID = 1L;
 
     public void setContent(String content) {
 	this.content = content;
@@ -26,5 +34,55 @@ public class PostsFullData extends PostsData {
     public String getContent() {
 	return content;
     }
+
+    public PostsFullData()
+    {}
+
+    //for Parcelable
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+    public PostsFullData(Parcel source)
+    {
+        title = source.readString();
+        url = source.readString();
+        hubs = source.readString();
+        author = source.readString();
+        date = source.readString();
+        comments = source.readString();
+        score = source.readString();
+        image = source.readString();
+        text = source.readString();
+        content =  source.readString();
+    }
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(url);
+        dest.writeString(hubs);
+        dest.writeString(author);
+        dest.writeString(date);
+        dest.writeString(comments);
+        dest.writeString(score);
+        dest.writeString(image);
+        dest.writeString(text);
+        dest.writeString(content);
+    }
+    public static final Parcelable.Creator<PostsFullData> CREATOR = new Parcelable.Creator<PostsFullData>()
+    {
+        @Override
+        public PostsFullData createFromParcel(Parcel source)
+        {
+            return new PostsFullData(source);
+        }
+
+        @Override
+        public PostsFullData[] newArray(int size)
+        {
+            return new PostsFullData[size];
+        }
+    };
 
 }

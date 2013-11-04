@@ -16,7 +16,9 @@ limitations under the License.
 
 package net.meiolania.apps.habrahabr.data;
 
-public class PostsData {
+import java.io.Serializable;
+
+public class PostsData implements Serializable {
     protected String title;
     protected String url;
     protected String hubs;
